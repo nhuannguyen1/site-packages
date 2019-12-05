@@ -9,7 +9,7 @@ def ExportToExcel():
     TextGetDataFromExcel.CreateFileExcel()
 #function to define file open 
 def mfileopen():
-    #output.delete(0.0,END)
+    output.delete(0.0,END)
     files = filedialog.askopenfile()
     output.insert(END,
                 files)
@@ -18,6 +18,7 @@ def ExportToCsv():
     TextGetDataFromExcel_ReadExcel.CreateFileCSV()
 def CreateWWidget():
     root  = Tk ()
+
     #write title on widget
     root.title ("Data Processing")
 
@@ -42,23 +43,19 @@ def CreateWWidget():
                                                 column = 0,
                                                 sticky = W+E)
 
-    # create buttom
-    output = Text(root,width = 75,
-                        height = 6,
-                        wrap = WORD,
-                        background = "white")
-        
-    # output 
-    output.grid(row = 5,
-                column = 3,
-                columnspan = 2,
-                sticky = W)
-
     # open directory path to file
     button = Button(text = "open file",
                     width = 10,command = mfileopen).grid(row = 0,
                                                          column = 4,
                                                           sticky = W)
-
+    # output 
+    output = Text(root,width = 75,
+                        height = 6,
+                        wrap = WORD,
+                        background = "red")
+    output.grid(row = 5,
+                column = 3,
+                columnspan = 2,
+                sticky = W)                                                  
     root.mainloop()
 CreateWWidget()
