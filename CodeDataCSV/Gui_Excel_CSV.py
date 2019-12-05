@@ -9,10 +9,10 @@ def ExportToExcel():
     TextGetDataFromExcel.CreateFileExcel()
 #function to define file open 
 def mfileopen():
+    #output.delete(0.0,END)
     files = filedialog.askopenfile()
-    #label = Label(text = files).pack(side = BOTTOM )
-    output.insert(END,files)
-    output.pack()
+    output.insert(END,
+                files)
 #Function to export Csv
 def ExportToCsv():
     TextGetDataFromExcel_ReadExcel.CreateFileCSV()
@@ -20,41 +20,45 @@ def CreateWWidget():
     root  = Tk ()
     #write title on widget
     root.title ("Data Processing")
-    frame  = Frame (root)
-    frame.pack()
-    bottomframe = Frame(root)
-    bottomframe.pack(side = BOTTOM )
+
     # Create buttom from Csv to get data 
-    Buttom_ExportToCSV  = Button (frame,\
-                                text = "ExportToCSV",\
-                                command = ExportToCsv)
-    #pack to widget 
-    Buttom_ExportToCSV.pack(side = LEFT,\
-                             expand = True,
-                              fill = BOTH)
+    Buttom_ExportToCSV  = Button (root,
+                                text = "ExportToCSV",
+                                command = ExportToCsv).grid(row = 0,
+                                                            column = 0,
+                                                            sticky = W+E)
+
     # Create buttom from excel to get data 
-    Buttom_ExportToExcel  = Button (frame,
-                                    text = "ExportToExcel",\
-                                    command = ExportToExcel)
-    #pack to widget 
-    Buttom_ExportToExcel.pack(side = LEFT,
-                             expand = True,
-                              fill = BOTH)
+    Buttom_ExportToExcel  = Button (root,
+                                    text = "ExportToExcel",
+                                    command = ExportToExcel).grid(row = 1,
+                                                                column = 0,
+                                                                sticky = W+E)
+
     # quit widget 
-    buttom_quit = Button (bottomframe,
+    buttom_quit = Button (root,
                         text = "Exit",
-                        command = root.quit)
-    #pack to widget 
-    buttom_quit.pack(side = BOTTOM)
+                        command = root.quit).grid(row = 2,
+                                                column = 0,
+                                                sticky = W+E)
+
     # create buttom
-    output = Text(bottomframe,
-                    width = 70,
-                    height = 3,
-                    wrap = WORD,
-                    background = "white").pack()
+    output = Text(root,width = 75,
+                        height = 6,
+                        wrap = WORD,
+                        background = "white")
+        
+    # output 
+    output.grid(row = 5,
+                column = 3,
+                columnspan = 2,
+                sticky = W)
+
+    # open directory path to file
     button = Button(text = "open file",
-                        width = 30, 
-                        command = mfileopen).\
-                        pack()
+                    width = 10,command = mfileopen).grid(row = 0,
+                                                         column = 4,
+                                                          sticky = W)
+
     root.mainloop()
 CreateWWidget()
