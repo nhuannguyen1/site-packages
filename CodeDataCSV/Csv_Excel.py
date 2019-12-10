@@ -1,7 +1,12 @@
 from openpyxl.styles import Alignment
-from ReturnDataAllRowByIndexpath import ReturnDataAllRowByIndexpath
-from Path_Connect_Excel import Right_Genneral_All_path,Left_Genneral_All_path,DataExcel,Config_Setting_Path
 
+from pynvn.path import ReturnDataAllRowByIndexpath
+
+#from ReturnDataAllRowByIndexpath import ReturnDataAllRowByIndexpath
+from Path_Connect_Excel import Right_Genneral_All_path,
+                                Left_Genneral_All_path,
+                                DataExcel,
+                                Config_Setting_Path
 ValueGeneral = [int(i) for i in ReturnDataAllRowByIndexpath(Config_Setting_Path,12)]
 #remove Column move 
 #Columnmove = ReturnDataAllRowByIndexpath(Config_Setting_Path,32)
@@ -48,7 +53,9 @@ def AligntText(sheet):
     columns = range(1, 44)
     for row in rows:
         for col in columns:
-            sheet.cell(row, col).alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+            sheet.cell(row, col).alignment = Alignment(horizontal='center',
+                                                         vertical='center',
+                                                          wrap_text=True)
 def Duplicate_Row_Dataframe(df):
     for cols in df.columns:
         try:
@@ -57,7 +64,8 @@ def Duplicate_Row_Dataframe(df):
                 value = ""       
         except:
             pass
-        df[cols].fillna(value, inplace = True) 
+        df[cols].fillna(value, 
+                        inplace = True) 
     return df
 def WriteMoveColumn (pd,worksheet,path,LocationMoveColumn,Columnmove):
     for cell,index in zip(LocationMoveColumn,Columnmove):

@@ -37,7 +37,7 @@ class PathSteel:
         return FileName
 
     # Return full path conbine subfolder 
-    def ReFPAth(self,args):
+    def ReFPAth(self,args = None):
         # check directory path is to subfolder or not ?
         if self.Is_Directory_Path_To_SubFolder == True:
             #unpack to get element in list
@@ -75,3 +75,12 @@ def IsRunningInPyinstallerBundle ():
             return True
     except:
         return False
+
+# get Path full from directory path and file name 
+def PathFromFileNameAndDirpath (dir_path = None, 
+                                filename = None):
+    PathS = PathSteel(dir_path = dir_path,
+                        FileName = filename
+                    )
+    full_path = PathS.ReFPAth()
+    return full_path
