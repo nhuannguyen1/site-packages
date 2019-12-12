@@ -4,4 +4,7 @@ from pynvn.path.ppath import (
                             IsRunningInPyinstallerBundle,
                             PathFromFileNameAndDirpath
                             )
-from pynvn.path.csv import ReturnDataAllRowByIndexpath
+from pynvn.path.pcsv import (ReturnDataAllRowByIndexpath,
+                            returndatalistrowbyindex,
+                            )
+

@@ -1,6 +1,6 @@
 from openpyxl.styles import Alignment
 
-from pynvn.path import ReturnDataAllRowByIndexpath
+from pynvn.path import ReturnDataAllRowByIndexpath,returndatalistrowbyindex
 
 class credict():
     def __init__(self,KeyValues = None,LocConf = None,
@@ -13,11 +13,30 @@ class credict():
     def dictfromkeyandvalue(self):
         return dict (zip(self.KeyValues,
                     self.LocConf))
+
     # get value from conf path 
     def getvaluefromconfigpath(self):
         #list of value 
-        valuelist = [[int(i) for i in ReturnDataAllRowByIndexpath(self.Config_Setting_Path,k)] for k in self.LocConf]
+        valuelist = [[(i) for i in returndatalistrowbyindex(self.Config_Setting_Path,k)] for k in self.LocConf]
+        #set new value list 
         return valuelist
+
+    # create dicr from key and config setting path 
+    def Dictfromkeyandvalueconf(self):
+        valuelist = self.getvaluefromconfigpath()
+        return dict (zip(self.KeyValues,
+                    valuelist))
+
+# update lists together 
+def updictjoint(*List):
+    Genenral_Dict = {} 
+    for subDict in List:
+        Genenral_Dict.update(subDict)
+        gendictsorted = (sorted (Genenral_Dict.items()))
+        gendictsorted = dict(gendictsorted)
+    return gendictsorted
+
+    
     
 """"
          keyvalue = [ValueGeneral,

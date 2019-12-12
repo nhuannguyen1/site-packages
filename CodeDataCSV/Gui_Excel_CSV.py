@@ -3,7 +3,6 @@ from tkinter import filedialog
 from typing import Container
 import TextGetDataFromExcel
 import TextGetDataFromExcel_ReadExcel
-import os
 # function to export excel
 class GuiTk (tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -60,18 +59,20 @@ class GuiTk (tk.Tk):
                     column = 4,
                     columnspan = 2,
                     )
-    
+        
+    #export to excel 
     def ExportToExcel(self):
         path = self.entry_content.get()
         TextGetDataFromExcel.CreateFileExcel(path)
-
+    # export to csv 
     def ExportToCsv(self):
         path = self.entry_content.get()
         TextGetDataFromExcel_ReadExcel.CreateFileCSV(path)
-
+    # open file follow directory 
     def mfileopen(self):
         files = filedialog.askdirectory()
         self.output.insert(tk.END,files)
+    # retrieve data from input 
     def retrieve_input(self):
         inputValue = self.output.get()
         return inputValue    
