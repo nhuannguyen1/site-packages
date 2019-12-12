@@ -1,87 +1,184 @@
 import tkinter as tk
+import os
 from tkinter import filedialog
-from typing import Container
-import TextGetDataFromExcel
-import TextGetDataFromExcel_ReadExcel
+from appnvn.eximexcsv import (extoex,
+                              extocsv)
+from pynvn.csv.tocsv import wrcsv
+from appnvn.eximexcsv import templatexc
+from pynvn.path.ppath import PathSteel
 # function to export excel
 class GuiTk (tk.Tk):
     def __init__(self,*args,**kwargs):
         super().__init__()
+        # set title 
         self.title ("Data Processing")
-        large_font = ('Verdana',20)
-
-        button = tk.Button(text = "Open File",
-                    width = 10, height = 2,command = self.mfileopen)
+        # set window icon
+        self.iconbitmap('clienticon.ico')
+        # set font for tk 
+        large_font = ('Verdana',10)
+        #create buttom for open file 
+        button = tk.Button(text = "input file",
+                            width = 10,
+                            height = 2,
+                            command = self.mfileopen
+                            )
         button.grid(row = 0,
                     column = 0,
                     columnspan = 2,
-                    sticky = "we")
-
-        self.entry_content = tk.StringVar()
-        self.output = tk.Entry(self, 
-                        textvariable = self.entry_content,
-                        width = 20,
-                        font = large_font,
-                        selectborderwidth = 10,
-                        bg = "yellow")
-        self.output.grid(row = 0,
-                    column = 3,
-                    columnspan = 5
+                    sticky = "we"
                     )
+
+        # create output text, it is used to save directory 
+        self.output = tk.Text (self, 
+                                width = 60,
+                                height = 2,
+                                font = large_font,
+                                selectborderwidth = 10,
+                                bg = "yellow"
+                              )
+
         
+        self.output.grid(row = 0,
+                        column = 3,
+                        columnspan = 5
+                        )
+
+        button = tk.Button(text = "output file",
+                            width = 10,
+                            height = 2,
+                            command = self.mfileopenout
+                            )
+        button.grid(row = 1,
+                    column = 0,
+                    columnspan = 2,
+                    sticky = "we"
+                    )
+
+        self.outputfile = tk.Text (self, 
+                                    width = 60,
+                                    height = 2,
+                                    font = large_font,
+                                    selectborderwidth = 10,
+                                    bg = "yellow"
+                                  )
+        self.outputfile.grid(row = 1,
+                            column = 3,
+                            columnspan = 5
+                            )
+
+        # create button to export to csv 
         Buttom_ExportToCSV  = tk.Button (self,
                                         text = "ExportToCSV",
                                         command = self.ExportToCsv
                                         )
         
-        Buttom_ExportToCSV.grid(row = 1,
+        Buttom_ExportToCSV.grid(row = 2,
                                 column = 4,
                                 columnspan = 1,
                                 sticky = "we"
                                 )
-        
+        # create button to export to excel 
         Buttom_ExportToExcel  = tk.Button (self,
-                                text = "ExportToExcel",
-                                command = self.ExportToExcel)
+                                           text = "ExportToExcel",
+                                           command = self.ExportToExcel
+                                           )
         
-        Buttom_ExportToExcel.grid(row = 1,
-                                column = 5,
-                                columnspan = 1,
-                                sticky = "we"
-                                )
-
+        Buttom_ExportToExcel.grid(row = 2,
+                                 column = 5,
+                                 columnspan = 1,
+                                 sticky = "we"
+                                 )
+        #quit widget  
         buttom_quit = tk.Button (self,
-                        text = "Exit",
-                        width = 20,
-                        command = self.quit)
+                                text = "Exit",
+                                width = 20,
+                                command = self.quit)
 
-        buttom_quit.grid(row = 2,
-                    column = 4,
-                    columnspan = 2,
-                    )
-        
+        buttom_quit.grid(row = 3,
+                        column = 4,
+                        columnspan = 2,
+                        )
+        # get path csv to retrive path 
+        self.pathtow = PathSteel(modulename =templatexc,
+                             FileName ='path.csv')\
+                            .getpathmodule()
+
+        # set value defaut for output 
+        wcsvt = wrcsv(pathtow = self.pathtow).ReDtallrowbyIndx(1)
+        self.outputfile.insert(tk.END,
+                               wcsvt[1])
+
+        self.output.insert(tk.END,
+                            wcsvt[0])
+
     #export to excel 
     def ExportToExcel(self):
-        path = self.entry_content.get()
-        TextGetDataFromExcel.CreateFileExcel(path)
+        pathinout = self.repathinout()
+        """
+        pathin = self.output.get("1.0",
+                                "end - 1 chars")
+        pathout = self.outputfile.get("1.0",
+                                "end - 1 chars")
+        """
+        extoex.CreateFileExcel(*pathinout)
+        
+        lines = [["pathin","pathout"],[pathin,pathout]]
+        #wcsvt = wrcsv(r"D:\site-packages\appnvn\eximexcsv\templatexc\path.csv",*lines).savevaltocsv()
+
     # export to csv 
     def ExportToCsv(self):
-        path = self.entry_content.get()
-        TextGetDataFromExcel_ReadExcel.CreateFileCSV(path)
+        """
+        pathin = self.output.get("1.0",
+                                "end - 1 chars")
+        pathout = self.outputfile.get("1.0",
+                                "end - 1 chars")
+        """
+
+        extocsv.CreateFileCSV(pathin,pathout)
+
+        #lines = [["pathin","pathout"],[pathin,pathout]]
+        #wcsvt = wrcsv(r"D:\site-packages\appnvn\eximexcsv\templatexc\path.csv",*lines).savevaltocsv()
+    # return path in and path out 
+    def repathinout(self):
+        pathin = self.output.get("1.0",
+                                "end - 1 chars")
+        pathout = self.outputfile.get("1.0",
+                                "end - 1 chars")
+                                
+        lines = [["pathin","pathout"],
+                    [pathin,pathout]]
+        
+        wcsvt = wrcsv(self.pathtow,*lines).savevaltocsv()
+        return [pathin,pathout]
+
     # open file follow directory 
     def mfileopen(self):
         files = filedialog.askdirectory()
-        self.output.insert(tk.END,files)
+        self.output.insert(tk.END,
+                            files)
+        
+    # open file out put 
+    def mfileopenout(self):
+        files = filedialog.askdirectory()
+        self.outputfile.insert(tk.END,
+                                files)
+
     # retrieve data from input 
     def retrieve_input(self):
-        inputValue = self.output.get()
+        inputValue = self.output.get("1.0",
+                                    tk.END)
         return inputValue    
+
 class GuiTk_Child (GuiTk):
     def __init__(self):
         GuiTk.__init__(self) 
+        
     def retrieve_input(self):
-        inputValue = self.output.get()
+        inputValue = self.output.get("1.0",
+                                    tk.END)
         return inputValue
 app = GuiTk_Child()
 inputValue = app.retrieve_input()
 app.mainloop()
+#C:\Users\nhuan.nguyen\AppData\Roaming\pyRevit\Extensions\PySteelFraming.extension\PySteelFraming.tab\GetDataFromColumnAndFraming.panel\TestDataToExcel.pushbutton\Data_CSV
+#C:/Users/nhuan.nguyen/Desktop/OutPutCSV

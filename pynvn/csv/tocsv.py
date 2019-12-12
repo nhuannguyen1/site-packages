@@ -1,75 +1,19 @@
-#  write to excel 
-import pandas as pd
-from pynvn.path import (ReturnDataAllRowByIndexpath,
-                            returndatalistrowbyindex
-                            )
-from pynvn.data import grouper
+import csv
+class wrcsv:
+    def  __init__(self, pathtow = None,*args,**kwargs):
+        self.pathtow = pathtow
+        self.args = args
+        self.kwargs = kwargs
 
-class toexcel:
-    def __init__(self,worksheet = None,
-                             path = None, 
-                             value = None,
-                             path_conf = None,
-                             lpath = None,
-                             rpath = None,
-                             loccelpath = 29
-                             ):
-
-        self.worksheet = worksheet
-        self.value = value
-        self.path = path
-        self.path_conf = path_conf
-        self.lpath = lpath
-        self.rpath = rpath
-        self.loccelpath = loccelpath
-
-    """
-    write path to location of excel 
-    using path config to find address of cell
-    """
-
-    def reloccol (self):
-
-        locpath = returndatalistrowbyindex(self.path_conf,
-                                          self.loccelpath)
-        # group to pair arr 
-        locpath =  list(grouper(2,locpath))
-        # check left and rignt to fill out to excel 
-        if self.path == self.lpath:
-            loc_col =  locpath[0]
-        else:
-            loc_col =  locpath[1]
-        # convert type arr to int
-        loc_col = [int(i) for i in loc_col]
-        # fill out title to excel
-        return loc_col
-        """
-        self.worksheet.cell(row = loc_col[0],
-                             column = loc_col[1]).value = "Path CSV"
-        # fill out value path to excel 
-        self.worksheet.cell(row = loc_col[0],
-             column = (int(loc_col[1]) + 1)).\
-                                value = self.path
-        """
-    # write move column to excel 
-
-    def writemovecol (self,loccolmove,
-                            colmove):
-        loccolmove =  list(grouper(2,loccolmove))
-        for cell,index in zip(loccolmove,
-                                colmove):
-
-            df = pd.read_csv(self.path,
-                             delimiter=',',
-                             index_col = None ,
-                             usecols = [index],
-                             nrows= 1)
-
-            # convert type arr to int
-            self.worksheet.cell(row = cell[0], column = cell[1]).value = df.iat[0,0]
-    def wrivaltoexc (self):
-        loc_col = self.reloccol()
-        self.worksheet.cell(row = loc_col[0],column = loc_col[1]).value = "Path CSV"
-        # fill out value path to excel 
-        self.worksheet.cell(row = loc_col[0],column = (int(loc_col[1]) + 1)).value = self.path
-
+    def savevaltocsv(self):
+        with open(self.pathtow, 'w') as csvFile:
+            writer = csv.writer(csvFile,delimiter =',',lineterminator='\n')
+            writer.writerows(self.args)
+        csvFile.close()
+    def ReDtallrowbyIndx (self,NumberRow):
+            with open(self.pathtow,"r") as csvFile:
+                readcsv =csv.reader(csvFile, delimiter=',')
+                readcsv = list(readcsv)
+                RowNumber = readcsv[NumberRow]
+            csvFile.close()
+            return RowNumber

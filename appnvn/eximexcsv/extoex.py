@@ -1,10 +1,11 @@
-import os
 import sys
 import pandas as pd
 from pandas import ExcelWriter,ExcelFile
 import numpy as np
 import openpyxl
 from openpyxl import load_workbook
+from appnvn.eximexcsv import templatexc
+from pynvn.path.ppath import PathSteel
 
 from pynvn.path import (IsRunningInPyinstallerBundle,
                         resource_path_is_from_pyinstall_and_dev,
@@ -13,21 +14,20 @@ from pynvn.path import (IsRunningInPyinstallerBundle,
                         )
 
 from pynvn.dict import credict
-
 from pynvn.excel import toexcel
 # check running in Pyintaller or not ?
 
 
-def CreateFileExcel(paths):
+def CreateFileExcel(pathin,pathout):
     filename = "Config_Setting.csv"
-    fullpath = os.path.join(paths,filename)
+    fullpath = os.path.join(pathin,filename)
 
     # get path store data to handling
-    Right_Genneral_All_path = PathFromFileNameAndDirpath(dir_path =paths,
+    Right_Genneral_All_path = PathFromFileNameAndDirpath(dir_path =pathin,
                                                          filename ="Right_Genneral_All.csv"
                                                          )
                                     
-    Left_Genneral_All_path = PathFromFileNameAndDirpath(dir_path =paths,
+    Left_Genneral_All_path = PathFromFileNameAndDirpath(dir_path =pathin,
                                                          filename ="Left_Genneral_All.csv"
                                                          )
 
@@ -55,9 +55,6 @@ def CreateFileExcel(paths):
 
     # create arr from keyvalue  
     valgen = credict_list.get("ValueGeneral", "")
-
-    valgen = [int(i) for i in credict_list.get("ValueGeneral", "")]
-
     colmv = credict_list.get("Columnmove", "")
     locmvcol = credict_list.get("LocationCellForMoveColumn", "")
     gencolnotchg = credict_list.get("GenneralColumnNotChange", "")
@@ -76,9 +73,17 @@ def CreateFileExcel(paths):
                                                          Subfolder="Data",
                                                          Is_Directory_Path_To_SubFolder= True,
                                                          dir_path=sys._MEIPASS)
-    else:
-        DataExcel = 'DataALL - Template.xlsx'
 
+    else:
+        # get file excel from template excel (full path)
+        DataExcel = PathSteel(modulename =templatexc,
+                             FileName ='DataALL - Template.xlsx')\
+                            .getpathmodule()
+            
+        """
+        DataExcel = os.path.join((os.path.dirname(templatexc.__file__)),
+                                'DataALL - Template.xlsx') 
+        """
 
     book = load_workbook(DataExcel)
     writer = ExcelWriter(DataExcel,
@@ -182,4 +187,9 @@ def CreateFileExcel(paths):
             #Wirte move Column to excel
             excellframe.writemovecol(LocationMoveColumn,
                                                 colmv)
-    book.save('new_big_file.xlsx') 
+    # create full path from dirpath 
+    path = PathSteel(dir_path =pathout,
+                     FileName ='new_big_file.xlsx')\
+                    .getpathmodule()
+    #path = os.path.join(pathout,'new_big_file.xlsx') 
+    book.save(path) 

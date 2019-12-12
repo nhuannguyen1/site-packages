@@ -8,7 +8,8 @@ class PathSteel:
                         dir_path = None,
                         Is_Directory_Path_To_SubFolder = False,
                         Path_Conf = None,
-                        FileName = None
+                        FileName = None,
+                        modulename = None
                     ):
             self.path_Full = path_Full
             self.dir_path = dir_path
@@ -17,6 +18,7 @@ class PathSteel:
             self.Is_Directory_Path_To_SubFolder =\
                  Is_Directory_Path_To_SubFolder
             self.FileName = FileName
+            self.modulename = modulename
 
     # Get absolute path to resource, works for dev and for PyInstaller """
     def resource_path_is_from_pyinstall_and_dev(self):
@@ -37,21 +39,29 @@ class PathSteel:
         return FileName
 
     # Return full path conbine subfolder 
-    def ReFPAth(self,args = None):
+    def refpath(self,args = None):
         # check directory path is to subfolder or not ?
         if self.Is_Directory_Path_To_SubFolder == True:
             #unpack to get element in list
                 #join 2 folder together 
-            dir_path = os.path.join(self.dir_path,args)
+            dir_path = os.path.join(self.dir_path,
+                                            args)
                 
                 #dir_path = self.dir_path + "\\" + subFolder
             # Concatenate folder and file name 
-            full_path = os.path.join(dir_path,self.FileName)
+            full_path = os.path.join(dir_path,
+                                    self.FileName)
         else:
             # Create full path
-            full_path = os.path.join(self.dir_path,self.FileName)
+            full_path = os.path.join(self.dir_path,
+                                    self.FileName)
         return full_path
-    
+    # get path of module was imported 
+    def getpathmodule (self):
+        pathf = os.path.join((os.path.dirname(self.modulename.__file__)),
+                                                self.FileName)
+        return pathf
+
 #using function to return resourse path
 def resource_path_is_from_pyinstall_and_dev (FileName = None,
                                              Subfolder = None ,
@@ -63,7 +73,8 @@ def resource_path_is_from_pyinstall_and_dev (FileName = None,
                         Is_Directory_Path_To_SubFolder = Is_Directory_Path_To_SubFolder,
                         dir_path = dir_path
                     )
-    return PathS.ReFPAth(Subfolder)
+    return PathS.refpath(Subfolder)
+
 #Get file name from path full
 def ExtractFileNameFromPath(path = None):
        PathS = PathSteel(path_Full = path) 
@@ -82,5 +93,5 @@ def PathFromFileNameAndDirpath (dir_path = None,
     PathS = PathSteel(dir_path = dir_path,
                         FileName = filename
                     )
-    full_path = PathS.ReFPAth()
+    full_path = PathS.refpath()
     return full_path
