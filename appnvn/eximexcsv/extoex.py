@@ -17,10 +17,14 @@ from pynvn.dict import credict
 from pynvn.excel import toexcel
 # check running in Pyintaller or not ?
 
-
 def CreateFileExcel(pathin,pathout):
-    filename = "Config_Setting.csv"
-    fullpath = os.path.join(pathin,filename)
+    #filename = "Config_Setting.csv"
+
+    pathconf = PathSteel(dir_path =pathin,
+                     FileName = "Config_Setting.csv")\
+                    .refpath()
+
+    #fullpath = os.path.join(pathin,filename)
 
     # get path store data to handling
     Right_Genneral_All_path = PathFromFileNameAndDirpath(dir_path =pathin,
@@ -50,7 +54,7 @@ def CreateFileExcel(pathin,pathout):
 
     credict_c = credict(KeyValues = keyvalue, 
                         LocConf = locvalue,
-                        Config_Setting_Path = fullpath)
+                        Config_Setting_Path = pathconf)
     credict_list = credict_c.Dictfromkeyandvalueconf()
 
     # create arr from keyvalue  
@@ -114,7 +118,7 @@ def CreateFileExcel(pathin,pathout):
             # create frame to excel 
             excellframe = toexcel(worksheet = worksheet,
                                             path = path,
-                                            path_conf =fullpath,
+                                            path_conf =pathconf,
                                             lpath=Left_Genneral_All_path,
                                             rpath = Right_Genneral_All_path)
 
@@ -190,6 +194,6 @@ def CreateFileExcel(pathin,pathout):
     # create full path from dirpath 
     path = PathSteel(dir_path =pathout,
                      FileName ='new_big_file.xlsx')\
-                    .getpathmodule()
+                    .refpath()
     #path = os.path.join(pathout,'new_big_file.xlsx') 
     book.save(path) 

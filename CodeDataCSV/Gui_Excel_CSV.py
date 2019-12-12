@@ -6,6 +6,7 @@ from appnvn.eximexcsv import (extoex,
 from pynvn.csv.tocsv import wrcsv
 from appnvn.eximexcsv import templatexc
 from pynvn.path.ppath import PathSteel
+from tkinter import messagebox
 # function to export excel
 class GuiTk (tk.Tk):
     def __init__(self,*args,**kwargs):
@@ -114,42 +115,30 @@ class GuiTk (tk.Tk):
     #export to excel 
     def ExportToExcel(self):
         pathinout = self.repathinout()
-        """
-        pathin = self.output.get("1.0",
-                                "end - 1 chars")
-        pathout = self.outputfile.get("1.0",
-                                "end - 1 chars")
-        """
         extoex.CreateFileExcel(*pathinout)
-        
-        lines = [["pathin","pathout"],[pathin,pathout]]
-        #wcsvt = wrcsv(r"D:\site-packages\appnvn\eximexcsv\templatexc\path.csv",*lines).savevaltocsv()
 
     # export to csv 
     def ExportToCsv(self):
-        """
-        pathin = self.output.get("1.0",
-                                "end - 1 chars")
-        pathout = self.outputfile.get("1.0",
-                                "end - 1 chars")
-        """
+        pathinout = self.repathinout()
+        extocsv.CreateFileCSV(*pathinout)
 
-        extocsv.CreateFileCSV(pathin,pathout)
-
-        #lines = [["pathin","pathout"],[pathin,pathout]]
-        #wcsvt = wrcsv(r"D:\site-packages\appnvn\eximexcsv\templatexc\path.csv",*lines).savevaltocsv()
     # return path in and path out 
     def repathinout(self):
         pathin = self.output.get("1.0",
                                 "end - 1 chars")
         pathout = self.outputfile.get("1.0",
                                 "end - 1 chars")
-                                
-        lines = [["pathin","pathout"],
-                    [pathin,pathout]]
-        
-        wcsvt = wrcsv(self.pathtow,*lines).savevaltocsv()
-        return [pathin,pathout]
+        try:
+            if (os.path.exists(pathin) == False or 
+                os.path.exists(pathout) == False):
+                messagebox.showinfo("directory", "directory not found for option")
+            else: 
+                lines = [["pathin","pathout"],
+                        [pathin,pathout]]
+                wcsvt = wrcsv(self.pathtow,*lines).savevaltocsv()
+                return [pathin,pathout]
+        except:
+            messagebox.showinfo ("directory", "recheck file path from Gui")
 
     # open file follow directory 
     def mfileopen(self):
