@@ -1,8 +1,8 @@
 import csv
 class wrcsv:
-    def  __init__(self, pathtow = None,*args,**kwargs):
+    def  __init__(self, pathtow = None,list = None,**kwargs):
         self.pathtow = pathtow
-        self.args = args
+        self.args = list
         self.kwargs = kwargs
 
     def savevaltocsv(self):
@@ -17,3 +17,8 @@ class wrcsv:
                 RowNumber = readcsv[NumberRow]
             csvFile.close()
             return RowNumber
+    def writefilecsvFromRowArr(self):
+        with open(self.pathtow , 'a') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerow(self.args)
+        csvFile.close()

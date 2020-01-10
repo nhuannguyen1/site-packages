@@ -1,7 +1,8 @@
 import os
 import csv
 import sys
-
+from tkinter import messagebox
+import openpyxl as xl
 class PathSteel:
 
     def  __init__(self, path_Full = None,
@@ -9,7 +10,9 @@ class PathSteel:
                         Is_Directory_Path_To_SubFolder = False,
                         Path_Conf = None,
                         FileName = None,
-                        modulename = None
+                        modulename = None,
+                        pathorigrn = None,
+                        pathdestination = None,
                     ):
             self.path_Full = path_Full
             self.dir_path = dir_path
@@ -19,6 +22,8 @@ class PathSteel:
                  Is_Directory_Path_To_SubFolder
             self.FileName = FileName
             self.modulename = modulename
+            self.pathorigrn = pathorigrn
+            self.pathdestination = pathdestination
 
     # Get absolute path to resource, works for dev and for PyInstaller """
     def resource_path_is_from_pyinstall_and_dev(self):
@@ -61,6 +66,17 @@ class PathSteel:
         pathf = os.path.join((os.path.dirname(self.modulename.__file__)),
                                                 self.FileName)
         return pathf
+    def saveasfiletopathAndopen (self):
+        # get file name from path 
+        filename = ExtractFileNameFromPath(self.pathorigrn)
+        wb1 = xl.load_workbook(self.pathorigrn)
+        #save excel to ative folder
+        try:
+            wb1.save(filename)
+            os.system('start "excel" {}'.format(filename))
+        except:
+            messagebox.showerror("Error","File name: {} is openning, close file to continue ".format(filename))
+            #print ("File name: {} is open, close file to continue ".format(filename))
 
 #using function to return resourse path
 def resource_path_is_from_pyinstall_and_dev (FileName = None,
@@ -95,3 +111,22 @@ def PathFromFileNameAndDirpath (dir_path = None,
                     )
     full_path = PathS.refpath()
     return full_path
+
+def getpathfromtk(outputpath):
+        pathin = outputpath.get("1.0",
+                                "end - 1 chars")
+        try:
+            if os.path.exists(pathin) == False:
+                messagebox.showinfo("directory", "directory not found for option")
+            else: 
+                return pathin
+        except:
+            messagebox.showinfo ("directory", "recheck file path from Gui")
+def retabspath():
+    return os.path.dirname(os.path.abspath(__file__))
+    
+def abspath(Balance_Stock):
+    return os.path.abspath(Balance_Stock)
+
+def getdirpath(pathfull):
+    return os.path.dirname(pathfull)

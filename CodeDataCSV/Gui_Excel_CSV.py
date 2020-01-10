@@ -169,5 +169,3 @@ class GuiTk_Child (GuiTk):
 app = GuiTk_Child()
 inputValue = app.retrieve_input()
 app.mainloop()
-#C:\Users\nhuan.nguyen\AppData\Roaming\pyRevit\Extensions\PySteelFraming.extension\PySteelFraming.tab\GetDataFromColumnAndFraming.panel\TestDataToExcel.pushbutton\Data_CSV
-#C:/Users/nhuan.nguyen/Desktop/OutPutCSV
