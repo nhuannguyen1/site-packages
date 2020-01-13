@@ -1,36 +1,39 @@
-from tkinter.constants import NONE
 import pandas as pd
-from pathlib import Path
-from pynvn.path.ppath import ExtractFileNameFromPath
-from pynvn.csv.tocsv import wrcsv
-import sys
-
+from shutil import copyfile
+import openpyxl
+from openpyxl import load_workbook
+import openpyxl.styles
+from openpyxl.styles import PatternFill
 class comparetwofile():
     def __init__(self,path_OLD = None, 
                 path_NEW = None, 
                 index_col = None,
                 sheetname = 0,
                 usernamein = None,
-                dt = None
+                dt = None,
+                pathtcsvtosavedata = None,
+                pathtorgindiff = None,
+                difpathtobk = None
                 ) :
         self.path_OLD = path_OLD
         self.path_NEW = path_NEW
         self.index_col = index_col
         self.sheetname = sheetname
         self.usernamein = usernamein
+        self.difpathtobk = difpathtobk
         self.dt = dt
+        self.pathtcsvtosavedata = pathtcsvtosavedata
+        self.pathtorgindiff = pathtorgindiff
     def excel_diff(self):
         # get sheet name file 
         xl = pd.ExcelFile(self.path_OLD)
 
         shname =  xl.sheet_names[0]  # see all sheet names
 
-
         df_OLD = pd.read_excel(self.path_OLD,sheet_name=self.sheetname,
                                 index_col=self.index_col).fillna("")
         df_NEW = pd.read_excel(self.path_NEW,sheet_name=self.sheetname, 
                                 index_col=self.index_col).fillna("")
-        filename = ExtractFileNameFromPath(self.path_NEW)
         # Perform Diff
         dfDiff = df_NEW.copy()
         droppedRows = []
@@ -52,10 +55,10 @@ class comparetwofile():
                         dfDiff.loc[row,col] = ('{}→{}').format(value_OLD,
                                                                 value_NEW)
 
-                        df_NEW.loc[row,100] = ('{} changed data to {} at {}').format(self.usernamein,
+                        dfDiff.loc[row,100] = ('{} changed data to {} at {}').format(self.usernamein,
                                                                                 value_NEW,self.dt)
                         # get index column
-                        col_index = df_NEW.columns.get_loc(col)
+                        col_index = dfDiff.columns.get_loc(col)
 
                         rowandcolumn.append([row + 1,
                                             col_index])
@@ -66,10 +69,10 @@ class comparetwofile():
             else:
                 newRows.append(row)
         # save as to csv file 
-        datachange = [[self.usernamein,self.dt,indexoldnew]]
-        #wcsv1 = wrcsv (pathtow = r"C:\Users\nhuan.nguyen\Desktop\Original\test 2\nhuan.csv",list =datachange)
+        datachange = [[self.usernamein,
+                    self.dt,indexoldnew]]
         df = pd.DataFrame(data=datachange)
-        df.to_csv (r"C:\Users\nhuan.nguyen\Desktop\Original\test 2\npandas.csv",
+        df.to_csv (self.pathtcsvtosavedata,
                     index = None,
                     header=False, 
                     mode = "a")    
@@ -82,20 +85,27 @@ class comparetwofile():
         dfDiff = dfDiff.sort_index().fillna('')
         # Save output and format
         #fname = "Test12.xlsx"
-        fname = '{}_Change.xlsx'.format(filename)
-        
-        writer = pd.ExcelWriter(self.path_OLD, 
+        copyfile(self.path_NEW,self.path_OLD)
+        copyfile(self.path_NEW,self.difpathtobk)
+        #Using openpyxl to fill collor 
+        wb = openpyxl.load_workbook(self.path_OLD)
+        sheets = wb.sheetnames
+        ws = wb[sheets[0]]
+
+        for cell in rowandcolumn: 
+            ws.cell(row=int(cell[0]) + 1, column=int(cell[1]) + 1).fill = PatternFill('solid', openpyxl.styles.colors.GREEN)
+        wb.save(self.path_OLD)
+
+        writer = pd.ExcelWriter(self.pathtorgindiff, 
                                 engine='xlsxwriter')
 
-        #cteate file new excel 
-        df_NEW.to_excel(writer, sheet_name=shname, 
-                                index=False)
         
+        writerbk = pd.ExcelWriter(self.path_OLD, 
+                                engine='xlsxwriter')
+
         #compare 2 file 
         dfDiff.to_excel(writer, sheet_name='DIFF', 
                                 index=False)
-
-        #df_OLD.to_excel(writer, sheet_name=path_OLD.stem, index=False)
 
         diffRows = list(set(diffRows+newRows+droppedRows))
         df_Changes = dfDiff.loc[diffRows,:]
@@ -103,7 +113,8 @@ class comparetwofile():
         # get xlsxwriter objects
         workbook  = writer.book
         worksheet = writer.sheets['DIFF']
-        worksheet_org = writer.sheets[shname]
+        workbook  = writerbk.book
+        #worksheet_org = writerbk.sheets["TON15122019"]
         worksheet.hide_gridlines(2)
         worksheet.set_default_row(15)
 
@@ -117,24 +128,12 @@ class comparetwofile():
         highlight_fmt = workbook.add_format({'font_color': '#FF0000', 'bg_color':'#B1B3B3'})
         new_fmt = workbook.add_format({'bg_color': '#C6EFCE','font_color': '#32CD32','bold':True})
 
-        
         # set format over range
         ## highlight changed cells
         worksheet.conditional_format('A1:ZZ1000', {'type': 'text',
                                                 'criteria': 'containing',
                                                 'value':'→',
                                                 'format': highlight_fmt})
-        
-
-        for cell in rowandcolumn:
-
-            worksheet_org.conditional_format(int(cell[0]),int(cell[1]),int(cell[0]),int(cell[1]), {'type': 'no_errors',
-                                          'format': new_fmt})
-
-        worksheet_org.conditional_format('A1:ZZ1000', {'type': 'text',
-                                                'criteria': 'containing',
-                                                'value':'changed data to',
-                                                'format': new_fmt})
                                     
         # highlight new/changed rows
         for row in range(dfDiff.shape[0]):
@@ -142,5 +141,4 @@ class comparetwofile():
                 worksheet.set_row(row+1, 15, new_fmt)
             if row+1 in droppedRows:
                 worksheet.set_row(row+1, 15, grey_fmt)
-        # save
         writer.save()

@@ -130,3 +130,26 @@ def abspath(Balance_Stock):
 
 def getdirpath(pathfull):
     return os.path.dirname(pathfull)
+def getfilenamewoexten (filenameinstension):
+    filename, file_extension = os.path.splitext(filenameinstension)
+    return filename
+def parentdirectory (path):
+    return os.path.dirname (path)
+def credirfol (dirNamec, subforder):
+    try:
+        dirName = os.makedirs(os.path.join(dirNamec, subforder))
+        
+    except:
+        print ( "already exists")
+    return os.path.join(dirNamec, subforder)
+    """
+    # Create target Directory if don't exist
+    if not os.path.exists(dirName):
+        os.mkdir(dirName)
+        print("Directory " , dirName ,  " Created ")
+    else:    
+        print("Directory " , dirName ,  " already exists")
+    r
+    """
+    
+#cref = credirfol (r"C:\Users\nhuan.nguyen\Desktop\Original","test 12")
