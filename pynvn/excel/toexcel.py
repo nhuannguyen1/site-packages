@@ -1,6 +1,6 @@
 #  write to excel 
 import pandas as pd
-from pynvn.path import (ReturnDataAllRowByIndexpath,
+from pynvn.path import (
                             returndatalistrowbyindex
                             )
 from pynvn.data import grouper
@@ -64,4 +64,3 @@ class toexcel:
         self.worksheet.cell(row = loc_col[0],column = loc_col[1]).value = "Path CSV"
         # fill out value path to excel 
         self.worksheet.cell(row = loc_col[0],column = (int(loc_col[1]) + 1)).value = self.path
-    

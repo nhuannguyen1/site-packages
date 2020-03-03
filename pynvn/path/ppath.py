@@ -4,7 +4,6 @@ import sys
 from tkinter import messagebox
 import openpyxl as xl
 class PathSteel:
-
     def  __init__(self, path_Full = None,
                         dir_path = None,
                         Is_Directory_Path_To_SubFolder = False,
@@ -48,7 +47,7 @@ class PathSteel:
         # check directory path is to subfolder or not ?
         if self.Is_Directory_Path_To_SubFolder == True:
             #unpack to get element in list
-                #join 2 folder together 
+            #join 2 folder together 
             dir_path = os.path.join(self.dir_path,
                                             args)
                 
@@ -57,9 +56,12 @@ class PathSteel:
             full_path = os.path.join(dir_path,
                                     self.FileName)
         else:
+            
             # Create full path
             full_path = os.path.join(self.dir_path,
                                     self.FileName)
+            if os.path.exists(full_path) == False:
+                file = open(full_path, 'w+')
         return full_path
     # get path of module was imported 
     def getpathmodule (self):
@@ -77,6 +79,7 @@ class PathSteel:
         except:
             messagebox.showerror("Error","File name: {} is openning, close file to continue ".format(filename))
             #print ("File name: {} is open, close file to continue ".format(filename))
+    
 
 #using function to return resourse path
 def resource_path_is_from_pyinstall_and_dev (FileName = None,
@@ -142,14 +145,3 @@ def credirfol (dirNamec, subforder):
     except:
         print ( "already exists")
     return os.path.join(dirNamec, subforder)
-    """
-    # Create target Directory if don't exist
-    if not os.path.exists(dirName):
-        os.mkdir(dirName)
-        print("Directory " , dirName ,  " Created ")
-    else:    
-        print("Directory " , dirName ,  " already exists")
-    r
-    """
-    
-#cref = credirfol (r"C:\Users\nhuan.nguyen\Desktop\Original","test 12")

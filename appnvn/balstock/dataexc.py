@@ -1,7 +1,6 @@
 import pandas as pd
 from shutil import copyfile
 import openpyxl
-from openpyxl import load_workbook
 import openpyxl.styles
 from openpyxl.styles import PatternFill
 class comparetwofile():
@@ -88,32 +87,29 @@ class comparetwofile():
         copyfile(self.path_NEW,self.path_OLD)
         copyfile(self.path_NEW,self.difpathtobk)
         #Using openpyxl to fill collor 
-        wb = openpyxl.load_workbook(self.path_OLD)
-        sheets = wb.sheetnames
-        ws = wb[sheets[0]]
 
+        wb = openpyxl.load_workbook(self.difpathtobk)
+        sheets = wb.sheetnames
+
+
+        ws = wb[sheets[0]]
         for cell in rowandcolumn: 
-            ws.cell(row=int(cell[0]) + 1, column=int(cell[1]) + 1).fill = PatternFill('solid', openpyxl.styles.colors.GREEN)
-        wb.save(self.path_OLD)
+            ws.cell(row=int(cell[0]) + 1, column=int(cell[1]) + 1).fill = PatternFill('solid',openpyxl.styles.colors.GREEN)
+        wb.save(self.difpathtobk)
 
         writer = pd.ExcelWriter(self.pathtorgindiff, 
                                 engine='xlsxwriter')
 
-        
-        writerbk = pd.ExcelWriter(self.path_OLD, 
-                                engine='xlsxwriter')
 
         #compare 2 file 
         dfDiff.to_excel(writer, sheet_name='DIFF', 
                                 index=False)
 
         diffRows = list(set(diffRows+newRows+droppedRows))
-        df_Changes = dfDiff.loc[diffRows,:]
 
         # get xlsxwriter objects
         workbook  = writer.book
         worksheet = writer.sheets['DIFF']
-        workbook  = writerbk.book
         #worksheet_org = writerbk.sheets["TON15122019"]
         worksheet.hide_gridlines(2)
         worksheet.set_default_row(15)

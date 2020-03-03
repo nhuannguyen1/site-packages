@@ -19,6 +19,6 @@ class wrcsv:
             return RowNumber
     def writefilecsvFromRowArr(self):
         with open(self.pathtow , 'a') as csvFile:
-            writer = csv.writer(csvFile)
+            writer = csv.writer(csvFile,lineterminator='\n')
             writer.writerow(self.args)
         csvFile.close()

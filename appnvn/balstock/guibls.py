@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
+from pynvn.csv.rcsv import rcsv
+from pynvn.csv.tocsv import wrcsv
+from pathlib import Path
 
 from pynvn.path.ppath import (getpathfromtk,
                                 PathSteel,
@@ -12,46 +15,12 @@ from pynvn.path.ppath import (getpathfromtk,
                                 ExtractFileNameFromPath,
                                 getfilenamewoexten,
                                 credirfol)
+from pynvn.data.filename import namefile
 from tkinter import messagebox
 from datetime import datetime
 from appnvn.balstock.dataexc import comparetwofile
 import pandas as pd
-def donothing(root):
-    filewin = Toplevel(root)
-    filewin.title (
-                    "ATAD STEEL STRUCTURE CORPORATION"
-                    )
 
-    button = Button(filewin, text="Do nothing button")
-
-    button.pack()
-
-pathinoutgl = ""
-pathinout = None
-filename1 = ""
-
-def createmenu (root):
-        menubar = Menu(root)
-        filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", 
-                            command=donothing)
-        filemenu.add_command(label="Open", 
-                            command=donothing)
-        filemenu.add_command(label="Save", 
-                            command=donothing)
-        filemenu.add_command(label="Backup", 
-                            command=lambda: donothing(root))
-        filemenu.add_command(label="Close", 
-                            command=donothing)
-
-        filemenu.add_separator()
-
-        filemenu.add_command(label="Exit", 
-                            command=root.quit)
-        menubar.add_cascade(label="Option", 
-                            menu=filemenu)
-
-        root.config(menu=menubar)
 def getdirpathfromorigin(output1):
         # Get path full 
         global pathinout
@@ -65,139 +34,154 @@ def getdirpathfromorigin(output1):
         pathf = ps.refpath()
         return  pathf
 
-def donothing(root):
-        filewin = Toplevel(root)
-
-        columns = ("#1","#2")
-
-        tree = ttk.Treeview(filewin,
-                                show = "headings",
-                                columns = columns)
-
-        tree.heading("#1", text="Name User")
-        tree.heading("#2", text="Time")
-
-        ysb = ttk.Scrollbar(filewin, orient=tk.VERTICAL,
-        command=tree.yview)
-
-        tree.configure(yscroll=ysb.set)
-
-        pathf = getdirpathfromorigin(output1)
-     
-        dtpd = pd.read_csv(pathf,usecols=[0, 1], header=None)
-
-        sh = dtpd.shape
-        
-        for ix in range(sh[0]):
-            k = dtpd.iloc[ix] 
-            k1 = k.values.tolist()
-            tree.insert("", tk.END, 
-                            values=k1)
-
-        tree.grid(row=0, 
-                    column=0)
-
-        ysb.grid(row=0, 
-                column=1, 
-                sticky=tk.N + tk.S)
-
-        root.rowconfigure(0, weight=1)
-        root.columnconfigure(0, weight=1)
-        button = Button(filewin, text="DownLoad")
-        button.grid(row = 1,
-                    column = 0,
-                    sticky = "we"
-                    )
-
-        tree.column("#1",anchor=tk.CENTER)
-        tree.column("#2",anchor=tk.CENTER)
-        tree.bind("<<TreeviewSelect>>", print_selection(tree,event))
-        #button.pack()
-
-def print_selection(tree):
-    for selection in tree.selection():
-        item = tree.item(selection)
-        last_name, first_name = item["values"][0:2]
-        text = "Selection: {}, {}"
-        print(text.format(last_name, first_name))
-
-def setcfbs (root):
-        root.iconbitmap('clienticon.ico')
-        root.title (
-                    "ATAD STEEL STRUCTURE CORPORATION"
-                    )
-        root.configure(background='khaki1')
-
 class bl (tk.Tk):
     def __init__(self,*args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        setcfbs(self)
+        #self.setcfbs()
+        nmgui(tktk = self).setcfbs()
         self.container = tk.Frame(self)
         #container.config(anchor=CENTER)
-        self.container.pack(side="top",
+        self.container.pack(side="top",                           
                         fill=Y, expand=YES)  
 
-        createmenu(self)
+        nmgui(tktk = self).createmenu()
 
         frame = nameuser(self.container, self)
         #self.frames[F] = frame
         frame.grid(row=0, 
                     column=0, 
                     sticky="nsew")
+
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+    
+
+class nmgui:
+    def __init__(self,tktk = None):
+    # set logo and title 
+        self.tktk = tktk
+    def setcfbs (self):
+        self.tktk.iconbitmap('clienticon.ico')
+        self.tktk.title (
+                    "ATAD STEEL STRUCTURE CORPORATION"
+                    )
+        self.tktk.configure(background='khaki1')
+
+    def createmenu (self):
+        menubar = Menu(self.tktk)
+        filemenu = Menu(menubar, tearoff=0)
+        filemenu.add_command(label="New", 
+                            command=lambda: self.donothing())
+        filemenu.add_command(label="Open", 
+                            command=lambda: self.donothing())                                                                                                                   
+        filemenu.add_command(label="Save", 
+                            command=lambda: self.donothing())
+        filemenu.add_command(label="Backup", 
+                            command=lambda: self.donothing())
+        filemenu.add_command(label="Close", 
+                            command=lambda: self.donothing())
+
+        filemenu.add_separator()
+
+        filemenu.add_command(label="Exit", 
+                            command=self.tktk.quit)
+        menubar.add_cascade(label="Option", 
+                            menu=filemenu)
+
+        self.tktk.config(menu=menubar)
+
     def donothing(self):
-        filewin = Toplevel(self)
+        filewin = Toplevel(self.tktk)
 
         columns = ("#1","#2")
 
-        tree = ttk.Treeview(filewin,
+        self.tktk.tree = ttk.Treeview(filewin,
                                 show = "headings",
                                 columns = columns)
 
-        tree.heading("#1", text="Name User")
-        tree.heading("#2", text="Time")
+        self.tktk.tree.heading("#1", text="Name User")
+        self.tktk.tree.heading("#2", text="Time")
 
         ysb = ttk.Scrollbar(filewin, orient=tk.VERTICAL,
-        command=tree.yview)
+        command=self.tktk.tree.yview)
 
-        tree.configure(yscroll=ysb.set)
+        self.tktk.tree.configure(yscroll=ysb.set)
 
         pathf = getdirpathfromorigin(output1)
      
-        dtpd = pd.read_csv(pathf,usecols=[0, 1], header=None)
+        dtpd = pd.read_csv(pathf,usecols=[0, 1], 
+                                header=None)
 
         sh = dtpd.shape
         
         for ix in range(sh[0]):
             k = dtpd.iloc[ix] 
             k1 = k.values.tolist()
-            tree.insert("", tk.END, 
+            self.tktk.tree.insert("", tk.END, 
                             values=k1)
 
-        tree.grid(row=0, 
+        self.tktk.tree.grid(row=0, 
                     column=0)
 
         ysb.grid(row=0, 
                 column=1, 
                 sticky=tk.N + tk.S)
 
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
-        button = Button(filewin, text="DownLoad")
+        self.tktk.rowconfigure(0, weight=1)
+        self.tktk.columnconfigure(0, weight=1)
+        button = Button(filewin,command=lambda: self.dowloadfilexcelfromeven(fullnamekkk), text="DownLoad")
         button.grid(row = 1,
                     column = 0,
                     sticky = "we"
                     )
 
-        tree.column("#1",anchor=tk.CENTER)
-        tree.column("#2",anchor=tk.CENTER)
-        tree.bind("<<TreeviewSelect>>", print_selection(tree,event))
-        #button.pack()
+        self.tktk.tree.column("#1",anchor=tk.CENTER)
+        self.tktk.tree.column("#2",anchor=tk.CENTER)
+        self.tktk.tree.bind("<<TreeviewSelect>>", self.print_selection)
 
+    def returndirpath(self,filename1):
+        pathfulloutput = self.getfullnamefromoutput()
+        #filename1 = self.getfilenamefromoutput()
+        dbk = credirfol(getdirpath(pathfulloutput),
+                                    filename1)
+        
+        return dbk
+    
+    # get file name 
+    def getfilenamefromoutput(self):
+        pathfulloutput = self.getfullnamefromoutput()
 
+        filename1 = getfilenamewoexten(ExtractFileNameFromPath(pathfulloutput)) 
 
+        return filename1 
+    
+    def getfullnamefromoutput(self):
+
+        pathfulloutput = getpathfromtk(output1)
+        return pathfulloutput
+
+    def print_selection(self,event):
+        for selection in self.tktk.tree.selection():
+            item = self.tktk.tree.item(selection)
+            last_name, first_name = item["values"][0:2]
+            #A = (last_name + first_name)
+            namefilefromtkk = first_name.translate({ord(c): None for c in '!@#$?/: '}) + "_" + last_name
+            namefilefromtkk1 = namefilefromtkk.replace(" ", "")
+
+            dbk = self.returndirpath(self.getfilenamefromoutput())
+
+            nf = namefile (dirpath = dbk,fnamesub = namefilefromtkk1)
+            nflist = nf.returnfilfullnamefromsubname()
+            global fullnamekkk
+            fullnamekkk = PathFromFileNameAndDirpath(dir_path = dbk,
+                                                filename = nflist)
+
+    def dowloadfilexcelfromeven(self,fullname):
+            # save as file path from path original 
+            pathst = PathSteel (pathorigrn = fullname)
+            pathst.saveasfiletopathAndopen()
+            
 class nameuser(tk.Frame):
     def __init__(self,parent, 
                 controller):
@@ -211,11 +195,21 @@ class nameuser(tk.Frame):
                             width = 17, 
                             bg = "SteelBlue2",
                             fg="black"
-                            )
+                           )
 
-        self.inynamein = Entry(self,
-                                    width = 20,
-                                    justify = CENTER)
+        # create full path 
+        self.pathcre = r"C:\NLT" 
+        Path(self.pathcre).mkdir(parents=True,
+                            exist_ok=True)
+        # return path full 
+        ps = PathSteel(dir_path =self.pathcre,
+                    FileName = "nhuan.csv")    
+        self.pathf = ps.refpath()
+        rinput = rcsv(pathtor = self.pathf,indexarrtoget = [0])
+        row = rinput.Rerowbyindxaindexarr()
+        row = list(set(row))
+        self.inynamein = ttk.Combobox(self, 
+                                    values=row)
 
         self.button = tk.Button(self, text="Next",
                             command=lambda: self.checkinputyourname())
@@ -235,18 +229,20 @@ class nameuser(tk.Frame):
             dt_string_sr = now.strftime("%H%M%S%d%m%Y")
             self.controller.withdraw()
             filewin = Toplevel(self)
-            #filewin.geometry("350x350")
             app = primaryc(filewin)
-
-class primaryc:
+            wv = wrcsv(pathtow = self.pathf,list =[inynameing])
+            wv.writefilecsvFromRowArr()
+            
+class primaryc(bl):
     def __init__(self,master):
         self.master = master
         self.container = tk.Frame(self.master)
         self.container.pack()
-        createmenu (self.master)
+        nmgui(tktk = master).createmenu()
+        #bl.createmenu(self.master)
         large_font = ('Verdana',10)
-
-        setcfbs(self.master)
+        #bl.__init__ (self)
+        nmgui(tktk = master).setcfbs()
         #create buttom for open file 
         button = tk.Button(self.container,text = "Directory file 1",
                             width = 10,
@@ -258,7 +254,8 @@ class primaryc:
                     sticky = "we"
                     )
 
-        self.master.protocol('WM_DELETE_WINDOW', self.doSomething)
+        self.master.protocol('WM_DELETE_WINDOW', 
+                            self.doSomething)
         # create output text, it is used to save directory 
         self.output1 = tk.Text (self.container, 
                                 width = 60,
@@ -267,7 +264,7 @@ class primaryc:
                                 selectborderwidth = 10,
                                 bg = "yellow"
                               )
-
+        
         self.output1.grid(row = 0,
                         column = 1,
                         )
@@ -285,6 +282,7 @@ class primaryc:
                     column = 2,
                     sticky = "we"
                     )
+
         # syn on server 
         self.syn = tk.Button(self.container,text = "SYN",
                             width = 5,
@@ -293,50 +291,6 @@ class primaryc:
                             )
         self.syn.grid(row = 0,
                     column = 3,
-                    sticky = "we"
-                    )    
-
-        # start line 2
-        button = tk.Button(self.container,text = "Directory file 2",
-                            width = 10,
-                            height = 2,
-                            command = self.mfileopenout
-                            )
-        button.grid(row = 1,
-                    column = 0,
-                    sticky = "we"
-                    )
-
-        self.output2 = tk.Text (self.container, 
-                                    width = 60,
-                                    height = 2,
-                                    font = large_font,
-                                    selectborderwidth = 10,
-                                    bg = "yellow"
-                                   )
-        self.output2.grid(row = 1,
-                            column = 1,
-                            )
-        # syn on server 
-        self.syn = tk.Button(self.container,text = "SYN",
-                            width = 5,
-                            height = 2,
-                            command = lambda: self.synserverfileexc(self.pathinout)
-                            )
-        self.syn.grid(row = 1,
-                    column = 3,
-                    sticky = "we"
-                    )    
-
-        # open file 2
-        button = tk.Button(self.container,text = "OPEN FILE 2",
-                            width = 10,
-                            height = 2,
-                            command = lambda: self.openfile1(self.output2)
-                            )
-            
-        button.grid(row = 1,
-                    column = 2,
                     sticky = "we"
                     )    
 
@@ -374,29 +328,34 @@ class primaryc:
 
         dirname = abspath("")
         fullname = PathFromFileNameAndDirpath(dir_path = dirname,
-                                            filename = filenametemp  )
+                                            filename = filenametemp)                     
+        ########################################
         pathfulloutput = getpathfromtk(output1)
-
         filename =ExtractFileNameFromPath(pathfulloutput)
-        filename1 = getfilenamewoexten(filename)
+        dbk = nmgui(tktk = self.master).returndirpath(getfilenamewoexten(filename))
+        ########################################
+        #create diff forder for diff file 
+        dirpathdiff = nmgui(tktk = self.master).returndirpath("diff_history")
+        inynameing1 = inynameing.replace(" ", " ")
+        pathdiff = PathFromFileNameAndDirpath(dir_path = dirpathdiff,
+                                            filename = dt_string_sr +\
+                                                 "_" + inynameing1 +\
+                                                      "_" + filename)
 
-        dbk = credirfol(getdirpath(pathfulloutput),filename1)
-
-        ps = PathSteel(dir_path =dbk,FileName = dt_string_sr + "_" + inynameing + "_" + filename)
-        dbk1 = ps.refpath()
+        ps = PathSteel(dir_path =dbk,
+                        FileName = dt_string_sr +\
+                                "_" + inynameing1 +\
+                                     "_" + filename)
+        dbk_fullpath = ps.refpath()
 
         #get path to orginal location with file name diff
-        filenamewopath = getfilenamewoexten(filenametemp) + "_diff.xlsx"
-
-        pathdiff = PathFromFileNameAndDirpath(dir_path = getdirpath(pathfulloutput),
-                                            filename = filenamewopath)
 
         comparetwofile1 = comparetwofile(path_OLD = pathtemp,
                                         path_NEW = fullname,
                                         index_col = None,
-                                        usernamein = inynameing,
+                                        usernamein = inynameing1,
                                         pathtcsvtosavedata = getdirpathfromorigin(output1),
-                                        difpathtobk = dbk1,
+                                        difpathtobk = dbk_fullpath,
                                         pathtorgindiff = pathdiff,
                                         dt = dt_string)           
         comparetwofile1.excel_diff()

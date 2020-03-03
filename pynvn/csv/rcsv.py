@@ -1,13 +1,4 @@
 import csv
-class SaveDataToCSV:
-    def  __init__(self, path):
-        self.path = path
-    def SaveDataH_tAndH_N(self,H_n,H_t):
-        lines = [["H_n","H_t"],[H_n,H_t]]
-        with open(self.path, 'w') as csvFile:
-            writer = csv.writer(csvFile,lineterminator='\n')
-            writer.writerows(lines)
-        csvFile.close()
 class rcsv:
     def  __init__(self, pathtor = None,
                         NumberRow = 1,
@@ -30,7 +21,6 @@ class rcsv:
                 readcsv =csv.reader(csvFile, delimiter=',')
                 readcsv = list(readcsv)
                 RowNumber = readcsv[self.NumberRow]
-                print (RowNumber)
                 newRowNumber = [RowNumber[ind] for ind in self.indexarrtoget]
             csvFile.close()
             return newRowNumber 
@@ -43,4 +33,18 @@ class rcsv:
             self.NumberRow = count
             Reall.append(self.Redtallrowbyindxaindexarr())
         return Reall
-            
+
+    # return all row follow index 
+    def Rerowbyindxaindexarr (self):
+        newRowNumber = []
+        with open(self.pathtor,"r") as csvFile:
+                readcsv =csv.reader(csvFile, delimiter=',')
+                recount = self.CountNumberOfRow()
+                for count in range (recount):
+                    self.NumberRow = count
+                    readcsv = list(readcsv)
+                    RowNumber = readcsv[self.NumberRow]
+                    #newRowNumber = [RowNumber[ind] for ind in self.indexarrtoget]
+                    newRowNumber.append(RowNumber[self.indexarrtoget[0]])
+        csvFile.close()
+        return newRowNumber     
