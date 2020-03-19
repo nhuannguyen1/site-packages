@@ -13,5 +13,5 @@ class gui:
     def setcfbs (self):
         self.tktk.iconbitmap(self.pathico)
         self.tktk.title ("ATAD STEEL STRUCTURE CORPORATION")
-        self.root.geometry ("{}x{}+{}+{}".format(self.width,self.height,self.widthx,self.widthy))
-        self.root.resizable(self.resizable [0], self.resizable [1])
+        self.tktk.geometry ("{}x{}+{}+{}".format(self.width,self.height,self.widthx,self.widthy))
+        self.tktk.resizable(self.resizable [0], self.resizable [1])
