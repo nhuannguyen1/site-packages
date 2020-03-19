@@ -62,7 +62,7 @@ class nmgui:
     # set logo and title 
         self.tktk = tktk
     def setcfbs (self):
-        self.tktk.iconbitmap('clienticon.ico')
+        #self.tktk.iconbitmap('clienticon.ico')
         self.tktk.title (
                     "ATAD STEEL STRUCTURE CORPORATION"
                     )
@@ -216,6 +216,7 @@ class nameuser(tk.Frame):
         self.inyname.pack()
         self.inynamein.pack()
         self.button.pack()
+
     def checkinputyourname(self):
         global inynameing
         inynameing = self.inynamein.get()
@@ -357,7 +358,7 @@ class primaryc(bl):
                                         pathtcsvtosavedata = getdirpathfromorigin(output1),
                                         difpathtobk = dbk_fullpath,
                                         pathtorgindiff = pathdiff,
-                                        dt = dt_string)           
+                                        dt = dt_string) 
         comparetwofile1.excel_diff()
     
     def doSomething(self):
