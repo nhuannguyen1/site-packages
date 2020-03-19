@@ -11,7 +11,15 @@ class gui:
         self.resizable = resizable
 
     def setcfbs (self):
+        self.tktk.geometry ("{}x{}+{}+{}".format(self.width,
+                                                self.height,
+                                                self.widthx,
+                                                self.widthy
+                                                )
+                                                )
+        self.tktk.resizable(self.resizable [0], 
+                            self.resizable [1]
+                            )
+                            
         self.tktk.iconbitmap(self.pathico)
         self.tktk.title ("ATAD STEEL STRUCTURE CORPORATION")
-        self.tktk.geometry ("{}x{}+{}+{}".format(self.width,self.height,self.widthx,self.widthy))
-        self.tktk.resizable(self.resizable [0], self.resizable [1])

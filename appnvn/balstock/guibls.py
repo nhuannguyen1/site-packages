@@ -299,7 +299,8 @@ class primaryc(bl):
         buttom_quit = tk.Button (self.container,
                                 text = "Exit",
                                 width = 20,
-                                command = self.container.quit)
+                                command = self.container.quit
+                                )
 
         buttom_quit.grid(row = 3,
                         column = 1,
