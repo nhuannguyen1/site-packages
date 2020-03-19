@@ -360,7 +360,7 @@ class primaryc(bl):
                                         pathtorgindiff = pathdiff,
                                         dt = dt_string) 
         comparetwofile1.excel_diff()
-    
+        
     def doSomething(self):
         if messagebox.askyesno("Exit",
                                 "Do you want to quit the application?"):

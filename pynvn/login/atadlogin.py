@@ -1,3 +1,4 @@
+from tkinter import messagebox
 class loginatad:
     "input user and password to sw"
     def __init__ (self,uname= None,pass_ = None):
@@ -16,4 +17,3 @@ class loginatad:
         else:
             messagebox.showerror ("Error",
                                 "invalid username or password")
-                                
