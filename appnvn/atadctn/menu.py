@@ -7,6 +7,7 @@ class menu:
     # set logo and title 
         self.tktk = tktk
     def createmenu (self):
+        # create option
         menubar = Menu(self.tktk)
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="New", 
@@ -26,5 +27,25 @@ class menu:
                             command=self.tktk.quit)
         menubar.add_cascade(label="Option", 
                             menu=filemenu)
+        # create edit 
+        editmenu = Menu(menubar, tearoff=0)
+        editmenu.add_command(label = "Undo", command = lambda: self.donothing())
+
+        editmenu.add_separator()
+
+        editmenu.add_command(label = "Cut", command = lambda: self.donothing())
+        editmenu.add_command(label = "Copy", command = lambda: self.donothing())
+        editmenu.add_command(label = "Paste", command = lambda: self.donothing())
+        editmenu.add_command(label = "Delete", command = lambda: self.donothing())
+        editmenu.add_command(label = "Select All", command = lambda: self.donothing())
+
+        menubar.add_cascade(label = "Edit", menu = editmenu)
+
+        # menu help
+        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu.add_command(label = "Help Index", command = lambda: self.donothing())
+        helpmenu.add_command(label = "About...", command = lambda: self.donothing())
+        menubar.add_cascade(label = "Help", menu = helpmenu)
+
 
         self.tktk.config(menu=menubar)

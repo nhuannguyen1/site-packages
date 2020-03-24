@@ -9,7 +9,7 @@ class loginatad:
         if self.uname.get() =="" or self.pass_.get() =="":
             messagebox.showerror ("Error",
                                 "All fields are required !!")
-            return "error"
+            return "success"
                 
         elif self.uname.get() =="nhuan" and self.pass_.get() =="1234":
             
@@ -18,5 +18,5 @@ class loginatad:
         else:
             messagebox.showerror ("Error",
                                 "invalid username or password")
-            return "error"
+            return "success"
     
