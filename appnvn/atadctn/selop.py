@@ -26,7 +26,7 @@ class selop:
                             height = 2,
                             command = lambda: indatagui(tktk=self.tktk,
                                                         br_image=self.br_image,
-                                                        pathico=self.pathico)
+                                                        pathico=self.pathico).creategui()
                             )
         button.pack()
 
