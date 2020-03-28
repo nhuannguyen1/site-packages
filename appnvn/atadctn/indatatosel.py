@@ -23,6 +23,7 @@ class ScrolledCanvas(Frame):
                  color='brown'):
 
         Frame.__init__(self, parent)
+
         self.hbarori = hbarori
         self.hbarside = hbarside
         self.vbarori = vbarori
@@ -90,49 +91,10 @@ class ScrolledCanvas(Frame):
 
     def returnframe(self):
       return self.listFrame
-    
-    def returnframeevent (self):
-        self.__create_new_event()
-        return self.listFramevp_event
-
-    def __create_new_event(self):
-        self.canvas = tk.Canvas(self.listFrameevent,
-                                width=430,
-                                height=500, 
-                                borderwidth=10, 
-                                background="deep sky blue")   
-                                                                    #place canvas on self
-        self.listFramevp_event = tk.Frame(self.canvas, 
-                                    background="deep sky blue")    
-                                                                    #place a frame on the canvas, this frame will hold the child widgets 
-        self.vsb = tk.Scrollbar(self.listFrameevent, 
-                                orient="vertical", 
-                                command=self.canvas.yview)  
-                                                                      #place a scrollbar on self 
-        self.canvas.configure(yscrollcommand=self.vsb.set)            #attach scrollbar action to scroll of canvas
-
-        self.vsb.pack(side="right",
-                       fill="y")  
-                                                                       #pack scrollbar to right of self
-        self.canvas.pack(side="left", 
-                        fill="both", 
-                        expand=True)    
-                                                                 #pack canvas to left of self and expand to fil
-        self.canvas_window = self.canvas.create_window((500,500), 
-                                  window=self.listFramevp_event, 
-                                  anchor="nw",                    #add view port frame to canvas
-                                  tags="self.viewPort")
-
-        self.listFramevp_event.bind("<Configure>", 
-                              self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
-        self.canvas.bind("<Configure>",
-                           self.onCanvasConfigure)                       #bind an event whenever the size of the viewPort frame changes.
-
-        self.onFrameConfigure(None) 
 
     def returnframekid(self):
       self.__create_new()
-      return self.listFramevp
+      return [self.listFramevp,self.listFramevptest]
 
     def returncavas (self):
       return self.canv
@@ -148,6 +110,13 @@ class ScrolledCanvas(Frame):
         self.listFramevp = tk.Frame(self.canvas, 
                                     background="deep sky blue")    
                                                                     #place a frame on the canvas, this frame will hold the child widgets 
+
+
+        self.listFramevptest = tk.Frame(self.canvas, 
+                                    background="deep sky blue")    
+                                                                    #place a frame on the canvas, this frame will hold the child widgets 
+
+
         self.vsb = tk.Scrollbar(self.listFrame, 
                                 orient="vertical", 
                                 command=self.canvas.yview)  
@@ -161,10 +130,19 @@ class ScrolledCanvas(Frame):
                         fill="both", 
                         expand=True)    
                                                                  #pack canvas to left of self and expand to fil
-        self.canvas_window = self.canvas.create_window((self.wcreatewd,self.hcreatewd), 
+        self.canvas_window = self.canvas.create_window((555,555), 
                                   window=self.listFramevp, 
                                   anchor="nw",                    #add view port frame to canvas
                                   tags="self.viewPort")
+
+        self.canvas_window = self.canvas.create_window((500,500), 
+                                  window=self.listFramevptest, 
+                                  anchor="nw",                    #add view port frame to canvas
+                                  tags="self.viewPort")
+
+
+
+
 
         self.listFramevp.bind("<Configure>", 
                               self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
@@ -183,7 +161,7 @@ class ScrolledCanvas(Frame):
         canvas_width = event.width
         self.canvas.itemconfig(self.canvas_window, 
                               width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.                     
-                              
+
 class indatagui(tk.Tk):
     def __init__(self,tktk = None,
                 br_image = None,
@@ -207,10 +185,17 @@ class indatagui(tk.Tk):
         # set menu 
         menu (tktk=self.filewin).createmenu()
         sc = ScrolledCanvas(self.filewin)
-        self.listFramevp = sc.returnframekid()
-        self.listFramevpc = ScrolledCanvas(parent=self.filewin).returnframeevent()
+        listFramevp = sc.returnframekid()
+
+        self.listFramevpc = sc.returnframe()
+
+
         self.canv = sc.returncavas()
         self.createbutton()
+
+
+        self.listFramevp = listFramevp[0]
+        #self.listFramevpc = listFramevp[1]
         self.seleevent()
 
     def seleevent(self):
@@ -220,7 +205,7 @@ class indatagui(tk.Tk):
             self.tree.heading("#2", text="First name")
             self.tree.heading("#3", text="Email")
             self.tree.bind("<<TreeviewSelect>>", self.print_selection)
-            self.tree.grid(row=0, column=1)
+            self.tree.pack()
             
 
     def print_selection(self, event):
