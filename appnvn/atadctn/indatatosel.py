@@ -7,13 +7,15 @@ from appnvn.atadctn.menu import menu
 import os
 from tkinter import ttk
 class createcroll(Frame):
-    def __init__ (self,listFrame = None, cavwidth = 430,cavheight = 430,crwidth = 500,crvheight = 500):
+    def __init__ (self,listFrame = None, cavwidth = 430,cavheight = 430,crwidth = 500,crvheight = 500, scrollbarr = True,bg = "deep sky blue"):
         #tk.Tk.__init__(self, listFrame)
         self.listFrame = listFrame
         self.cavwidth = cavwidth
         self.cavheight =cavheight
         self.crwidth = crwidth
         self.crvheight = crvheight
+        self.scrollbarr = scrollbarr
+        self.bg = bg
         Frame.__init__(self, listFrame)
         
     def createy1(self):
@@ -21,20 +23,20 @@ class createcroll(Frame):
                                 width=self.cavwidth,
                                 height=self.cavheight, 
                                 borderwidth=10, 
-                                background="deep sky blue")   
+                                background= self.bg)   
                                                                     #place canvas on self
         self.listFramevp = tk.Frame(self.canvas, 
                                     background="deep sky blue")    
                                                                     #place a frame on the canvas, this frame will hold the child widgets 
+        if self.scrollbarr:
+            self.vsb = tk.Scrollbar(self.listFrame, 
+                                    orient="vertical", 
+                                    command=self.canvas.yview)  
+                                                                        #place a scrollbar on self 
+            self.canvas.configure(yscrollcommand=self.vsb.set)            #attach scrollbar action to scroll of canvas
 
-        self.vsb = tk.Scrollbar(self.listFrame, 
-                                orient="vertical", 
-                                command=self.canvas.yview)  
-                                                                      #place a scrollbar on self 
-        self.canvas.configure(yscrollcommand=self.vsb.set)            #attach scrollbar action to scroll of canvas
-
-        self.vsb.pack(side="right",
-                       fill="y")  
+            self.vsb.pack(side="right",
+                        fill="y")  
                                                                        #pack scrollbar to right of self
         self.canvas.pack(side="left", 
                         fill="both", 
@@ -162,7 +164,7 @@ class ScrolledCanvas(Frame):
       return createcroll(listFrame=self.listFrameevent).createy1()
 
     def frameimagef (self):
-        return createcroll(listFrame=self.frameimage).createy1()
+        return createcroll(listFrame=self.frameimage,cavwidth=1300,cavheight=500,scrollbarr=False,bg="green yellow").createy1()
 
     def returncavas (self):
       return self.canv
@@ -206,16 +208,11 @@ class indatagui(Frame):
 
         self.onlytest()
     def onlytest(self):
-        price = tk.Label(self.listFramevp4,text = "Price you can pay ?",
+        price = tk.Label(self.listFramevp4,text = "add image here !",
                             width = 40,
                             height = 2,
                             )
-        price.grid(column = 0, 
-                  row = 0,
-                  pady = 10, 
-                  padx = 10,
-                  sticky  = SE)
-
+        price.pack(fill=BOTH, expand=YES)
     def seleevent(self):
             columns = ("#1", "#2", "#3")
             self.tree = ttk.Treeview(self.listFramevp2, show="headings", columns=columns)
