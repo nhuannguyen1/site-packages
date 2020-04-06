@@ -1,13 +1,18 @@
 from tkinter import *
 import tkinter as tk
-from PIL import ImageTk
 from pynvn.path.ppath import PathFromFileNameAndDirpath
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 import os
 from tkinter import ttk
 class createcroll(Frame):
-    def __init__ (self,listFrame = None, cavwidth = 430,cavheight = 430,crwidth = 500,crvheight = 500, scrollbarr = True,bg = "deep sky blue"):
+    def __init__ (self,listFrame = None, 
+                        cavwidth = 430,
+                        cavheight = 430,
+                        crwidth = 500,
+                        crvheight = 500, 
+                        scrollbarr = True,
+                        bg = "deep sky blue"):
         #tk.Tk.__init__(self, listFrame)
         self.listFrame = listFrame
         self.cavwidth = cavwidth
@@ -22,11 +27,12 @@ class createcroll(Frame):
         self.canvas = tk.Canvas(self.listFrame,
                                 width=self.cavwidth,
                                 height=self.cavheight, 
-                                borderwidth=10, 
+                                borderwidth=0, 
                                 background= self.bg)   
                                                                     #place canvas on self
         self.listFramevp = tk.Frame(self.canvas, 
-                                    background="deep sky blue")    
+                                    background="deep sky blue",
+                                    bd = 0)    
                                                                     #place a frame on the canvas, this frame will hold the child widgets 
         if self.scrollbarr:
             self.vsb = tk.Scrollbar(self.listFrame, 
@@ -42,10 +48,10 @@ class createcroll(Frame):
                         fill="both", 
                         expand=True)    
                                                                  #pack canvas to left of self and expand to fil
-        self.canvas_window = self.canvas.create_window((self.crwidth,self.crvheight), 
-                                  window=self.listFramevp, 
-                                  anchor="nw",                    #add view port frame to canvas
-                                  tags="self.viewPort")
+        self.canvas_window = self.canvas.create_window((self.crwidth,
+                                                        self.crvheight), 
+                                                        window=self.listFramevp, 
+                                                        anchor="sw")                    #add view port frame to canva
 
         self.listFramevp.bind("<Configure>", 
                               self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
@@ -129,10 +135,10 @@ class ScrolledCanvas(Frame):
                                 self.createwdy),
                                 window=self.listFrame,
                                 anchor='nw')
-        # result
+        # result from Find 
         self.listFrameevent=Frame(self.canv)
 
-        self.canv.create_window((10 ,550),
+        self.canv.create_window((10 ,530),
                                 window=self.listFrameevent,
                                 anchor='nw')
         # list frame to get image 
@@ -158,13 +164,16 @@ class ScrolledCanvas(Frame):
       return self.listFrame
 
     def returnframekid(self):
-      return createcroll(listFrame=self.listFrame).createy1()
+      return createcroll(listFrame=self.listFrame,cavheight=450).createy1()
 
     def returnframekid2(self):
-      return createcroll(listFrame=self.listFrameevent).createy1()
+      return createcroll(listFrame=self.listFrameevent,cavheight=450).createy1()
 
     def frameimagef (self):
-        return createcroll(listFrame=self.frameimage,cavwidth=1300,cavheight=500,scrollbarr=False,bg="green yellow").createy1()
+        return createcroll(listFrame=self.frameimage,
+                            cavwidth=1300,
+                            cavheight=450,
+                            scrollbarr=False).createy1()
 
     def returncavas (self):
       return self.canv
@@ -173,9 +182,13 @@ class ScrolledCanvas(Frame):
 class indatagui(Frame):
     def __init__(self,tktk = None,
                 br_image = None,
-                pathico = None):
+                pathico = None,
+                br_image_path = None):
+
         Frame.__init__(self, tktk)
         self.tktk = tktk
+
+        self.br_image_path  = br_image_path
 
         self.br_image = br_image
 
@@ -205,25 +218,64 @@ class indatagui(Frame):
 
         #set frame image 
         self.listFramevp4 =sc.frameimagef()
+        self.addimage()
 
-        self.onlytest()
-    def onlytest(self):
-        price = tk.Label(self.listFramevp4,text = "add image here !",
-                            width = 40,
-                            height = 2,
-                            )
-        price.pack(fill=BOTH, expand=YES)
+        # add buttom next and previous
+
+        self.buttomandnext()
+
+    def buttomandnext (self):
+
+        button1 = Button(self.canv, 
+                        text = "<<", 
+                        anchor = CENTER)
+        button1.configure(width = 3, 
+                            activebackground = "#33B5E5", 
+                            relief = FLAT)
+        button1_window = self.canv.create_window(1170, 480, 
+                                                anchor=NW, 
+                                                window=button1)
+        button1 = Button(self.canv, 
+                        text = ">>", 
+                        anchor = CENTER)
+        button1.configure(width = 3, 
+                            activebackground = "#33B5E5", 
+                            relief = FLAT)
+        button1_window = self.canv.create_window(1210, 480, 
+                                                anchor=NW, 
+                                                window=button1)      
+
+    def addimage(self):
+        price = tk.Label(self.listFramevp4,
+                            image = self.br_image_path,
+                            bd = 0
+                        )
+        price.pack(fill=BOTH ,expand=YES)
     def seleevent(self):
             columns = ("#1", "#2", "#3")
-            self.tree = ttk.Treeview(self.listFramevp2, show="headings", columns=columns)
+            self.tree = ttk.Treeview(self.listFramevp2, 
+                                    show="headings", 
+                                    columns=columns)
             self.tree.heading("#1", text="Option")
             self.tree.heading("#2", text="Description")
             self.tree.heading("#3", text="Price")
             self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+
             self.tree.pack(expand=YES,fill=BOTH)
-            self.tree.column("#1",minwidth=0,width=150, stretch=NO)
-            self.tree.column("#2",minwidth=0,width=150, stretch=NO)
-            self.tree.column("#3",minwidth=0,width=150, stretch=NO)
+
+            self.tree.column("#1",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
+            self.tree.column("#2",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
+
+            self.tree.column("#3",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
             
     def print_selection(self, event):
             for selection in self.tree.selection():
@@ -231,7 +283,34 @@ class indatagui(Frame):
                 last_name, first_name, email = item["values"][0:3]
                 text = "Selection: {}, {} <{}>"
                 print(text.format(last_name, first_name, email))
-      
+    
+    # qotation for container 
+    def quotationforctn(self):
+            columns = ("#1", "#2", "#3")
+            self.tree = ttk.Treeview(self.listFramevp2, 
+                                    show="headings", 
+                                    columns=columns)
+            self.tree.heading("#1", text="Option")
+            self.tree.heading("#2", text="Description")
+            self.tree.heading("#3", text="Price")
+            self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+
+            self.tree.pack(expand=YES,fill=BOTH)
+
+            self.tree.column("#1",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
+            self.tree.column("#2",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
+
+            self.tree.column("#3",
+                            minwidth=0,
+                            width=150, 
+                            stretch=NO)
+
     def createbutton (self):
 
       button1 = Button(self.canv, 
@@ -240,18 +319,18 @@ class indatagui(Frame):
       button1.configure(width = 10, 
                         activebackground = "#33B5E5", 
                         relief = FLAT)
-      button1_window = self.canv.create_window(190, 500, 
+      button1_window = self.canv.create_window(180, 480, 
                                               anchor=NW, 
                                               window=button1)
 
     def creategui(self):      
         price = tk.Label(self.listFramevp,text = "Price you can pay ?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         price.grid(column = 0, 
                   row = 0,
-                  pady = 10, 
+                  pady = 20, 
                   padx = 10,
                   sticky  = SE)
 
@@ -262,18 +341,18 @@ class indatagui(Frame):
                             )
         inputprice.grid(column = 1, 
                         row  = 0 ,
-                        pady = 10,
+                        pady = 20,
                         padx = 10,
                         ipady=2)
         
         #area 
         area = tk.Label(self.listFramevp,text = "How much house area do you want ?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         area.grid(column = 0, 
                   row = 1,
-                  pady = 10)
+                  pady = 20)
         #area m2
         aream = tk.Entry(self.listFramevp,
                             width = 15,
@@ -281,17 +360,17 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 1,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
 
         #many room 
         area = tk.Label(self.listFramevp,text = "How many rooms do you want to house?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         area.grid(column = 0, 
                   row = 2,
-                  pady = 10)
+                  pady = 20)
 
         #many room
         aream = tk.Entry(self.listFramevp,
@@ -300,17 +379,17 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 2,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
 
         #many toilet 
         area = tk.Label(self.listFramevp,text = "How many rooms do you want to toilet?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         area.grid(column = 0, 
                   row = 3,
-                  pady = 10)
+                  pady = 20)
 
         #many toilet
         aream = tk.Entry(self.listFramevp,
@@ -319,18 +398,18 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 3,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
 
 
         ######### colum 0 and 1
         price = tk.Label(self.listFramevp,text = "Price you can pay ?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         price.grid(column = 0, 
                     row = 4,
-                    pady = 10, 
+                    pady = 20, 
                     padx = 10,
                     sticky  = SE)
 
@@ -341,18 +420,18 @@ class indatagui(Frame):
                             )
         inputprice.grid(column = 1, 
                         row  = 4 ,
-                        pady = 10,
+                        pady = 20,
                         padx = 10,
                         ipady=2)
         
         #area 
         area = tk.Label(self.listFramevp,text = "How much house area do you want ?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         area.grid(column = 0, 
                   row = 5,
-                  pady = 10)
+                  pady = 20)
 
         #area m2
         aream = tk.Entry(self.listFramevp,
@@ -361,15 +440,15 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 5,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
 
         #many room 
         area = tk.Label(self.listFramevp,text = "How many rooms do you want to house?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
-        area.grid(column = 0, row = 6,pady = 10)
+        area.grid(column = 0, row = 6,pady = 20)
 
         #many room
         aream = tk.Entry(self.listFramevp,
@@ -378,17 +457,17 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 6,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
 
         #many toilet 
         area = tk.Label(self.listFramevp,text = "How many rooms do you want to toilet?",
                             width = 40,
-                            height = 2,
+                            height = 1,
                             )
         area.grid(column = 0, 
                   row = 7,
-                  pady = 10)
+                  pady = 20)
 
         #many toilet
         aream = tk.Entry(self.listFramevp,
@@ -397,14 +476,5 @@ class indatagui(Frame):
                             )
         aream.grid(column = 1, 
                   row = 7,
-                  pady = 10,
+                  pady = 20,
                   ipady=2)
-        #find
-        find = Button(self.listFramevp,text = "FIND",
-                            width = 10,
-                            height = 2,
-                            )
-        find.grid(column = 0, 
-                  row = 8,
-                  pady = 10,
-                  sticky  = E)

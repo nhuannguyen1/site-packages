@@ -1,13 +1,17 @@
 from tkinter import *
 import tkinter as tk
-from PIL import ImageTk
 from pynvn.path.ppath import PathFromFileNameAndDirpath
 from appnvn.atadctn.indatatosel import indatagui
 class selop:
-    def __init__(self,tktk = None, br_image = None,pathico = None):
+    def __init__(self,tktk = None, 
+                    br_image = None,
+                    pathico = None,
+                    br_image_path = None,
+                    ):
         self.tktk = tktk
         self.br_image = br_image
         self.pathico = pathico
+        self.br_image_path = br_image_path
         
         lgbr = Label (self.tktk, image = self.br_image)
         lgbr.pack()
@@ -26,7 +30,8 @@ class selop:
                             height = 2,
                             command = lambda: indatagui(tktk=self.tktk,
                                                         br_image=self.br_image,
-                                                        pathico=self.pathico).creategui()
+                                                        pathico=self.pathico,
+                                                        br_image_path=self.br_image_path).creategui()
                             )
         button.pack()
 

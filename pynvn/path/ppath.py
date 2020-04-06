@@ -12,6 +12,7 @@ class PathSteel:
                         modulename = None,
                         pathorigrn = None,
                         pathdestination = None,
+                        subfolder = None
                     ):
             self.path_Full = path_Full
             self.dir_path = dir_path
@@ -23,6 +24,7 @@ class PathSteel:
             self.modulename = modulename
             self.pathorigrn = pathorigrn
             self.pathdestination = pathdestination
+            self.subfolder = subfolder
 
     # Get absolute path to resource, works for dev and for PyInstaller """
     def resource_path_is_from_pyinstall_and_dev(self):
@@ -49,7 +51,7 @@ class PathSteel:
             #unpack to get element in list
             #join 2 folder together 
             dir_path = os.path.join(self.dir_path,
-                                            args)
+                                            self.subfolder)
                 
                 #dir_path = self.dir_path + "\\" + subFolder
             # Concatenate folder and file name 
