@@ -105,8 +105,12 @@ class ScrolledCanvas(Frame):
 
         self.pack(expand=True, 
                   fill=BOTH) 
+
         self.__add_scroll_bars() 
         self.__create_canvas()
+
+        self.__addcommmandscroll()
+
         self.returnframe()
 
     def __add_scroll_bars(self):
@@ -141,6 +145,7 @@ class ScrolledCanvas(Frame):
         self.canv.create_window((10 ,530),
                                 window=self.listFrameevent,
                                 anchor='nw')
+
         # list frame to get image 
         self.frameimage=Frame(self.canv)
 
@@ -151,7 +156,9 @@ class ScrolledCanvas(Frame):
         self.canv.pack(side=LEFT,
                        expand=YES, 
                        fill=BOTH) 
-
+    
+    
+    def __addcommmandscroll (self):
         # position and size of the canvas is used for configuration of the scroll bars
         self.canv.config(xscrollcommand=self.hbar.set, 
                         yscrollcommand=self.vbar.set)
