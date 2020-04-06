@@ -85,6 +85,7 @@ class ScrolledCanvas(Frame):
                  createwdy = 10,
                  hcreatewd = 0,
                  wcreatewd = 0,
+                 scrollin = True
                  color='brown'):
 
         Frame.__init__(self, parent)
@@ -99,6 +100,8 @@ class ScrolledCanvas(Frame):
         self.createwdx = createwdx
         self.createwdy = createwdy
 
+        self.scrollin = scrollin
+
         self.hcreatewd = hcreatewd
         self.wcreatewd = wcreatewd
 
@@ -111,7 +114,7 @@ class ScrolledCanvas(Frame):
 
         self.__addcommmandscroll()
 
-        self.returnframe()
+        #self.returnframe()
 
     def __add_scroll_bars(self):
 
@@ -139,24 +142,10 @@ class ScrolledCanvas(Frame):
                                 self.createwdy),
                                 window=self.listFrame,
                                 anchor='nw')
-        # result from Find 
-        self.listFrameevent=Frame(self.canv)
-
-        self.canv.create_window((10 ,530),
-                                window=self.listFrameevent,
-                                anchor='nw')
-
-        # list frame to get image 
-        self.frameimage=Frame(self.canv)
-
-        self.canv.create_window((550 ,10),
-                                window=self.frameimage,
-                                anchor='nw')
 
         self.canv.pack(side=LEFT,
                        expand=YES, 
                        fill=BOTH) 
-    
     
     def __addcommmandscroll (self):
         # position and size of the canvas is used for configuration of the scroll bars
@@ -167,9 +156,10 @@ class ScrolledCanvas(Frame):
         self.hbar.config(command = self.canv.xview)
         self.vbar.config(command = self.canv.yview)
 
-    def returnframe(self):
+    def Frames(self):
       return self.listFrame
 
+    """
     def returnframekid(self):
       return createcroll(listFrame=self.listFrame,cavheight=450).createy1()
 
@@ -181,10 +171,24 @@ class ScrolledCanvas(Frame):
                             cavwidth=1300,
                             cavheight=450,
                             scrollbarr=False).createy1()
+    """
 
     def returncavas (self):
       return self.canv
+    @property
+    def createwdxt(self):
+        return self.createwdx
+    @createwdxt.setter
+    def createwdxt(self,createwdxname):
+        self.createwdx = createwdxname
+    
+    @property
+    def createwdyt(self):
+        return self.createwdx
 
+    @createwdyt.setter
+    def createwdyt(self,createwdyname):
+        self.createwdy = createwdyname
 
 class indatagui(Frame):
     def __init__(self,tktk = None,
@@ -212,19 +216,29 @@ class indatagui(Frame):
                     resizable=[True,True]).setcfbs()
         # set menu 
         menu (tktk=self.filewin).createmenu()
-        sc = ScrolledCanvas(self.filewin)
-        self.listFramevp = sc.returnframekid()
+        #gui for inputdata 
+        self.sc  = ScrolledCanvas(self.filewin)
+        self.listframeindata = self.sc.Frames()
+        
+        self.listFramevp =  createcroll(listFrame=self.listframeindata,cavheight=450).createy1()
+        
+        # gui for resurlt
+        self.sc.createwdxt= 10 
+        self.sc.createwdxt= 530
 
-        self.listFramevp2 = sc.returnframekid2()
+        self.listframert =self.sc.Frames()
+        self.listFramevp2 = createcroll(listFrame=self.listframert,cavheight=450).createy1()
 
         #create buttom "Next"
-        self.canv = sc.returncavas()
+        self.canv = ScrolledCanvas(self.filewin,createwdx=10,createwdy=530).returncavas()
         self.createbutton()
 
         self.seleevent()
-
+        
         #set frame image 
-        self.listFramevp4 =sc.frameimagef()
+        self.listframefim = ScrolledCanvas(self.filewin,createwdx=550,createwdy=10).Frames()
+
+        self.listFramevp4 =createcroll(listFrame=self.listframefim,cavwidth=1300,cavheight=450,scrollbarr=False).createy1()
         self.addimage()
 
         # add buttom next and previous
