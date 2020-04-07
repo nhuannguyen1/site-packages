@@ -23,7 +23,7 @@ class createcroll(Frame):
         self.bg = bg
         Frame.__init__(self, listFrame)
         
-    def createy1(self):
+    def createy1(self): 
         self.canvas = tk.Canvas(self.listFrame,
                                 width=self.cavwidth,
                                 height=self.cavheight, 
@@ -70,8 +70,7 @@ class createcroll(Frame):
         canvas_width = event.width
         self.canvas.itemconfig(self.canvas_window, 
                               width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.        
-
-
+                              
 class ScrolledCanvas(Frame):
     def __init__(self, parent=None,
                  hbarori =HORIZONTAL,
@@ -85,7 +84,7 @@ class ScrolledCanvas(Frame):
                  createwdy = 10,
                  hcreatewd = 0,
                  wcreatewd = 0,
-                 scrollin = True
+                 scrollin = True,
                  color='brown'):
 
         Frame.__init__(self, parent)
@@ -135,13 +134,26 @@ class ScrolledCanvas(Frame):
                           width=self.canvwidth,
                           height=self.canvheight,
                           scrollregion= self.scrolldownarr)
-        # input data
-        self.listFrame=Frame(self.canv)
 
-        self.canv.create_window((self.createwdx ,
-                                self.createwdy),
-                                window=self.listFrame,
-                                anchor='nw')
+        # frame to input 
+        self.listFrame = cvframe(cavas=self.canv,
+                                createwdy=self.createwdy,
+                                createwdx=self.createwdx).rtframecv()
+        #event to result
+        self.listFrameevent = cvframe(cavas=self.canv,
+                                        createwdy=530,
+                                        createwdx=10).rtframecv()
+        #image 
+        self.frameimage = cvframe(cavas=self.canv,
+                                    createwdy=10,
+                                    createwdx=550).rtframecv()
+
+        # print quotation 
+        self.framequotation = cvframe(cavas=self.canv,
+                                    createwdy=530,
+                                    createwdx=550).rtframecv()
+
+
 
         self.canv.pack(side=LEFT,
                        expand=YES, 
@@ -159,22 +171,9 @@ class ScrolledCanvas(Frame):
     def Frames(self):
       return self.listFrame
 
-    """
-    def returnframekid(self):
-      return createcroll(listFrame=self.listFrame,cavheight=450).createy1()
-
-    def returnframekid2(self):
-      return createcroll(listFrame=self.listFrameevent,cavheight=450).createy1()
-
-    def frameimagef (self):
-        return createcroll(listFrame=self.frameimage,
-                            cavwidth=1300,
-                            cavheight=450,
-                            scrollbarr=False).createy1()
-    """
-
     def returncavas (self):
       return self.canv
+    
     @property
     def createwdxt(self):
         return self.createwdx
@@ -189,6 +188,21 @@ class ScrolledCanvas(Frame):
     @createwdyt.setter
     def createwdyt(self,createwdyname):
         self.createwdy = createwdyname
+
+class cvframe:
+    def __init__(self,cavas = None,anchor = "nw", createwdx = 10,createwdy = 10):
+        self.cavas = cavas
+        self.anchor = anchor
+        self.createwdx = createwdx
+        self.createwdy = createwdy
+    
+    def rtframecv(self):
+        self.listFrame =Frame(self.cavas)
+        self.cavas.create_window((self.createwdx ,
+                                self.createwdy),
+                                window=self.listFrame,
+                                anchor=self.anchor)
+        return self.listFrame
 
 class indatagui(Frame):
     def __init__(self,tktk = None,
@@ -216,34 +230,42 @@ class indatagui(Frame):
                     resizable=[True,True]).setcfbs()
         # set menu 
         menu (tktk=self.filewin).createmenu()
+
         #gui for inputdata 
         self.sc  = ScrolledCanvas(self.filewin)
-        self.listframeindata = self.sc.Frames()
-        
-        self.listFramevp =  createcroll(listFrame=self.listframeindata,cavheight=450).createy1()
-        
+        self.listframeindata = self.sc.listFrame
+        self.listFramevp =  createcroll(listFrame=self.listframeindata,
+                                        cavheight=450).createy1()
+
         # gui for resurlt
-        self.sc.createwdxt= 10 
-        self.sc.createwdxt= 530
-
-        self.listframert =self.sc.Frames()
-        self.listFramevp2 = createcroll(listFrame=self.listframert,cavheight=450).createy1()
-
-        #create buttom "Next"
-        self.canv = ScrolledCanvas(self.filewin,createwdx=10,createwdy=530).returncavas()
-        self.createbutton()
-
+        self.listframert =self.sc.listFrameevent
+        self.listFramevp2 = createcroll(listFrame=self.listframert,
+                                        cavheight=450).createy1()
         self.seleevent()
-        
-        #set frame image 
-        self.listframefim = ScrolledCanvas(self.filewin,createwdx=550,createwdy=10).Frames()
 
-        self.listFramevp4 =createcroll(listFrame=self.listframefim,cavwidth=1300,cavheight=450,scrollbarr=False).createy1()
+        #set frame image 
+        self.listframefim = self.sc.frameimage
+        self.listFramevp4 =createcroll(listFrame=self.listframefim,
+                                        cavwidth=1300,
+                                        cavheight=450,
+                                        scrollbarr=False).createy1()
         self.addimage()
 
-        # add buttom next and previous
+        # add quotation 
+        self.framequation = self.sc.framequotation
+        self.framequationin =createcroll(listFrame=self.framequation,
+                                        cavwidth=1300,
+                                        cavheight=450,
+                                        scrollbarr=True).createy1()
+        self.quotationforctn()
+        
+        self.canv = self.sc.returncavas()
 
+        # add buttom next and previous
         self.buttomandnext()
+
+        #create buttom "Next"
+        self.createbutton()
 
     def buttomandnext (self):
 
@@ -272,6 +294,7 @@ class indatagui(Frame):
                             bd = 0
                         )
         price.pack(fill=BOTH ,expand=YES)
+
     def seleevent(self):
             columns = ("#1", "#2", "#3")
             self.tree = ttk.Treeview(self.listFramevp2, 
@@ -280,7 +303,7 @@ class indatagui(Frame):
             self.tree.heading("#1", text="Option")
             self.tree.heading("#2", text="Description")
             self.tree.heading("#3", text="Price")
-            self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+            #self.tree.bind("<<TreeviewSelect>>", self.print_selection)
 
             self.tree.pack(expand=YES,fill=BOTH)
 
@@ -297,24 +320,21 @@ class indatagui(Frame):
                             minwidth=0,
                             width=150, 
                             stretch=NO)
-            
-    def print_selection(self, event):
-            for selection in self.tree.selection():
-                item = self.tree.item(selection)
-                last_name, first_name, email = item["values"][0:3]
-                text = "Selection: {}, {} <{}>"
-                print(text.format(last_name, first_name, email))
     
     # qotation for container 
     def quotationforctn(self):
-            columns = ("#1", "#2", "#3")
-            self.tree = ttk.Treeview(self.listFramevp2, 
+
+            columns = ("#1", "#2", "#3","#4", "#5", "#6")
+            self.tree = ttk.Treeview(self.framequationin, 
                                     show="headings", 
                                     columns=columns)
             self.tree.heading("#1", text="Option")
             self.tree.heading("#2", text="Description")
             self.tree.heading("#3", text="Price")
-            self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+            self.tree.heading("#4", text="Price")
+            self.tree.heading("#5", text="Price")
+            self.tree.heading("#6", text="Price")
+            #self.tree.bind("<<TreeviewSelect>>", self.print_selection)
 
             self.tree.pack(expand=YES,fill=BOTH)
 
