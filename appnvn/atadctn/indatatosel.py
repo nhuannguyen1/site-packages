@@ -172,8 +172,6 @@ class ScrolledCanvas(Frame):
                                     createwdy=530,
                                     createwdx=550).rtframecv()
 
-
-
         self.canv.pack(side=LEFT,
                        expand=YES, 
                        fill=BOTH) 
@@ -272,10 +270,12 @@ class indatagui(Frame):
 
         # add quotation 
         self.framequation = self.sc.framequotation
+        
         self.framequationin =createcroll(listFrame=self.framequation,
                                         cavwidth=1300,
                                         cavheight=450,
-                                        scrollbarr=2).createy1()
+                                        scrollbarr=False).createy1()
+        
         self.quotationforctn()
         
         self.canv = self.sc.returncavas()
@@ -342,6 +342,50 @@ class indatagui(Frame):
     
     # qotation for container 
     def quotationforctn(self):
+            # frame to modify date, issue
+            frame1 = Frame(self.framequationin) 
+            frame1.pack(pady = (0,10)) 
+
+            b1 = Label(frame1, text = "Project ID") 
+            b1.grid (column = 0, row = 0,sticky = tk.W)
+
+            entryeditor = tk.Entry(frame1,
+                            width = 15,
+                            justify=CENTER
+                            )
+            entryeditor.grid (column = 1, row = 0)
+            
+
+            b1 = Label(frame1, text = "Project Name") 
+            b1.grid (column = 2, row = 0,sticky = tk.W)
+
+            entryeditor = tk.Entry(frame1,
+                            width = 15,
+                            justify=CENTER
+                            )
+            entryeditor.grid (column = 3, row = 00)
+
+
+            b1 = Label(frame1, text = "Person editor") 
+            b1.grid (column = 4, row = 0)
+
+            entryeditor = tk.Entry(frame1,
+                            width = 15,
+                            justify=CENTER
+                            )
+            entryeditor.grid (column = 5, row = 0)
+
+            
+            b1 = Label(frame1, text = "Date Release") 
+            b1.grid (column = 6, row = 0)
+
+            entryeditor = tk.Entry(frame1,
+                            width = 15,
+                            justify=CENTER
+                            )
+            entryeditor.grid (column = 7, row = 0)
+            
+
 
             columns = ("#1", "#2", "#3","#4", "#5", "#6","#7")
             self.tree = ttk.Treeview(self.framequationin, 
@@ -355,9 +399,23 @@ class indatagui(Frame):
             self.tree.heading("#6", text="REMARK")
             self.tree.heading("#7", text="NOTE")
 
-            #self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+            xsb = ttk.Scrollbar(self.framequationin,
+                                orient = tk.HORIZONTAL,
+                                command = self.tree.xview)
+            xsb.pack(side=BOTTOM,
+                        fill=X)
+            
+            ysb = ttk.Scrollbar(self.framequationin,orient = tk.VERTICAL,command = self.tree.yview)
 
-            self.tree.pack(expand=YES,fill=BOTH)
+            ysb.pack(side=RIGHT,
+                        fill=Y)
+
+            self.tree.configure(xscroll = xsb.set,yscroll = ysb.set)
+            #self.tree.bind("<<TreeviewSelect>>", self.print_selection)
+            xsb.config(command = self.tree.xview)
+            ysb.config(command = self.tree.yview)
+
+            self.tree.pack(expand=YES,fill=BOTH,side = BOTTOM)
 
             self.tree.column("#1",
                             minwidth=0,
@@ -388,6 +446,7 @@ class indatagui(Frame):
                             minwidth=0,
                             width=300, 
                             stretch=NO)
+
     def createbutton (self):
 
       button1 = Button(self.canv, 
