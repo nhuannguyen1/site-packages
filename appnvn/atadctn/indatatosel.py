@@ -28,13 +28,14 @@ class createcroll(Frame):
                                 width=self.cavwidth,
                                 height=self.cavheight, 
                                 borderwidth=0, 
+                                scrollregion= [0,0,1600,1000],
                                 background= self.bg)   
                                                                     #place canvas on self
         self.listFramevp = tk.Frame(self.canvas, 
                                     background="deep sky blue",
                                     bd = 0)    
                                                                     #place a frame on the canvas, this frame will hold the child widgets 
-        if self.scrollbarr:
+        if self.scrollbarr ==True:
             self.vsb = tk.Scrollbar(self.listFrame, 
                                     orient="vertical", 
                                     command=self.canvas.yview)  
@@ -42,8 +43,25 @@ class createcroll(Frame):
             self.canvas.configure(yscrollcommand=self.vsb.set)            #attach scrollbar action to scroll of canvas
 
             self.vsb.pack(side="right",
-                        fill="y")  
-                                                                       #pack scrollbar to right of self
+                        fill="y") 
+        elif  self.scrollbarr == 2:
+
+            self.vsbv = tk.Scrollbar(self.listFrame, 
+                                    orient="vertical", 
+                                    command=self.canvas.yview)  
+            
+            self.vsbh = tk.Scrollbar(self.listFrame,
+                                    orient="horizontal", 
+                                    command=self.canvas.xview)   #place a scrollbar on self 
+                                                                        #place a scrollbar on self 
+
+            self.canvas.configure(xscrollcommand=self.vsbh.set,yscrollcommand=self.vsbv.set)            #attach scrollbar action to scroll of canvas
+
+            self.vsbv.pack(side="right",
+                        fill="y") 
+            self.vsbh.pack(side="bottom",
+                        fill="x") 
+
         self.canvas.pack(side="left", 
                         fill="both", 
                         expand=True)    
@@ -52,9 +70,10 @@ class createcroll(Frame):
                                                         self.crvheight), 
                                                         window=self.listFramevp, 
                                                         anchor="sw")                    #add view port frame to canva
-
+        
         self.listFramevp.bind("<Configure>", 
                               self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
+        
         self.canvas.bind("<Configure>",
                            self.onCanvasConfigure)                       #bind an event whenever the size of the viewPort frame changes.
 
@@ -133,7 +152,7 @@ class ScrolledCanvas(Frame):
         self.canv = Canvas(self,bg='deep sky blue',
                           width=self.canvwidth,
                           height=self.canvheight,
-                          scrollregion= self.scrolldownarr)
+                          scrollregion= [0,0,1600,1000])
 
         # frame to input 
         self.listFrame = cvframe(cavas=self.canv,
@@ -256,7 +275,7 @@ class indatagui(Frame):
         self.framequationin =createcroll(listFrame=self.framequation,
                                         cavwidth=1300,
                                         cavheight=450,
-                                        scrollbarr=True).createy1()
+                                        scrollbarr=2).createy1()
         self.quotationforctn()
         
         self.canv = self.sc.returncavas()
@@ -324,34 +343,51 @@ class indatagui(Frame):
     # qotation for container 
     def quotationforctn(self):
 
-            columns = ("#1", "#2", "#3","#4", "#5", "#6")
+            columns = ("#1", "#2", "#3","#4", "#5", "#6","#7")
             self.tree = ttk.Treeview(self.framequationin, 
                                     show="headings", 
                                     columns=columns)
-            self.tree.heading("#1", text="Option")
-            self.tree.heading("#2", text="Description")
-            self.tree.heading("#3", text="Price")
-            self.tree.heading("#4", text="Price")
-            self.tree.heading("#5", text="Price")
-            self.tree.heading("#6", text="Price")
+            self.tree.heading("#1", text="NO.")
+            self.tree.heading("#2", text="DESCRIPTION")
+            self.tree.heading("#3", text="UNIT")
+            self.tree.heading("#4", text="QUANTITY")
+            self.tree.heading("#5", text="AMOUNT")
+            self.tree.heading("#6", text="REMARK")
+            self.tree.heading("#7", text="NOTE")
+
             #self.tree.bind("<<TreeviewSelect>>", self.print_selection)
 
             self.tree.pack(expand=YES,fill=BOTH)
 
             self.tree.column("#1",
                             minwidth=0,
-                            width=150, 
+                            width=50, 
                             stretch=NO)
             self.tree.column("#2",
                             minwidth=0,
-                            width=150, 
+                            width=300, 
                             stretch=NO)
 
             self.tree.column("#3",
                             minwidth=0,
-                            width=150, 
+                            width=50, 
                             stretch=NO)
-
+            self.tree.column("#4",
+                            minwidth=0,
+                            width=300, 
+                            stretch=NO)
+            self.tree.column("#5",
+                            minwidth=0,
+                            width=300, 
+                            stretch=NO)
+            self.tree.column("#6",
+                            minwidth=0,
+                            width=300, 
+                            stretch=NO)
+            self.tree.column("#7",
+                            minwidth=0,
+                            width=300, 
+                            stretch=NO)
     def createbutton (self):
 
       button1 = Button(self.canv, 
