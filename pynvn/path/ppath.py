@@ -81,6 +81,19 @@ class PathSteel:
         except:
             messagebox.showerror("Error","File name: {} is openning, close file to continue ".format(filename))
             #print ("File name: {} is open, close file to continue ".format(filename))
+    @property
+    def subfolder(self):
+        return self.__subfolder
+    @subfolder.setter
+    def subfolder(self,newfolder):
+        self.__subfolder = newfolder
+    
+    @property
+    def FileName(self):
+        return self.__FileName
+    @FileName.setter
+    def FileName(self,newname):
+        self.__FileName = newname
     
 
 #using function to return resourse path

@@ -366,3 +366,5 @@ class primaryc(bl):
         if messagebox.askyesno("Exit",
                                 "Do you want to quit the application?"):
             self.master.quit()
+app = bl()
+app.mainloop()
