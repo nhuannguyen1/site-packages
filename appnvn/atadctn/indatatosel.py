@@ -9,6 +9,8 @@ from appnvn.atadctn.treectn import (createcroll,
                                     treescrollbar
                                     )
 
+from appnvn.atadctn.spsquotation import spreadsheetgui
+
 class indatagui(Frame):
     def __init__(self,tktk = None,
                 br_image = None,
@@ -230,7 +232,10 @@ class indatagui(Frame):
     def createbutton (self,crwidth = 180 ,crheight = 480,namebutton ="FIND"):
     
       button1 = Button(self.canv, 
-                      text = namebutton, 
+                      text = namebutton,
+                      command = lambda: spreadsheetgui(tktk=self.tktk,
+                                                        pathico=self.pathico,
+                                                        br_image_path=self.br_image_path),
                       anchor = CENTER)
       button1.configure(width = 10, 
                         activebackground = "#33B5E5", 

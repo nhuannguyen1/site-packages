@@ -8,6 +8,7 @@ from appnvn.atadctn.treectn import (createcroll,
                                     cvframe,
                                     treescrollbar
                                     )
+from appnvn.atadctn.spsquotation import spreadsheetgui
 
 class layoutgui(Frame):
     def __init__(self,tktk = None,
@@ -409,10 +410,86 @@ class layoutgui(Frame):
                         sticky  = "e",
                         )
 
+        #  sample 1
+        
+        add = tk.Label(self.listFramevp,text = "Sample 1",
+                            anchor="center",
+                            width = 15,
+                            height = 1,
+                            )
+        add.grid(column = 0, 
+                  row = 13,
+                  pady = 20, 
+                  padx = (50,0),
+                  sticky  = W)
+
+        add = tk.Label(self.listFramevp,
+                            width = 37,
+                            anchor="center",
+                            text = "3"
+                            )
+        add.grid(column = 1, 
+                        row  = 13 ,
+                        pady = 20,
+                        padx = 1,
+                        sticky  = "e",
+                        )
+
+        # sample 2 
+        add = tk.Label(self.listFramevp,text = "Sample 2",
+                            anchor="center",
+                            width = 15,
+                            height = 1,
+                            )
+        add.grid(column = 0, 
+                  row = 14,
+                  pady = 20, 
+                  padx = (50,0),
+                  sticky  = W)
+
+        add = tk.Label(self.listFramevp,
+                            width = 37,
+                            anchor="center",
+                            text = "3"
+                            )
+        add.grid(column = 1, 
+                        row  = 14 ,
+                        pady = 20,
+                        padx = 1,
+                        sticky  = "e",
+                        )
+        #sample 3
+        add = tk.Label(self.listFramevp,text = "Sample 3",
+                            anchor="center",
+                            width = 15,
+                            height = 1,
+                            )
+        add.grid(column = 0, 
+                  row = 15,
+                  pady = 20, 
+                  padx = (50,0),
+                  sticky  = W)
+
+        add = tk.Label(self.listFramevp,
+                            width = 37,
+                            anchor="center",
+                            text = "3"
+                            )
+        add.grid(column = 1, 
+                        row  = 15 ,
+                        pady = 20,
+                        padx = 1,
+                        sticky  = "e",
+                        )
+    
+
     def createbutton (self,crwidth = 180 ,crheight = 480,namebutton ="QUOTATION DETAIL",width = 15):
     
       button1 = Button(self.canv, 
-                      text = namebutton, 
+                      text = namebutton,
+                      command = lambda: spreadsheetgui(tktk=self.tktk,
+                                                        pathico=self.pathico,
+                                                        br_image_path=self.br_image_path),
                       anchor = CENTER)
       button1.configure(width = width, 
                         activebackground = "#33B5E5", 
@@ -420,3 +497,4 @@ class layoutgui(Frame):
       button1_window = self.canv.create_window(crwidth, crheight, 
                                               anchor=NW, 
                                               window=button1)
+    
