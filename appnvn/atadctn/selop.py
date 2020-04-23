@@ -5,18 +5,32 @@ from appnvn.atadctn.indatatosel import indatagui
 from appnvn.atadctn.choicelayout import layoutgui
 from appnvn.atadctn.spsquotation import spreadsheetgui
 import tkinter.font as font
+from appnvn.atadctn.menu import menu
+from appnvn.atadctn.icontt import gui
 class selop:
     def __init__(self,tktk = None, 
                     br_image = None,
                     pathico = None,
                     br_image_path = None,
                     ):
+
         self.tktk = tktk
         self.br_image = br_image
         self.pathico = pathico
         self.br_image_path = br_image_path
 
-        self.container = Frame (self.tktk,
+
+        filewin = Toplevel(self.tktk) 
+        gui (tktk=filewin,
+                    pathico=self.pathico,
+                    width=700,
+                    height=450,
+                    widthx=700,
+                    widthy=0,
+                    resizable=[True,True]).setcfbs()
+        menu (tktk=filewin).createmenu()
+
+        self.container = Frame (filewin,
                             bg="white")
         
         self.container.pack(fill = BOTH, expand = True)

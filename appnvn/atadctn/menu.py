@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 class menu:
+    """set menu for atad"""
     def __init__(self,tktk = None):
     # set logo and title 
         self.tktk = tktk
@@ -41,11 +42,18 @@ class menu:
 
         menubar.add_cascade(label = "Edit", menu = editmenu)
 
+        # menu setting
+        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu.add_command(label = "language", command = lambda: self.donothing())
+        helpmenu.add_command(label = "About...", command = lambda: self.donothing())
+        menubar.add_cascade(label = "configuration", menu = helpmenu)
+
+
         # menu help
         helpmenu = Menu(menubar, tearoff=0)
         helpmenu.add_command(label = "Help Index", command = lambda: self.donothing())
         helpmenu.add_command(label = "About...", command = lambda: self.donothing())
         menubar.add_cascade(label = "Help", menu = helpmenu)
 
-
         self.tktk.config(menu=menubar)
+    
