@@ -9,7 +9,7 @@ from appnvn.atadctn.treectn import (createcroll,
                                     treescrollbar
                                     )
 class incus(Frame):
-    """ custumer information"""
+    """ customer information"""
     def __init__(self,tktk = None,
                 br_image = None,
                 pathico = None,
@@ -33,17 +33,18 @@ class incus(Frame):
         
         gui (tktk=self.filewin,
                     pathico=self.pathico,
-                    width=1500,
-                    height=1500,
-                    widthx=300,
-                    widthy=0,
+                    width=500,
+                    height=500,
+                    widthx="center",
+                    widthy="center",
                     resizable=[True,True]).setcfbs()
+        
         # set menu 
         menu (tktk=self.filewin).createmenu()
 
         #gui for data 
-        self.sc  = createcroll(listFrame = self.filewin,cavheight=500,cavwidth=500)
-        self.listFramevp = self.sc.createy1()
+        self.sc  = scbg(parent = self.filewin,cavheight=500,cavwidth=500)
+        self.listFramevp = self.sc.framecv
         """
          create frame from cavas
         self.listFramevp = createcroll(listFrame=self.listFramevp,
@@ -59,8 +60,8 @@ class incus(Frame):
         """create gui for customer information"""
         #line 1
         ci = tk.Label(self.listFramevp,
-                        text = "Customer info:",
-                    )
+                        text = "Customer info:"
+                        )
         ci.grid(column = 0, 
                   row = 0,
                   padx = self.padx,

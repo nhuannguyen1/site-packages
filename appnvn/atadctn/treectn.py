@@ -223,7 +223,10 @@ class ScrolledCanvas(Frame):
         self.createwdy = createwdyname
 
 class cvframe:
-    def __init__(self,cavas = None,anchor = "nw", createwdx = 10,createwdy = 10):
+    def __init__(self,cavas = None,
+                    anchor = "nw", 
+                    createwdx = 10,
+                    createwdy = 10):
         self.cavas = cavas
         self.anchor = anchor
         self.createwdx = createwdx
@@ -239,7 +242,11 @@ class cvframe:
 
 class cvframeg:
     """using for gird return listframe"""
-    def __init__(self,cavas = None,anchor = "center", createwdx = 10,createwdy = 10,bg = "pink"):
+    def __init__(self,cavas = None,
+                anchor = "center",
+                createwdx = 10,
+                createwdy = 10,
+                bg = "pink"):
         self.cavas = cavas
         self.anchor = anchor
         self.createwdx = createwdx
@@ -249,15 +256,19 @@ class cvframeg:
     def rtframecv(self):
         # creating canvas contents 
 
-        self.framecv = Frame(self.cavas,background=self.bg) 
+        self.framecv = Frame(self.cavas,
+                            background=self.bg) 
 
-        self.framecv.rowconfigure(0, weight=1) 
+        self.framecv.rowconfigure(0, 
+                                weight=1) 
 
-        self.framecv.columnconfigure(0, weight=1) 
+        self.framecv.columnconfigure(0, 
+                                    weight=1) 
 
-        self.window = self.cavas.create_window((self.createwdx,self.createwdy), 
-                                    anchor=self.anchor, 
-                                    window=self.framecv) 
+        self.window = self.cavas.create_window((self.createwdx,
+                                                self.createwdy), 
+                                                anchor=self.anchor, 
+                                                window=self.framecv) 
         return self.framecv
     def retwindow(self):
         return self.window
@@ -325,7 +336,7 @@ class scbg (tk.Frame):
         self.cavwidth = cavwidth
         self.cavheight =cavheight
         self.framea_cw = framea_cw
-        super().__init__(parent,bg =self.bg )
+        super().__init__(parent,bg =self.bg)
         self.parent = parent
         self.pack(fill = BOTH, expand = True)
         self.add_scroll_bars()
@@ -356,9 +367,9 @@ class scbg (tk.Frame):
         # Creating scrolled canvas 
 
         self.canvas = Canvas(self,
-                            bg = self.bg,
+                            bg = "red",
                             width=self.cavwidth,
-                            height=self.cavheight
+                            height=self.cavheight 
                             ) 
 
         self.canvas.grid(row=0, 
@@ -411,6 +422,6 @@ class scbg (tk.Frame):
         '''Reset the canvas window to encompass inner frame when required'''
         canvas_width = event.width
         self.canvas.itemconfig(self.window, 
-                              width = canvas_width,)            #whenever the size of the canvas changes alter the window region respectively.   
+                              width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.   
     def returnframe(self):
         return self.framecv
