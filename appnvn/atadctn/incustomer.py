@@ -33,8 +33,8 @@ class incus(Frame):
         
         gui (tktk=self.filewin,
                     pathico=self.pathico,
-                    width=500,
-                    height=500,
+                    width=1000,
+                    height=700,
                     widthx="center",
                     widthy="center",
                     resizable=[True,True]).setcfbs()
@@ -43,7 +43,7 @@ class incus(Frame):
         menu (tktk=self.filewin).createmenu()
 
         #gui for data 
-        self.sc  = scbg(parent = self.filewin,cavheight=500,cavwidth=500)
+        self.sc  = scbg(parent = self.filewin,cavheight=1000,cavwidth=1000)
         self.listFramevp = self.sc.framecv
         """
          create frame from cavas

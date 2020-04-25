@@ -8,7 +8,7 @@ class gui:
                         height = None,
                         widthx = None ,
                         widthy = None,
-                        resizable =[0,0] ):
+                        resizable =[0,0]):
 
         self.tktk = tktk
         self.pathico = pathico
@@ -32,8 +32,8 @@ class gui:
 
     def center(self):
         """set calulate for widget to center window"""
-        self.widthx = (self.tktk.winfo_screenwidth() // 2) - (self.width // 2)
-        self.widthy = (self.tktk.winfo_screenheight() // 2) - (self.height // 2)
+        self.widthx = int((self.tktk.winfo_screenwidth() / 2) - (self.width / 2))
+        self.widthy = int((self.tktk.winfo_screenheight() / 3) - (self.height / 2))
        
     def setsw(self,keyvalue):
         self.functions = {
@@ -44,7 +44,7 @@ class gui:
                     }
 
     def resnnnn (self):
-        """resturn result of nnnn """
+        """resturn result of nnnn """         
         self.tktk.geometry ("{}x{}+{}+{}".format(self.width,
                                                 self.height,
                                                 self.widthx,
@@ -55,11 +55,11 @@ class gui:
         """resturn result of ccoo """
         # Gets the requested values of the height and widht.
         windowWidth  = self.tktk.winfo_reqwidth()
-        windowWidth = self.tktk.winfo_reqheight()
+        windowHeight = self.tktk.winfo_reqheight()
 
         # Gets both half the screen width/height and window width/height
-        positionRight = int(self.tktk.winfo_screenwidth()/2 - windowWidth/2)
-        positionDown = int(self.tktk.winfo_screenheight()/2 - windowWidth/2) 
+        positionRight = self.tktk.winfo_screenwidth()/2 - windowWidth/2
+        positionDown = self.tktk.winfo_screenheight()/3 - windowHeight/2
 
         self.tktk.geometry("+{}+{}".format(positionRight,
                                             positionDown))
@@ -74,8 +74,8 @@ class gui:
                                                 ))
 
     def other_case(self,x):
-
-       messagebox.showerror("error"," not yes case this")
+        """show error when not case  compatible"""
+        messagebox.showerror("error"," not yes case this")
     
     def findkeyvalue(self):
         """find key value """
@@ -87,4 +87,5 @@ class gui:
         else: return "*"
     
     def call(self,keyvaluee, x):
+        
         return self.functions[keyvaluee](x)
