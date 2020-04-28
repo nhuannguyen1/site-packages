@@ -19,7 +19,7 @@ class incus(Frame):
                 labelfont_sm = ('times', 16),
                 padx = (10,0)
                 ):
-
+        
         Frame.__init__(self, tktk)
         self.tktk = tktk
         self.labelfont = labelfont
@@ -43,7 +43,7 @@ class incus(Frame):
         menu (tktk=self.filewin).createmenu()
 
         #gui for data 
-        self.sc  = scbg(parent = self.filewin,cavheight=1000,cavwidth=1000)
+        self.sc  = scbg(parent = self.filewin,cavheight=800,cavwidth=800,bg = "yellow")
         self.listFramevp = self.sc.framecv
         """
          create frame from cavas
@@ -54,7 +54,6 @@ class incus(Frame):
         """
 
         self.creategui()
-        #elf.sc.conf()
 
     def creategui(self):
         """create gui for customer information"""

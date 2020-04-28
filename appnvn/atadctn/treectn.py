@@ -22,7 +22,7 @@ class createcroll(Frame):
         self.scrollbarr = scrollbarr
         self.bg = bg
         Frame.__init__(self, listFrame)
-        self.pack(fill = BOTH)
+        self.pack(fill = Y,expand = True)
 
     def createy1(self): 
         self.canvas = tk.Canvas(self,
@@ -69,7 +69,7 @@ class createcroll(Frame):
         self.canvas_window = self.canvas.create_window((self.crwidth,
                                                         self.crvheight), 
                                                         window=self.listFramevp, 
-                                                        anchor="center")                    #add view port frame to canva
+                                                        anchor="nw")                    #add view port frame to canva
         
         self.listFramevp.bind("<Configure>", 
                               self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
@@ -254,28 +254,29 @@ class cvframeg:
         self.bg = bg
     
     def rtframecv(self):
-        # creating canvas contents 
+        """ creating canvas contents """
 
         self.framecv = Frame(self.cavas,
-                            width=500,
-                            height=500, 
                             background=self.bg) 
         """
-        self.framecv.rowconfigure(0, 
-                                weight=1) 
+        self.framecv.grid(row=0, 
+                        column=0,sticky=N+S+E+W)   
+          
 
-        self.framecv.columnconfigure(0, 
-                                    weight=1) 
+        self.framecv.rowconfigure(0, weight=1) 
+
+        self.framecv.columnconfigure(0, weight=1) 
         """
-
-        self.window = self.cavas.create_window((self.createwdx,
-                                                self.createwdy), 
+        self.framecv.pack(fill = BOTH, expand = True)
+        
+        self.window = self.cavas.create_window((0,
+                                                0), 
                                                 anchor=self.anchor, 
                                                 window=self.framecv) 
-        return self.framecv
-    def retwindow(self):
-        return self.window
+        
+        
 
+        return self.framecv
 class treescrollbar:
 
     def __init__(self,frame = None,orienth = HORIZONTAL, orienthv = VERTICAL, tree = None):
@@ -307,7 +308,7 @@ class treescrollbar:
 
 class AutoScrollbar(Scrollbar): 
 
-    # Defining set method with all  
+    """ Defining set method with all  """
 
     # its parameter 
 
@@ -332,13 +333,13 @@ class scbg (tk.Frame):
     def __init__ (self,parent = None,
                         bg = "SteelBlue1",
                         framea_cw = [10,10],
-                        cavwidth = 900,
-                        cavheight = 900):
+                        cavwidth = 100,
+                        cavheight = 100):
         self.bg = bg
         self.cavwidth = cavwidth
         self.cavheight =cavheight
         self.framea_cw = framea_cw
-        super().__init__(parent,bg =self.bg)
+        super().__init__(parent)
         self.parent = parent
         self.pack(fill = BOTH, expand = True)
         self.add_scroll_bars()
@@ -361,24 +362,25 @@ class scbg (tk.Frame):
     def create_canvas(self):
         """Creating scrolled canvas """
         self.canvas = Canvas(self,
-                            bg = "red",
+                            bg = self.bg,
                             width=self.cavwidth,
-                            height=self.cavheight 
+                            height=self.cavheight,
+                            highlightcolor = "blue",
+                            highlightthickness=0,
                             ) 
         self.canvas.grid(row=0, 
-                        column=0, 
-                        sticky=N+S+E+W) 
-
+                        column=0) 
+    
         # Making the canvas expandable 
         self.grid_rowconfigure(0, weight=1) 
         self.grid_columnconfigure(0, weight=1) 
+        
         x0 = 0
         y0 = 0
         cvf = cvframeg(cavas=self.canvas,
                         createwdx=x0,
                         createwdy=y0)
         self.framecv = cvf.rtframecv()
-        self.window = cvf.window
 
     def addcommmandscroll (self):
         """set and add scroll bar """
@@ -391,17 +393,18 @@ class scbg (tk.Frame):
         """ Configuring canvas """  
         self.framecv.update_idletasks()
         self.framecv.bind("<Configure>",self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
-        self.canvas.bind("<Configure>",self.onCanvasConfigure)                       #bind an event whenever the size of the viewPort frame changes.
+        #self.canvas.bind("<Configure>",self.onCanvasConfigure)                       #bind an event whenever the size of the viewPort frame changes.
 
     def onFrameConfigure(self, event):                                              
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))                 #whenever the size of the frame changes, alter the scroll region respectively.
-
+    """
     def onCanvasConfigure(self, event):
         '''Reset the canvas window to encompass inner frame when required'''
         canvas_width = event.width
         self.canvas.itemconfig(self.window, 
-                              width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.   
+                              width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.  
+    """ 
     
     def returnframe(self):
         """return framecv"""
