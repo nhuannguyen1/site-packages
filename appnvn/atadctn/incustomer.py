@@ -14,7 +14,8 @@ class incus(Frame):
                 br_image = None,
                 pathico = None,
                 br_image_path = None,
-                bglb = "thistle1",
+                logoicon = None
+                bglb = "white",
                 labelfont = ('times', 20),
                 labelfont_sm = ('times', 16),
                 padx = (10,0)
@@ -26,6 +27,7 @@ class incus(Frame):
         self.labelfont_sm = labelfont_sm
         self.br_image_path  = br_image_path
         self.br_image = br_image
+        self.logoicon = logoicon
         self.padx = padx
         self.pathico = pathico
         self.filewin = Toplevel(self.tktk)
@@ -33,36 +35,37 @@ class incus(Frame):
         
         gui (tktk=self.filewin,
                     pathico=self.pathico,
-                    width=1000,
-                    height=700,
+                    width=800,
+                    height=800,
                     widthx="center",
                     widthy="center",
+                    condv=2.7,
                     resizable=[True,True]).setcfbs()
         
         # set menu 
         menu (tktk=self.filewin).createmenu()
 
         #gui for data 
-        self.sc  = scbg(parent = self.filewin,cavheight=800,cavwidth=800,bg = "yellow")
+        self.sc  = scbg(parent = self.filewin,cavheight=500,cavwidth=600,bg = "white", bgpr = "#5181a7")
+
         self.listFramevp = self.sc.framecv
-        """
-         create frame from cavas
-        self.listFramevp = createcroll(listFrame=self.listFramevp,
-                                        cavwidth=600,
-                                        cavheight=700,
-                                        scrollbarr=False,bg="thistle1").createy1()
-        """
 
         self.creategui()
 
     def creategui(self):
         """create gui for customer information"""
+        #image logo
+        logolbl = Label (login_Frame,\
+                        image = self.logo_icon).grid (row = 0,
+                                                    columnspan = 3,
+                                                    pady = 5)
+        row = 0
         #line 1
         ci = tk.Label(self.listFramevp,
                         text = "Customer info:"
                         )
         ci.grid(column = 0, 
-                  row = 0,
+                  row = row,
                   padx = self.padx,
                   sticky  = W)
 
@@ -189,4 +192,7 @@ class incus(Frame):
         entrys = (fne,adde,pne,eme,ybe)
         for entry in entrys:
             entry.config(font=self.labelfont_sm,
-                        width=50)
+                        bg = "azure2",
+                        width=50,
+                        bd = 1,
+                        relief = SOLID)

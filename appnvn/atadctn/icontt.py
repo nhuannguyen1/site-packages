@@ -8,6 +8,7 @@ class gui:
                         height = None,
                         widthx = None ,
                         widthy = None,
+                        condv = 3,
                         resizable =[0,0]):
 
         self.tktk = tktk
@@ -17,6 +18,7 @@ class gui:
         self.widthy = widthy
         self.widthx = widthx
         self.resizable = resizable
+        self.condv = condv
     
     def setcfbs (self):
         
@@ -33,7 +35,7 @@ class gui:
     def center(self):
         """set calulate for widget to center window"""
         self.widthx = int((self.tktk.winfo_screenwidth() / 2) - (self.width / 2))
-        self.widthy = int((self.tktk.winfo_screenheight() / 3) - (self.height / 2))
+        self.widthy = int((self.tktk.winfo_screenheight() / self.condv) - (self.height / 2))
        
     def setsw(self,keyvalue):
         self.functions = {
