@@ -14,7 +14,7 @@ class incus(Frame):
                 br_image = None,
                 pathico = None,
                 br_image_path = None,
-                logoicon = None
+                logoicon = None,
                 bglb = "white",
                 labelfont = ('times', 20),
                 labelfont_sm = ('times', 16),
@@ -46,7 +46,11 @@ class incus(Frame):
         menu (tktk=self.filewin).createmenu()
 
         #gui for data 
-        self.sc  = scbg(parent = self.filewin,cavheight=500,cavwidth=600,bg = "white", bgpr = "#5181a7")
+        self.sc  = scbg(parent = self.filewin,
+                        cavheight=600,
+                        cavwidth=600,
+                        bg = "white", 
+                        bgpr = "#5181a7")
 
         self.listFramevp = self.sc.framecv
 
@@ -55,78 +59,87 @@ class incus(Frame):
     def creategui(self):
         """create gui for customer information"""
         #image logo
-        logolbl = Label (login_Frame,\
-                        image = self.logo_icon).grid (row = 0,
-                                                    columnspan = 3,
-                                                    pady = 5)
         row = 0
+        logolbl = Label (self.listFramevp,
+                        image = self.logoicon,
+                        borderwidth=0,
+                        compound="center",
+                        highlightthickness = 0)
+
+        logolbl.grid (row = row,pady = 10)
+        
         #line 1
         ci = tk.Label(self.listFramevp,
                         text = "Customer info:"
                         )
+        row = row + 1
         ci.grid(column = 0, 
                   row = row,
                   padx = self.padx,
                   sticky  = W)
-
+        
         #Line 2
+        row = row + 1
         cis = tk.Label(self.listFramevp,
                             text = "Thanks for your interest in getting a ATAD HOUSE"
                             )
         cis.grid(column = 0, 
-                        row  = 1 ,
+                        row  = row ,
                         padx = self.padx,
                         sticky  = "w",
                         )
 
         #  full name
+        row = row + 1
         fn = tk.Label(self.listFramevp,
                     text = "*Your Name:",
                     )
         fn.grid(column = 0, 
-                  row = 2,
+                  row = row,
                   pady = (10,0),
                   padx = self.padx,
                   sticky  = W)
         
         fn.config (bg = self.bglb)
         fn.config(font=self.labelfont_sm)
-
+        row = row + 1
         fne = tk.Entry(self.listFramevp,
                         justify="left",
                         text = "Nguyen Van Nhuan"
                         )
         fne.grid(column = 0, 
-                row  = 3,
+                row  = row,
                 sticky  = W,
                 padx = self.padx,
                 )
 
         #Address
+        row = row + 1
         add = tk.Label(self.listFramevp,
                             text = "*Address:"
                             )
         add.grid(column = 0, 
-                        row  = 4 ,
+                        row  = row ,
                         sticky  = "w",
                         padx = self.padx,
                         pady = (10,0)
                         )
-
+        row = row + 1
         adde = tk.Entry(self.listFramevp,
                         justify="left",
                         text = "Nguyen Van Nhuan"
                         )
         adde.grid(column = 0, 
-                row  = 5,
+                row  = row,
                 padx = self.padx,
                 sticky  = W 
                 )
         # Phone Number
+        row = row + 1
         pn = tk.Label(self.listFramevp,text = "*Phone Number:",
                             )
         pn.grid(column = 0, 
-                  row = 6,
+                  row = row,
                   pady = (10,0),
                   padx = self.padx,
                   sticky  = W)
@@ -135,8 +148,9 @@ class incus(Frame):
                         justify="left",
                         text = "Nguyen Van Nhuan"
                         )
+        row = row + 1
         pne.grid(column = 0, 
-                row  = 7,
+                row  = row,
                 padx = self.padx,
                 sticky  = W,
                 )
@@ -145,8 +159,9 @@ class incus(Frame):
         em = tk.Label(self.listFramevp,
                             text = "*Email:",
                             )
+        row = row + 1
         em.grid(column = 0, 
-                        row  = 8 ,
+                        row  = row ,
                         sticky  = "w",
                         padx = self.padx,
                         pady = (10,0),
@@ -156,8 +171,9 @@ class incus(Frame):
                         justify="left",
                         text = "Nguyen Van Nhuan"
                         )
+        row = row + 1
         eme.grid(column = 0, 
-                row  = 9,
+                row  = row,
                 padx = self.padx,
                 sticky  = W 
                 )
@@ -166,18 +182,19 @@ class incus(Frame):
         yb = tk.Label(self.listFramevp,
                         text = "*Year of Birth:",
                         )
+        row = row + 1
         yb.grid(column = 0, 
-                  row = 10,
+                  row = row,
                   pady = (10,0),
                   padx = self.padx,
                   sticky  = W)
-
+        row = row + 1
         ybe = tk.Entry(self.listFramevp,
                         justify="left",
                         text = "Nguyen Van Nhuan"
                         )
         ybe.grid(column = 0, 
-                row  = 11,
+                row  = row,
                 padx = self.padx,
                 sticky  = W,
                 )
