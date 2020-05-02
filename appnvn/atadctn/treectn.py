@@ -245,7 +245,7 @@ class cvframe:
 class cvframeg:
     """using for gird return listframe"""
     def __init__(self,cavas = None,
-                anchor = "nw",
+                anchor = "center",
                 createwdx = 10,
                 createwdy = 10,
                 cavwidth = 800,
@@ -373,17 +373,13 @@ class scbg (tk.Frame):
         self.grid_rowconfigure(0, weight=1) 
         self.grid_columnconfigure(0, weight=1) 
         
-        x0 = 0
-        y0 = 0
         cvf = cvframeg(cavas=self.canvas,
-                        createwdx=x0,
-                        createwdy=y0,
                         cavheight=self.cavheight,
-                        cavwidth=self.cavwidth,bg=self.bg)
-
+                        cavwidth=self.cavwidth,
+                        bg=self.bg)
+        
+        
         self.framecv = cvf.rtframecv()
-
-        #self.framecv.pack(fill = BOTH, expand = True)
         
         self.window = cvf.window
 
@@ -407,6 +403,7 @@ class scbg (tk.Frame):
     def onFrameConfigure(self, event):                                              
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))                 #whenever the size of the frame changes, alter the scroll region respectively.
+        
     """
     def onCanvasConfigure(self, event):
         '''Reset the canvas window to encompass inner frame when required'''
@@ -433,3 +430,5 @@ class scbg (tk.Frame):
     def returnframe(self):
         return self.framecv
     """
+        
+
