@@ -3,11 +3,6 @@ import tkinter as tk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 from appnvn.atadctn.treectn import scbg
-from appnvn.atadctn.treectn import (createcroll,
-                                    ScrolledCanvas,
-                                    cvframe,
-                                    treescrollbar
-                                    )
 class incus(Frame):
     """ customer information"""
     def __init__(self,tktk = None,
