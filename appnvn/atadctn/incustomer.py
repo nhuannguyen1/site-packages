@@ -13,7 +13,8 @@ class incus(Frame):
                 bglb = "white",
                 labelfont = ('times', 20),
                 labelfont_sm = ('times', 16),
-                padx = (10,0)
+                padx = (10,0),
+                imagenext = None
                 ):
         
         Frame.__init__(self, tktk)
@@ -27,7 +28,8 @@ class incus(Frame):
         self.pathico = pathico
         self.filewin = Toplevel(self.tktk)
         self.bglb = bglb
-        
+        self.imagenext = imagenext
+
         gui (tktk=self.filewin,
                     pathico=self.pathico,
                     width=800,
@@ -42,14 +44,18 @@ class incus(Frame):
 
         #gui for data 
         self.sc  = scbg(parent = self.filewin,
-                        cavheight=600,
+                        cavheight=670,
                         cavwidth=600,
                         bg = "white", 
                         bgpr = "#5181a7")
 
         self.listFramevp = self.sc.framecv
 
+        self.canv =  self.sc.canvas
+
         self.creategui()
+
+        self.buttomandnext(cavx=250,cavy=560)
 
     def creategui(self):
         """create gui for customer information"""
@@ -193,11 +199,13 @@ class incus(Frame):
                 padx = self.padx,
                 sticky  = W,
                 )
+        
+
         # config label
         labels = (ci,cis,fn,add,pn,em,yb)
         for label in labels:
             label.config (bg = self.bglb,
-                            width=43,
+                            width=38,
                             font=self.labelfont,
                             anchor="w")
         # config entry 
@@ -205,6 +213,21 @@ class incus(Frame):
         for entry in entrys:
             entry.config(font=self.labelfont_sm,
                         bg = "azure2",
-                        width=50,
+                        width=52,
                         bd = 1,
                         relief = SOLID)
+
+
+    def buttomandnext (self, image = None,text = None, cavx = 0,cavy = 0):
+
+        button1 = Button(self.canv, 
+                        bg = "white",
+                        image = self.imagenext
+                        )
+        button1.configure(width = 100, 
+                            activebackground = "#33B5E5", 
+                            relief = FLAT)
+        button1_window = self.canv.create_window(cavx, cavy, 
+                                                anchor=NW, 
+                                                window=button1)
+

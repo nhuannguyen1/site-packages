@@ -245,7 +245,7 @@ class cvframe:
 class cvframeg:
     """using for gird return listframe"""
     def __init__(self,cavas = None,
-                anchor = "center",
+                anchor = NW,
                 createwdx = 10,
                 createwdy = 10,
                 cavwidth = 800,
