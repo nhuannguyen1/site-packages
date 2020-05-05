@@ -1,10 +1,9 @@
-from tkinter import *
+from tkinter import Frame,Tk,StringVar,Toplevel,IntVar,Radiobutton
 import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 from appnvn.atadctn.treectn import scbg
-
 
 class reqbuild(Frame):
         """ customer information"""
@@ -19,9 +18,10 @@ class reqbuild(Frame):
                         padx = (10,0),
                         imagenext = None
                         ):
-                
-                Frame.__init__(self, tktk)
                 self.tktk = tktk
+                self.tktk.withdraw()
+                Frame.__init__(self, tktk)
+                
                 self.labelfont = labelfont
                 self.labelfont_sm = labelfont_sm
                 self.br_image_path  = br_image_path
@@ -58,13 +58,12 @@ class reqbuild(Frame):
 
                 self.creategui()
 
-
         def creategui(self):
                 """create gui for customer information"""
                 #image logo
                 row = 0
                 col = 0 
-                logolbl = Label (self.listFramevp,
+                logolbl = tk.Label (self.listFramevp,
                                 image = self.logoicon,
                                 borderwidth=0,
                                 compound="center",
@@ -74,13 +73,13 @@ class reqbuild(Frame):
                 
                 #line 1
                 ci = tk.Label(self.listFramevp,
-                                text = "info house:"
+                                text = "Info house:"
                                 )
                 row = row + 1
                 ci.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = "w")
                 
                 #Line 2
                 row = row + 1
@@ -103,7 +102,7 @@ class reqbuild(Frame):
                 fn.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = "w")
                 
                 fn.config (bg = self.bglb)
                 fn.config(font=self.labelfont_sm)
@@ -116,7 +115,7 @@ class reqbuild(Frame):
                 fne.grid(column = 1, 
                         row  = row,
                         columnspan = 3,
-                        sticky  = EW,
+                        sticky  = "ew",
                         )
 
                 # Phone Number
@@ -126,7 +125,7 @@ class reqbuild(Frame):
                 pn.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = "w")
 
                 pne = tk.Entry(self.listFramevp,
                                 justify="left",
@@ -134,7 +133,7 @@ class reqbuild(Frame):
                                 )
                 pne.grid(column = 1, 
                         row  = row,
-                        sticky  = EW,
+                        sticky  = "ew",
                         columnspan = 3,
                         )
                 
@@ -156,155 +155,15 @@ class reqbuild(Frame):
                 eme.grid(column = 1, 
                         row  = row,
                         columnspan = 3,
-                        sticky  = EW 
+                        sticky  = "ew" 
                         )
-
-                #Gender
-                gd = tk.Label(self.listFramevp,
-                                text = "*Gender:",
-                                )
-                row = row + 1
-                gd.grid(column = 0, 
-                        row  = row ,
-                        sticky  = "w",
-                        padx = self.padx,
-                        )
-
-                var1 = IntVar()
-                ckgender = Radiobutton(self.listFramevp,text = "Male",variable= var1)
-                ckgender.grid(column = 1,
-                                row  = row)
-
-                var2 = IntVar()
-                ckgender2 = Radiobutton(self.listFramevp,text = "Female",variable= var2)
-                ckgender2.grid(column = 2,
-                                row  = row)
-
-
-                #set Address
-                row = row + 1
-                add = tk.Label(self.listFramevp,
-                                text = "*Address:"
-                                )
-                add.grid(column = 0, 
-                        row  = row ,
-                        sticky  = "w",
-                        padx = self.padx,
-                        )
-
-                # set Province or city
-                self.pc = tk.StringVar() 
-                combopc =  ttk.Combobox(self.listFramevp, textvariable = self.pc)
-                combopc['values'] = ('Province/City',  
-                                ' Dak Lak', 
-                                ' Ho Chi Minh', 
-                                ' Ha Noi', 
-                                ' Dong Nai', 
-                                ' Long An'
-                                )
-
-                combopc.current(0)
-                combopc.grid(column = 1, row = row,columnspan = 4,sticky  = EW) 
-                # set District or Town
-                self.dt = tk.StringVar() 
-                combodt =  ttk.Combobox(self.listFramevp, textvariable = self.dt)
-                combodt['values'] = ('District/Town',  
-                                'Krong Buk', 
-                                'Buon Ho', 
-                                'Ehleo', 
-                                '1 District', 
-                                '2 District', 
-                                '3 District', 
-                                '4 District'
-                                ) 
-                combodt.current(0)
-                row = row + 1
-                combodt.grid(column = 1, row = row, pady = 10,columnspan = 4,sticky  = EW) 
-
-                # set Ward/Village
-                self.wv = tk.StringVar() 
-                combowv =  ttk.Combobox(self.listFramevp, 
-                                        textvariable = self.wv,style = 'custom.TCombobox')
-                combowv['values'] = ('Ward/Village',  
-                                ' Cu pong', 
-                                ' Chu Kpo'
-                                ) 
-                combowv.current(0)
-                row +=1
-                combowv.grid(column = 1, row = row,columnspan = 4,sticky  = EW) 
-
-                v = StringVar(self.listFramevp, value='Address Street')
-                self.adde = tk.Entry(self.listFramevp,
-                                justify="left",
-                                text = v
-                                )
-                self.adde.bind("<Button-1>", self.some_callback)
-                row +=1
-                self.adde.grid(column = 1, 
-                        row  = row,
-                        sticky  = EW,
-                        pady = 10,
-                        columnspan = 4
-                        )
-
-                #Year of Birth
-                yb = tk.Label(self.listFramevp,
-                                text = "*Year of Birth:",
-                                )
-                row +=1
-                yb.grid(column = 0, 
-                        row = row,
-                        padx = self.padx,
-                        sticky  = EW)
-                # set day
-                self.sd = tk.StringVar() 
-                comboday =  ttk.Combobox(self.listFramevp, 
-                                        textvariable = self.sd,
-                                        style = 'custom.TCombobox',
-                                        width=9)
-                dayl = ["Day"] + list(range(1,32))
-                comboday['values'] = dayl
-                comboday.current(0)
-                comboday.grid(column = 1, 
-                                row = row,
-                                sticky  = EW) 
-
-                # set month
-                
-                self.sm = tk.StringVar() 
-                combom =  ttk.Combobox(self.listFramevp, 
-                                        textvariable = self.sm,
-                                        style = 'custom.TCombobox',
-                                        width=9)
-                mothl = ["Month"] + list(range(1,13))
-                combom['values'] = mothl
-                combom.current(0)
-                #row +=1
-                combom.grid(column = 2, 
-                                row = row,
-                                sticky  = EW) 
-                
-                # set year
-                
-                self.sy = tk.StringVar() 
-                comboy =  ttk.Combobox(self.listFramevp, 
-                                        textvariable = self.sy,
-                                        style = 'custom.TCombobox',
-                                        width=9)
-                yearl = ["Year"] + list(range(1900,2021))
-                comboy['values'] = yearl
-                comboy.current(0)
-                #row +=1
-                comboy.grid(column = 3, 
-                                row = row,
-                                sticky  = EW) 
                 # button next
-                button1 = Button(self.listFramevp, 
+                button1 = tk.Button(self.listFramevp, 
                                 text = "Next",
                                 bg = "azure2",
                                 image = self.imagenext,
-                                relief = FLAT,
-                                compound = LEFT,
+                                relief = tk.FLAT,
+                                compound = tk.LEFT,
                                 font = ("times new roman",20)
                                 )
                 row +=1
@@ -313,40 +172,22 @@ class reqbuild(Frame):
                                 columnspan = 4,
                                 padx = self.padx,
                                 pady = 10,
-                                sticky  = EW)
+                                sticky  = "ew")
         
                 # config label
-                labels = (ci,gd,cis,fn,add,pn,em,yb,ckgender,ckgender2)
+                labels = (ci,cis,fn,pn,em)
                 for label in labels:
                         label.config (bg = self.bglb,
                                         font=self.labelfont,
                                         anchor="w")
-                # set combo
-                cobl = (combowv,combodt,combopc,comboday,combom,comboy)
-                for conb in cobl:
-                        conb.config (font=self.labelfont_sm)
                         
                 # config entry 
-                entrys = (fne,pne,eme, self.adde)
+                entrys = (fne,pne,eme)
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
-                                        relief = SOLID)
+                                        relief = tk.SOLID)
                 
-                
-        def buttomandnext (self, image = None,text = None, cavx = 0,cavy = 0):
-
-                button1 = Button(self.canv, 
-                                bg = "white",
-                                image = self.imagenext
-                                )
-                button1.configure(width = 100, 
-                                activebackground = "#33B5E5", 
-                                relief = FLAT)
-                button1_window = self.canv.create_window(cavx, cavy, 
-                                                        anchor=NW, 
-                                                        window=button1)
-
         """delete value defaut entry """
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
                 self.adde.delete(0, "end")

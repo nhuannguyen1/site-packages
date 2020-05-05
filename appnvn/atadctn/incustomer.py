@@ -1,4 +1,9 @@
-from tkinter import *
+from tkinter import (Frame,
+                        Tk,
+                        StringVar,
+                        Toplevel,
+                        IntVar,
+                        Radiobutton)
 import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
@@ -58,50 +63,13 @@ class incus(Frame):
 
                 self.creategui()
 
-                #self.buttomandnext(cavx=250,cavy=500)
-
-
-
-                """
-                #style = ttk.Style()
-                combostyle = ttk.Style()
-
-                combostyle.theme_create('combostyle', parent='alt',
-                                        settings = {'TCombobox':
-                                                {'configure':
-                                                {'selectbackground': 'blue',
-                                                'fieldbackground': 'azure2',
-                                                'background': 'green'
-                                                }}}
-                                        )
-                combostyle.theme_use('combostyle') 
-                
-                style = ttk.Style()
-
-                style.map('TCombobox', fieldbackground=[('readonly','azure2')])
-                style.map('TCombobox', selectbackground=[('readonly', 'white')])
-                style.map('TCombobox', selectforeground=[('readonly', 'black')])
-                
-                # set combo stype for all
-                combostyle = ttk.Style()
-                combostyle.theme_create('combostyle', parent='alt',
-                                        settings = {'TCombobox':
-                                                {'configure':
-                                                {'selectbackground': 'blue',
-                                                'fieldbackground': "azure2",
-                                                }}}
-                                        )
-                # ATTENTION: this applies the new style 'combostyle' to all ttk.Combobox
-                combostyle.theme_use('combostyle') 
-                """
-
 
         def creategui(self):
                 """create gui for customer information"""
                 #image logo
                 row = 0
                 col = 0 
-                logolbl = Label (self.listFramevp,
+                logolbl = tk.Label (self.listFramevp,
                                 image = self.logoicon,
                                 borderwidth=0,
                                 compound="center",
@@ -117,7 +85,7 @@ class incus(Frame):
                 ci.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = tk.W)
                 
                 #Line 2
                 row = row + 1
@@ -140,7 +108,7 @@ class incus(Frame):
                 fn.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = tk.W)
                 
                 fn.config (bg = self.bglb)
                 fn.config(font=self.labelfont_sm)
@@ -153,7 +121,7 @@ class incus(Frame):
                 fne.grid(column = 1, 
                         row  = row,
                         columnspan = 3,
-                        sticky  = EW,
+                        sticky  = tk.EW,
                         )
 
                 # Phone Number
@@ -163,7 +131,7 @@ class incus(Frame):
                 pn.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = W)
+                        sticky  = tk.W)
 
                 pne = tk.Entry(self.listFramevp,
                                 justify="left",
@@ -171,7 +139,7 @@ class incus(Frame):
                                 )
                 pne.grid(column = 1, 
                         row  = row,
-                        sticky  = EW,
+                        sticky  = tk.EW,
                         columnspan = 3,
                         )
                 
@@ -193,7 +161,7 @@ class incus(Frame):
                 eme.grid(column = 1, 
                         row  = row,
                         columnspan = 3,
-                        sticky  = EW 
+                        sticky  = tk.EW 
                         )
 
                 #Gender
@@ -241,7 +209,7 @@ class incus(Frame):
                                 )
 
                 combopc.current(0)
-                combopc.grid(column = 1, row = row,columnspan = 4,sticky  = EW) 
+                combopc.grid(column = 1, row = row,columnspan = 4,sticky  = tk.EW) 
                 # set District or Town
                 self.dt = tk.StringVar() 
                 combodt =  ttk.Combobox(self.listFramevp, textvariable = self.dt)
@@ -256,7 +224,7 @@ class incus(Frame):
                                 ) 
                 combodt.current(0)
                 row = row + 1
-                combodt.grid(column = 1, row = row, pady = 10,columnspan = 4,sticky  = EW) 
+                combodt.grid(column = 1, row = row, pady = 10,columnspan = 4,sticky  = tk.EW) 
 
                 # set Ward/Village
                 self.wv = tk.StringVar() 
@@ -268,7 +236,7 @@ class incus(Frame):
                                 ) 
                 combowv.current(0)
                 row +=1
-                combowv.grid(column = 1, row = row,columnspan = 4,sticky  = EW) 
+                combowv.grid(column = 1, row = row,columnspan = 4,sticky  = tk.EW) 
 
                 v = StringVar(self.listFramevp, value='Address Street')
                 self.adde = tk.Entry(self.listFramevp,
@@ -279,7 +247,7 @@ class incus(Frame):
                 row +=1
                 self.adde.grid(column = 1, 
                         row  = row,
-                        sticky  = EW,
+                        sticky  = tk.EW,
                         pady = 10,
                         columnspan = 4
                         )
@@ -292,7 +260,7 @@ class incus(Frame):
                 yb.grid(column = 0, 
                         row = row,
                         padx = self.padx,
-                        sticky  = EW)
+                        sticky  = tk.EW)
                 # set day
                 self.sd = tk.StringVar() 
                 comboday =  ttk.Combobox(self.listFramevp, 
@@ -304,7 +272,7 @@ class incus(Frame):
                 comboday.current(0)
                 comboday.grid(column = 1, 
                                 row = row,
-                                sticky  = EW) 
+                                sticky  = tk.EW) 
 
                 # set month
                 
@@ -319,7 +287,7 @@ class incus(Frame):
                 #row +=1
                 combom.grid(column = 2, 
                                 row = row,
-                                sticky  = EW) 
+                                sticky  = tk.EW) 
                 
                 # set year
                 
@@ -334,14 +302,21 @@ class incus(Frame):
                 #row +=1
                 comboy.grid(column = 3, 
                                 row = row,
-                                sticky  = EW) 
+                                sticky  = tk.EW) 
                 # button next
-                button1 = Button(self.listFramevp, 
+                button1 = tk.Button(self.listFramevp, 
                                 text = "Next",
                                 bg = "azure2",
                                 image = self.imagenext,
-                                relief = FLAT,
-                                compound = LEFT,
+                                relief = tk.FLAT,
+                                compound = tk.LEFT,
+                                command= lambda:reqbuild(tktk=self.filewin,
+                                                pathico=self.pathico,
+                                                br_image_path=self.br_image_path,
+                                                br_image=self.br_image,
+                                                logoicon=self.logoicon,
+                                                imagenext=self.imagenext
+                                                ),
                                 font = ("times new roman",20)
                                 )
                 row +=1
@@ -350,7 +325,7 @@ class incus(Frame):
                                 columnspan = 4,
                                 padx = self.padx,
                                 pady = 10,
-                                sticky  = EW)
+                                sticky  = tk.EW)
         
                 # config label
                 labels = (ci,gd,cis,fn,add,pn,em,yb,ckgender,ckgender2)
@@ -368,7 +343,7 @@ class incus(Frame):
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
-                                        relief = SOLID)
+                                        relief = tk.SOLID)
                 
                 
         def buttomandnext (self, image = None,text = None, cavx = 0,cavy = 0):
@@ -379,13 +354,14 @@ class incus(Frame):
                                 )
                 button1.configure(width = 100, 
                                 activebackground = "#33B5E5", 
-                                relief = FLAT)
+                                relief = tk.FLAT)
                 button1_window = self.canv.create_window(cavx, cavy, 
-                                                        anchor=NW, 
+                                                        anchor=tk.NW, 
                                                         window=button1)
 
         """delete value defaut entry """
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
                 self.adde.delete(0, "end")
                 return None
+
 
