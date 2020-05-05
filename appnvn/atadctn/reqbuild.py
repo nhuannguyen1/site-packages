@@ -4,9 +4,9 @@ from tkinter import ttk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 from appnvn.atadctn.treectn import scbg
-from appnvn.atadctn.reqbuild import reqbuild
 
-class incus(Frame):
+
+class reqbuild(Frame):
         """ customer information"""
         def __init__(self,tktk = None,
                         br_image = None,
@@ -58,43 +58,6 @@ class incus(Frame):
 
                 self.creategui()
 
-                #self.buttomandnext(cavx=250,cavy=500)
-
-
-
-                """
-                #style = ttk.Style()
-                combostyle = ttk.Style()
-
-                combostyle.theme_create('combostyle', parent='alt',
-                                        settings = {'TCombobox':
-                                                {'configure':
-                                                {'selectbackground': 'blue',
-                                                'fieldbackground': 'azure2',
-                                                'background': 'green'
-                                                }}}
-                                        )
-                combostyle.theme_use('combostyle') 
-                
-                style = ttk.Style()
-
-                style.map('TCombobox', fieldbackground=[('readonly','azure2')])
-                style.map('TCombobox', selectbackground=[('readonly', 'white')])
-                style.map('TCombobox', selectforeground=[('readonly', 'black')])
-                
-                # set combo stype for all
-                combostyle = ttk.Style()
-                combostyle.theme_create('combostyle', parent='alt',
-                                        settings = {'TCombobox':
-                                                {'configure':
-                                                {'selectbackground': 'blue',
-                                                'fieldbackground': "azure2",
-                                                }}}
-                                        )
-                # ATTENTION: this applies the new style 'combostyle' to all ttk.Combobox
-                combostyle.theme_use('combostyle') 
-                """
-
 
         def creategui(self):
                 """create gui for customer information"""
@@ -111,7 +74,7 @@ class incus(Frame):
                 
                 #line 1
                 ci = tk.Label(self.listFramevp,
-                                text = "Customer info:"
+                                text = "info house:"
                                 )
                 row = row + 1
                 ci.grid(column = 0, 
@@ -122,7 +85,7 @@ class incus(Frame):
                 #Line 2
                 row = row + 1
                 cis = tk.Label(self.listFramevp,
-                                text = "Thanks for your interest in getting a ATAD HOUSE"
+                                text = "Information of the house you want to build"
                                 )
                 cis.grid(column = 0, 
                                 row  = row ,
