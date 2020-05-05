@@ -35,11 +35,11 @@ class reqbuild(Frame):
 
                 gui (tktk=self.filewin,
                         pathico=self.pathico,
-                        width=800,
-                        height=800,
+                        width=1800,
+                        height=900,
                         widthx="center",
                         widthy="center",
-                        condv=2.7,
+                        condv=2.2,
                         resizable=[True,True]).setcfbs()
                 
                 # set menu 
@@ -48,7 +48,7 @@ class reqbuild(Frame):
                 #gui for data 
                 self.sc  = scbg(parent = self.filewin,
                                 cavheight=600,
-                                cavwidth=600,
+                                cavwidth=900,
                                 bg = "white", 
                                 bgpr = "#5181a7")
 

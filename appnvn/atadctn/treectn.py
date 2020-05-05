@@ -261,7 +261,6 @@ class cvframeg:
     
     def rtframecv(self):
         """ creating canvas contents """
-
         self.framecv = Frame(self.cavas,
                             background=self.bg) 
         
@@ -271,7 +270,6 @@ class cvframeg:
                                                 height=self.cavheight,
                                                 anchor=self.anchor,
                                                 window=self.framecv) 
-
         return self.framecv
 class treescrollbar:
 
