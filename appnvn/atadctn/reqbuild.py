@@ -50,44 +50,30 @@ class reqbuild(Frame):
 
                 #gui for data 
                 self.sc = scbg(parent = self.filewin,
-                                cavheight=600,
-                                cavwidth=900,
+                                cavheight=900,
+                                cavwidth=1400,
                                 bg = "white", 
                                 bgpr = "#5181a7",
                                 isonlyaframe= False,
-                                framea =(10,10), 
-                                frameb = (10,400))
+                                framea =[10,10,900,500,"yellow"], 
+                                frameb = [910,10,700,500,"white"]
+                                )
                 self.listFramevp = self.sc.framea
+                self.listFramedr = self.sc.frameb
                 self.canv =  self.sc.canvas
                 self.creategui()
+                self.createdrawing()
 
         def creategui(self):
                 """create gui for customer information"""
                 #image logo
                 row = 0
                 col = 0 
-                logolbl = tk.Label (self.listFramevp,
-                                image = self.logoicon,
-                                borderwidth=0,
-                                compound="center",
-                                highlightthickness = 0)
-
-                logolbl.grid (row = row,pady = 10,columnspan = 4)
-                
-                #line 1
-                ci = tk.Label(self.listFramevp,
-                                text = "Info house:"
-                                )
-                row = row + 1
-                ci.grid(column = 0, 
-                        row = row,
-                        padx = self.padx,
-                        sticky  = "w")
                 
                 #Line 2
                 row = row + 1
                 cis = tk.Label(self.listFramevp,
-                                text = "Information of the house you want to build"
+                                text = "Ask the house you want to build"
                                 )
                 cis.grid(column = 0, 
                                 row  = row ,
@@ -95,49 +81,128 @@ class reqbuild(Frame):
                                 sticky  = "w",
                                 columnspan = 4
                                 )
-
-                #  full name
+                ####################################################area
+                #  area
                 row = row + 1
 
-                fn = tk.Label(self.listFramevp,
-                        text = "*Your Name:",
+                arealb = tk.Label(self.listFramevp,
+                        text = "*Area:",
                         )
-                fn.grid(column = 0, 
+                arealb.grid(column = 0, 
+                        row = row,
+                        padx = self.padx,
+                        sticky  = "w")
+
+
+                # Width entry 
+                entryw = tk.Entry(self.listFramevp)
+                entryw.grid(column = 1, 
+                        row = row,
+                        padx = self.padx,
+                        sticky  = "w")
+                #Width label
+                wlb = tk.Label(self.listFramevp,
+                        text = "Width:",
+                        )
+                wlb.grid(column = 2, 
+                        row = row,
+                        padx = self.padx,
+                        sticky  = "w")
+                row += 1
+               # height entry 
+                entryh = tk.Entry(self.listFramevp)
+                entryh.grid(column = 1, 
+                        row = row,
+                        padx = self.padx,
+                        sticky  = "w")
+                #height label
+                lbh = tk.Label(self.listFramevp,
+                        text = "height:",
+                        )
+                lbh.grid(column = 2, 
                         row = row,
                         padx = self.padx,
                         sticky  = "w")
                 
-                fn.config (bg = self.bglb)
-                fn.config(font=self.labelfont_sm)
-                col = col + 1
-                fne = tk.Entry(self.listFramevp,
-                                justify="left",
-                                text = "Nguyen Van Nhuan"
-                                )
-                fne.grid(column = 1, 
-                        row  = row,
-                        columnspan = 3,
-                        sticky  = "ew",
-                        )
 
-                # Phone Number
+
+
+                ####################################################area
+
+                # Setback space
                 row = row + 1
-                pn = tk.Label(self.listFramevp,text = "*Phone Number:",
+                sbs = tk.Label(self.listFramevp,text = "Setback space:",
                                 )
-                pn.grid(column = 0, 
+                sbs.grid(column = 1, 
                         row = row,
-                        padx = self.padx,
                         sticky  = "w")
 
-                pne = tk.Entry(self.listFramevp,
+                # before 
+                etb = tk.Entry(self.listFramevp,
                                 justify="left",
-                                text = "Nguyen Van Nhuan"
                                 )
-                pne.grid(column = 1, 
+                etb.grid(column = 2, 
                         row  = row,
                         sticky  = "ew",
-                        columnspan = 3,
                         )
+                
+                lbb = tk.Label(self.listFramevp,
+                        text = "before",
+                        )
+                lbb.grid(column = 3, 
+                        row = row,
+                        sticky  = "w")
+                        
+                # after
+                row += 1
+                eta = tk.Entry(self.listFramevp,
+                                justify="left",
+                                )
+                eta.grid(column = 2, 
+                        row  = row,
+                        sticky  = "ew",
+                        )
+                
+                lba = tk.Label(self.listFramevp,
+                        text = "After",
+                        )
+                lba.grid(column = 3, 
+                        row = row,
+                        sticky  = "w")
+
+                # Left
+                row += 1
+                etl = tk.Entry(self.listFramevp,
+                                justify="left",
+                                )
+                etl.grid(column = 2, 
+                        row  = row,
+                        sticky  = "ew",
+                        )
+                
+                lbl = tk.Label(self.listFramevp,
+                        text = "Left",
+                        )
+                lbl.grid(column = 3, 
+                        row = row,
+                        sticky  = "w")                        
+                #right
+                row += 1
+                etr = tk.Entry(self.listFramevp,
+                                justify="left",
+                                )
+                etr.grid(column = 2, 
+                        row  = row,
+                        sticky  = "ew",
+                        )
+                
+                lbr = tk.Label(self.listFramevp,
+                        text = "Right",
+                        )
+                lbr.grid(column = 3, 
+                        row = row,
+                        sticky  = "w")     
+                
 
                 #email 
                 em = tk.Label(self.listFramevp,
@@ -178,14 +243,14 @@ class reqbuild(Frame):
                                 sticky  = "ew")
         
                 # config label
-                labels = (ci,cis,fn,pn,em)
+                labels = (wlb,lbh,cis,lbb,lba,lbl,lbl,em,arealb,sbs,lbr)
                 for label in labels:
                         label.config (bg = self.bglb,
                                         font=self.labelfont,
                                         anchor="w")
 
                 # config entry 
-                entrys = (fne,pne,eme)
+                entrys = (entryw,entryh,eme,etb,eta,etl,etr)
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
@@ -195,3 +260,27 @@ class reqbuild(Frame):
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
                 self.adde.delete(0, "end")
                 return None
+
+        def createdrawing (self):
+                #line 1
+                row = 0 
+                ci = tk.Label(self.listFramedr,
+                                text = "Info house:"
+                                )
+                row = row + 1
+                ci.grid(column = 0, 
+                        row = row,
+                        padx = self.padx,
+                        sticky  = "w")
+                
+                #Line 2
+                row = row + 1
+                cis = tk.Label(self.listFramedr,
+                                text = "Information of the house you want to build"
+                                )
+                cis.grid(column = 0, 
+                                row  = row ,
+                                padx = self.padx,
+                                sticky  = "w",
+                                columnspan = 4
+                                )
