@@ -1,4 +1,7 @@
-from tkinter import Frame,Tk,StringVar,Toplevel,IntVar,Radiobutton
+from tkinter import (Frame,
+                    Tk,
+                    Toplevel
+                    )
 import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
@@ -46,16 +49,16 @@ class reqbuild(Frame):
                 menu (tktk=self.filewin).createmenu()
 
                 #gui for data 
-                self.sc  = scbg(parent = self.filewin,
+                self.sc = scbg(parent = self.filewin,
                                 cavheight=600,
                                 cavwidth=900,
                                 bg = "white", 
-                                bgpr = "#5181a7")
-
-                self.listFramevp = self.sc.framecv
-
+                                bgpr = "#5181a7",
+                                isonlyaframe= False,
+                                framea =(10,10), 
+                                frameb = (10,400))
+                self.listFramevp = self.sc.framea
                 self.canv =  self.sc.canvas
-
                 self.creategui()
 
         def creategui(self):
@@ -95,7 +98,7 @@ class reqbuild(Frame):
 
                 #  full name
                 row = row + 1
-                
+
                 fn = tk.Label(self.listFramevp,
                         text = "*Your Name:",
                         )
@@ -106,7 +109,6 @@ class reqbuild(Frame):
                 
                 fn.config (bg = self.bglb)
                 fn.config(font=self.labelfont_sm)
-                #row = row + 1
                 col = col + 1
                 fne = tk.Entry(self.listFramevp,
                                 justify="left",
@@ -136,7 +138,7 @@ class reqbuild(Frame):
                         sticky  = "ew",
                         columnspan = 3,
                         )
-                
+
                 #email 
                 em = tk.Label(self.listFramevp,
                                 text = "*Email:",
@@ -157,6 +159,7 @@ class reqbuild(Frame):
                         columnspan = 3,
                         sticky  = "ew" 
                         )
+
                 # button next
                 button1 = tk.Button(self.listFramevp, 
                                 text = "Next",
@@ -180,7 +183,7 @@ class reqbuild(Frame):
                         label.config (bg = self.bglb,
                                         font=self.labelfont,
                                         anchor="w")
-                        
+
                 # config entry 
                 entrys = (fne,pne,eme)
                 for entry in entrys:
@@ -192,4 +195,3 @@ class reqbuild(Frame):
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
                 self.adde.delete(0, "end")
                 return None
-

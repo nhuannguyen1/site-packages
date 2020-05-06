@@ -56,11 +56,11 @@ class incus(Frame):
                                 cavwidth=600,
                                 bg = "white", 
                                 bgpr = "#5181a7")
-
+                
                 self.listFramevp = self.sc.framecv
 
                 self.canv =  self.sc.canvas
-
+                
                 self.creategui()
 
 
