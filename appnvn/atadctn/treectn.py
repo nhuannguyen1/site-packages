@@ -50,7 +50,7 @@ class createcroll(Frame):
 
         Frame.__init__(self, listFrame)
 
-        self.pack(fill = Y,expand = True)
+        self.pack(fill = tk.BOTH,expand = True)
 
         
 
@@ -90,15 +90,11 @@ class createcroll(Frame):
 
             self.canvas.configure(yscrollcommand=self.vsb.set)            #attach scrollbar action to scroll of canvas
 
-
-
             self.vsb.pack(side="right",
 
                         fill="y") 
 
         elif  self.scrollbarr == 2:
-
-
 
             self.vsbv = tk.Scrollbar(self, 
 
@@ -106,7 +102,6 @@ class createcroll(Frame):
 
                                     command=self.canvas.yview)  
 
-            
 
             self.vsbh = tk.Scrollbar(self,
 
@@ -117,10 +112,7 @@ class createcroll(Frame):
                                                                         #place a scrollbar on self 
 
 
-
             self.canvas.configure(xscrollcommand=self.vsbh.set,yscrollcommand=self.vsbv.set)            #attach scrollbar action to scroll of canvas
-
-
 
             self.vsbv.pack(side="right",
 
@@ -189,9 +181,6 @@ class createcroll(Frame):
                               width = canvas_width)            #whenever the size of the canvas changes alter the window region respectively.        
 
                               
-
-
-
 class ScrolledCanvas(Frame):
 
     def __init__(self, parent=None,
@@ -230,11 +219,7 @@ class ScrolledCanvas(Frame):
 
                  bg = "slate gray",
 
-                 
-
                  color='brown'):
-
-
 
         Frame.__init__(self, parent)
 
@@ -282,7 +267,7 @@ class ScrolledCanvas(Frame):
 
         self.pack(expand=True, 
 
-                  fill=BOTH) 
+                  fill=tk.BOTH) 
 
 
 
@@ -295,34 +280,25 @@ class ScrolledCanvas(Frame):
         self.__addcommmandscroll()
 
 
-
-        #self.returnframe()
-
-        
-
-
-
     def __add_scroll_bars(self):
-
-        
 
         # add scroll bars
 
-        self.hbar=Scrollbar(self,
+        self.hbar=tk.Scrollbar(self,
 
                             orient=self.hbarori)
 
         self.hbar.pack(side=self.hbarside,
 
-                      fill=X)
+                      fill=tk.X)
 
-        self.vbar=Scrollbar(self,
+        self.vbar=tk.Scrollbar(self,
 
                             orient=self.vbarori )
 
         self.vbar.pack(side=self.vbarside,
 
-                        fill=Y)
+                        fill=tk.Y)
 
     def __create_canvas(self):
 
@@ -330,7 +306,7 @@ class ScrolledCanvas(Frame):
 
         # width and height are only the visible size of the white area, scrollregion is the area the user can see by scrolling
 
-        self.canv = Canvas(self,bg=self.bg,
+        self.canv = tk.Canvas(self,bg=self.bg,
 
                           width=self.canvwidth,
 
@@ -342,7 +318,7 @@ class ScrolledCanvas(Frame):
 
         # frame to input 
 
-        if self.framea_cw != NONE:
+        if self.framea_cw != None:
 
             self.framea = cvframe(cavas=self.canv,
 
@@ -352,7 +328,7 @@ class ScrolledCanvas(Frame):
 
         #event to result
 
-        if self.frameb_cw != NONE:
+        if self.frameb_cw != None:
 
             self.frameb = cvframe(cavas=self.canv,
 
@@ -362,7 +338,7 @@ class ScrolledCanvas(Frame):
 
         #image 
 
-        if self.framec_cw != NONE:
+        if self.framec_cw != None:
 
             self.framec = cvframe(cavas=self.canv,
 
@@ -374,7 +350,7 @@ class ScrolledCanvas(Frame):
 
         # print quotation 
 
-        if self.framed_cw != NONE:
+        if self.framed_cw != None:
 
             self.framed = cvframe(cavas=self.canv,
 
@@ -384,11 +360,11 @@ class ScrolledCanvas(Frame):
 
 
 
-        self.canv.pack(side=LEFT,
+        self.canv.pack(side=tk.LEFT,
 
-                       expand=YES, 
+                       expand=tk.YES, 
 
-                       fill=BOTH) 
+                       fill=tk.BOTH) 
 
     
 
@@ -566,9 +542,9 @@ class treescrollbar:
 
                                 command = self.tree.xview)
 
-            xsb.pack(side=BOTTOM,
+            xsb.pack(side=tk.BOTTOM,
 
-                        fill=X)
+                        fill=tk.X)
 
             
 
@@ -580,9 +556,9 @@ class treescrollbar:
 
 
 
-            ysb.pack(side=RIGHT,
+            ysb.pack(side=tk.RIGHT,
 
-                        fill=Y)
+                        fill=tk.Y)
 
 
 
@@ -780,7 +756,8 @@ class scbg (tk.Frame):
                                     cavheight=frameb_k[3],
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],
-                                    createwdx=frameb_k[0]).rtframecv()            
+                                    createwdx=frameb_k[0]).rtframecv()
+                        
 
 
     def __addcommmandscroll (self):

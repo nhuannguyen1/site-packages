@@ -9,7 +9,8 @@ import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
-from appnvn.atadctn.treectn import scbg
+from appnvn.atadctn.treectn import scbg,createcroll
+
 
 class reqbuild(Frame):
         """ customer information"""
@@ -62,8 +63,11 @@ class reqbuild(Frame):
                                 frameb = [630,10,700,900,"white"]
                                 )
                 self.listFramevp = self.sc.framea
-                self.listFramedr = self.sc.frameb
                 self.canv =  self.sc.canvas
+                self.listFramedr_d = self.sc.frameb
+
+                self.listFramedr = createcroll(listFrame=self.listFramedr_d,scrollbarr= False,crvheight=50,crwidth=50,cavheight=100,cavwidth=100).createy1()
+
                 self.creategui()
                 self.createdrawing()
 
