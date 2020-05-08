@@ -9,8 +9,9 @@ import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
-from appnvn.atadctn.treectn import scbg,createcroll
-
+from appnvn.atadctn.treectn import scbg,createcroll,cvframe
+from pynvn.caculate.cacul_cavas import placereccenter
+import re
 
 class reqbuild(Frame):
         """ customer information"""
@@ -23,7 +24,9 @@ class reqbuild(Frame):
                         labelfont = ('times', 20),
                         labelfont_sm = ('times', 16),
                         padx = (10,0),
-                        imagenext = None
+                        imagenext = None,
+                        h = 100,
+                        w = 100
                         ):
                 self.tktk = tktk
                 self.tktk.withdraw()
@@ -39,6 +42,9 @@ class reqbuild(Frame):
                 self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
+                self.h = h
+                self.w = h
+
 
                 gui (tktk=self.filewin,
                         pathico=self.pathico,
@@ -53,23 +59,26 @@ class reqbuild(Frame):
                 menu (tktk=self.filewin).createmenu()
 
                 #gui for data 
+                self.cavheight_width = [900,1400]
+                self.frameb =  [630,30,700,800,"white"]
                 self.sc = scbg(parent = self.filewin,
-                                cavheight=900,
-                                cavwidth=1400,
+                                cavheight=self.cavheight_width[0],
+                                cavwidth=self.cavheight_width[1],
                                 bg = "white", 
                                 bgpr = "#5181a7",
                                 isonlyaframe= False,
-                                framea =[10,10,615,900,"yellow"], 
-                                frameb = [630,10,700,900,"white"]
+                                framea =[0,30,615,800,"yellow"], 
+                                frameb = self.frameb 
                                 )
                 self.listFramevp = self.sc.framea
                 self.canv =  self.sc.canvas
-                self.listFramedr_d = self.sc.frameb
-
-                self.listFramedr = createcroll(listFrame=self.listFramedr_d,scrollbarr= False,crvheight=50,crwidth=50,cavheight=100,cavwidth=100).createy1()
+                self.listFramedr = self.sc.frameb
 
                 self.creategui()
                 self.createdrawing()
+
+                
+                self.pattern = re.compile("^\w{0,10}$")
 
         def creategui(self):
                 """create gui for customer information"""
@@ -86,7 +95,6 @@ class reqbuild(Frame):
                 cis.grid(column = 0, 
                                 row  = row,
                                 padx = self.padx,
-                                pady = (10,0),
                                 columnspan = 4
                                 )
 
@@ -168,11 +176,12 @@ class reqbuild(Frame):
                         row = row,
                         padx = self.padx,
                         sticky  = "w")
-
+                vcmd = (self.register(self.validate_username), "%i", "%P")
 
                 # Width entry 
-                entryw = tk.Entry(self.listFramevp,width = 10)
-                entryw.grid(column = 1, 
+                self.entryw = tk.Entry(self.listFramevp,width = 10,validate="focusout",validatecommand=vcmd,invalidcommand=self.print_error)
+                self.entryw.insert(tk.END, 100)
+                self.entryw.grid(column = 1, 
                         row = row,
                         sticky  = "w")
                 #Width label
@@ -184,8 +193,9 @@ class reqbuild(Frame):
                         sticky  = "w")
                 row += 1
                # height entry 
-                entryh = tk.Entry(self.listFramevp,width = 10)
-                entryh.grid(column = 1, 
+                self.entryh = tk.Entry(self.listFramevp,width = 10,validate="focusout",validatecommand=vcmd,invalidcommand=self.print_error)
+                self.entryh.insert(tk.END, 100)
+                self.entryh.grid(column = 1, 
                         row = row,
                         sticky  = "w")
                 #height label
@@ -454,7 +464,7 @@ class reqbuild(Frame):
 
 
                 # config entry 
-                entrys = (entryw,entryh,etb,eta,etl,etr,self.adde,et1,et2,et3,et4,et5,et6,et7,et8)
+                entrys = (self.entryw,self.entryh,etb,eta,etl,etr,self.adde,et1,et2,et3,et4,et5,et6,et7,et8)
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
@@ -466,25 +476,30 @@ class reqbuild(Frame):
                 return None
 
         def createdrawing (self):
-                #line 1
-                row = 0 
-                ci = tk.Label(self.listFramedr,
-                                text = "Info house:"
-                                )
-                row = row + 1
-                ci.grid(column = 0, 
-                        row = row,
-                        padx = self.padx,
-                        sticky  = "w")
+                """frawing layout follow customer"""
+                canvas = tk.Canvas(self.listFramedr)
+
+                plc = placereccenter(info_height_k= self.h,
+                                        info_width_k= self.w,
+                                        info_width_P =self.frameb[2],
+                                        info_height_p=self.frameb[3]
+                                        )
+                # top left
+                leftpoint = plc.pointleftrec()
+                # top right
+                rightpoint = plc.pointrightrec()
+                # create ractangle 
+                canvas.create_rectangle (*leftpoint,
+                                        *rightpoint,
+                                        fill="#476042")
+                canvas.pack(fill = tk.BOTH, expand = True)
+
+        def validate_username(self, index, username):
                 
-                #Line 2
-                row = row + 1
-                cis = tk.Label(self.listFramedr,
-                                text = "Information of the house you want to build"
-                                )
-                cis.grid(column = 0, 
-                                row  = row ,
-                                padx = self.padx,
-                                sticky  = "w",
-                                columnspan = 4
-                                )
+                self.h = float(self.entryh.get())
+                self.w =float(self.entryw.get())  
+                print (self.h,self.w)
+                return self.pattern.match(username) is not None
+        def print_error(self):
+                print("Invalid username character")
+                        

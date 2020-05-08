@@ -422,9 +422,7 @@ class ScrolledCanvas(Frame):
 
         self.createwdy = createwdyname
 
-
-
-class cvframe:
+class cvframe(tk.Frame):
 
     def __init__(self,cavas = None,
 
@@ -442,11 +440,16 @@ class cvframe:
 
         self.createwdy = createwdy
 
+        tk.Frame.__init__(self,cavas)
+
+        #self.parent = parent
+
+        self.pack(fill = tk.Y, expand = True)
     
 
     def rtframecv(self):
 
-        self.listFrame =Frame(self.cavas)
+        self.listFrame =Frame(self)
 
         self.cavas.create_window(self.createwdx,
 
@@ -502,7 +505,6 @@ class cvframeg:
 
                             background=self.bg) 
 
-        
 
         self.window = self.cavas.create_window((self.createwdx,
 
@@ -757,8 +759,7 @@ class scbg (tk.Frame):
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],
                                     createwdx=frameb_k[0]).rtframecv()
-                        
-
+            
 
     def __addcommmandscroll (self):
 
