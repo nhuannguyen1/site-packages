@@ -175,37 +175,37 @@ class create_poly_from_tleft_bright:
 
         
 
-def cresectionpoint(point1, width = 100, direction = "y_left"):
+def cresectionpoint(point1, width = 100, direction = "y_left",hsh = 6, hsv = 8 ):
 
     if direction == "y_left":
         p_center = [point1[0],point1[1] + -(width/2)]
-        p_t = [p_center[0],p_center[1] - width/8 ]
-        p_d =  [p_center[0],p_center[1] + width/8 ]
-        p_2 = [p_d[0] - width/4,p_d[1]]
-        p_3 = [p_t[0] + width/4,p_t[1]]
+        p_t = [p_center[0],p_center[1] - width/hsv ]
+        p_d =  [p_center[0],p_center[1] + width/hsv ]
+        p_2 = [p_d[0] - width/hsh,p_d[1]]
+        p_3 = [p_t[0] + width/hsh,p_t[1]]
         return [*p_d,*p_2,*p_3,*p_t]
     elif direction == "y_right":
         p_center = [point1[0],point1[1] + (width/2)]
-        p_t = [p_center[0],p_center[1] - width/8 ]
-        p_d =  [p_center[0],p_center[1] + width/8 ]
-        p_2 = [p_t[0] + width/4,p_t[1]]
-        p_3 = [p_d[0] - width/4,p_d[1]]
+        p_t = [p_center[0],p_center[1] - width/hsv ]
+        p_d =  [p_center[0],p_center[1] + width/hsv ]
+        p_2 = [p_t[0] + width/hsh,p_t[1]]
+        p_3 = [p_d[0] - width/hsh,p_d[1]]
         return [*p_t,*p_2,*p_3,*p_d]
     
     elif direction == "y_up":
         p_center = [point1[0]- (width/2),point1[1]]
-        p_t = [p_center[0]- width/8,p_center[1]]
-        p_d =  [p_center[0] + width/8,p_center[1]]
-        p_2 = [p_d[0] ,p_d[1]+ width/4]
-        p_3 = [p_t[0] ,p_t[1]- width/4]
+        p_t = [p_center[0]- width/hsv,p_center[1]]
+        p_d =  [p_center[0] + width/hsv,p_center[1]]
+        p_2 = [p_d[0] ,p_d[1]+ width/hsh]
+        p_3 = [p_t[0] ,p_t[1]- width/hsh]
         return [*p_d,*p_2,*p_3,*p_t]
 
     elif direction == "y_bottom":
         p_center = [point1[0] + (width/2),point1[1]]
-        p_t = [p_center[0]+ width/8,p_center[1]]
-        p_d =  [p_center[0] - width/8,p_center[1]]
-        p_2 = [p_d[0] ,p_d[1]+ width/4]
-        p_3 = [p_t[0] ,p_t[1]- width/4]
+        p_t = [p_center[0]+ width/hsv,p_center[1]]
+        p_d =  [p_center[0] - width/hsv,p_center[1]]
+        p_2 = [p_d[0] ,p_d[1]+ width/hsh]
+        p_3 = [p_t[0] ,p_t[1]- width/hsh]
         return [*p_d,*p_2,*p_3,*p_t]
         
         

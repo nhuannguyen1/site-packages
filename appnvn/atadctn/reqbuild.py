@@ -65,17 +65,31 @@ class reqbuild(Frame):
 
                 #gui for data 
                 self.cavheight_width = [1200,720]
-                self.frameb =  [450,0,750,720,"aquamarine2"]
+                self.framea = [0,0,450,720,"white"]
+                self.frameb = [450,0,750,720,"aquamarine2"]
                 self.sc = scbg(parent = self.filewin,
                                 cavheight=self.cavheight_width[1],
                                 cavwidth=self.cavheight_width[0],
-                                bg = "white", 
+                                bg = "aquamarine2", 
                                 bgpr = "#5181a7",
                                 isonlyaframe= False,
-                                framea =[0,0,450,720,"aquamarine2"], 
+                                framea = self.framea, 
                                 frameb = self.frameb 
                                 )
         
+                self.h = 400
+                self.w = 400
+                # set back area
+                self.w_front =  100
+                self.w_back =  100
+                self.w_left =  100
+                self.w_right =  100
+                # traffice around
+                self.wr_front =  100
+                self.wr_back =  100
+                self.wr_left=  100
+                self.wr_right= 100
+
                 # create frame a
                 self.listFramevp = self.sc.framea
                 # create cavas framea 
@@ -93,6 +107,11 @@ class reqbuild(Frame):
                 self.canvasb.bind("<B1-Motion>", self.move_move)
                 #self.createdrawing()
                 self.pattern = re.compile("^\w{0,10}$")
+
+                self.createdrawing()
+                # scale in cavas 
+                self.canvasb.scale("all", self.frameb[2]/2, self.frameb[3]/2, 0.8, 0.8)
+
 
         def creategui(self):
                 """create gui for customer information"""
@@ -221,7 +240,7 @@ class reqbuild(Frame):
                                         validatecommand=vcmd,
                                         invalidcommand=self.print_error)
 
-                self.entryw.insert(tk.END, 400)
+                self.entryw.insert(tk.END, self.w)
                 self.entryw.grid(column = 1, 
                         row = row,
                         sticky  = "w")
@@ -239,7 +258,7 @@ class reqbuild(Frame):
                                         validate="focusout",
                                         validatecommand=vcmd,
                                         invalidcommand=self.print_error)
-                self.entryh.insert(tk.END, 400)
+                self.entryh.insert(tk.END, self.h)
                 self.entryh.grid(column = 1, 
                         row = row,
                         sticky  = "w")
@@ -273,7 +292,7 @@ class reqbuild(Frame):
                         sticky  = "w",
                         )
                 # set defaut value for entry 
-                self.etf.insert(tk.END, 100)
+                self.etf.insert(tk.END, self.w_front)
                 
                 lbb = tk.Label(self.listFramevp,
                         text = "Front",
@@ -296,7 +315,7 @@ class reqbuild(Frame):
                         sticky  = "w",
                         )
                 # set defaut value for entry 
-                self.etb.insert(tk.END, 100)
+                self.etb.insert(tk.END, self.w_back)
                 
                 lba = tk.Label(self.listFramevp,
                         text = "Back",
@@ -319,7 +338,7 @@ class reqbuild(Frame):
                         sticky  = "w",
                         )
                 # set defaut value for entry 
-                self.etl.insert(tk.END, 100)
+                self.etl.insert(tk.END, self.w_left)
                 
                 lbl = tk.Label(self.listFramevp,
                         text = "Left",
@@ -342,7 +361,7 @@ class reqbuild(Frame):
                         sticky  = "w",
                         )
                 # set defaut value for entry 
-                self.etr.insert(tk.END, 100)
+                self.etr.insert(tk.END, self.w_right)
                 
                 lbr = tk.Label(self.listFramevp,
                         text = "Right",
@@ -370,7 +389,7 @@ class reqbuild(Frame):
                 self.et1.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-                self.et1.insert(tk.END, 150)
+                self.et1.insert(tk.END, self.wr_front)
                 #Width of before label 
                 lb2 = tk.Label(self.listFramevp,
                         text = "W_Font",
@@ -379,7 +398,7 @@ class reqbuild(Frame):
                         row = row,
                         sticky  = "w")
                 row += 1
-               # height of entry after 
+               # height of entry back 
                 self.et2 = tk.Entry(self.listFramevp,
                                 width = 10,
                                 validate="focusout",
@@ -388,7 +407,7 @@ class reqbuild(Frame):
                 self.et2.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-                self.et2.insert(tk.END, 150)
+                self.et2.insert(tk.END, self.w_back)
                 #height of entry After label
                 lb3 = tk.Label(self.listFramevp,
                         text = "W_Back",
@@ -406,7 +425,7 @@ class reqbuild(Frame):
                 self.et3.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-                self.et3.insert(tk.END, 150)
+                self.et3.insert(tk.END, self.wr_left)
                 #height of  Left label
                 lb4 = tk.Label(self.listFramevp,
                         text = "W_Left",
@@ -424,7 +443,7 @@ class reqbuild(Frame):
                 self.et4.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-                self.et4.insert(tk.END, 150)
+                self.et4.insert(tk.END, self.wr_right)
                 #height of  right label
                 lb5 = tk.Label(self.listFramevp,
                         text = "W_Right",
@@ -577,6 +596,7 @@ class reqbuild(Frame):
                 return None
 
         def createdrawing (self, colorroad = "#c49b65"):
+                #self.getparameter()
                 """drawing layout follow customer"""
                 plc = placereccenter(info_height_k= self.h,
                                         info_width_k= self.w,
@@ -587,6 +607,7 @@ class reqbuild(Frame):
                 self.leftpoint = plc.pointleftrec()
                 # top right
                 self.rightpoint = plc.pointrightrec()
+
                 try:
 
                         self.canvasb.delete(self.rectangle_wd ) # remove
@@ -595,7 +616,7 @@ class reqbuild(Frame):
                 # create rectange of parent 
                 self.rectangle_wd = self.canvasb.create_rectangle (*self.leftpoint,
                                                                         *self.rightpoint,
-                                                                        fill="blue")
+                                                                        fill="yellow")
                 
                 # set back road 
                 
@@ -730,7 +751,10 @@ class reqbuild(Frame):
 
                 coordtext =coord.centertowpoint()
 
-                self.cvt = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.hr), angle=90)
+                self.cvt = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.h), 
+                                                        angle=90)
 
                 #dim for top
                 try:
@@ -753,7 +777,10 @@ class reqbuild(Frame):
                         pass
                 coordtext =coord.centertowpoint()
 
-                self.cvtt = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr), angle=0)
+                self.cvtt = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.w), 
+                                                        angle=0)
 
                 """ dim for setback front """
                 
@@ -779,7 +806,10 @@ class reqbuild(Frame):
                         pass
                 coordf =coord.fronttowpointcenter()
 
-                self.tcf = self.canvasb.create_text(*coordf, anchor="s",text =str(self.w_frontr), angle=90)
+                self.tcf = self.canvasb.create_text(*coordf, 
+                                                        anchor="s",
+                                                        text =str(self.w_front), 
+                                                        angle=90)
 
                 #dim for setback back 
                 
@@ -804,7 +834,10 @@ class reqbuild(Frame):
                         pass
                 coordf =coord.backtowpointcenter()
 
-                self.tcb = self.canvasb.create_text(*coordf, anchor="s",text =str(self.w_backr), angle=90)
+                self.tcb = self.canvasb.create_text(*coordf, 
+                                                        anchor="s",
+                                                        text =str(self.w_back), 
+                                                        angle=90)
 
                 #dim for setback left 
                 
@@ -831,7 +864,10 @@ class reqbuild(Frame):
                 coordl =coord.lefttowpointcenter()
 
 
-                self.tcl = self.canvasb.create_text(*coordl, anchor="s",text =str(self.w_leftr), angle=0)
+                self.tcl = self.canvasb.create_text(*coordl, 
+                                                        anchor="s",
+                                                        text =str(self.w_left), 
+                                                        angle=0)
 
                 #dim for setback right 
                 
@@ -858,7 +894,7 @@ class reqbuild(Frame):
 
                 self.tcr = self.canvasb.create_text(*coordr, 
                                                         anchor="s",
-                                                        text =str(self.w_rightr), 
+                                                        text =str(self.w_right), 
                                                         angle=0)
 
                 # dim for road front
@@ -886,7 +922,10 @@ class reqbuild(Frame):
                         pass
                 coordtext =coordf.centertowpoint()
 
-                self.tfrf = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_frontr), angle=90)
+                self.tfrf = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.wr_front), 
+                                                        angle=90)
                 
                 # dim for road back
                 coordf = coordp(topleftp=tlrb[0],
@@ -914,7 +953,10 @@ class reqbuild(Frame):
                         pass
                 coordtext =coordf.centertowpoint()
 
-                self.tfrb = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_backr), angle=90)
+                self.tfrb = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.wr_back), 
+                                                        angle=90)
 
                 
                 # dim for road left
@@ -943,7 +985,10 @@ class reqbuild(Frame):
                         pass
                 coordtext =coordf.centertowpoint()
 
-                self.tfrl = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_leftr), angle=0)
+                self.tfrl = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.wr_left), 
+                                                        angle=0)
                 
                 # dim for road right
                 coordf = coordp(topleftp=tlrr[0],
@@ -971,7 +1016,10 @@ class reqbuild(Frame):
                         pass
                 coordtext =coordf.centertowpoint()
 
-                self.tfrr = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_rightr), angle=0)
+                self.tfrr = self.canvasb.create_text(*coordtext, 
+                                                        anchor="n",
+                                                        text =str(self.wr_right), 
+                                                        angle=0)
 
 
                 #caculate for area 
@@ -998,47 +1046,10 @@ class reqbuild(Frame):
 
         def validate_username(self, index, username):
                 """validate user name """
-                # get parameter setback width 
-                try:
-                                                
-                        # width and height of parent area
-                        self.hr = float(self.entryh.get())
-                        self.wr =float(self.entryw.get()) 
-                        # set back area
-                        self.w_frontr =  float(self.etf.get())
-                        self.w_backr =  float(self.etb.get())
-                        self.w_leftr =  float(self.etl.get())
-                        self.w_rightr =  float(self.etr.get())
-                        # traffice around
-                        self.wr_frontr =  float(self.et1.get())
-                        self.wr_backr =  float(self.et2.get())
-                        self.wr_leftr=  float(self.et3.get())
-                        self.wr_rightr=  float(self.et4.get())
-                        try:
-                                self.maxradio = ratio(real_w=self.frameb[2],
-                                                real_h=self.frameb[3],
-                                                w = self.wr + self.w_leftr + self.w_rightr + self.wr_leftr + self.wr_rightr + 200,
-                                                h = self.hr + self.w_frontr + self.w_backr + self.wr_frontr + self.wr_backr + 200).reratiomax()
-                        except:
-                                messagebox.showerror("Eror", "check ratio of class ratio" )
-                        # width and height of parent area
-                        self.h = self.hr / self.maxradio
-                        self.w =self.wr / self.maxradio
-                        # set back area
-                        self.w_front =  self.w_frontr / self.maxradio
-                        self.w_back =  self.w_backr / self.maxradio
-                        self.w_left =   self.w_leftr / self.maxradio
-                        self.w_right =  self.w_rightr / self.maxradio
-                        # traffice around
-                        self.wr_front =  self.wr_frontr / self.maxradio
-                        self.wr_back =  self.wr_backr  / self.maxradio
-                        self.wr_left =  self.wr_leftr / self.maxradio
-                        self.wr_right = self.wr_rightr / self.maxradio
-                except:
-                        messagebox.showerror("Eror", "check value of entry" )
+                self.getparameter()
                 self.createdrawing()
+                self.currentsize()
                 return self.pattern.match(username) is not None
-
         def print_error(self):
                 print("Invalid username character")
         
@@ -1055,9 +1066,13 @@ class reqbuild(Frame):
         #windows zoom
         def zoomer(self,event):
                 if (event.delta > 0):
-                        self.canvasb.scale("all", event.x, event.y, 1.1, 1.1)
+                        self.canvasb.scale("all",
+                                                self.frameb[2]/2, 
+                                                self.frameb[3]/2, 1.1, 1.1)
                 elif (event.delta < 0):
-                        self.canvasb.scale("all", event.x, event.y, 0.9, 0.9)
+                        self.canvasb.scale("all", 
+                                                self.frameb[2]/2, 
+                                                self.frameb[3]/2, 0.9, 0.9)
                         self.canvasb.configure(scrollregion = self.canvasb.bbox("all"))
                 
         #move
@@ -1065,3 +1080,38 @@ class reqbuild(Frame):
                 self.canvasb.scan_mark(event.x, event.y)
         def move_move(self, event):
                 self.canvasb.scan_dragto(event.x, event.y, gain=1)
+        def getparameter(self):                                                
+                # width and height of parent area
+                self.h = float(self.entryh.get())
+                self.w =float(self.entryw.get()) 
+                # set back area
+                self.w_front =  float(self.etf.get())
+                self.w_back =  float(self.etb.get())
+                self.w_left =  float(self.etl.get())
+                self.w_right =  float(self.etr.get())
+                # traffice around
+                self.wr_front =  float(self.et1.get())
+                self.wr_back =  float(self.et2.get())
+                self.wr_left=  float(self.et3.get())
+                self.wr_right=  float(self.et4.get())
+        def reratio (self):
+                """ caculate ratio of window"""
+                try:
+                        self.minradio = ratio(real_w=self.frameb[2],
+                                        real_h=self.frameb[3],
+                                        w = self.w + self.w_left + self.w_right + self.wr_left + self.wr_right + 200,
+                                        h = self.h + self.w_front + self.w_back + self.wr_front + self.wr_back + 200).reratiomax()
+                except:
+                        messagebox.showerror("Eror", "check ratio of class ratio" )
+
+        def currentsize (self):
+                """ current size to setup when event"""
+                self.reratio()
+                self.canvasb.scale("all",
+                                self.frameb[2]/2, 
+                                self.frameb[3]/2, 
+                                self.minradio, 
+                                self.minradio)
+
+        def createrecp (self):
+                
