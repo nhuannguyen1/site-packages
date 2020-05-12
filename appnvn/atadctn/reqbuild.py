@@ -9,13 +9,19 @@ import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
-from appnvn.atadctn.treectn import scbg,createcroll,cvframe
+from appnvn.atadctn.treectn import (scbg,
+                                        createcroll,
+                                        cvframe)
 from pynvn.caculate.cacul_cavas import (placereccenter,
-                                        setbackdimention)
+                                        setbackdimention,create_poly_from_tleft_bright)
 
 import re
 
 from pynvn.caculate.ratio import ratio
+
+from pynvn.caculate.coord_point import coordp
+
+from pynvn.caculate.area import area
 
 class reqbuild(Frame):
         """ customer information"""
@@ -79,6 +85,11 @@ class reqbuild(Frame):
                 self.canvasb = tk.Canvas(self.listFramedr)
                 # create gui for input from customer 
                 self.creategui()
+                #windows scroll
+                self.canvasb.bind("<MouseWheel>",self.zoomer)
+                # This is what enables using the mouse:
+                self.canvasb.bind("<ButtonPress-1>", self.move_start)
+                self.canvasb.bind("<B1-Motion>", self.move_move)
                 #self.createdrawing()
                 self.pattern = re.compile("^\w{0,10}$")
 
@@ -349,41 +360,52 @@ class reqbuild(Frame):
                         padx = self.padx,
                         sticky  = "e")
                 # width of before 
-                et1 = tk.Entry(self.listFramevp,
-                                width = 10)
-                et1.grid(column = 1, 
+                self.et1 = tk.Entry(self.listFramevp,
+                                width = 10,
+                                validate="focusout",
+                                validatecommand=vcmd,
+                                invalidcommand=self.print_error
+                                )
+                self.et1.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-
+                self.et1.insert(tk.END, 150)
                 #Width of before label 
                 lb2 = tk.Label(self.listFramevp,
-                        text = "W_Before",
+                        text = "W_Font",
                         )
                 lb2.grid(column = 2, 
                         row = row,
                         sticky  = "w")
                 row += 1
                # height of entry after 
-                et2 = tk.Entry(self.listFramevp,
-                                width = 10)
-                et2.grid(column = 1, 
+                self.et2 = tk.Entry(self.listFramevp,
+                                width = 10,
+                                validate="focusout",
+                                validatecommand=vcmd,
+                                invalidcommand=self.print_error)
+                self.et2.grid(column = 1, 
                         row = row,
                         sticky  = "w")
+                self.et2.insert(tk.END, 150)
                 #height of entry After label
                 lb3 = tk.Label(self.listFramevp,
-                        text = "W_After",
+                        text = "W_Back",
                         )
                 lb3.grid(column = 2, 
                         row = row,
                         sticky  = "w")
                 row += 1
                 #height of Left entry
-                et3 = tk.Entry(self.listFramevp,
-                                width = 10)
-                et3.grid(column = 1, 
+                self.et3 = tk.Entry(self.listFramevp,
+                                width = 10,
+                                validate="focusout",
+                                validatecommand=vcmd,
+                                invalidcommand=self.print_error)
+                self.et3.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-
+                self.et3.insert(tk.END, 150)
                 #height of  Left label
                 lb4 = tk.Label(self.listFramevp,
                         text = "W_Left",
@@ -393,12 +415,15 @@ class reqbuild(Frame):
                         sticky  = "w")
                 row += 1
                 #height of right entry
-                et4 = tk.Entry(self.listFramevp,
-                                width = 10)
-                et4.grid(column = 1, 
+                self.et4 = tk.Entry(self.listFramevp,
+                                width = 10,
+                                validate="focusout",
+                                validatecommand=vcmd,
+                                invalidcommand=self.print_error)
+                self.et4.grid(column = 1, 
                         row = row,
                         sticky  = "w")
-
+                self.et4.insert(tk.END, 150)
                 #height of  right label
                 lb5 = tk.Label(self.listFramevp,
                         text = "W_Right",
@@ -465,7 +490,9 @@ class reqbuild(Frame):
                         )
                 lb8.grid(column = 2, 
                         row = row,
-                        sticky  = "w")
+                        sticky  = "w"
+                        )
+
                 row += 1
                # height of entry after 
                 et6 = tk.Entry(self.listFramevp,width = 10)
@@ -484,7 +511,8 @@ class reqbuild(Frame):
                 et7 = tk.Entry(self.listFramevp,width = 10)
                 et7.grid(column = 1, 
                         row = row,
-                        sticky  = "w")
+                        sticky  = "w"
+                        )
 
                 #height of  Left label
                 lb10 = tk.Label(self.listFramevp,
@@ -492,7 +520,9 @@ class reqbuild(Frame):
                         )
                 lb10.grid(column = 2, 
                         row = row,
-                        sticky  = "w")
+                        sticky  = "w"
+                        )
+
                 row += 1
                 #height of right entry
                 et8 = tk.Entry(self.listFramevp,width = 10)
@@ -506,7 +536,8 @@ class reqbuild(Frame):
                         )
                 lb11.grid(column = 2, 
                         row = row,
-                        sticky  = "w")
+                        sticky  = "w"
+                        )
 
                 """ set confg for all (label, combo, entry)"""
                 # config label
@@ -529,9 +560,11 @@ class reqbuild(Frame):
 
                 # config entry 
                 entrys = (self.entryw,self.entryh,
-                        self.etf,self.etb,self.etl,self.etr,self.adde,
-                        et1,et2,et3,et4,et5,et6,
-                        et7,et8)
+                                self.etf,self.etb,
+                                self.etl,self.etr,
+                                self.adde,self.et1,self.et2,
+                                self.et3,self.et4,et5,
+                                et6,et7,et8)
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
@@ -542,8 +575,8 @@ class reqbuild(Frame):
                 self.adde.delete(0, "end")
                 return None
 
-        def createdrawing (self):
-                """frawing layout follow customer"""
+        def createdrawing (self, colorroad = "#c49b65"):
+                """drawing layout follow customer"""
                 plc = placereccenter(info_height_k= self.h,
                                         info_width_k= self.w,
                                         info_width_P =self.frameb[2],
@@ -558,66 +591,466 @@ class reqbuild(Frame):
                         self.canvasb.delete(self.rectangle_wd ) # remove
                 except:
                         pass
-                # createrectange of parent 
+                # create rectange of parent 
                 self.rectangle_wd = self.canvasb.create_rectangle (*self.leftpoint,
                                                                         *self.rightpoint,
                                                                         fill="blue")
-
-                """
-                self.createrectang_area(topleftpoint=self.leftpoint,
-                                        toprightpoint=self.rightpoint,
-                                        fill="blue")
-                """
-
+                
+                # set back road 
+                
                 plcn = setbackdimention(w_front=self.w_front,
                                         w_back=self.w_back,
                                         w_left=self.w_left,
                                         w_right=self.w_right,
                                         topleftpoint_p=self.leftpoint,
-                                        toprightpoint_p=self.rightpoint 
+                                        bottomrightpoint_p=self.rightpoint 
                                         )
+
                 topleftkid = plcn.topleftpoint()
                 toprightkid = plcn.toprightpoint()
-                """
-                self.createrectang_area(topleftpoint=topleftkid,
-                                        toprightpoint=toprightkid,
-                                        fill="yellow")
-                """
+
                 try:
 
                         self.canvasb.delete(self.rrectangle_kid ) # remove
                 except:
+
                         pass
+
                 self.rrectangle_kid = self.canvasb.create_rectangle (*topleftkid,
                                                                         *toprightkid,
-                                                                        fill="yellow")
+                                                                        fill="#e79c2b")
+                self.dis_r = 100
+                # create road for front 
+                rf = create_poly_from_tleft_bright(topleftpoint_p=self.leftpoint,
+                                                        bottomrightpoint_p=self.rightpoint,
+                                                        w_front_r= self.wr_front,
+                                                        w_back_r=self.wr_back,
+                                                        w_left_r=self.wr_left,
+                                                        w_right_r=self.wr_right,
+                                                        dis_r=self.dis_r )
+                rfa = rf.roadfront()
+
+                # create top left and bottom right of road 
+                tlrf = rf.toprandbottoml_roadfront()
+                
+                try:
+
+                        self.canvasb.delete(self.rf ) # remove
+                except:
+                        pass                
+
+
+                self.rf = self.canvasb.create_polygon(*rfa, 
+                                                        fill = colorroad
+                                                        )
+
+                # create road for back 
+                rba  =rf.roadback()
+                # create top left and bottom  back of road 
+                tlrb = rf.toprandbottoml_roadback()
+                
+                try:
+
+                        self.canvasb.delete(self.rba ) # remove
+                except:
+                        pass                
+
+
+                self.rba = self.canvasb.create_polygon(*rba, 
+                                                        fill = colorroad)
+
+                self.canvasb.pack(fill = tk.BOTH,
+                                 expand = True)
+
+                # create road for left
+                rbl  =rf.roadleft()
+
+                tlrl = rf.toprandbottoml_roadleft()
+                
+                try:
+
+                        self.canvasb.delete(self.rbl ) # remove
+                except:
+                        pass                
+
+
+                self.rbl = self.canvasb.create_polygon(*rbl, 
+                                                        fill =colorroad)
+
+                self.canvasb.pack(fill = tk.BOTH,
+                                 expand = True)
+
+                # create road for right
+                rbr  =rf.roadright()
+                tlrr = rf.toprandbottoml_roadright()
+                
+                try:
+
+                        self.canvasb.delete(self.rbr ) # remove
+                except:
+                        pass                
+
+
+                self.rbr = self.canvasb.create_polygon(*rbr, 
+                                                        fill = colorroad)
+
+                self.canvasb.pack(fill = tk.BOTH,
+                                 expand = True)
+
+
+                """ dim for all"""
+                coord = coordp(topleftp=self.leftpoint,
+                                bottomrightp=self.rightpoint,
+                                rev_direction="left",
+                                topleftk=topleftkid,
+                                bottomrightk=toprightkid,
+                                dis_dim=30)
+                #dim for left
+                
+                try:
+
+                        self.canvasb.delete(self.rll ) # remove
+                except:
+                        pass
+
+                coordse = coord.pointstartend()
+
+                self.rll = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both")
+                # create text 
+
+                try:
+
+                        self.canvasb.delete(self.cvt ) # remove
+                except:
+                        pass
+
+
+                coordtext =coord.centertowpoint()
+
+                self.cvt = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.h), angle=90)
+
+                #dim for top
+                try:
+
+                        self.canvasb.delete(self.rlr ) # remove
+                except:
+                        pass
+                coord.rev_direction = "top"
+                coordse = coord.pointstartend()
+
+                self.rlr = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both"
+                                                        )
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.cvtt ) # remove
+                except:
+                        pass
+                coordtext =coord.centertowpoint()
+
+                self.cvtt = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.w), angle=0)
+
+                """ dim for setback front """
+                
+                try:
+
+                        self.canvasb.delete(self.ftp ) # remove
+                except:
+                        pass
+                coord.dis_dim = self.w/2
+                ftp = coord.fronttowpoint()
+                #coordse = coord.pointstartend()
+
+                self.ftp = self.canvasb.create_line(*ftp,
+                                                        fill = "red",
+                                                        arrow = "both"
+                                                        )
+                
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tcf ) # remove
+                except:
+                        pass
+                coordf =coord.fronttowpointcenter()
+
+                self.tcf = self.canvasb.create_text(*coordf, anchor="s",text =str(self.w_front), angle=90)
+
+                #dim for setback back 
+                
+                try:
+
+                        self.canvasb.delete(self.sbb ) # remove
+                except:
+                        pass
+                sbb = coord.backtowpoint()
+                #coordse = coord.pointstartend()
+
+                self.sbb = self.canvasb.create_line(*sbb,
+                                                        fill = "red",
+                                                        arrow = "both"
+                                                        )
+                
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tcb ) # remove
+                except:
+                        pass
+                coordf =coord.backtowpointcenter()
+
+                self.tcb = self.canvasb.create_text(*coordf, anchor="s",text =str(self.w_back), angle=90)
+
+                #dim for setback left 
+                
+                try:
+
+                        self.canvasb.delete(self.sbl ) # remove
+                except:
+                        pass
+                coord.dis_dim = self.h / 2
+                sbl = coord.lefttowpoint()
+                #coordse = coord.pointstartend()
+
+                self.sbl = self.canvasb.create_line(*sbl,
+                                                        fill = "red",
+                                                        arrow = "both"
+                                                        )
+                
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tcl ) # remove
+                except:
+                        pass
+                coordl =coord.lefttowpointcenter()
+
+
+                self.tcl = self.canvasb.create_text(*coordl, anchor="s",text =str(self.w_left), angle=0)
+
+                #dim for setback right 
+                
+                try:
+
+                        self.canvasb.delete(self.sbr ) # remove
+                except:
+                        pass
+                sbr = coord.righttowpoint()
+                #coordse = coord.pointstartend()
+
+                self.sbr = self.canvasb.create_line(*sbr,
+                                                        fill = "red",
+                                                        arrow = "both"
+                                                        )
+                
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tcr ) # remove
+                except:
+                        pass
+                coordr =coord.righttowpointcenter()
+
+                self.tcr = self.canvasb.create_text(*coordr, 
+                                                        anchor="s",
+                                                        text =str(self.w_right), 
+                                                        angle=0)
+
+                # dim for road front
+                coordf = coordp(topleftp=tlrf[0],
+                                bottomrightp=tlrf[1],
+                                rev_direction="left",
+                                dis_dim =30)
+                try:
+
+                        self.canvasb.delete(self.dfrf ) # remove
+                except:
+                        pass
+                coordf.dis_dim = -  self.w / 2
+                coordse = coordf.pointstartend()
+
+                self.dfrf = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both")
+
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tfrf ) # remove
+                except:
+                        pass
+                coordtext =coordf.centertowpoint()
+
+                self.tfrf = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_front), angle=90)
+                
+                # dim for road back
+                coordf = coordp(topleftp=tlrb[0],
+                                bottomrightp=tlrb[1],
+                                rev_direction="left",
+                                dis_dim=30)
+                try:
+
+                        self.canvasb.delete(self.dfrb ) # remove
+                except:
+                        pass
+                coordf.dis_dim =  self.w / 2
+                coordse = coordf.pointstartend()
                
-        
-                self.canvasb.pack(fill = tk.BOTH, expand = True)
+
+                self.dfrb = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both")
+
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tfrb ) # remove
+                except:
+                        pass
+                coordtext =coordf.centertowpoint()
+
+                self.tfrb = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_back), angle=90)
+
+                
+                # dim for road left
+                coordf = coordp(topleftp=tlrl[0],
+                                bottomrightp=tlrl[1],
+                                rev_direction="top",
+                                dis_dim=30)
+                try:
+
+                        self.canvasb.delete(self.dfrl ) # remove
+                except:
+                        pass
+                coordf.dis_dim = - self.h / 2
+                coordse = coordf.pointstartend()
+               
+
+                self.dfrl = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both")
+
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tfrl ) # remove
+                except:
+                        pass
+                coordtext =coordf.centertowpoint()
+
+                self.tfrl = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_left), angle=0)
+                
+                # dim for road right
+                coordf = coordp(topleftp=tlrr[0],
+                                bottomrightp=tlrr[1],
+                                rev_direction="top",
+                                dis_dim=30)
+                try:
+
+                        self.canvasb.delete(self.dfrr ) # remove
+                except:
+                        pass
+                coordf.dis_dim = self.h / 2
+                coordse = coordf.pointstartend()
+               
+
+                self.dfrr = self.canvasb.create_line(*coordse,
+                                                        fill = "red",
+                                                        arrow = "both")
+
+                # create text 
+                try:
+
+                        self.canvasb.delete(self.tfrr ) # remove
+                except:
+                        pass
+                coordtext =coordf.centertowpoint()
+
+                self.tfrr = self.canvasb.create_text(*coordtext, anchor="n",text =str(self.wr_right), angle=0)
+
+
+                #caculate for area 
+                are_k = area(topleftpoint= topleftkid, 
+                                bottomrightpoint=toprightkid).areafromtopbottompoint()
+
+
+
+
+                """ create dim for road """
+
+                # create text 
+                try:
+                        self.canvasb.delete(self.tca ) # remove
+                except:
+                        pass
+                coordrcenter = coord.centerpointkid()
+
+                self.tca = self.canvasb.create_text(*coordrcenter, 
+                                                        anchor="center",
+                                                        text ="Area to build: {}".format(are_k), 
+                                                        angle=0)
+
 
         def validate_username(self, index, username):
                 """validate user name """
-                self.h = float(self.entryh.get())
-                self.w =float(self.entryw.get()) 
 
-                maxradio = (ratio(real_w=self.frameb[2],real_h=self.frameb[3],w= self.w,h=self.w).reratiomax()) * 1.2
-                self.h = self.h/maxradio
-                self.w = self.w/maxradio
-
+                maxradio = (ratio(real_w=self.frameb[2],
+                                real_h=self.frameb[3],
+                                w= self.w ,h=self,h).reratiomax()) * 1.2
+                
+                maxradio = 0.8
                 # get parameter setback width 
-                try: 
-                        self.w_front =  float(self.etf.get())/maxradio
-                        self.w_back =  float(self.etb.get())/maxradio
-                        self.w_left =  float(self.etl.get())/maxradio
-                        self.w_right =  float(self.etr.get())/maxradio
+                try:
+                                                
+                        # width and height of parent area
+                        self.h = float(self.entryh.get())
+                        self.w =float(self.entryw.get()) 
+                        # set back area
+                        self.w_front =  float(self.etf.get())
+                        self.w_back =  float(self.etb.get())
+                        self.w_left =  float(self.etl.get())
+                        self.w_right =  float(self.etr.get())
+                        # traffice around
+                        self.wr_front =  float(self.et1.get())
+                        self.wr_back =  float(self.et2.get())
+                        self.wr_left=  float(self.et3.get())
+                        self.wr_right=  float(self.et4.get())
+
+                        maxradio = (ratio(real_w=self.frameb[2],
+                                        real_h=self.frameb[3],
+                                        w= self.w ,h=self,h).reratiomax()) * 1.2
+                        
+                        
+                        # width and height of parent area
+                        self.h = (float(self.entryh.get())) * maxradio
+                        self.w =float(self.entryw.get()) * maxradio
+                        # set back area
+                        self.w_front =  (float(self.etf.get()))* maxradio
+                        self.w_back =  (float(self.etb.get()))* maxradio
+                        self.w_left =  (float(self.etl.get()))* maxradio
+                        self.w_right =  float(self.etr.get())* maxradio
+                        # traffice around
+                        self.wr_front =  (float(self.et1.get()))* maxradio
+                        self.wr_back =  (float(self.et2.get()))* maxradio
+                        self.wr_left=  (float(self.et3.get()))* maxradio
+                        self.wr_right=  (float(self.et4.get()))* maxradio
                 except:
                         pass
                 self.createdrawing()
                 return self.pattern.match(username) is not None
+
         def print_error(self):
                 print("Invalid username character")
         
-        def createrectang_area(self,topleftpoint = None, toprightpoint = None, fill = "yellow",alpha=0.5 ):
+        def createrectang_area(self,topleftpoint = None, 
+                                toprightpoint = None, 
+                                fill = "yellow",
+                                alpha=0.5 ):
+
                 """ create rectangle of area """
                 self.rrectangle_wd = self.canvasb.create_rectangle (*topleftpoint,
                                                                         *toprightpoint,
@@ -626,7 +1059,13 @@ class reqbuild(Frame):
         #windows zoom
         def zoomer(self,event):
                 if (event.delta > 0):
-                self.canvasb.scale("all", event.x, event.y, 1.1, 1.1)
+                        self.canvasb.scale("all", event.x, event.y, 1.1, 1.1)
                 elif (event.delta < 0):
-                self.canvasb.scale("all", event.x, event.y, 0.9, 0.9)
-                self.canvasb.configure(scrollregion = self.canvasb.bbox("all"))
+                        self.canvasb.scale("all", event.x, event.y, 0.9, 0.9)
+                        self.canvasb.configure(scrollregion = self.canvasb.bbox("all"))
+                
+        #move
+        def move_start(self, event):
+                self.canvasb.scan_mark(event.x, event.y)
+        def move_move(self, event):
+                self.canvasb.scan_dragto(event.x, event.y, gain=1)
