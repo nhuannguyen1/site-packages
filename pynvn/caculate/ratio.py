@@ -8,6 +8,7 @@ class ratio:
     
     def reratiomax(self):
         """return ratio max"""
+        print (self.w,self.h,self.real_w,self.real_h)
         return max([self.w/self.real_w,self.h/self.real_h])
 
     def reratiomin(self):
