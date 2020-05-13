@@ -24,7 +24,7 @@ from pynvn.caculate.ratio import ratio
 from pynvn.caculate.coord_point import coordp
 
 from pynvn.caculate.area import area
-
+import string
 class reqbuild(Frame):
         """ customer information"""
         def __init__(self,tktk = None,
@@ -110,7 +110,7 @@ class reqbuild(Frame):
                 self.canvasb.bind("<ButtonPress-1>", self.move_start)
                 self.canvasb.bind("<B1-Motion>", self.move_move)
                 #self.createdrawing()
-                self.pattern = re.compile("^\w{0,10}$")
+                self.pattern = re.compile("[0-9]")
                 self.createdrawing()
                 # scale in cavas 
                 self.minradio = ratio(real_w=self.frameb[2],
@@ -643,16 +643,18 @@ class reqbuild(Frame):
                                                         w_right_r=self.wr_right,
                                                         dis_r=self.dis_r )
                 rfa = rf.roadfront()
+
                 #create front of road
                 self.createfront(rfa,fill = colorroad)
-
                 tlrf = rf.toprandbottoml_roadfront()
+
                 # create road for back 
                 rba  =rf.roadback()
                 self.createback(rba,fill = colorroad)
+
                 # create top left and bottom  back of road 
                 tlrb = rf.toprandbottoml_roadback()
-                
+
                 # create road for left
                 rbl  =rf.roadleft()
                 self.createleft(rbl,fill = colorroad)
@@ -674,6 +676,7 @@ class reqbuild(Frame):
                                 topleftk=self.topleftkid,
                                 bottomrightk=self.toprightkid,
                                 dis_dim=self.dis_dim)
+
                 # create dim for h 
                 self.dimforh()
 
@@ -699,10 +702,13 @@ class reqbuild(Frame):
                 
                 # dim for road left
                 self.dimforroadleft(tlrl=tlrl)
+
                 # dim for road right
                 self.dimforroadright(tlrr=tlrr)
+
                 #caculate for area 
                 self.cacularea()
+
                 # create direction nwse
                 self.directnmwe(font =('times', 16), fill = "black")
         def validate_username(self, index, username):
@@ -710,10 +716,10 @@ class reqbuild(Frame):
                 self.getparameter()
                 self.createdrawing()
                 self.currentsize()
-
+                print (self.pattern.match(username) is not None)
                 return self.pattern.match(username) is not None
         def print_error(self):
-                print("Invalid username character")
+                print("Invalid username character, only input number")
         
         def createrectang_area(self,topleftpoint = None, 
                                 toprightpoint = None, 
