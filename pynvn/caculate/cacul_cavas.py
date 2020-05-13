@@ -107,14 +107,14 @@ class create_poly_from_tleft_bright:
         self.xy1b = [self.bottomrightpoint_p[0],
                 self.bottomrightpoint_p[1] + self.dis_r]
 
-        self.xyab = cresectionpoint(point1=self.xy1b,width= self.w_front_r,direction="y_right")
+        self.xyab = cresectionpoint(point1=self.xy1b,width= self.w_back_r,direction="y_right")
 
         self.xy2b = [self.xy1b[0],self.xy1b[1] + self.w_back_r]
 
 
         self.xy3b = [self.topleftpoint_p[0], self.xy2b[1]]
 
-        self.xybb = cresectionpoint(point1=self.xy3b,width= self.w_front_r)
+        self.xybb = cresectionpoint(point1=self.xy3b,width= self.w_back_r)
 
         self.xy4b = [self.xy3b[0],self.xy1b[1]]
         return [*self.xy1b,*self.xyab,*self.xy2b,*self.xy3b,*self.xybb,*self.xy4b]        

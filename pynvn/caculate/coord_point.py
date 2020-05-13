@@ -9,6 +9,7 @@ class coordp:
                     rev_point = True,
                     rev_direction = "left",
                     dis_dim = 20,
+                    dis_direc = 20,
                     ):
                     self.topleftp = topleftp
                     self.bottomrightp = bottomrightp
@@ -17,6 +18,7 @@ class coordp:
                     self.rev_point = rev_point
                     self.dis_dim = dis_dim
                     self.rev_direction = rev_direction
+                    self.dis_direc = dis_direc
 
     def pointstartend(self):
         """ center point"""
@@ -137,7 +139,28 @@ class coordp:
         return [(self.topleftk[0] + self.bottomrightk[0])/2,
                 (self.topleftk[1] + self.bottomrightk[1])/2]
     
+    def frontcenterpointp(self):
+        """ return front center point """
+        return [(self.topleftp[0] + self.bottomrightp[0])/2,
+                self.topleftp[1] - self.dis_direc]
 
+    def backcenterpointp(self):
+        """ return back center point """
+        return [(self.topleftp[0] + self.bottomrightp[0])/2,
+                self.bottomrightp[1] + self.dis_direc]
+
+    def leftcenterpointp(self):
+        """ return left center point """
+        return [(self.topleftp[0] - self.dis_direc),(self.bottomrightp[1] + self.topleftp[1]) / 2]
+
+    def rightcenterpointp(self):
+        """ return right center point """
+        return [self.bottomrightp[0] + self.dis_direc,
+                (self.bottomrightp[1] + self.topleftp[1])/2]
+
+    def centerpoinparent(self):
+        return [(self.topleftp[0] + self.bottomrightp[0])/2,
+                (self.topleftp[1] + self.bottomrightp[1])/2]
 
     @property
     def rev_direction(self):
