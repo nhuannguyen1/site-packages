@@ -26,7 +26,7 @@ from pynvn.caculate.coord_point import coordp
 from pynvn.caculate.area import area
 import string
 class reqbuild(Frame):
-        """ customer information"""
+        """Customer information"""
         def __init__(self,tktk = None,
                         br_image = None,
                         pathico = None,
@@ -37,6 +37,7 @@ class reqbuild(Frame):
                         labelfont_sm = ('times', 16),
                         padx = (10,0),
                         imagenext = None,
+                        imagepre = None
                         ):
                 self.tktk = tktk
                 self.tktk.withdraw()
@@ -52,6 +53,7 @@ class reqbuild(Frame):
                 self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
+                self.imagepre = imagepre
                 gui (tktk=self.filewin,
                         pathico=self.pathico,
                         width=950,
@@ -60,14 +62,14 @@ class reqbuild(Frame):
                         widthy="center",
                         condv=2.2,
                         resizable=[True,True]).setcfbs()
-                
+
                 # set menu 
                 menu (tktk=self.filewin).createmenu()
 
                 #gui for data 
-                self.cavheight_width = [1200,720]
-                self.framea = [0,0,450,720,"white"]
-                self.frameb = [450,0,750,720,"aquamarine2"]
+                self.cavheight_width = [1200,750]
+                self.framea = [0,0,450,750,"white"]
+                self.frameb = [450,0,750,750,"aquamarine2"]
 
                 self.sc = scbg(parent = self.filewin,
                                 cavheight=self.cavheight_width[1],
@@ -124,7 +126,7 @@ class reqbuild(Frame):
                                         self.minradio/1.1)
 
         def creategui(self):
-                """create gui for customer information"""
+                """Create gui for customer information"""
                 row = 0
                 col = 0 
                 # create title for window
@@ -567,6 +569,30 @@ class reqbuild(Frame):
                         row = row,
                         sticky  = "w"
                         )
+                row += 1
+                # next and previous buttons
+                btnext = tk.Button(self.listFramevp,
+                                        image = self.imagepre,
+                                        bg = "white",
+                                        activebackground = "#33B5E5", 
+                                        relief = tk.FLAT
+                                        )
+                btnext.grid(column = 1,
+                                row = row,
+                                columnspan = 1,
+                                sticky  = "w",
+                                )
+
+                btpre = tk.Button(self.listFramevp,
+                                        image  = self.imagenext,
+                                        bg = "white",
+                                        activebackground = "#33B5E5", 
+                                        relief = tk.FLAT
+                                        )
+                btpre.grid(column = 1,
+                                row = row,
+                                sticky  = "e"
+                                )
 
                 """ set confg for all (label, combo, entry)"""
                 # config label
@@ -600,12 +626,12 @@ class reqbuild(Frame):
                                         relief = tk.SOLID)
         
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
-                """delete value defaut entry"""
+                """Delete value defaut entry"""
                 self.adde.delete(0, "end")
                 return None
 
         def createdrawing (self, colorroad = "#c49b65"):
-                """drawing layout follow customer"""
+                """Drawing layout follow customer"""
                 plc = placereccenter(info_height_k= self.height,
                                         info_width_k= self.width,
                                         info_width_P =self.frameb[2],
@@ -841,7 +867,7 @@ class reqbuild(Frame):
                         messagebox.showerror("Eror", "check ratio of class ratio" )
 
         def currentsize (self):
-                """ current size to setup when event"""
+                """ Current size to setup when event"""
                 self.reratio()
                 self.canvasb.scale("all",
                                 self.frameb[2]/2, 
@@ -850,7 +876,7 @@ class reqbuild(Frame):
                                 self.minradio/1.1)
 
         def createrecp (self):
-                """create rectangle of widget parent"""
+                """Create rectangle of widget parent"""
                 try:
 
                         self.canvasb.delete(self.rectangle_wd ) # remove
@@ -861,7 +887,7 @@ class reqbuild(Frame):
                                                                         *self.rightpoint,
                                                                         fill="yellow")
         def createreck (self,**kwargs):
-                """create rectangle of widget kid"""
+                """Create rectangle of widget kid"""
                 try:
 
                         self.canvasb.delete(self.rrectangle_kid ) # remove
@@ -874,7 +900,7 @@ class reqbuild(Frame):
                                                                         fill="#e79c2b")
         
         def createfront(self,rfa,**kwargs):
-                """create front road"""
+                """Create front road"""
                 if  int(self.wr_front) != 0:
                         try:
 

@@ -22,7 +22,8 @@ class incus(Frame):
                         labelfont = ('times', 20),
                         labelfont_sm = ('times', 16),
                         padx = (10,0),
-                        imagenext = None
+                        imagenext = None,
+                        imagepre = None
                         ):
                 
                 Frame.__init__(self, tktk)
@@ -37,6 +38,7 @@ class incus(Frame):
                 self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
+                self.imagepre = imagepre
 
                 gui (tktk=self.filewin,
                         pathico=self.pathico,
@@ -315,7 +317,8 @@ class incus(Frame):
                                                 br_image_path=self.br_image_path,
                                                 br_image=self.br_image,
                                                 logoicon=self.logoicon,
-                                                imagenext=self.imagenext
+                                                imagenext=self.imagenext,
+                                                imagepre= self.imagepre
                                                 ),
                                 font = ("times new roman",20)
                                 )
@@ -363,5 +366,3 @@ class incus(Frame):
         def some_callback(self,event): # note that you must include the event as an arg, even if you don't use it.
                 self.adde.delete(0, "end")
                 return None
-
-
