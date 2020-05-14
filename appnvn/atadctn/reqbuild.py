@@ -716,7 +716,6 @@ class reqbuild(Frame):
                 self.getparameter()
                 self.createdrawing()
                 self.currentsize()
-                print (self.pattern.match(username) is not None)
                 return self.pattern.match(username) is not None
         def print_error(self):
                 print("Invalid username character, only input number")
