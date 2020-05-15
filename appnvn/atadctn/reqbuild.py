@@ -28,6 +28,7 @@ import string
 class reqbuild(Frame):
         """Customer information"""
         def __init__(self,tktk = None,
+                        controller= None,
                         br_image = None,
                         pathico = None,
                         br_image_path = None,
@@ -40,9 +41,8 @@ class reqbuild(Frame):
                         imagepre = None
                         ):
                 self.tktk = tktk
-                self.tktk.withdraw()
                 Frame.__init__(self, tktk)
-                
+                self.controller = controller
                 self.labelfont = labelfont
                 self.labelfont_sm = labelfont_sm
                 self.br_image_path  = br_image_path
@@ -50,32 +50,20 @@ class reqbuild(Frame):
                 self.logoicon = logoicon
                 self.padx = padx
                 self.pathico = pathico
-                self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
                 self.imagepre = imagepre
-                gui (tktk=self.filewin,
-                        pathico=self.pathico,
-                        width=950,
-                        height=950,
-                        widthx="center",
-                        widthy="center",
-                        condv=2.2,
-                        resizable=[True,True]).setcfbs()
-
-                # set menu 
-                menu (tktk=self.filewin).createmenu()
 
                 #gui for data 
                 self.cavheight_width = [1200,750]
                 self.framea = [0,0,450,750,"white"]
                 self.frameb = [450,0,750,750,"aquamarine2"]
 
-                self.sc = scbg(parent = self.filewin,
+                self.sc = scbg(parent = self,
                                 cavheight=self.cavheight_width[1],
                                 cavwidth=self.cavheight_width[0],
                                 bg = "aquamarine2", 
-                                bgpr = "#5181a7",
+                                bgpr = "#5b9bd5",
                                 isonlyaframe= False,
                                 framea = self.framea, 
                                 frameb = self.frameb 
@@ -571,25 +559,26 @@ class reqbuild(Frame):
                         )
                 row += 1
                 # next and previous buttons
-                btnext = tk.Button(self.listFramevp,
+                btpre = tk.Button(self.listFramevp,
                                         image = self.imagepre,
                                         bg = "white",
+                                        command = lambda: self.controller.show_frame("incus"),
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
-                btnext.grid(column = 1,
+                btpre.grid(column = 1,
                                 row = row,
                                 columnspan = 1,
                                 sticky  = "w",
                                 )
 
-                btpre = tk.Button(self.listFramevp,
+                btnext = tk.Button(self.listFramevp,
                                         image  = self.imagenext,
                                         bg = "white",
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
-                btpre.grid(column = 1,
+                btnext.grid(column = 1,
                                 row = row,
                                 sticky  = "e"
                                 )

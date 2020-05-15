@@ -1,6 +1,7 @@
 from tkinter import messagebox
+import tkinter as tk
 
-class gui:
+class gui(tk.Frame):
     """set logo and size window of widget """
     def __init__(self,tktk = None, 
                         pathico = None,
@@ -11,6 +12,8 @@ class gui:
                         condv = 3,
                         resizable =[0,0]):
 
+        #self.tktk = tktk
+        tk.Frame.__init__ (self,tktk)
         self.tktk = tktk
         self.pathico = pathico
         self.width = width

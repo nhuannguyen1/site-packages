@@ -14,6 +14,7 @@ from appnvn.atadctn.reqbuild import reqbuild
 class incus(Frame):
         """ customer information"""
         def __init__(self,tktk = None,
+                        controller = None,
                         br_image = None,
                         pathico = None,
                         br_image_path = None,
@@ -27,7 +28,8 @@ class incus(Frame):
                         ):
                 
                 Frame.__init__(self, tktk)
-                self.tktk = tktk
+                self.controller = controller
+                #self.tktk = tktk
                 self.labelfont = labelfont
                 self.labelfont_sm = labelfont_sm
                 self.br_image_path  = br_image_path
@@ -35,29 +37,18 @@ class incus(Frame):
                 self.logoicon = logoicon
                 self.padx = padx
                 self.pathico = pathico
-                self.filewin = Toplevel(self.tktk)
+                #self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
                 self.imagepre = imagepre
-
-                gui (tktk=self.filewin,
-                        pathico=self.pathico,
-                        width=800,
-                        height=800,
-                        widthx="center",
-                        widthy="center",
-                        condv=2.7,
-                        resizable=[True,True]).setcfbs()
-                
-                # set menu 
-                menu (tktk=self.filewin).createmenu()
-
+                self.filewin = self.controller
+                self.pack()
                 #gui for data 
-                self.sc  = scbg(parent = self.filewin,
+                self.sc = scbg(parent = self,
                                 cavheight=600,
                                 cavwidth=600,
                                 bg = "white", 
-                                bgpr = "#5181a7")
+                                bgpr = "#5b9bd5")
                 
                 self.listFramevp = self.sc.framecv
 
@@ -306,6 +297,17 @@ class incus(Frame):
                                 row = row,
                                 sticky  = tk.EW) 
                 # button next
+                
+                button1 = tk.Button(self.listFramevp, 
+                                text = "Next",
+                                bg = "azure2",
+                                image = self.imagenext,
+                                relief = tk.FLAT,
+                                compound = tk.LEFT,
+                                command= lambda:self.controller.show_frame("reqbuild"),
+                                font = ("times new roman",20)
+                                )
+                """
                 button1 = tk.Button(self.listFramevp, 
                                 text = "Next",
                                 bg = "azure2",
@@ -322,6 +324,7 @@ class incus(Frame):
                                                 ),
                                 font = ("times new roman",20)
                                 )
+                """
                 row +=1
                 button1.grid (column = 0, 
                                 row = row,

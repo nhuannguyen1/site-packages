@@ -655,7 +655,7 @@ class scbg (tk.Frame):
 
         self.isonlyaframe = isonlyaframe
 
-        super().__init__(parent,bg = self.bgpr)
+        tk.Frame.__init__(self, parent, bg = self.bgpr)
 
         self.parent = parent
 
@@ -669,7 +669,6 @@ class scbg (tk.Frame):
 
         self.__conf()
 
-    
 
     def __add_scroll_bars(self):
 
