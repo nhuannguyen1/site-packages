@@ -716,15 +716,12 @@ class scbg (tk.Frame):
 
                         column=0) 
 
-    
-
         # Making the canvas expandable 
 
         self.grid_rowconfigure(0, weight=1) 
 
         self.grid_columnconfigure(0, weight=1) 
 
-        
         if self.isonlyaframe:
                 
             cvf = cvframeg(cavas=self.canvas,
@@ -753,7 +750,7 @@ class scbg (tk.Frame):
                                     ).rtframecv()
 
             self.frameb = cvframeg(cavas=self.canvas,
-                                    bg=framea_k[4],
+                                    bg=frameb_k[4],
                                     cavheight=frameb_k[3],
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],

@@ -307,24 +307,6 @@ class incus(Frame):
                                 command= lambda:self.controller.show_frame("reqbuild"),
                                 font = ("times new roman",20)
                                 )
-                """
-                button1 = tk.Button(self.listFramevp, 
-                                text = "Next",
-                                bg = "azure2",
-                                image = self.imagenext,
-                                relief = tk.FLAT,
-                                compound = tk.LEFT,
-                                command= lambda:reqbuild(tktk=self.filewin,
-                                                pathico=self.pathico,
-                                                br_image_path=self.br_image_path,
-                                                br_image=self.br_image,
-                                                logoicon=self.logoicon,
-                                                imagenext=self.imagenext,
-                                                imagepre= self.imagepre
-                                                ),
-                                font = ("times new roman",20)
-                                )
-                """
                 row +=1
                 button1.grid (column = 0, 
                                 row = row,

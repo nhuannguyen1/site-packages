@@ -47,7 +47,7 @@ class apppr(tk.Frame):
                         condv=2.7,
                         resizable=[True,True]).setcfbs()
                 
-                # set menu 
+        # set menu 
         menu (tktk=self.filewin).createmenu()
         self.frames = {}
         for F in (incus,reqbuild):
