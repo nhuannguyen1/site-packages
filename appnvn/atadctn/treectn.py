@@ -781,15 +781,6 @@ class scbg (tk.Frame):
 
                             self.onFrameConfigure)                       #bind an event whenever the size of the viewPort frame changes.
 
-        """
-
-        self.canvas.bind("<Configure>",
-
-                            self.onCanvasConfigure)                       #bind an event whenever the size of the viewPort frame changes.
-
-        """
-
-
 
     def onFrameConfigure(self, event):                                              
 

@@ -8,11 +8,7 @@ from tkinter import (Frame,
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from appnvn.atadctn.icontt import gui
-from appnvn.atadctn.menu import menu
-from appnvn.atadctn.treectn import (scbg,
-                                        createcroll,
-                                        cvframe)
+from appnvn.atadctn.treectn import scbg
 from pynvn.caculate.cacul_cavas import (placereccenter,
                                         setbackdimention,
                                         create_poly_from_tleft_bright)
@@ -67,44 +63,62 @@ class layoutchoice(tk.Frame):
                 self.bg_frameb = kwargs["bg_frameb"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
-                self.frameb[3] = self.frameb[3] - self.w_buttoncavas
-                # cavas for drawing 
-                self.canvasb = tk.Canvas(self,
+                #self.framea = [0,700,750,self.w_buttoncavas,"aquamarine2"]
+                self.frameb = [450,0,750,750,"aquamarine2"]
+
+                self.frameaa = [0,0,750,700,"pink"]
+                self.frameab = [0,700,750,50,"white"]
+                #self.frameb[3] = self.frameb[3] - self.w_buttoncavas
+
+                self.sc = scbg(parent = self,
+                                cavheight=self.frameb[3],
+                                cavwidth=self.frameb[2],
+                                bg = "aquamarine2", 
+                                bgpr = "#5b9bd5",
+                                isonlyaframe= False,
+                                framea = self.frameaa, 
+                                frameb =self.frameab
+                                )
+
+                #self.canvasaa =  self.sc.canvas
+                frameaa = self.sc.framea
+                frameab = self.sc.frameb
+                self.canvasaa = tk.Canvas(frameaa, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasaa.pack(fill = tk.BOTH, 
+                                        expand = 1) 
+
+                self.canvasab = tk.Canvas(frameab,
+                                                bg = "azure",
+                                                borderwidth=0,
+                                                highlightthickness=0)
+                self.canvasab.pack(fill = tk.BOTH, expand = 1) 
+                crebutton(self.canvasab,
+                                crwidth=750/2 - 30, 
+                                crheight=0, 
+                                image = self.imagepre,
                                 bg = "azure",
-                                width=self.frameb[2],
-                                height=self.frameb[3],
-                                highlightthickness=0,
-                                ) 
-                
+                                activebackground = "#33B5E5",
+                                relief = tk.FLAT)
 
-                self.canvasb.grid(row=0, 
-                                column=0,
-                                sticky="new") 
-
-                # Making the canvas expandable 
-                self.grid_rowconfigure(0, weight=1) 
-                self.grid_columnconfigure(0, weight=1) 
-                
-                # cavs for button
-                self.canvasbotton = tk.Canvas(self,
+                crebutton(self.canvasab,
+                                crwidth=750/2 + 30, 
+                                crheight=0, 
+                                image = self.imagenext,
                                 bg = "azure",
-                                width=self.frameb[2],
-                                height=self.w_buttoncavas,
-                                highlightthickness=0,
-                                ) 
-                
-                self.canvasbotton.grid(row=0, 
-                                        column=0,
-                                        sticky="new") 
-
+                                activebackground = "#33B5E5",
+                                relief = tk.FLAT)
                 # create cavas frameb 
-                #self.canvasb = tk.Canvas(self.tktk, bg = self.bg_frameb)
+                #self.canvasaa = tk.Canvas(self.tktk, bg = self.bg_frameb)
                 # create gui for input from customer 
                 #windows scroll
-                self.canvasb.bind("<MouseWheel>",self.zoomer)
+                
+                self.canvasaa.bind("<MouseWheel>",self.zoomer)
                 # This is what enables using the mouse:
-                self.canvasb.bind("<ButtonPress-1>", self.move_start)
-                self.canvasb.bind("<B1-Motion>", self.move_move)
+                self.canvasaa.bind("<ButtonPress-1>", self.move_start)
+                self.canvasaa.bind("<B1-Motion>", self.move_move)
                 #self.createdrawing()
                 self.pattern = re.compile("[0-9]")
 
@@ -116,13 +130,14 @@ class layoutchoice(tk.Frame):
                                         w = self.value_dis * 2,
                                         h = self.value_dis * 2).reratiomin()
 
-                self.canvasb.scale("all",self.frameb[2]/2, 
+                self.canvasaa.scale("all",self.frameb[2]/2, 
                                         self.frameb[3]/2, 
                                         self.minradio/1.1, 
                                         self.minradio/1.1)
-                crebutton(self.canvasbotton,crwidth=300, crheight=0)
-
+                
+                
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
+
                 """Drawing layout follow customer"""
                 plc = placereccenter(info_height_k= self.height,
                                         info_width_k= self.width,
@@ -186,7 +201,7 @@ class layoutchoice(tk.Frame):
                 tlrr = rf.toprandbottoml_roadright()
                 
                 """
-                self.canvasb.pack(fill = tk.BOTH,
+                self.canvasaa.pack(fill = tk.BOTH,
                                  expand = True)
                 """
 
@@ -238,27 +253,27 @@ class layoutchoice(tk.Frame):
                                 fill = "yellow",
                                 alpha=0.5 ):
                 """ create rectangle of area """
-                self.rrectangle_wd = self.canvasb.create_rectangle (*topleftpoint,
+                self.rrectangle_wd = self.canvasaa.create_rectangle (*topleftpoint,
                                                                         *toprightpoint,
                                                                         fill=fill)
 
         #windows zoom
         def zoomer(self,event):
                 if (event.delta > 0):
-                        self.canvasb.scale("all",
+                        self.canvasaa.scale("all",
                                                 self.frameb[2]/2, 
                                                 self.frameb[3]/2, 1.1, 1.1)
                 elif (event.delta < 0):
-                        self.canvasb.scale("all", 
+                        self.canvasaa.scale("all", 
                                                 self.frameb[2]/2, 
                                                 self.frameb[3]/2, 0.9, 0.9)
-                        self.canvasb.configure(scrollregion = self.canvasb.bbox("all"))
+                        self.canvasaa.configure(scrollregion = self.canvasaa.bbox("all"))
                 
         #move
         def move_start(self, event):
-                self.canvasb.scan_mark(event.x, event.y)
+                self.canvasaa.scan_mark(event.x, event.y)
         def move_move(self, event):
-                self.canvasb.scan_dragto(event.x, event.y, gain=1) 
+                self.canvasaa.scan_dragto(event.x, event.y, gain=1) 
 
         def reratio (self):
                 """ caculate ratio of window"""
@@ -273,7 +288,7 @@ class layoutchoice(tk.Frame):
         def currentsize (self):
                 """ Current size to setup when event"""
                 self.reratio()
-                self.canvasb.scale("all",
+                self.canvasaa.scale("all",
                                 self.frameb[2]/2, 
                                 self.frameb[3]/2, 
                                 self.minradio/1.1, 
@@ -283,23 +298,23 @@ class layoutchoice(tk.Frame):
                 """Create rectangle of widget parent"""
                 try:
 
-                        self.canvasb.delete(self.rectangle_wd ) # remove
+                        self.canvasaa.delete(self.rectangle_wd ) # remove
                 except:
                         pass
                 # create rectange of parent 
-                self.rectangle_wd = self.canvasb.create_rectangle (*self.leftpoint,
+                self.rectangle_wd = self.canvasaa.create_rectangle (*self.leftpoint,
                                                                         *self.rightpoint,
                                                                         fill="yellow")
         def createreck (self,**kwargs):
                 """Create rectangle of widget kid"""
                 try:
 
-                        self.canvasb.delete(self.rrectangle_kid ) # remove
+                        self.canvasaa.delete(self.rrectangle_kid ) # remove
                 except:
 
                         pass
 
-                self.rrectangle_kid = self.canvasb.create_rectangle (*self.topleftkid,
+                self.rrectangle_kid = self.canvasaa.create_rectangle (*self.topleftkid,
                                                                         *self.toprightkid,
                                                                         fill="#e79c2b")
         
@@ -308,91 +323,91 @@ class layoutchoice(tk.Frame):
                 if  int(self.wr_front) != 0:
                         try:
 
-                                self.canvasb.delete(self.crrf ) # remove
+                                self.canvasaa.delete(self.crrf ) # remove
                         except:
                                 pass                
 
-                        self.crrf = self.canvasb.create_polygon(*rfa,**kwargs)
+                        self.crrf = self.canvasaa.create_polygon(*rfa,**kwargs)
 
         def createback(self,rfa,**kwargs):
                 """create back road"""
                 if  int(self.wr_back) != 0:
                         try:
 
-                                self.canvasb.delete(self.ra ) # remove
+                                self.canvasaa.delete(self.ra ) # remove
                         except:
                                 pass                
 
-                        self.ra = self.canvasb.create_polygon(*rfa,**kwargs)
+                        self.ra = self.canvasaa.create_polygon(*rfa,**kwargs)
 
         def createleft(self,rfa,**kwargs):
                 """create left road"""
                 if  int(self.wr_left) != 0:
                         try:
 
-                                self.canvasb.delete(self.rf ) # remove
+                                self.canvasaa.delete(self.rf ) # remove
                         except:
                                 pass                
 
-                        self.rf = self.canvasb.create_polygon(*rfa,**kwargs)
+                        self.rf = self.canvasaa.create_polygon(*rfa,**kwargs)
 
         def createright(self,rfa,**kwargs):
                 """create right road"""
                 if  int(self.wr_right) != 0:
                         try:
-                                self.canvasb.delete(self.rr ) # remove
+                                self.canvasaa.delete(self.rr ) # remove
                         except:
                                 pass                
 
-                        self.rr = self.canvasb.create_polygon(*rfa,**kwargs)
+                        self.rr = self.canvasaa.create_polygon(*rfa,**kwargs)
         
         def dimforh(self,**kwargs):
                 try:
 
-                        self.canvasb.delete(self.rll ) # remove
+                        self.canvasaa.delete(self.rll ) # remove
                 except:
                         pass
 
                 coordse = self.coord.pointstartend()
 
-                self.rll = self.canvasb.create_line(*coordse,
+                self.rll = self.canvasaa.create_line(*coordse,
                                                         fill = "red",
                                                         arrow = "both")
                 # create text 
 
                 try:
 
-                        self.canvasb.delete(self.cvt ) # remove
+                        self.canvasaa.delete(self.cvt ) # remove
                 except:
                         pass
 
                 coordtext =self.coord.centertowpoint()
 
-                self.cvt = self.canvasb.create_text(*coordtext, 
+                self.cvt = self.canvasaa.create_text(*coordtext, 
                                                         anchor="n",
                                                         text =str(self.height), 
                                                         angle=90)
         def dimforw(self,**kwargs):
                 try:
-                        self.canvasb.delete(self.dfwl ) # remove
+                        self.canvasaa.delete(self.dfwl ) # remove
                 except:
                         pass
                 self.coord.rev_direction = "top"
                 coordse = self.coord.pointstartend()
 
-                self.dfwl = self.canvasb.create_line(*coordse,
+                self.dfwl = self.canvasaa.create_line(*coordse,
                                                         fill = "red",
                                                         arrow = "both"
                                                         )
                 # create text 
                 try:
 
-                        self.canvasb.delete(self.dfwt ) # remove
+                        self.canvasaa.delete(self.dfwt ) # remove
                 except:
                         pass
                 coordtext =self.coord.centertowpoint()
 
-                self.dfwt = self.canvasb.create_text(*coordtext, 
+                self.dfwt = self.canvasaa.create_text(*coordtext, 
                                                         anchor="n",
                                                         text =str(self.width), 
                                                         angle=0)
@@ -400,14 +415,14 @@ class layoutchoice(tk.Frame):
         def dimforsbf (self,**kwargs):
                 
                 try:
-                        self.canvasb.delete(self.dfsbfl ) # remove
+                        self.canvasaa.delete(self.dfsbfl ) # remove
                 except:
                         pass
                 self.coord.dis_dim = self.width/2
                 dfsbfl = self.coord.fronttowpoint()
                 #coordse = coord.pointstartend()
 
-                self.dfsbfl = self.canvasb.create_line(*dfsbfl,
+                self.dfsbfl = self.canvasaa.create_line(*dfsbfl,
                                                         fill = "red",
                                                         arrow = "both"
                                                         )
@@ -415,12 +430,12 @@ class layoutchoice(tk.Frame):
                 # create text 
                 try:
 
-                        self.canvasb.delete(self.dfsbft ) # remove
+                        self.canvasaa.delete(self.dfsbft ) # remove
                 except:
                         pass
                 coordf =self.coord.fronttowpointcenter()
                 if  int(self.w_front) != 0 :
-                        self.dfsbft = self.canvasb.create_text(*coordf, 
+                        self.dfsbft = self.canvasaa.create_text(*coordf, 
                                                                 anchor="s",
                                                                 text =str(self.w_front), 
                                                                 angle=90)      
@@ -428,12 +443,12 @@ class layoutchoice(tk.Frame):
         def dimforsbb (self,**kwargs):
                 
                 try:
-                        self.canvasb.delete(self.dfsbbl) # remove
+                        self.canvasaa.delete(self.dfsbbl) # remove
                 except:
                         pass
                 sbb = self.coord.backtowpoint()
 
-                self.dfsbbl = self.canvasb.create_line(*sbb,
+                self.dfsbbl = self.canvasaa.create_line(*sbb,
                                                         fill = "red",
                                                         arrow = "both"
                                                         )
@@ -441,14 +456,14 @@ class layoutchoice(tk.Frame):
                 # create text 
                 try:
 
-                        self.canvasb.delete(self.dfsbbt ) # remove
+                        self.canvasaa.delete(self.dfsbbt ) # remove
                 except:
                         pass
                 coordf =self.coord.backtowpointcenter()
 
                 if  int(self.w_back) != 0 :
 
-                        self.dfsbbt = self.canvasb.create_text(*coordf, 
+                        self.dfsbbt = self.canvasaa.create_text(*coordf, 
                                                                 anchor="s",
                                                                 text =str(self.w_back), 
                                                                 angle=90)
@@ -456,20 +471,20 @@ class layoutchoice(tk.Frame):
         def dimforsbl(self,**kwargs):
 
                 try:
-                        self.canvasb.delete(self.dfsbl ) # remove
+                        self.canvasaa.delete(self.dfsbl ) # remove
                 except:
                         pass
                 self.coord.dis_dim = self.height / 2
                 sbl = self.coord.lefttowpoint()
 
-                self.dfsbl = self.canvasb.create_line(*sbl,
+                self.dfsbl = self.canvasaa.create_line(*sbl,
                                                         fill = "red",
                                                         arrow = "both"
                                                         )
 
                 # create text 
                 try:
-                        self.canvasb.delete(self.dfsbt ) # remove
+                        self.canvasaa.delete(self.dfsbt ) # remove
                 except:
                         pass
         
@@ -477,7 +492,7 @@ class layoutchoice(tk.Frame):
 
                 if  int(self.w_left) != 0 :
 
-                        self.dfsbt = self.canvasb.create_text(*coordl, 
+                        self.dfsbt = self.canvasaa.create_text(*coordl, 
                                                                 anchor="s",
                                                                 text =str(self.w_left), 
                                                                 angle=0)
@@ -485,13 +500,13 @@ class layoutchoice(tk.Frame):
         def dimforsbr(self,**kwargs):
 
                 try:
-                        self.canvasb.delete(self.dfsbrl ) # remove
+                        self.canvasaa.delete(self.dfsbrl ) # remove
                 except:
                         pass
                 sbr = self.coord.righttowpoint()
                 #coordse = coord.pointstartend()
 
-                self.dfsbrl = self.canvasb.create_line(*sbr,
+                self.dfsbrl = self.canvasaa.create_line(*sbr,
                                                         fill = "red",
                                                         arrow = "both"
                                                         )
@@ -499,14 +514,14 @@ class layoutchoice(tk.Frame):
                 # create text 
                 try:
 
-                        self.canvasb.delete(self.dfsbrt ) # remove
+                        self.canvasaa.delete(self.dfsbrt ) # remove
                 except:
                         pass
                 coordr =self.coord.righttowpointcenter()
 
                 if  int(self.w_right) != 0 :
 
-                        self.dfsbrt = self.canvasb.create_text(*coordr, 
+                        self.dfsbrt = self.canvasaa.create_text(*coordr, 
                                                                 anchor="s",
                                                                 text =str(self.w_right), 
                                                                 angle=0)
@@ -520,25 +535,25 @@ class layoutchoice(tk.Frame):
                                         dis_dim =30)
                         try:
 
-                                self.canvasb.delete(self.dfrf ) # remove
+                                self.canvasaa.delete(self.dfrf ) # remove
                         except:
                                 pass
                         coordf.dis_dim = - self.width / 2
                         coordse = coordf.pointstartend()
 
-                        self.dfrf = self.canvasb.create_line(*coordse,
+                        self.dfrf = self.canvasaa.create_line(*coordse,
                                                                 fill = "red",
                                                                 arrow = "both")
 
                         # create text 
                         try:
 
-                                self.canvasb.delete(self.tfrf ) # remove
+                                self.canvasaa.delete(self.tfrf ) # remove
                         except:
                                 pass
                         coordtext =coordf.centertowpoint()
 
-                        self.tfrf = self.canvasb.create_text(*coordtext, 
+                        self.tfrf = self.canvasaa.create_text(*coordtext, 
                                                                 anchor="n",
                                                                 text =str(self.wr_front), 
                                                                 angle=90)
@@ -552,26 +567,26 @@ class layoutchoice(tk.Frame):
                                         dis_dim=30)
                         try:
 
-                                self.canvasb.delete(self.dfrb ) # remove
+                                self.canvasaa.delete(self.dfrb ) # remove
                         except:
                                 pass
                         coordf.dis_dim =  self.width / 2
                         coordse = coordf.pointstartend()
                 
 
-                        self.dfrb = self.canvasb.create_line(*coordse,
+                        self.dfrb = self.canvasaa.create_line(*coordse,
                                                                 fill = "red",
                                                                 arrow = "both")
 
                         # create text 
                         try:
 
-                                self.canvasb.delete(self.tfrb ) # remove
+                                self.canvasaa.delete(self.tfrb ) # remove
                         except:
                                 pass
                         coordtext =coordf.centertowpoint()
 
-                        self.tfrb = self.canvasb.create_text(*coordtext, 
+                        self.tfrb = self.canvasaa.create_text(*coordtext, 
                                                                 anchor="n",
                                                                 text =str(self.wr_back), 
                                                                 angle=90)
@@ -585,26 +600,26 @@ class layoutchoice(tk.Frame):
                                         dis_dim=30)
                         try:
 
-                                self.canvasb.delete(self.dfrl ) # remove
+                                self.canvasaa.delete(self.dfrl ) # remove
                         except:
                                 pass
                         coordf.dis_dim = - self.height / 2
                         coordse = coordf.pointstartend()
                 
 
-                        self.dfrl = self.canvasb.create_line(*coordse,
+                        self.dfrl = self.canvasaa.create_line(*coordse,
                                                                 fill = "red",
                                                                 arrow = "both")
 
                         # create text 
                         try:
 
-                                self.canvasb.delete(self.tfrl ) # remove
+                                self.canvasaa.delete(self.tfrl ) # remove
                         except:
                                 pass
                         coordtext =coordf.centertowpoint()
 
-                        self.tfrl = self.canvasb.create_text(*coordtext, 
+                        self.tfrl = self.canvasaa.create_text(*coordtext, 
                                                                 anchor="n",
                                                                 text =str(self.wr_left), 
                                                                 angle=0)
@@ -618,25 +633,25 @@ class layoutchoice(tk.Frame):
                                         dis_dim=30)
                         try:
 
-                                self.canvasb.delete(self.dfrr ) # remove
+                                self.canvasaa.delete(self.dfrr ) # remove
                         except:
                                 pass
                         coordf.dis_dim = self.height / 2
                         coordse = coordf.pointstartend()
                 
 
-                        self.dfrr = self.canvasb.create_line(*coordse,
+                        self.dfrr = self.canvasaa.create_line(*coordse,
                                                                 fill = "red",
                                                                 arrow = "both")
                         # create text 
                         try:
 
-                                self.canvasb.delete(self.tfrr ) # remove
+                                self.canvasaa.delete(self.tfrr ) # remove
                         except:
                                 pass
                         coordtext = coordf.centertowpoint()
 
-                        self.tfrr = self.canvasb.create_text(*coordtext, 
+                        self.tfrr = self.canvasaa.create_text(*coordtext, 
                                                                 anchor="n",
                                                                 text =str(self.wr_right), 
                                                                 angle=0)
@@ -651,12 +666,12 @@ class layoutchoice(tk.Frame):
 
                 # create text 
                 try:
-                        self.canvasb.delete(self.tca ) # remove
+                        self.canvasaa.delete(self.tca ) # remove
                 except:
                         pass
                 coordrcenter = self.coord.centerpointkid()
 
-                self.tca = self.canvasb.create_text(*coordrcenter, 
+                self.tca = self.canvasaa.create_text(*coordrcenter, 
                                                         anchor="center",
                                                         text ="Area to build: {}".format(are_k), 
                                                         angle=0,
@@ -685,44 +700,44 @@ class layoutchoice(tk.Frame):
 
                 # create text front
                 try:
-                        self.canvasb.delete(self.frf ) # remove
+                        self.canvasaa.delete(self.frf ) # remove
                 except:
                         pass
 
-                self.frf = self.canvasb.create_text(*frontp, 
+                self.frf = self.canvasaa.create_text(*frontp, 
                                                         anchor="center",
                                                         text ="Front", 
                                                         angle=0,
                                                         **kwargs)
                 # create text back
                 try:
-                        self.canvasb.delete(self.frb ) # remove
+                        self.canvasaa.delete(self.frb ) # remove
                 except:
                         pass
 
-                self.frb = self.canvasb.create_text(*backp, 
+                self.frb = self.canvasaa.create_text(*backp, 
                                                         anchor="center",
                                                         text ="Back", 
                                                         angle=0,
                                                         **kwargs)
                 # create text left
                 try:
-                        self.canvasb.delete(self.frl ) # remove
+                        self.canvasaa.delete(self.frl ) # remove
                 except:
                         pass
 
-                self.frl = self.canvasb.create_text(*leftp, 
+                self.frl = self.canvasaa.create_text(*leftp, 
                                                         anchor="center",
                                                         text ="Left", 
                                                         angle=0,
                                                         **kwargs)
                 # create text right 
                 try:
-                        self.canvasb.delete(self.frr ) # remove
+                        self.canvasaa.delete(self.frr ) # remove
                 except:
                         pass
 
-                self.frr = self.canvasb.create_text(*rightp, 
+                self.frr = self.canvasaa.create_text(*rightp, 
                                                         anchor="center",
                                                         text ="Right", 
                                                         angle=0,

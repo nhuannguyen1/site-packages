@@ -10,9 +10,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
-from appnvn.atadctn.treectn import (scbg,
-                                        createcroll,
-                                        cvframe)
+from appnvn.atadctn.treectn import scbg
 from pynvn.caculate.cacul_cavas import (placereccenter,
                                         setbackdimention,
                                         create_poly_from_tleft_bright)
@@ -73,7 +71,6 @@ class opcus(tk.Frame):
                                 ) 
 
                 self.canvasb.grid(row=0, 
-
                                 column=0, sticky="nsew") 
 
                 # Making the canvas expandable 
@@ -208,7 +205,8 @@ class opcus(tk.Frame):
                 self.cacularea()
 
                 # create direction nwse
-                self.directnmwe(font =('times', 16), fill = "black")
+                self.directnmwe(font =('times', 16), 
+                                        fill = "black")
 
         def createrectang_area(self,topleftpoint = None, 
                                 toprightpoint = None, 
