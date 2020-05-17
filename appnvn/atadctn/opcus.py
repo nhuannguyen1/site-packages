@@ -22,6 +22,13 @@ from pynvn.caculate.ratio import ratio
 from pynvn.caculate.coord_point import coordp
 
 from pynvn.caculate.area import area
+
+from pynvn.cavaszm.cavaszm import zmcv
+
+from pynvn.nsew.nsew import directnmwe
+
+from pynvn.cavas_write.writetext import writetext
+
 import string
 class opcus(tk.Frame):
         """Customer information"""
@@ -36,6 +43,7 @@ class opcus(tk.Frame):
                         frameb = [450,0,750,750,"aquamarine2"],
                         cavheight_width = [1200,750],
                         w_front = 100,
+                        imagenextlayout = None,
                         *args,**kwargs):
                 tk.Frame.__init__(self, tktk, bg = "pink")
                 self.controller = controller
@@ -61,35 +69,29 @@ class opcus(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.bg_frameb = kwargs["bg_frameb"]
                 self.frameb = frameb 
-
+                self.imagenextlayout = imagenextlayout
                 self.sc = scbg(parent = self,
-                                cavheight=self.frameb[3],
-                                cavwidth=self.frameb[2],
-                                bg = self.frameb[4], 
+                                cavheight=740,
+                                cavwidth=740,
+                                bg = "red", 
                                 isonlyaframe= True,
                                 frameincavas= True
                                 )
                 # return cavas 
-                self.canvasb = self.sc.canvas
-                #windows scroll
-                self.canvasb.bind("<MouseWheel>",self.zoomer)
-                # This is what enables using the mouse:
-                self.canvasb.bind("<ButtonPress-1>", self.move_start)
-                self.canvasb.bind("<B1-Motion>", self.move_move)
+                framecv = self.sc.framecv
+
+                self.canvasb = tk.Canvas(framecv, 
+                                        bg = "yellow",
+                                        highlightthickness=0)
+                self.canvasb.pack(fill = tk.BOTH, 
+                                        expand = True) 
                 #self.createdrawing()
                 self.pattern = re.compile("[0-9]")
-
                 self.createdrawing()
-                # scale in cavas 
-                self.minradio = ratio(real_w=self.frameb[2],
-                                        real_h=self.frameb[3],
-                                        w = self.value_dis * 2,
-                                        h = self.value_dis * 2).reratiomin()
-
-                self.canvasb.scale("all",self.frameb[2]/2, 
-                                        self.frameb[3]/2, 
-                                        self.minradio/1.1, 
-                                        self.minradio/1.1)
+                # scale,zoom,move in cavas 
+                zmcv(cavas=self.canvasb,
+                                frameb=self.frameb,
+                                value_dis=self.value_dis)
                 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
@@ -118,10 +120,8 @@ class opcus(tk.Frame):
 
                 self.topleftkid = plcn.topleftpoint()
                 self.toprightkid = plcn.toprightpoint()
-
                 # create rectangle kid
                 self.createreck()
-
                 # create road for front 
                 rf = create_poly_from_tleft_bright(topleftpoint_p=self.leftpoint,
                                                         bottomrightpoint_p=self.rightpoint,
@@ -131,29 +131,22 @@ class opcus(tk.Frame):
                                                         w_right_r=self.wr_right,
                                                         dis_r=self.dis_r )
                 rfa = rf.roadfront()
-
                 #create front of road
                 self.createfront(rfa,fill = colorroad)
                 tlrf = rf.toprandbottoml_roadfront()
-
                 # create road for back 
                 rba  =rf.roadback()
                 self.createback(rba,fill = colorroad)
-
                 # create top left and bottom  back of road 
                 tlrb = rf.toprandbottoml_roadback()
-
                 # create road for left
                 rbl  =rf.roadleft()
                 self.createleft(rbl,fill = colorroad)
-
                 tlrl = rf.toprandbottoml_roadleft()
-
                 # create road for right
                 rbr  =rf.roadright()
                 self.createright(rbr,fill = colorroad)
                 tlrr = rf.toprandbottoml_roadright()
-
                 # dim for item all
                 self.coord = coordp(topleftp=self.leftpoint,
                                 bottomrightp=self.rightpoint,
@@ -164,39 +157,47 @@ class opcus(tk.Frame):
 
                 # create dim for h 
                 self.dimforh()
-
                 #dim for top
                 self.dimforw()
-
                 #dim for setback front
                 self.dimforsbf()
-
                 #dim for setback back 
                 self.dimforsbb()
-
                 #dim for setback left 
                 self.dimforsbl()
-
                 #dim for setback right 
                 self.dimforsbr()
-                
                 # dim for road front
                 self.dimforroadfront(tlrf=tlrf)
                 # dim for road back
                 self.dimforroadback (tlrb=tlrb)
-                
                 # dim for road left
                 self.dimforroadleft(tlrl=tlrl)
-
                 # dim for road right
                 self.dimforroadright(tlrr=tlrr)
-
                 #caculate for area 
-                self.cacularea()
-
+                writetext(canvas=self.canvasb,
+                                topleftkid=self.topleftkid,
+                                toprightkid= self.toprightkid,
+                                centerpoint = self.coord.centerpointkid()).warea()
                 # create direction nwse
+                """
                 self.directnmwe(font =('times', 16), 
                                         fill = "black")
+                """
+                nsew = directnmwe(canvasb = self.canvasb,
+                                height = self.height, 
+                                width = self.width,
+                                dis_r = self.dis_r,
+                                wr_front = self.wr_front,
+                                wr_back = self.wr_back,
+                                wr_left = self.wr_left,
+                                wr_right = self.wr_right,
+                                dis_direc = self.dis_direc, 
+                                leftpoint= self.leftpoint, 
+                                rightpoint=self.rightpoint)
+                nsew.nsew(font = ('times', 16),fill = "black")
+                self.value_dis = nsew.revalue_dis()
 
         def createrectang_area(self,topleftpoint = None, 
                                 toprightpoint = None, 
@@ -206,25 +207,6 @@ class opcus(tk.Frame):
                 self.rrectangle_wd = self.canvasb.create_rectangle (*topleftpoint,
                                                                         *toprightpoint,
                                                                         fill=fill)
-
-        #windows zoom
-        def zoomer(self,event):
-                if (event.delta > 0):
-                        self.canvasb.scale("all",
-                                                self.frameb[2]/2, 
-                                                self.frameb[3]/2, 1.1, 1.1)
-                elif (event.delta < 0):
-                        self.canvasb.scale("all", 
-                                                self.frameb[2]/2, 
-                                                self.frameb[3]/2, 0.9, 0.9)
-                        self.canvasb.configure(scrollregion = self.canvasb.bbox("all"))
-                
-        #move
-        def move_start(self, event):
-                self.canvasb.scan_mark(event.x, event.y)
-        def move_move(self, event):
-                self.canvasb.scan_dragto(event.x, event.y, gain=1) 
-
         def reratio (self):
                 """ caculate ratio of window"""
                 try:
@@ -613,7 +595,7 @@ class opcus(tk.Frame):
                 are_k = area(topleftpoint= self.topleftkid, 
                                 bottomrightpoint=self.toprightkid).areafromtopbottompoint()
 
-                """ create dim for road """
+                """ create text for road """
 
                 # create text 
                 try:
@@ -625,71 +607,5 @@ class opcus(tk.Frame):
                 self.tca = self.canvasb.create_text(*coordrcenter, 
                                                         anchor="center",
                                                         text ="Area to build: {}".format(are_k), 
-                                                        angle=0,
-                                                        **kwargs)
-        
-        def directnmwe(self,**kwargs ):
-                """ create text direction nmwe"""
-
-                self.value_dis = max ([self.height/2 + self.dis_r + self.wr_front + self.dis_direc, 
-                                self.height/2 + self.dis_r + self.wr_back + self.dis_direc,
-                                self.width/2 + self.dis_r + self.wr_left + self.dis_direc,
-                                self.width/2 + self.dis_r + self.wr_right + self.dis_direc
-                                ])
-
-                cp = coordp(topleftp=self.leftpoint,
-                                bottomrightp=self.rightpoint,
-                                dis_direc= self.dis_direc)
-
-                fpc = cp.centerpoinparent()
-
-                frontp = [fpc[0],fpc[1] - self.value_dis]
-                backp = [fpc[0],fpc[1] + self.value_dis]
-
-                leftp = [fpc[0] - self.value_dis ,fpc[1]]
-                rightp = [fpc[0] + self.value_dis ,fpc[1]]
-
-                # create text front
-                try:
-                        self.canvasb.delete(self.frf ) # remove
-                except:
-                        pass
-
-                self.frf = self.canvasb.create_text(*frontp, 
-                                                        anchor="center",
-                                                        text ="Front", 
-                                                        angle=0,
-                                                        **kwargs)
-                # create text back
-                try:
-                        self.canvasb.delete(self.frb ) # remove
-                except:
-                        pass
-
-                self.frb = self.canvasb.create_text(*backp, 
-                                                        anchor="center",
-                                                        text ="Back", 
-                                                        angle=0,
-                                                        **kwargs)
-                # create text left
-                try:
-                        self.canvasb.delete(self.frl ) # remove
-                except:
-                        pass
-
-                self.frl = self.canvasb.create_text(*leftp, 
-                                                        anchor="center",
-                                                        text ="Left", 
-                                                        angle=0,
-                                                        **kwargs)
-                # create text right 
-                try:
-                        self.canvasb.delete(self.frr ) # remove
-                except:
-                        pass
-
-                self.frr = self.canvasb.create_text(*rightp, 
-                                                        anchor="center",
-                                                        text ="Right", 
                                                         angle=0,
                                                         **kwargs)

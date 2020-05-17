@@ -6,5 +6,5 @@ def crebutton (cavas,crwidth = 180 ,crheight = 480,namebutton ="FIND",*args,**kw
                       **kwargs,
                       )
         button1_window = cavas.create_window(crwidth, crheight, 
-                                              anchor=tk.NW, 
+                                              anchor=tk.CENTER, 
                                               window=button1)

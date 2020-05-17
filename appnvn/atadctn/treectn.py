@@ -472,9 +472,9 @@ class cvframeg:
 
                 anchor = tk.NW,
 
-                createwdx = 10,
+                createwdx = 0,
 
-                createwdy = 10,
+                createwdy = 0,
 
                 cavwidth = 800,
 
@@ -521,6 +521,8 @@ class cvframeg:
         return self.framecv
 
 class treescrollbar:
+
+
 
     def __init__(self,frame = None,orienth = tk.HORIZONTAL, orienthv = tk.VERTICAL, tree = None):
 
@@ -584,7 +586,7 @@ class scbg (tk.Frame):
 
                         bg = "SteelBlue1",
 
-                        bgpr = "blue",
+                        bgpr = "red",
 
                         framea_cw = [10,10],
 
@@ -663,7 +665,7 @@ class scbg (tk.Frame):
 
                             height=self.cavheight,
 
-                            highlightcolor = "blue",
+                            highlightcolor = "red",
 
                             highlightthickness=0,
 
@@ -671,7 +673,7 @@ class scbg (tk.Frame):
 
         self.canvas.grid(row=0, 
 
-                        column=0) 
+                        column=0, sticky = tk.NSEW) 
 
         # Making the canvas expandable 
 
@@ -681,13 +683,17 @@ class scbg (tk.Frame):
 
         if self.isonlyaframe:
                 
-            cvf = cvframeg(cavas=self.canvas,createwdx=0,createwdy=0,
+            cvf = cvframeg(cavas=self.canvas,
+
+                            createwdx=0,
+                            
+                            createwdy=0,
 
                             cavheight=self.cavheight,
 
                             cavwidth=self.cavwidth,
 
-                            bg=self.bg)
+                            bg=self.bg,anchor= tk.SE)
 
             self.framecv = cvf.rtframecv()
 
@@ -712,6 +718,7 @@ class scbg (tk.Frame):
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],
                                     createwdx=frameb_k[0]).rtframecv()
+        """
         if self.frameincavas:
             self.canvas = tk.Canvas(self.framecv,   
                                     width=self.cavwidth,
@@ -720,7 +727,7 @@ class scbg (tk.Frame):
                                     highlightthickness=0,
                                     )
             self.canvas.grid(row=0, column=0, sticky="nsew") 
-
+        """
 
     def __addcommmandscroll (self):
 

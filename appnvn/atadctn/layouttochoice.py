@@ -22,7 +22,12 @@ from pynvn.caculate.coord_point import coordp
 from pynvn.caculate.area import area
 
 from pynvn.cavas_drawing.buttondr import crebutton
+from pynvn.cavaszm.cavaszm import zmcv
 import string
+
+from pynvn.nsew.nsew import directnmwe
+
+from pynvn.cavas_write.writetext import writetext
 
 class layoutchoice(tk.Frame):
         """Customer information"""
@@ -37,6 +42,7 @@ class layoutchoice(tk.Frame):
                         frameb = [450,0,750,750,"aquamarine2"],
                         cavheight_width = [1200,750],
                         w_front = 100,
+                        imagenextlayout = None, 
                         *args,**kwargs):
                 self.tktk = tktk
                 tk.Frame.__init__(self, tktk)
@@ -48,6 +54,7 @@ class layoutchoice(tk.Frame):
                 self.imagepre = imagepre
                 self.height = kwargs["height"]
                 self.width = kwargs["width"]
+                self.imagenextlayout = imagenextlayout
                 # set back area
                 self.w_front = 0
                 self.w_back =  0
@@ -66,7 +73,7 @@ class layoutchoice(tk.Frame):
                 self.w_buttoncavas = 50
                 self.frameb = [450,0,750,750,"aquamarine2"]
 
-                self.frameaa = [0,0,750,700,"pink"]
+                self.frameaa = [10,0,730,700,"pink"]
                 self.frameab = [0,700,750,50,"white"]
 
                 self.sc = scbg(parent = self,
@@ -78,9 +85,23 @@ class layoutchoice(tk.Frame):
                                 framea = self.frameaa, 
                                 frameb =self.frameab
                                 )
+                cavas = self.sc.canvas
+
+                crebutton(cavas,
+                                crwidth=0, 
+                                crheight=0, 
+                                image = self.imagepre,
+                                bg = "azure",
+                                activebackground = "#33B5E5",
+                                relief = tk.FLAT)
 
                 frameaa = self.sc.framea
                 frameab = self.sc.frameb
+
+                b2 = tk.Button(frameaa, text = "GFG", image = self.imagenextlayout) 
+                b2.place(relx = 0, rely = 0.5, anchor = tk.CENTER) 
+
+
                 self.canvasaa = tk.Canvas(frameaa, 
                                         bg = "azure",
                                         borderwidth=0,
@@ -93,42 +114,32 @@ class layoutchoice(tk.Frame):
                                                 borderwidth=0,
                                                 highlightthickness=0)
                 self.canvasab.pack(fill = tk.BOTH, expand = 1) 
+
+                self.pattern = re.compile("[0-9]")
+                # create frawing  
+                self.createdrawing()
+                # scale, move in cavas 
+
+                zmcv(cavas=self.canvasaa,
+                                frameb=self.frameaa,
+                                value_dis=self.value_dis)
+
                 crebutton(self.canvasab,
-                                crwidth=750/2 - 30, 
-                                crheight=0, 
+                                crwidth=self.centerp[0]-30, 
+                                crheight=20, 
                                 image = self.imagepre,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
 
                 crebutton(self.canvasab,
-                                crwidth=750/2 + 30, 
-                                crheight=0, 
+                                crwidth=self.centerp[0]+ 30, 
+                                crheight=20, 
                                 image = self.imagenext,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
-                # create cavas frameb 
-                # create gui for input from customer 
-                #windows scroll
-                
-                self.canvasaa.bind("<MouseWheel>",self.zoomer)
-                # This is what enables using the mouse:
-                self.canvasaa.bind("<ButtonPress-1>", self.move_start)
-                self.canvasaa.bind("<B1-Motion>", self.move_move)
-                self.pattern = re.compile("[0-9]")
-                # create frawing  
-                self.createdrawing()
-                # scale in cavas 
-                self.minradio = ratio(real_w=self.frameb[2],
-                                        real_h=self.frameb[3],
-                                        w = self.value_dis * 2,
-                                        h = self.value_dis * 2).reratiomin()
 
-                self.canvasaa.scale("all",self.frameb[2]/2, 
-                                        self.frameb[3]/2, 
-                                        self.minradio/1.1, 
-                                        self.minradio/1.1)
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
                 plc = placereccenter(info_height_k= self.height,
@@ -164,15 +175,31 @@ class layoutchoice(tk.Frame):
                                 topleftk=self.topleftkid,
                                 bottomrightk=self.toprightkid,
                                 dis_dim=self.dis_dim)
+                self.centerp = self.coord.centerpoinparent()
 
                 # create dim for h 
                 self.dimforh()
                 #dim for top
                 self.dimforw()
                 #caculate for area 
-                self.cacularea()
+                writetext(canvas=self.canvasaa,
+                                topleftkid=self.topleftkid,
+                                toprightkid= self.toprightkid,
+                                centerpoint = self.coord.centerpointkid()).warea()
                 # create direction nwse
-                self.directnmwe(font =('times', 16), fill = "black")
+                nsew = directnmwe(canvasb = self.canvasaa,
+                                height = self.height, 
+                                width = self.width,
+                                dis_r = self.dis_r/2,
+                                wr_front = self.wr_front,
+                                wr_back = self.wr_back,
+                                wr_left = self.wr_left,
+                                wr_right = self.wr_right,
+                                dis_direc = self.dis_direc, 
+                                leftpoint= self.leftpoint, 
+                                rightpoint=self.rightpoint)
+                nsew.nsew(font = ('times', 16),fill = "black")
+                self.value_dis = nsew.revalue_dis()
 
         def createrectang_area(self,topleftpoint = None, 
                                 toprightpoint = None, 
@@ -182,25 +209,6 @@ class layoutchoice(tk.Frame):
                 self.rrectangle_wd = self.canvasaa.create_rectangle (*topleftpoint,
                                                                         *toprightpoint,
                                                                         fill=fill)
-        #windows zoom
-        def zoomer(self,event):
-                """windows zoom"""
-                if (event.delta > 0):
-                        self.canvasaa.scale("all",
-                                                self.frameb[2]/2, 
-                                                self.frameb[3]/2, 1.1, 1.1)
-                elif (event.delta < 0):
-                        self.canvasaa.scale("all", 
-                                                self.frameb[2]/2, 
-                                                self.frameb[3]/2, 0.9, 0.9)
-                        self.canvasaa.configure(scrollregion = self.canvasaa.bbox("all"))
-                
-        #move
-        def move_start(self, event):
-                self.canvasaa.scan_mark(event.x, event.y)
-        def move_move(self, event):
-                self.canvasaa.scan_dragto(event.x, event.y, gain=1) 
-
         def reratio (self):
                 """ caculate ratio of window"""
                 try:
@@ -362,11 +370,9 @@ class layoutchoice(tk.Frame):
         def directnmwe(self,**kwargs ):
                 """ create text direction nmwe"""
 
-                self.value_dis = max ([self.height/2 + self.dis_r + self.wr_front + self.dis_direc, 
-                                self.height/2 + self.dis_r + self.wr_back + self.dis_direc,
-                                self.width/2 + self.dis_r + self.wr_left + self.dis_direc,
-                                self.width/2 + self.dis_r + self.wr_right + self.dis_direc
-                                ])
+                self.value_dis = max ([self.height/2,
+                                        self.width/2
+                                        ])
 
                 cp = coordp(topleftp=self.leftpoint,
                                 bottomrightp=self.rightpoint,

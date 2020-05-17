@@ -24,7 +24,8 @@ class incus(Frame):
                         labelfont_sm = ('times', 16),
                         padx = (10,0),
                         imagenext = None,
-                        imagepre = None
+                        imagepre = None,
+                        imagenextlayout = None
                         ):
                 
                 Frame.__init__(self, tktk)

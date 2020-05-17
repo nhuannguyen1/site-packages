@@ -12,6 +12,7 @@ class apppr(tk.Frame):
                     logoicon=None,
                     imagenext=None,
                     imagepre=None,
+                    imagenextlayout = None,
                     *args, 
                     **kwargs):
         
@@ -22,6 +23,7 @@ class apppr(tk.Frame):
         self.logoicon = logoicon
         self.imagenext = imagenext
         self.imagepre = imagepre
+        self.imagenextlayout = imagenextlayout
         tk.Frame.__init__(self,tktk)
 
         # the container is where we'll stack a bunch of frames
@@ -59,7 +61,8 @@ class apppr(tk.Frame):
                     br_image_path=self.br_image_path,
                     logoicon=self.logoicon,
                     imagenext=self.imagenext,
-                    imagepre=self.imagepre)
+                    imagepre=self.imagepre,
+                    imagenextlayout = self.imagenextlayout )
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;
