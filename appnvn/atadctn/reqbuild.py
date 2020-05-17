@@ -118,7 +118,6 @@ class reqbuild(Frame):
                                 dis_dim = self.dis_r/3,
                                 dis_direc = 400,
                                 frameb=self.frameb,
-                                bg_frameb = "red",
                                 imagenextlayout=self.imagenextlayout
                                 )
                         self.frames[page_name] = frame

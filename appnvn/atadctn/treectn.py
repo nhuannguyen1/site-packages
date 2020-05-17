@@ -597,15 +597,24 @@ class scbg (tk.Frame):
                         isonlyaframe = True,
                         
                         frameincavas = False,
+
+                        frameaincavas = False,
                         **kwargs):
         self.bg = bg
-
         self.frameincavas = frameincavas
+
+        self.frameaincavas = frameaincavas
 
         self.kwargs = kwargs
 
         self.bgpr = bgpr
+        """
+        if self.text == False:
+            self.cavwidth = 800
 
+            self.cavheight =800
+        else:
+        """
         self.cavwidth = cavwidth
 
         self.cavheight =cavheight
@@ -673,7 +682,7 @@ class scbg (tk.Frame):
 
         self.canvas.grid(row=0, 
 
-                        column=0, sticky = tk.NSEW) 
+                        column=0) 
 
         # Making the canvas expandable 
 
@@ -689,15 +698,16 @@ class scbg (tk.Frame):
                             
                             createwdy=0,
 
-                            cavheight=self.cavheight,
+                            cavheight=self.cavheight ,
 
                             cavwidth=self.cavwidth,
 
-                            bg=self.bg,anchor= tk.SE)
+                            bg=self.bg
+                            )
 
             self.framecv = cvf.rtframecv()
 
-            self.window = cvf.window
+            #self.window = cvf.window
 
         else:
 
@@ -717,8 +727,9 @@ class scbg (tk.Frame):
                                     cavheight=frameb_k[3],
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],
-                                    createwdx=frameb_k[0]).rtframecv()
-        """
+                                    createwdx=frameb_k[0]
+                                    ).rtframecv()
+        
         if self.frameincavas:
             self.canvas = tk.Canvas(self.framecv,   
                                     width=self.cavwidth,
@@ -726,8 +737,17 @@ class scbg (tk.Frame):
                                     bg = self.bg,
                                     highlightthickness=0,
                                     )
-            self.canvas.grid(row=0, column=0, sticky="nsew") 
-        """
+            self.canvas.grid(row=0, column=0, sticky=tk.NSEW) 
+
+        if self.frameaincavas:
+            self.canvas = tk.Canvas(self.framecv,   
+                                    width=self.cavwidth,
+                                    height=self.cavheight,
+                                    bg = self.bg,
+                                    highlightthickness=0,
+                                    )
+            self.canvas.grid(row=0, column=0) 
+        
 
     def __addcommmandscroll (self):
 

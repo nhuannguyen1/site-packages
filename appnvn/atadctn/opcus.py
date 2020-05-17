@@ -67,24 +67,21 @@ class opcus(tk.Frame):
                 self.dis_r = kwargs["dis_r"]
                 self.dis_dim = self.dis_r/3
                 self.dis_direc = kwargs["dis_direc"]
-                self.bg_frameb = kwargs["bg_frameb"]
                 self.frameb = frameb 
                 self.imagenextlayout = imagenextlayout
                 self.sc = scbg(parent = self,
-                                cavheight=740,
-                                cavwidth=740,
-                                bg = "red", 
+                                cavheight=self.frameb[3] -20,
+                                cavwidth=self.frameb[2] -20,
+                                bg = self.frameb[4], 
                                 isonlyaframe= True,
-                                frameincavas= True
+                                frameincavas= True,
+                                bgpr= self.frameb[4],
                                 )
                 # return cavas 
                 framecv = self.sc.framecv
 
-                self.canvasb = tk.Canvas(framecv, 
-                                        bg = "yellow",
-                                        highlightthickness=0)
-                self.canvasb.pack(fill = tk.BOTH, 
-                                        expand = True) 
+                self.canvasb =self.sc.canvas
+                #self.canvasb.pack(side = tk.LEFT) 
                 #self.createdrawing()
                 self.pattern = re.compile("[0-9]")
                 self.createdrawing()

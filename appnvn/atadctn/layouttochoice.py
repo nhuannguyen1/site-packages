@@ -68,12 +68,11 @@ class layoutchoice(tk.Frame):
                 self.dis_r = kwargs["dis_r"]
                 self.dis_dim = self.dis_r/3
                 self.dis_direc = kwargs["dis_direc"]
-                self.bg_frameb = kwargs["bg_frameb"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
                 self.frameb = [450,0,750,750,"aquamarine2"]
 
-                self.frameaa = [10,0,730,700,"pink"]
+                self.frameaa = [0,0,750,700,"pink"]
                 self.frameab = [0,700,750,50,"white"]
 
                 self.sc = scbg(parent = self,
@@ -83,24 +82,24 @@ class layoutchoice(tk.Frame):
                                 bgpr = "#5b9bd5",
                                 isonlyaframe= False,
                                 framea = self.frameaa, 
-                                frameb =self.frameab
+                                frameb =self.frameab,text=True
                                 )
                 cavas = self.sc.canvas
-
+                """
                 crebutton(cavas,
-                                crwidth=0, 
-                                crheight=0, 
+                                crwidth=10, 
+                                crheight=350, 
                                 image = self.imagepre,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
+                """
 
                 frameaa = self.sc.framea
                 frameab = self.sc.frameb
 
                 b2 = tk.Button(frameaa, text = "GFG", image = self.imagenextlayout) 
                 b2.place(relx = 0, rely = 0.5, anchor = tk.CENTER) 
-
 
                 self.canvasaa = tk.Canvas(frameaa, 
                                         bg = "azure",
