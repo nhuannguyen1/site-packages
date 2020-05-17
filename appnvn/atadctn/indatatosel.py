@@ -10,7 +10,7 @@ from appnvn.atadctn.treectn import (createcroll,
                                     )
 
 from appnvn.atadctn.spsquotation import spreadsheetgui
-
+from pynvn.autocrollbar
 class indatagui(Frame):
     def __init__(self,tktk = None,
                 br_image = None,

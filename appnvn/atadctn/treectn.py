@@ -18,6 +18,8 @@ import os
 
 from tkinter import ttk
 
+from pynvn.autoscrollbar.autoscrbar import AutoScrollbar
+
 class createcroll(Frame):
 
     def __init__ (self,listFrame = None, 
@@ -442,7 +444,6 @@ class cvframe(tk.Frame):
 
         tk.Frame.__init__(self,cavas)
 
-        #self.parent = parent
 
         self.pack(fill = tk.Y, expand = True)
     
@@ -502,9 +503,8 @@ class cvframeg:
         """ creating canvas contents """
 
         self.framecv = Frame(self.cavas,
-
-                            background=self.bg) 
-
+                            background=self.bg)
+        self.framecv.pack (fill = tk.BOTH, expand = True) 
 
         self.window = self.cavas.create_window((self.createwdx,
 
@@ -521,8 +521,6 @@ class cvframeg:
         return self.framecv
 
 class treescrollbar:
-
-
 
     def __init__(self,frame = None,orienth = tk.HORIZONTAL, orienthv = tk.VERTICAL, tree = None):
 
@@ -576,51 +574,7 @@ class treescrollbar:
 
 
 
-
-
-class AutoScrollbar(tk.Scrollbar): 
-
-
-
-    """ Defining set method with all  """
-
-
-
-    # its parameter 
-
-
-
-    def set(self, low, high): 
-
-
-
-        if float(low) <= 0.0 and float(high) >= 1.0: 
-
-
-
-            # Using grid_remove 
-
-
-
-            self.tk.call("grid", "remove", self) 
-
-            
-
-        else: 
-
-
-
-            self.grid() 
-
-
-
-        tk.Scrollbar.set(self, low, high) 
-
-  
-
 # creating tkinter window  
-
-
 
 class scbg (tk.Frame):
 
@@ -639,9 +593,12 @@ class scbg (tk.Frame):
                         cavheight = 100,
 
                         isonlyaframe = True,
+                        
+                        frameincavas = False,
                         **kwargs):
-
         self.bg = bg
+
+        self.frameincavas = frameincavas
 
         self.kwargs = kwargs
 
@@ -724,7 +681,7 @@ class scbg (tk.Frame):
 
         if self.isonlyaframe:
                 
-            cvf = cvframeg(cavas=self.canvas,
+            cvf = cvframeg(cavas=self.canvas,createwdx=0,createwdy=0,
 
                             cavheight=self.cavheight,
 
@@ -755,7 +712,15 @@ class scbg (tk.Frame):
                                     cavwidth=frameb_k[2],
                                     createwdy=frameb_k[1],
                                     createwdx=frameb_k[0]).rtframecv()
-            
+        if self.frameincavas:
+            self.canvas = tk.Canvas(self.framecv,   
+                                    width=self.cavwidth,
+                                    height=self.cavheight,
+                                    bg = self.bg,
+                                    highlightthickness=0,
+                                    )
+            self.canvas.grid(row=0, column=0, sticky="nsew") 
+
 
     def __addcommmandscroll (self):
 

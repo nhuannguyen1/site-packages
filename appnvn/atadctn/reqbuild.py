@@ -55,12 +55,12 @@ class reqbuild(Frame):
                 #gui for data 
                 self.cavheight_width = [1200,750]
                 self.framea = [0,0,450,750,"white"]
-                self.frameb = [450,0,750,750,"red"]
+                self.frameb = [450,0,750,750,"azure"]
 
                 self.sc = scbg(parent = self,
                                 cavheight=self.cavheight_width[1],
                                 cavwidth=self.cavheight_width[0],
-                                bg = "aquamarine2", 
+                                bg = "azure", 
                                 bgpr = "#5b9bd5",
                                 isonlyaframe= False,
                                 framea = self.framea, 
@@ -504,7 +504,7 @@ class reqbuild(Frame):
                                 row  = row,
                                  sticky = "w")
 
-                """Scale of ATAD house """
+                #Scale of ATAD house """
                 row = row + 1
                 lb7 = tk.Label(self.listFramevp,
                                 text = "Util Quantum:",
@@ -600,7 +600,7 @@ class reqbuild(Frame):
                                 sticky  = "e"
                                 )
 
-                """ set confg for all (label, combo, entry)"""
+                # set confg for all (label, combo, entry)"""
                 # config label
 
                 labels = (self.lbw,self.lbh,self.lbf,
@@ -664,7 +664,7 @@ class reqbuild(Frame):
                         frame.grid(row=0,
                                         column=0, 
                                         sticky="nsew")
-                #self.show_frame("opcus")
+                self.show_frame("opcus")
                 return self.pattern.match(username) is not None
         def print_error(self):
                 print("Invalid username character, only input number")

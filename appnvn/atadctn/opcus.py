@@ -37,7 +37,6 @@ class opcus(tk.Frame):
                         cavheight_width = [1200,750],
                         w_front = 100,
                         *args,**kwargs):
-                self.tktk = tktk
                 tk.Frame.__init__(self, tktk, bg = "pink")
                 self.controller = controller
                 self.labelfont = labelfont
@@ -63,23 +62,15 @@ class opcus(tk.Frame):
                 self.bg_frameb = kwargs["bg_frameb"]
                 self.frameb = frameb 
 
-                self.canvasb = tk.Canvas(self,
-                                bg = "azure",
-                                width=self.frameb[2],
-                                height=self.frameb[3],
-                                 highlightthickness=0,
-                                ) 
-
-                self.canvasb.grid(row=0, 
-                                column=0, sticky="nsew") 
-
-                # Making the canvas expandable 
-                self.grid_rowconfigure(0, weight=1) 
-                self.grid_columnconfigure(0, weight=1) 
-
-                # create cavas frameb 
-                #self.canvasb = tk.Canvas(self.tktk, bg = self.bg_frameb)
-                # create gui for input from customer 
+                self.sc = scbg(parent = self,
+                                cavheight=self.frameb[3],
+                                cavwidth=self.frameb[2],
+                                bg = self.frameb[4], 
+                                isonlyaframe= True,
+                                frameincavas= True
+                                )
+                # return cavas 
+                self.canvasb = self.sc.canvas
                 #windows scroll
                 self.canvasb.bind("<MouseWheel>",self.zoomer)
                 # This is what enables using the mouse:
@@ -90,7 +81,6 @@ class opcus(tk.Frame):
 
                 self.createdrawing()
                 # scale in cavas 
-                
                 self.minradio = ratio(real_w=self.frameb[2],
                                         real_h=self.frameb[3],
                                         w = self.value_dis * 2,
@@ -111,13 +101,13 @@ class opcus(tk.Frame):
     
                 # top left
                 self.leftpoint = plc.pointleftrec()
+
                 # top right
                 self.rightpoint = plc.pointrightrec()
 
                 # create rectangle parent
                 self.createrecp()
-                """set back road  """
-                
+                #set back road  
                 plcn = setbackdimention(w_front=self.w_front,
                                         w_back=self.w_back,
                                         w_left=self.w_left,
