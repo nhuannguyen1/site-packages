@@ -81,9 +81,7 @@ class opcus(tk.Frame):
                                 )
                 # return cavas 
                 framecv = self.sc.framecv
-
                 self.canvasb =self.sc.canvas
-                #self.canvasb.pack(side = tk.LEFT) 
                 #self.createdrawing()
                 self.pattern = re.compile("[0-9]")
                 self.createdrawing()
