@@ -116,8 +116,8 @@ class layoutchoice(tk.Frame):
                 self.canvasac.pack(fill = tk.BOTH, 
                                         expand = True) 
                 crebutton(self.canvasac,
-                                crwidth=20, 
-                                crheight=350, 
+                                crwidth=self.frameac[2]/2, 
+                                crheight=self.frameac[3]/2, 
                                 image = self.imageprelayout,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
@@ -132,8 +132,8 @@ class layoutchoice(tk.Frame):
                                         expand = True) 
 
                 crebutton(self.canvasad,
-                                crwidth=20, 
-                                crheight=350, 
+                                crwidth=self.framead[2]/2, 
+                                crheight=self.framead[3]/2, 
                                 image = self.imagenextlayout,
                                 bg = "azure",
                                 activebackground = "#33B5E5",

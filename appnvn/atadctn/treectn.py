@@ -750,13 +750,7 @@ class scbg (tk.Frame):
             self.canvas.grid(row=0, column=0, sticky=tk.NSEW) 
 
         if self.frameaincavas:
-            self.canvas = tk.Canvas(self.framecv,   
-                                    width=self.cavwidth,
-                                    height=self.cavheight,
-                                    bg = self.bg,
-                                    highlightthickness=0,
-                                    )
-            self.canvas.grid(row=0, column=0) 
+
         
 
     def __addcommmandscroll (self):
