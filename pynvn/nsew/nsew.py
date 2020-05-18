@@ -5,12 +5,12 @@ class directnmwe:
     def __init__ (self,canvasb = None,
                                 height = 100, 
                                 width = 100,
-                                dis_r = 100,
-                                wr_front = 100,
-                                wr_back = 100,
-                                wr_left = 100,
-                                wr_right = 100,
-                                dis_direc = 100,
+                                dis_r = 0,
+                                wr_front = 0,
+                                wr_back = 0,
+                                wr_left = 0,
+                                wr_right = 0,
+                                dis_direc = 0,
                                 leftpoint = None,
                                 rightpoint = None
                                 ):
@@ -22,8 +22,7 @@ class directnmwe:
         self.wr_back = wr_back
         self.wr_left = wr_left
         self.wr_right = wr_right
-        self.dis_direc = wr_right
-        self.dis_direc = wr_right
+        self.dis_direc = dis_direc
         self.leftpoint = leftpoint
         self.rightpoint = rightpoint
 

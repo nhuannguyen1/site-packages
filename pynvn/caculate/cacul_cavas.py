@@ -37,6 +37,7 @@ class placereccenter:
                                     self.info_height_p/2
                                     ]
                                     ).plustracttowlist()
+        
 
 class setbackdimention:
     """set back dimention from rectangle"""

@@ -21,62 +21,19 @@ class coordp:
                     self.dis_direc = dis_direc
 
     def pointstartend(self):
-        """ center point"""
-        if self.rev_direction == "left":
+        """ dim get point start and end of widget parent"""
+        return self.__pointstartendf(self.topleftp,self.bottomrightp)
+    def pointstartendk(self):
+        """ dim get point start and end of widget kid"""
+        return self.__pointstartendf(self.topleftk,self.bottomrightk) 
 
-            self.spoint  = [self.topleftp[0] - self.dis_dim,
-                            self.topleftp[1]]
-
-            self.epoint  = [self.topleftp[0] - self.dis_dim,
-                            self.bottomrightp[1]]
-
-            self.centerpoint = [self.spoint[0],
-                            (self.spoint[1] + self.epoint[1])/2]
-        
-        elif self.rev_direction == "right":
-            self.spoint  = [self.bottomrightp[0]+ self.dis_dim,
-                            self.bottomrightp[1]]
-
-            self.epoint  = [self.bottomrightp[0]+ self.dis_dim,
-                            self.topleftp[1]]
-
-            self.centerpoint = [self.spoint[0],
-                                self.spoint[1] + self.epoint[1]]
-        
-        elif self.rev_direction == "bottom": 
-            self.spoint  = [self.bottomrightp[0],
-                            self.bottomrightp[1] + self.dis_dim]
-
-            self.epoint  = [self.topleftp[0],
-                            self.bottomrightp[1] + self.dis_dim]
-
-            self.centerpoint = [self.spoint[0] + self.epoint[0] ,
-                                self.spoint[1]]
-
-        elif self.rev_direction == "top": 
-            self.spoint  = [self.bottomrightp[0],
-                            self.topleftp[1] - self.dis_dim]
-
-            self.epoint  = [self.topleftp[0],
-                            self.topleftp[1] - self.dis_dim] 
-            self.centerpoint = [(self.spoint[0] + self.epoint[0])/2,
-                                self.spoint[1]]      
-        else:
-
-            messagebox.showerror(title="error message", 
-                                message="Recheck rev_direction key")
-
-        if self.rev_point:
-            self.spoint_n = self.spoint 
-            self.epoint_n = self.epoint 
-        else:
-            self.spoint_n = self.epoint 
-            self.epoint_n = self.spoint 
-        return [*self.spoint_n,*self.epoint_n]
-    
     def centertowpoint(self):
         """ center two boy"""
         self.pointstartend()
+        return  self.centerpoint
+    def centertowpointk(self):
+        """ center two point of kid"""
+        self.pointstartendk()
         return  self.centerpoint
     
     def fronttowpoint(self):
@@ -178,11 +135,59 @@ class coordp:
     def dis_dim(self, dis_dim):
         self._dis_dim = dis_dim
 
+    def __pointstartendf(self,topp, bottomp):
+        """ dim get point start and end of widget parent"""
+        if self.rev_direction == "left":
 
+            spoint  = [topp[0] - self.dis_dim,
+                            topp[1]]
 
+            epoint  = [topp[0] - self.dis_dim,
+                            bottomp[1]]
 
+            self.centerpoint = [spoint[0],
+                            (spoint[1] + epoint[1])/2]
+        
+        elif self.rev_direction == "right":
+            spoint  = [bottomp[0]+ self.dis_dim,
+                            bottomp[1]]
 
-    
+            epoint  = [bottomp[0]+ self.dis_dim,
+                            topp[1]]
+
+            self.centerpoint = [spoint[0],
+                                spoint[1] + epoint[1]]
+        
+        elif self.rev_direction == "bottom": 
+            spoint  = [bottomp[0],
+                            bottomp[1] + self.dis_dim]
+
+            epoint  = [topp[0],
+                            bottomp[1] + self.dis_dim]
+
+            self.centerpoint = [spoint[0] + epoint[0] ,
+                                spoint[1]]
+
+        elif self.rev_direction == "top": 
+            spoint  = [bottomp[0],
+                            topp[1] - self.dis_dim]
+
+            epoint  = [topp[0],
+                            topp[1] - self.dis_dim] 
+            self.centerpoint = [(spoint[0] + epoint[0])/2,
+                                spoint[1]]      
+        else:
+
+            messagebox.showerror(title="error message", 
+                                message="Recheck rev_direction key")
+
+        if self.rev_point:
+            spoint_n = spoint 
+            epoint_n = epoint 
+        else:
+            spoint_n = epoint 
+            epoint_n = spoint 
+        return [*spoint_n,*epoint_n]
     
 
 
