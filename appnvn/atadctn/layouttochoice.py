@@ -31,6 +31,8 @@ from pynvn.cavas_write.writetext import writetext
 
 from pynvn.cavas_dim.cavas_dim import dimrec
 
+from pynvn.cavas_drawing.draw import dcavas
+
 class layoutchoice(tk.Frame):
         """Customer information"""
         def __init__(self,tktk = None,
@@ -75,7 +77,7 @@ class layoutchoice(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
-                self.frameaa = [40,0,670,700,"yellow"]
+                self.frameaa = [40,0,670,700,"azure"]
                 self.frameab = [0,700,750,50,"azure"]
                 self.frameac = [0,0,40,700,"azure"]
                 self.framead = [710,0,40,700,"azure"]
@@ -129,11 +131,11 @@ class layoutchoice(tk.Frame):
 
                 zmcv(cavas=self.canvasaa,
                                 frameb=self.frameaa,
-                                value_dis=self.value_dis,
-                                distancezx= -self.frameaa[0])
+                                value_dis=self.value_dis
+                                )
 
                 crebutton(self.canvasab,
-                                crwidth=self.centerp[0]-30, 
+                                crwidth=self.frameb[2]/2-30, 
                                 crheight=20, 
                                 image = self.imagepre,
                                 bg = "azure",
@@ -141,7 +143,7 @@ class layoutchoice(tk.Frame):
                                 relief = tk.FLAT)
 
                 crebutton(self.canvasab,
-                                crwidth=self.centerp[0]+ 30, 
+                                crwidth=self.frameb[2]/2+ 30, 
                                 crheight=20, 
                                 image = self.imagenext,
                                 bg = "azure",
@@ -150,45 +152,35 @@ class layoutchoice(tk.Frame):
 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
-                plc = placereccenter(info_height_k= self.height,
-                                        info_width_k= self.width,
-                                        info_width_P =self.frameb[2],
-                                        info_height_p=self.frameb[3]
+                # create dim for h 
+                height_p  = self.height - self.w_front - self.w_back
+                width_p = self.width - self.w_left - self.w_right
+
+                plc = placereccenter(info_height_k= height_p,
+                                        info_width_k= width_p,
+                                        info_width_P =self.frameaa[2],
+                                        info_height_p=self.frameaa[3]
                                         )
+                
                 # top left
                 self.leftpoint = plc.pointleftrec()
                 # top right
                 self.rightpoint = plc.pointrightrec()
-                # set back road  """
-                plcn = setbackdimention(w_front=self.w_front,
-                                        w_back=self.w_back,
-                                        w_left=self.w_left,
-                                        w_right=self.w_right,
-                                        topleftpoint_p=self.leftpoint,
-                                        bottomrightpoint_p=self.rightpoint 
-                                        )
-
-                self.topleftkid = plcn.topleftpoint()
-                self.toprightkid = plcn.toprightpoint()
-
-
-                # create rectangle kid
-                self.createreck()
-
+                self.centerp = plc.pointcenterofparent()
+                dr = dcavas(cavas=self.canvasaa,topp=self.leftpoint,bottomp=self.rightpoint).drec()
+                #self.createreck()
+                
                 # dim for item all
                 self.coord = coordp(topleftp=self.leftpoint,
                                         bottomrightp=self.rightpoint,
                                         rev_direction="left",
-                                        topleftk=self.topleftkid,
-                                        bottomrightk=self.toprightkid,
                                         dis_dim=self.dis_dim)
-                                        
-                self.centerp = self.coord.centerpoinparent()
-                sepk = self.coord.pointstartendk()
-                ct2p = self.coord.centertowpointk()
 
-                # create dim for h 
-                height_p  = self.height - self.w_front - self.w_back
+                self.centerp = self.coord.centerpoinparent()
+                sepk = self.coord.pointstartend()
+                ct2p = self.coord.centertowpoint()
+
+                # create rectangle 
                 drh = dimrec (cavas=self.canvasaa,
                                 locationarrow=sepk,
                                 locationtext=ct2p,
@@ -199,10 +191,10 @@ class layoutchoice(tk.Frame):
                 #text 
                 drh.createtext()
                 # create dim for W 
-                width_p = self.width - self.w_left - self.w_right
+                
                 self.coord.rev_direction = "top"
-                coordse = self.coord.pointstartendk()
-                ct2p = self.coord.centertowpointk()
+                coordse = self.coord.pointstartend()
+                ct2p = self.coord.centertowpoint()
                 drw = dimrec (cavas=self.canvasaa,
                                 locationarrow=coordse,
                                 locationtext=ct2p,
@@ -214,21 +206,23 @@ class layoutchoice(tk.Frame):
                 drw.createtext()
                 #dim for top
                 #caculate for area 
+                
                 writetext(canvas=self.canvasaa,
-                                topleftkid=self.topleftkid,
-                                toprightkid= self.toprightkid,
-                                centerpoint = self.coord.centerpointkid()).warea()
+                                topleftkid=self.leftpoint,
+                                toprightkid= self.rightpoint,
+                                centerpoint = self.centerp).warea()
+                
                 # create direction nwse
                 
                 nsew = directnmwe(canvasb = self.canvasaa,
                                 height = self.height- self.w_front - self.w_back, 
                                 width = self.width - self.w_left - self.w_right,
                                 dis_direc = 600, 
-                                leftpoint= self.topleftkid, 
-                                rightpoint=self.toprightkid)
+                                leftpoint= self.leftpoint, 
+                                rightpoint=self.rightpoint)
                 nsew.nsew(font = ('times', 16),
                                 fill = "black")
-                
+
                 self.value_dis = nsew.revalue_dis()
 
         def createrectang_area(self,topleftpoint = None, 
