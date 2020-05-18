@@ -72,10 +72,10 @@ class layoutchoice(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
-                self.frameaa = [40,0,670,700,"pink"]
-                self.frameab = [0,700,750,50,"white"]
-                self.frameac = [0,0,40,700,"white"]
-                self.framead = [710,0,40,700,"white"]
+                self.frameaa = [40,0,670,700,"azure"]
+                self.frameab = [0,700,750,50,"azure"]
+                self.frameac = [0,0,40,700,"azure"]
+                self.framead = [710,0,40,700,"azure"]
 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],

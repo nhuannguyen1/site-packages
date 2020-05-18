@@ -762,7 +762,7 @@ class scbg (tk.Frame):
 
                 # cavas a
                 self.canvasa = tk.Canvas(self.framea, 
-                                        bg = "azure",
+                                        bg = framea_k[4],
                                         borderwidth=0,
                                         highlightthickness=0)
                 self.canvasa.pack(fill = tk.BOTH, 
@@ -771,7 +771,7 @@ class scbg (tk.Frame):
         if self.framebincavas:        
                 # cavas b
                 self.canvasb = tk.Canvas(self.frameb,
-                                                bg = "azure",
+                                                bg = frameb_k[4],
                                                 borderwidth=0,
                                                 highlightthickness=0)
                 self.canvasb.pack(fill = tk.BOTH, expand = True) 
@@ -779,7 +779,7 @@ class scbg (tk.Frame):
         if self.framecincavas:
                 # cavas c 
                 self.canvasc = tk.Canvas(self.framec, 
-                                        bg = "azure",
+                                        bg = framec_k[4],
                                         borderwidth=0,
                                         highlightthickness=0)
                 self.canvasc.pack(fill = tk.BOTH, 
@@ -788,7 +788,7 @@ class scbg (tk.Frame):
         if self.framedincavas:
                 # cavas d
                 self.canvasd = tk.Canvas(self.framed, 
-                                        bg = "azure",
+                                        bg =framed_k[4],
                                         borderwidth=0,
                                         highlightthickness=0)
                 self.canvasd.pack(fill = tk.BOTH, 
