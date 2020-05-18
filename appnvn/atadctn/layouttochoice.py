@@ -43,6 +43,7 @@ class layoutchoice(tk.Frame):
                         cavheight_width = [1200,750],
                         w_front = 100,
                         imagenextlayout = None, 
+                        imageprelayout = None,
                         *args,**kwargs):
                 self.tktk = tktk
                 tk.Frame.__init__(self, tktk)
@@ -55,6 +56,7 @@ class layoutchoice(tk.Frame):
                 self.height = kwargs["height"]
                 self.width = kwargs["width"]
                 self.imagenextlayout = imagenextlayout
+                self.imageprelayout = imageprelayout
                 # set back area
                 self.w_front = 0
                 self.w_back =  0
@@ -70,10 +72,10 @@ class layoutchoice(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
-                self.frameb = [450,0,750,750,"aquamarine2"]
-
-                self.frameaa = [0,0,750,700,"pink"]
+                self.frameaa = [40,0,670,700,"pink"]
                 self.frameab = [0,700,750,50,"white"]
+                self.frameac = [0,0,40,700,"white"]
+                self.framead = [710,0,40,700,"white"]
 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
@@ -82,37 +84,61 @@ class layoutchoice(tk.Frame):
                                 bgpr = "#5b9bd5",
                                 isonlyaframe= False,
                                 framea = self.frameaa, 
-                                frameb =self.frameab,text=True
+                                frameb =self.frameab,
+                                framec =self.frameac,
+                                framed = self.framead
                                 )
                 cavas = self.sc.canvas
-                """
-                crebutton(cavas,
-                                crwidth=10, 
-                                crheight=350, 
-                                image = self.imagepre,
-                                bg = "azure",
-                                activebackground = "#33B5E5",
-                                relief = tk.FLAT)
-                """
-
                 frameaa = self.sc.framea
                 frameab = self.sc.frameb
+                frameac = self.sc.framec
+                framead = self.sc.framed
 
-                b2 = tk.Button(frameaa, text = "GFG", image = self.imagenextlayout) 
-                b2.place(relx = 0, rely = 0.5, anchor = tk.CENTER) 
-
+                # cavas a
                 self.canvasaa = tk.Canvas(frameaa, 
                                         bg = "azure",
                                         borderwidth=0,
                                         highlightthickness=0)
                 self.canvasaa.pack(fill = tk.BOTH, 
-                                        expand = 1) 
-
+                                        expand = True) 
+                # cavas b
                 self.canvasab = tk.Canvas(frameab,
                                                 bg = "azure",
                                                 borderwidth=0,
                                                 highlightthickness=0)
-                self.canvasab.pack(fill = tk.BOTH, expand = 1) 
+                self.canvasab.pack(fill = tk.BOTH, expand = True) 
+
+                # cavas c 
+                self.canvasac = tk.Canvas(frameac, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasac.pack(fill = tk.BOTH, 
+                                        expand = True) 
+                crebutton(self.canvasac,
+                                crwidth=20, 
+                                crheight=350, 
+                                image = self.imageprelayout,
+                                bg = "azure",
+                                activebackground = "#33B5E5",
+                                relief = tk.FLAT)
+
+                # cavas d
+                self.canvasad = tk.Canvas(framead, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasad.pack(fill = tk.BOTH, 
+                                        expand = True) 
+
+                crebutton(self.canvasad,
+                                crwidth=20, 
+                                crheight=350, 
+                                image = self.imagenextlayout,
+                                bg = "azure",
+                                activebackground = "#33B5E5",
+                                relief = tk.FLAT)
+
 
                 self.pattern = re.compile("[0-9]")
                 # create frawing  

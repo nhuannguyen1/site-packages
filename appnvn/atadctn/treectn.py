@@ -608,13 +608,7 @@ class scbg (tk.Frame):
         self.kwargs = kwargs
 
         self.bgpr = bgpr
-        """
-        if self.text == False:
-            self.cavwidth = 800
 
-            self.cavheight =800
-        else:
-        """
         self.cavwidth = cavwidth
 
         self.cavheight =cavheight
@@ -707,12 +701,12 @@ class scbg (tk.Frame):
 
             self.framecv = cvf.rtframecv()
 
-            #self.window = cvf.window
-
         else:
 
             framea_k = self.kwargs.get("framea")
             frameb_k = self.kwargs.get("frameb")
+            framec_k = self.kwargs.get("framec",[0,0,0,0,"white"])
+            framed_k = self.kwargs.get("framed",[0,0,0,0,"white"])
 
             self.framea = cvframeg(cavas=self.canvas,
                                     cavheight=framea_k[3],
@@ -729,7 +723,23 @@ class scbg (tk.Frame):
                                     createwdy=frameb_k[1],
                                     createwdx=frameb_k[0]
                                     ).rtframecv()
-        
+            
+            self.framec = cvframeg(cavas=self.canvas,
+                                    bg=framec_k[4],
+                                    cavheight=framec_k[3],
+                                    cavwidth=framec_k[2],
+                                    createwdy=framec_k[1],
+                                    createwdx=framec_k[0]
+                                    ).rtframecv()
+
+            self.framed = cvframeg(cavas=self.canvas,
+                                    bg=framed_k[4],
+                                    cavheight=framed_k[3],
+                                    cavwidth=framed_k[2],
+                                    createwdy=framed_k[1],
+                                    createwdx=framed_k[0]
+                                    ).rtframecv()
+
         if self.frameincavas:
             self.canvas = tk.Canvas(self.framecv,   
                                     width=self.cavwidth,
@@ -760,8 +770,6 @@ class scbg (tk.Frame):
         self.verscrollbar.config(command=self.canvas.yview) 
 
         self.horiscrollbar.config(command=self.canvas.xview) 
-
-
 
     def __conf (self):
 

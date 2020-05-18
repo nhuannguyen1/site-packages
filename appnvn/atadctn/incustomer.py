@@ -25,7 +25,8 @@ class incus(Frame):
                         padx = (10,0),
                         imagenext = None,
                         imagepre = None,
-                        imagenextlayout = None
+                        imagenextlayout = None,
+                        imageprelayout = None
                         ):
                 
                 Frame.__init__(self, tktk)

@@ -37,7 +37,8 @@ class reqbuild(Frame):
                         padx = (10,0),
                         imagenext = None,
                         imagepre = None,
-                        imagenextlayout = None
+                        imagenextlayout = None,
+                        imageprelayout = None
                         ):
                 self.tktk = tktk
                 Frame.__init__(self, tktk)
@@ -53,6 +54,7 @@ class reqbuild(Frame):
                 self.imagenext = imagenext
                 self.imagepre = imagepre
                 self.imagenextlayout = imagenextlayout
+                self.imageprelayout = imageprelayout
 
                 #gui for data 
                 self.cavheight_width = [1200,750]
@@ -118,7 +120,8 @@ class reqbuild(Frame):
                                 dis_dim = self.dis_r/3,
                                 dis_direc = 400,
                                 frameb=self.frameb,
-                                imagenextlayout=self.imagenextlayout
+                                imagenextlayout=self.imagenextlayout,
+                                imageprelayout = self.imageprelayout
                                 )
                         self.frames[page_name] = frame
                         
@@ -663,7 +666,9 @@ class reqbuild(Frame):
                                 dis_dim = self.dis_r/3,
                                 dis_direc = 400,
                                 frameb=self.frameb,
-                                bg_frameb = "azure")
+                                imagenextlayout=self.imagenextlayout,
+                                imageprelayout = self.imageprelayout
+                                )
                         self.frames[page_name] = frame
                         frame.grid(row=0,
                                         column=0, 

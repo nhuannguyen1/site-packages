@@ -44,6 +44,7 @@ class opcus(tk.Frame):
                         cavheight_width = [1200,750],
                         w_front = 100,
                         imagenextlayout = None,
+                        imageprelayout = None,
                         *args,**kwargs):
                 tk.Frame.__init__(self, tktk, bg = "pink")
                 self.controller = controller
@@ -69,6 +70,7 @@ class opcus(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.frameb = frameb 
                 self.imagenextlayout = imagenextlayout
+
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3] -20,
                                 cavwidth=self.frameb[2] -20,
