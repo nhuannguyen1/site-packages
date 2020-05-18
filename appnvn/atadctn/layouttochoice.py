@@ -86,35 +86,27 @@ class layoutchoice(tk.Frame):
                                 framea = self.frameaa, 
                                 frameb =self.frameab,
                                 framec =self.frameac,
-                                framed = self.framead
+                                framed = self.framead,
+                                frameaincavas=True, 
+                                framebincavas=True,
+                                framecincavas=True, 
+                                framedincavas= True
                                 )
+                """
                 cavas = self.sc.canvas
                 frameaa = self.sc.framea
                 frameab = self.sc.frameb
                 frameac = self.sc.framec
                 framead = self.sc.framed
+                """
 
                 # cavas a
-                self.canvasaa = tk.Canvas(frameaa, 
-                                        bg = "azure",
-                                        borderwidth=0,
-                                        highlightthickness=0)
-                self.canvasaa.pack(fill = tk.BOTH, 
-                                        expand = True) 
+                self.canvasaa = self.sc.canvasa
                 # cavas b
-                self.canvasab = tk.Canvas(frameab,
-                                                bg = "azure",
-                                                borderwidth=0,
-                                                highlightthickness=0)
-                self.canvasab.pack(fill = tk.BOTH, expand = True) 
+                self.canvasab = self.sc.canvasb
 
                 # cavas c 
-                self.canvasac = tk.Canvas(frameac, 
-                                        bg = "azure",
-                                        borderwidth=0,
-                                        highlightthickness=0)
-                self.canvasac.pack(fill = tk.BOTH, 
-                                        expand = True) 
+                self.canvasac = self.sc.canvasc
                 crebutton(self.canvasac,
                                 crwidth=self.frameac[2]/2, 
                                 crheight=self.frameac[3]/2, 
@@ -124,12 +116,7 @@ class layoutchoice(tk.Frame):
                                 relief = tk.FLAT)
 
                 # cavas d
-                self.canvasad = tk.Canvas(framead, 
-                                        bg = "azure",
-                                        borderwidth=0,
-                                        highlightthickness=0)
-                self.canvasad.pack(fill = tk.BOTH, 
-                                        expand = True) 
+                self.canvasad =  self.sc.canvasd
 
                 crebutton(self.canvasad,
                                 crwidth=self.framead[2]/2, 
@@ -138,7 +125,6 @@ class layoutchoice(tk.Frame):
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
-
 
                 self.pattern = re.compile("[0-9]")
                 # create frawing  

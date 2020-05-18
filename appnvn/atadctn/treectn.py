@@ -599,11 +599,20 @@ class scbg (tk.Frame):
                         frameincavas = False,
 
                         frameaincavas = False,
+                        framebincavas = False,
+                        framecincavas = False,
+                        framedincavas = False,
                         **kwargs):
         self.bg = bg
         self.frameincavas = frameincavas
 
         self.frameaincavas = frameaincavas
+
+        self.framebincavas = framebincavas
+
+        self.framecincavas = framecincavas
+
+        self.framedincavas = framedincavas
 
         self.kwargs = kwargs
 
@@ -731,18 +740,16 @@ class scbg (tk.Frame):
                                     createwdy=framec_k[1],
                                     createwdx=framec_k[0]
                                     ).rtframecv()
-
             self.framed = cvframeg(cavas=self.canvas,
-                                    bg=framed_k[4],
+                                    bg=framec_k[4],
                                     cavheight=framed_k[3],
                                     cavwidth=framed_k[2],
                                     createwdy=framed_k[1],
                                     createwdx=framed_k[0]
                                     ).rtframecv()
 
-
-
         if self.frameincavas:
+
             self.canvas = tk.Canvas(self.framecv,   
                                     width=self.cavwidth,
                                     height=self.cavheight,
@@ -752,13 +759,40 @@ class scbg (tk.Frame):
             self.canvas.grid(row=0, column=0, sticky=tk.NSEW) 
 
         if self.frameaincavas:
-            self.canvas = tk.Canvas(self.framecv,   
-                                    width=self.cavwidth,
-                                    height=self.cavheight,
-                                    bg = self.bg,
-                                    highlightthickness=0,
-                                    )
-            self.canvas.grid(row=0, column=0) 
+
+                # cavas a
+                self.canvasa = tk.Canvas(self.framea, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasa.pack(fill = tk.BOTH, 
+                                        expand = True) 
+
+        if self.framebincavas:        
+                # cavas b
+                self.canvasb = tk.Canvas(self.frameb,
+                                                bg = "azure",
+                                                borderwidth=0,
+                                                highlightthickness=0)
+                self.canvasb.pack(fill = tk.BOTH, expand = True) 
+
+        if self.framecincavas:
+                # cavas c 
+                self.canvasc = tk.Canvas(self.framec, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasc.pack(fill = tk.BOTH, 
+                                        expand = True) 
+
+        if self.framedincavas:
+                # cavas d
+                self.canvasd = tk.Canvas(self.framed, 
+                                        bg = "azure",
+                                        borderwidth=0,
+                                        highlightthickness=0)
+                self.canvasd.pack(fill = tk.BOTH, 
+                                        expand = True) 
         
 
     def __addcommmandscroll (self):
