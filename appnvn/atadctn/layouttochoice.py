@@ -6,8 +6,7 @@ from tkinter import (Frame,
                     Radiobutton
                     )
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
+from tkinter import ttk,messagebox,PhotoImage
 from appnvn.atadctn.treectn import scbg
 from pynvn.caculate.cacul_cavas import (placereccenter,
                                         setbackdimention,
@@ -167,9 +166,10 @@ class layoutchoice(tk.Frame):
                 # top right
                 self.rightpoint = plc.pointrightrec()
                 self.centerp = plc.pointcenterofparent()
-                dr = dcavas(cavas=self.canvasaa,topp=self.leftpoint,bottomp=self.rightpoint).drec()
-                #self.createreck()
-                
+
+                dcavas(cavas=self.canvasaa,
+                        topp=self.leftpoint,
+                        bottomp=self.rightpoint).drec(fill = "#c49b65")
                 # dim for item all
                 self.coord = coordp(topleftp=self.leftpoint,
                                         bottomrightp=self.rightpoint,
@@ -191,7 +191,6 @@ class layoutchoice(tk.Frame):
                 #text 
                 drh.createtext()
                 # create dim for W 
-                
                 self.coord.rev_direction = "top"
                 coordse = self.coord.pointstartend()
                 ct2p = self.coord.centertowpoint()
@@ -206,61 +205,22 @@ class layoutchoice(tk.Frame):
                 drw.createtext()
                 #dim for top
                 #caculate for area 
-                
                 writetext(canvas=self.canvasaa,
                                 topleftkid=self.leftpoint,
                                 toprightkid= self.rightpoint,
                                 centerpoint = self.centerp).warea()
-                
                 # create direction nwse
-                
                 nsew = directnmwe(canvasb = self.canvasaa,
                                 height = self.height- self.w_front - self.w_back, 
                                 width = self.width - self.w_left - self.w_right,
-                                dis_direc = 600, 
+                                dis_direc = self.dis_direc * 2.3, 
                                 leftpoint= self.leftpoint, 
                                 rightpoint=self.rightpoint)
                 nsew.nsew(font = ('times', 16),
                                 fill = "black")
 
-                self.value_dis = nsew.revalue_dis()
-
-        def createrectang_area(self,topleftpoint = None, 
-                                toprightpoint = None, 
-                                fill = "yellow",
-                                alpha=0.5 ):
-                """ create rectangle of area """
-                self.rrectangle_wd = self.canvasaa.create_rectangle (*topleftpoint,
-                                                                        *toprightpoint,
-                                                                        fill=fill)
-        def reratio (self):
-                """ caculate ratio of window"""
-                try:
-                        self.minradio = ratio(real_w=self.frameb[2],
-                                        real_h=self.frameb[3],
-                                        w = self.value_dis * 2 ,
-                                        h =self.value_dis * 2).reratiomin()
-                except:
-                        messagebox.showerror("Eror", "check ratio of class ratio" )
-
-        def currentsize (self):
-                """ Current size to setup when event"""
-                self.reratio()
-                self.canvasaa.scale("all",
-                                self.frameb[2]/2, 
-                                self.frameb[3]/2, 
-                                self.minradio/1.1, 
-                                self.minradio/1.1)
-
-        def createreck (self,**kwargs):
-                """Create rectangle of widget kid"""
-                try:
-
-                        self.canvasaa.delete(self.rrectangle_kid ) # remove
-                except:
-
-                        pass
-
-                self.rrectangle_kid = self.canvasaa.create_rectangle (*self.topleftkid,
-                                                                        *self.toprightkid,
-                                                                        fill="#e79c2b")
+                # put image in to layout 
+                bg_icon = PhotoImage(file=r"D:\5.ATADRD\CTNATAD\ctn_image\1.GIF")
+                # put gif image on canvas
+                # pic's upper left corner (NW) on the canvas is at x=50 y=10
+                self.canvasaa.create_image(40, 0, image=bg_icon, anchor=tk.CENTER)

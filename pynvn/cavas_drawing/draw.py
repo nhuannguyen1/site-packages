@@ -15,5 +15,6 @@ class dcavas:
 
             pass
         self.rrectangle_kid = self.cavas.create_rectangle (*self.topp,
-                                                            *self.bottomp,
-                                                            fill="#e79c2b")
+                                                            *self.bottomp,**kwargs)
+
+# "#e79c2b"

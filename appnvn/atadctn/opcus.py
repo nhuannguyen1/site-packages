@@ -29,6 +29,7 @@ from pynvn.nsew.nsew import directnmwe
 
 from pynvn.cavas_write.writetext import writetext
 
+from pynvn.cavas_drawing.draw import dcavas
 import string
 class opcus(tk.Frame):
         """Customer information"""
@@ -72,8 +73,8 @@ class opcus(tk.Frame):
                 self.imagenextlayout = imagenextlayout
 
                 self.sc = scbg(parent = self,
-                                cavheight=self.frameb[3] -20,
-                                cavwidth=self.frameb[2] -20,
+                                cavheight=self.frameb[3] ,
+                                cavwidth=self.frameb[2] ,
                                 bg = self.frameb[4], 
                                 isonlyaframe= True,
                                 frameincavas= True,
@@ -88,7 +89,9 @@ class opcus(tk.Frame):
                 # scale,zoom,move in cavas 
                 zmcv(cavas=self.canvasb,
                                 frameb=self.frameb,
-                                value_dis=self.value_dis)
+                                value_dis=self.value_dis,
+                                centerp =self.centerp, 
+                                usingcoord = True)
                 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
@@ -97,7 +100,7 @@ class opcus(tk.Frame):
                                         info_width_P =self.frameb[2],
                                         info_height_p=self.frameb[3]
                                         )
-    
+                self.centerp = plc.pointcenterofparent()
                 # top left
                 self.leftpoint = plc.pointleftrec()
 
@@ -105,7 +108,9 @@ class opcus(tk.Frame):
                 self.rightpoint = plc.pointrightrec()
 
                 # create rectangle parent
-                self.createrecp()
+                dcavas (cavas=self.canvasb,
+                                topp=self.leftpoint,
+                                bottomp =self.rightpoint ).drec(fill="yellow")
                 #set back road  
                 plcn = setbackdimention(w_front=self.w_front,
                                         w_back=self.w_back,
@@ -114,11 +119,13 @@ class opcus(tk.Frame):
                                         topleftpoint_p=self.leftpoint,
                                         bottomrightpoint_p=self.rightpoint 
                                         )
-
+                                        
                 self.topleftkid = plcn.topleftpoint()
                 self.toprightkid = plcn.toprightpoint()
                 # create rectangle kid
-                self.createreck()
+                dcavas (cavas=self.canvasb,
+                        topp=self.topleftkid,
+                        bottomp =self.toprightkid ).drec(fill="#e79c2b")
                 # create road for front 
                 rf = create_poly_from_tleft_bright(topleftpoint_p=self.leftpoint,
                                                         bottomrightpoint_p=self.rightpoint,
@@ -178,10 +185,7 @@ class opcus(tk.Frame):
                                 toprightkid= self.toprightkid,
                                 centerpoint = self.coord.centerpointkid()).warea()
                 # create direction nwse
-                """
-                self.directnmwe(font =('times', 16), 
-                                        fill = "black")
-                """
+
                 nsew = directnmwe(canvasb = self.canvasb,
                                 height = self.height, 
                                 width = self.width,
@@ -200,6 +204,7 @@ class opcus(tk.Frame):
                                 toprightpoint = None, 
                                 fill = "yellow",
                                 alpha=0.5 ):
+
                 """ create rectangle of area """
                 self.rrectangle_wd = self.canvasb.create_rectangle (*topleftpoint,
                                                                         *toprightpoint,
@@ -233,7 +238,7 @@ class opcus(tk.Frame):
                 # create rectange of parent 
                 self.rectangle_wd = self.canvasb.create_rectangle (*self.leftpoint,
                                                                         *self.rightpoint,
-                                                                        fill="yellow")
+                                                                        fill="red")
         def createreck (self,**kwargs):
                 """Create rectangle of widget kid"""
                 try:
@@ -585,24 +590,3 @@ class opcus(tk.Frame):
                                                                 anchor="n",
                                                                 text =str(self.wr_right), 
                                                                 angle=0)
-        
-        def cacularea(self,**kwargs):
-                """ caculate area """
-
-                are_k = area(topleftpoint= self.topleftkid, 
-                                bottomrightpoint=self.toprightkid).areafromtopbottompoint()
-
-                """ create text for road """
-
-                # create text 
-                try:
-                        self.canvasb.delete(self.tca ) # remove
-                except:
-                        pass
-                coordrcenter = self.coord.centerpointkid()
-
-                self.tca = self.canvasb.create_text(*coordrcenter, 
-                                                        anchor="center",
-                                                        text ="Area to build: {}".format(are_k), 
-                                                        angle=0,
-                                                        **kwargs)

@@ -171,12 +171,16 @@ class incus(Frame):
                         )
 
                 var1 = IntVar()
-                ckgender = Radiobutton(self.listFramevp,text = "Male",variable= var1)
+                ckgender = Radiobutton(self.listFramevp,
+                                        text = "Male",
+                                        variable= var1)
                 ckgender.grid(column = 1,
                                 row  = row)
 
                 var2 = IntVar()
-                ckgender2 = Radiobutton(self.listFramevp,text = "Female",variable= var2)
+                ckgender2 = Radiobutton(self.listFramevp,
+                                        text = "Female",
+                                        variable= var2)
                 ckgender2.grid(column = 2,
                                 row  = row)
 
