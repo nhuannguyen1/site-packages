@@ -18,7 +18,7 @@ class zmcv:
         self.distancezx = distancezx
         self.distancezy = distancezy
         self.centerp = centerp
-        self.imscale = 1.0
+        #self.imscale = 1.0
         self.imageid = imageid
         self.delta = 0.75
         self.imagepath = imagepath
@@ -32,21 +32,23 @@ class zmcv:
             self.cavas.bind("<B1-Motion>", self.move_move)
             self.sccvc()
         elif isimage:
+            self.text = self.cavas.create_text(centerp, anchor='center', text='Scroll to 1 zoom')
+
             #self.image = Image.open(self.imagepath)
             self.cavas.bind("<MouseWheel>",self.wheel)
             self.cavas.bind("<ButtonPress-1>", self.move_start)
             self.cavas.bind("<B1-Motion>", self.move_move)
+            self.sccv()
+            self.imscale = self.minradio 
             self.show_image()
             #self.cavas.configure(scrollregion=self.cavas.bbox('all'))
-            
+        
         else:
             self.cavas.bind("<MouseWheel>",self.zoomer)
             # This is what enables using the mouse:
             self.cavas.bind("<ButtonPress-1>", self.move_start)
             self.cavas.bind("<B1-Motion>", self.move_move)
             self.sccv()
-
-
 
     def zoomer(self,event):
         """windows zoom """
@@ -98,7 +100,8 @@ class zmcv:
 
     def wheel(self, event):
         ''' Zoom with mouse wheel '''
-        scale = 1.0
+        scale = 1
+
         # Respond to Linux (event.num) or Windows (event.delta) wheel event
         if event.num == 5 or event.delta == -120:
             scale        *= self.delta
@@ -124,6 +127,6 @@ class zmcv:
         new_size = int(self.imscale * width), int(self.imscale * height)
         imagetk = ImageTk.PhotoImage(self.image.resize(new_size))
         # Use self.text object to set proper coordinates
-        self.imageid = self.cavas.create_image(self.centerp[0],self.centerp[1],anchor='center', image=imagetk)
+        self.imageid = self.cavas.create_image(self.cavas.coords(self.text),anchor='center', image=imagetk)
         #self.cavas.lower(self.imageid)  # set it into background
         self.cavas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
