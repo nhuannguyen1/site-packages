@@ -1,19 +1,15 @@
 from tkinter import (Frame,
                     Tk,
-                    Toplevel,
-                    StringVar,
-                    IntVar,
-                    Radiobutton
+                    ttk,
+                    messagebox,
+                    PhotoImage
                     )
 import tkinter as tk
-from tkinter import ttk,messagebox,PhotoImage
-from appnvn.atadctn.treectn import scbg
-from pynvn.caculate.cacul_cavas import (placereccenter,
-                                        setbackdimention,
-                                        create_poly_from_tleft_bright)
+from appnvn.atadctn.treectn import scbg,cvframeg
+from pynvn.caculate.cacul_cavas import placereccenter
 
 import re
-
+from PIL import ImageTk
 from pynvn.caculate.ratio import ratio
 
 from pynvn.caculate.coord_point import coordp
@@ -81,6 +77,10 @@ class layoutchoice(tk.Frame):
                 self.frameac = [0,0,40,700,"azure"]
                 self.framead = [710,0,40,700,"azure"]
 
+
+                pathimage = r"D:\5.ATADRD\CTNATAD\ctn_image\01.jpg"
+
+
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
                                 cavwidth=self.frameb[2],
@@ -127,8 +127,10 @@ class layoutchoice(tk.Frame):
                 # create frawing  
                 self.createdrawing()
                 # scale, move in cavas 
-
                 zmcv(cavas=self.canvasaa,
+                                isimage=True,
+                                centerp=self.centerp,
+                                imagepath=pathimage,
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
                                 )
@@ -218,9 +220,18 @@ class layoutchoice(tk.Frame):
                                 rightpoint=self.rightpoint)
                 nsew.nsew(font = ('times', 16),
                                 fill = "black")
+                self.value_dis = nsew.revalue_dis()
 
+                #sc = cvframeg(cavas=self.canvasad,cavheight=5000,cavwidth=5000, bg= "black",anchor= tk.SE).rtframecv()
+                
                 # put image in to layout 
-                bg_icon = PhotoImage(file=r"D:\5.ATADRD\CTNATAD\ctn_image\1.GIF")
+                #bg_icon = ImageTk.PhotoImage(file=r"D:\5.ATADRD\CTNATAD\ctn_image\02.jpg")
+                
+                #self.canvasaa.create_image(0, 0, image=bg_icon, anchor= tk.NW )
+                #self.canvasaa.image = bg_icon 
+                
+                #self.canvasaa.tag_raise(item)
                 # put gif image on canvas
                 # pic's upper left corner (NW) on the canvas is at x=50 y=10
-                self.canvasaa.create_image(40, 0, image=bg_icon, anchor=tk.CENTER)
+                #self.canvasaa.create_rectangle(0,0,800,800, fill = "red"
+
