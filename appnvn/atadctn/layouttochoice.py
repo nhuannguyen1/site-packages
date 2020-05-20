@@ -221,17 +221,3 @@ class layoutchoice(tk.Frame):
                 nsew.nsew(font = ('times', 16),
                                 fill = "black")
                 self.value_dis = nsew.revalue_dis()
-
-                #sc = cvframeg(cavas=self.canvasad,cavheight=5000,cavwidth=5000, bg= "black",anchor= tk.SE).rtframecv()
-                
-                # put image in to layout 
-                #bg_icon = ImageTk.PhotoImage(file=r"D:\5.ATADRD\CTNATAD\ctn_image\02.jpg")
-                
-                #self.canvasaa.create_image(0, 0, image=bg_icon, anchor= tk.NW )
-                #self.canvasaa.image = bg_icon 
-                
-                #self.canvasaa.tag_raise(item)
-                # put gif image on canvas
-                # pic's upper left corner (NW) on the canvas is at x=50 y=10
-                #self.canvasaa.create_rectangle(0,0,800,800, fill = "red"
-

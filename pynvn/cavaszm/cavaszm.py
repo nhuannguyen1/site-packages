@@ -20,7 +20,7 @@ class zmcv:
         self.centerp = centerp
         #self.imscale = 1.0
         self.imageid = imageid
-        self.delta = 0.75
+        self.delta = 0.9
         self.imagepath = imagepath
         #self.image = Image.open(self.imagepath)
         #self.text = self.cavas.create_text(0, 0, anchor='center', text='Scroll to 1 zoom')
