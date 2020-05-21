@@ -47,12 +47,12 @@ class kidtomother:
                                 self.namesheet[7]:[41,3,18,None,41,3,18,None]}
                 
     def transferdatatoparent(self):
+        """ tranfer data to parent """
         for ns in self.namesheet:
             vals = self.keysheet.get(ns)
             if ns in self.kipnamesheet:
                 continue
             else:
-                print ("vals",vals)
                 self.ht = hdata (pathfile=self.pathkid,sheetname=ns,\
                                 rowindexstart=vals[0],columnmh=vals[1],\
                                 columntotp=vals[2],valuecelltoskip=vals[3],\

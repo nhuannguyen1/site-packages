@@ -28,6 +28,10 @@ from pynvn.cavas_dim.cavas_dim import dimrec
 
 from pynvn.cavas_drawing.draw import dcavas
 
+from pynvn.iter import bidirectional_iterator
+
+import os
+
 class layoutchoice(tk.Frame):
         """Customer information"""
         def __init__(self,tktk = None,
@@ -77,10 +81,11 @@ class layoutchoice(tk.Frame):
                 self.frameac = [0,0,40,700,"azure"]
                 self.framead = [710,0,40,700,"azure"]
 
-
-                pathimage = r"D:\5.ATADRD\CTNATAD\ctn_image\01.jpg"
-
-
+                pathimage = r"D:\5.ATADRD\CTNATAD\clayout"
+                os.chdir(pathimage)
+                self.imgs = os.listdir(pathimage)
+                self.bd = bidirectional_iterator(self.imgs)
+                
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
                                 cavwidth=self.frameb[2],
@@ -109,6 +114,7 @@ class layoutchoice(tk.Frame):
                                 crheight=self.frameac[3]/2, 
                                 image = self.imageprelayout,
                                 bg = "azure",
+                                command = lambda: self.pre_img(),
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
 
@@ -120,21 +126,26 @@ class layoutchoice(tk.Frame):
                                 crheight=self.framead[3]/2, 
                                 image = self.imagenextlayout,
                                 bg = "azure",
+                                command = lambda: self.next_img(),
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
 
                 self.pattern = re.compile("[0-9]")
                 # create frawing  
                 self.createdrawing()
+                
                 # scale, move in cavas 
+                """
                 zmcv(cavas=self.canvasaa,
                                 isimage=True,
                                 centerp=self.centerp,
-                                imagepath=pathimage,
+                                imagepath=self.fileimage,
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
                                 )
-
+                """
+                
+                # create buttom previuos
                 crebutton(self.canvasab,
                                 crwidth=self.frameb[2]/2-30, 
                                 crheight=20, 
@@ -143,13 +154,17 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
 
+                # create buttom next
                 crebutton(self.canvasab,
                                 crwidth=self.frameb[2]/2+ 30, 
                                 crheight=20, 
                                 image = self.imagenext,
+                                command = lambda: self.next_img(),
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
+                self.next_img()
+
 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
@@ -221,3 +236,28 @@ class layoutchoice(tk.Frame):
                 nsew.nsew(font = ('times', 16),
                                 fill = "black")
                 self.value_dis = nsew.revalue_dis()
+        def next_img(self):
+                """ next value """
+                self.createdrawing()
+                #bd = bidirectional_iterator(self.imgs)
+                self.fileimage=self.bd.next()
+                zmcv(cavas=self.canvasaa,
+                                isimage=True,
+                                centerp=self.centerp,
+                                imagepath=self.fileimage,
+                                frameb=self.frameaa,
+                                value_dis=self.value_dis
+                                )
+
+        def pre_img(self):
+                """ previous value """
+                self.createdrawing()
+                self.fileimage=self.bd.prev()
+                zmcv(cavas=self.canvasaa,
+                                isimage=True,
+                                centerp=self.centerp,
+                                imagepath=self.fileimage,
+                                frameb=self.frameaa,
+                                value_dis=self.value_dis
+                                )
+

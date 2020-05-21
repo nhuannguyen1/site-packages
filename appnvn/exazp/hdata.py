@@ -3,21 +3,19 @@ import openpyxl
 from pynvn.path.ppath import PathSteel
 from tkinter import messagebox
 class hdata:
+    """hadling data excel file kid """
     def __init__(self,pathfile = None,
                 sheetname = "AZB-10",
                 rowindexstart = 41,
                 columnmh = 3,
                 columntotp = 18,
                 valuecelltoskip = None,
-
-                #star file to 
                 pathfile_to = None,
                 sheetname_to = "AZB-10",
                 rowindexstart_to = 41,
                 columnmh_to = 3,
                 columntotp_to = 18,
                 valuecelltoskip_to = None,
-                
                 ):
 
                 self.pathfile = pathfile
@@ -53,21 +51,17 @@ class hdata:
                 self.valuarr = self.reindexofvalue()
                 self.valuarr.append (self.mr)
 
-                print ("self.valuarr",self.valuarr)
-
-    # hadling data excel file kid 
     def hldatakid(self):
+        """hadling data excel file kid """
         # sum for caculation 
         self.calsumvaluecolumntotp(self.valuarr)
-
         try:
-        
             self.wb_obj.save(self.pathfile)
-        
         except:
             messagebox.showerror("error","this file is openning, close it")
-         
+
     def hldataparent(self):
+        """hadling data excel file parent """
         revalu = self.returnvluenotnone()
         for inrowvalue in revalu:
             retuar = self.returnvaluebyvalueothesheet(inrowvalue)
@@ -77,6 +71,7 @@ class hdata:
         self.wb_obj_to.save(self.pathfile_to)
 
     def returnvaluebyvalueothesheet(self,inrowvalue):
+        """ return value by value the sheet """
 
         for rowindex in range (self.rowindexstart,self.mr):
             varow = self.sheet.cell(row=rowindex, 
@@ -91,6 +86,7 @@ class hdata:
             messagebox.showinfo("Title", "Not found value {}").format(rowindex)
     
     def reindexofvalue(self):
+        """ return index of value"""
         i = 0 
         a = True
         valuearr = []
@@ -116,6 +112,7 @@ class hdata:
         return valuearr
 
     def returnvluenotnone(self):
+        """ return value not none """
         i = 0 
         a = True
         valuearr = []
@@ -141,9 +138,8 @@ class hdata:
         return valuearr
 
     def calsumvaluecolumntotp (self,listvalue):
-
+        """ caclulate value column """
         valnotnone = self.findcellnotnone()
-
         sum = 0
         valuearr = list(self.func(listvalue))
         for elelist in valuearr:
@@ -170,6 +166,7 @@ class hdata:
         return lst3 
 
     def findcellnotnone(self):
+        """ find cell not none value """
         valnotnone = []
         cli = self.rowindexstart 
         while cli < self.mr:
@@ -181,6 +178,7 @@ class hdata:
         return valnotnone
 
     def remiveinter (self,listmn,listmned):
+        """ return value intersection list """
         interlist  = self.intersertionlist(listmned,
                                             listmn)
         return list(set(listmn)- set(interlist))

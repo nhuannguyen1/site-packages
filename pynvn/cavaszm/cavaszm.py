@@ -124,9 +124,12 @@ class zmcv:
             self.imageid = None
             self.cavas.imagetk = None  # delete previous image from the canvas
         width, height = self.image.size
-        new_size = int(self.imscale * width), int(self.imscale * height)
+        new_size = int(self.imscale * width),int(self.imscale * height)
         imagetk = ImageTk.PhotoImage(self.image.resize(new_size))
         # Use self.text object to set proper coordinates
-        self.imageid = self.cavas.create_image(self.cavas.coords(self.text),anchor='center', image=imagetk)
+        self.imageid = self.cavas.create_image(self.cavas.coords(self.text),
+                                                        anchor='center', 
+                                                        image=imagetk)
         #self.cavas.lower(self.imageid)  # set it into background
         self.cavas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
+    
