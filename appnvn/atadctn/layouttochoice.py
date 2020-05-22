@@ -133,18 +133,7 @@ class layoutchoice(tk.Frame):
                 self.pattern = re.compile("[0-9]")
                 # create frawing  
                 self.createdrawing()
-                
-                # scale, move in cavas 
-                """
-                zmcv(cavas=self.canvasaa,
-                                isimage=True,
-                                centerp=self.centerp,
-                                imagepath=self.fileimage,
-                                frameb=self.frameaa,
-                                value_dis=self.value_dis
-                                )
-                """
-                
+
                 # create buttom previuos
                 crebutton(self.canvasab,
                                 crwidth=self.frameb[2]/2-30, 

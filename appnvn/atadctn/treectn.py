@@ -154,6 +154,7 @@ class scbg (tk.Frame):
         self.__addcommmandscroll()
 
         self.__conf()
+        
 
     def __create_canvas(self):
 
@@ -333,3 +334,155 @@ class scbg (tk.Frame):
         '''Reset the scroll region to encompass the inner frame'''
 
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))#whenever the size of the frame changes, alter the scroll region respectively.
+
+class autoscrbarn:
+    def __init__(self, parent = None, canvas = None,**kwargs):
+        self.parent = parent
+        self.canvas = canvas
+
+    def __add_scroll_bars(self):
+
+        """add scroll bar """
+
+        # Defining vertical scrollbar 
+
+        self.verscrollbar = AutoScrollbar(self.parent) 
+
+        # Calling grid method with all its 
+
+        # parameter w.r.t vertical scrollbar 
+
+        self.verscrollbar.grid(row=0, column=1,sticky=tk.N+tk.S) 
+
+        # Defining horizontal scrollbar 
+
+        self.horiscrollbar = AutoScrollbar(self.parent,orient=tk.HORIZONTAL) 
+
+        # Calling grid method with all its  
+
+        self.horiscrollbar.grid(row=1, column=0, sticky=tk.E+tk.W) 
+
+
+    def __addcommmandscroll (self):
+
+        """set and add scroll bar """
+
+        self.canvas.config(xscrollcommand=self.horiscrollbar.set, 
+
+                            yscrollcommand=self.verscrollbar.set)
+
+        self.verscrollbar.config(command=self.canvas.yview) 
+
+        self.horiscrollbar.config(command=self.canvas.xview) 
+
+
+    def __conf (self):
+
+        """ Configuring canvas """  
+
+        self.canvas.bind("<Configure>",
+
+                            self.onFrameConfigure) #bind an event whenever the size of the viewPort frame changes.
+
+
+    def onFrameConfigure(self, event):                                              
+
+        '''Reset the scroll region to encompass the inner frame'''
+
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))#whenever the size of the frame changes, alter the scroll region respectively.
+
+
+class scrollbarvn(tk.Frame):
+    """ create list check box"""
+    def __init__(self, parent, **kwargs):
+        tk.Frame.__init__(self, parent, **kwargs)
+        self.pack(fill = tk.BOTH, expand = True)
+        self.vars = []
+        self.__create_canvas()
+        self.__add_scroll_bars()
+        self.__addcommmandscroll()
+        self.__conf()
+        self.__creframe()
+
+    def __creframe (self):
+        self.frame = tk.Frame(self.canvas,bg = "white" )
+        self.frame.rowconfigure(1, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+        self.canvas.create_window(0, 0, anchor=tk.NW, window=self.frame)
+
+    def __create_canvas(self):
+
+        """Creating scrolled canvas """
+
+        self.canvas = tk.Canvas(self,
+                                highlightthickness=0,
+                            ) 
+
+        self.canvas.grid(row=0,column=0, sticky =  tk.NSEW) 
+
+        # Making the canvas expandable 
+
+        self.grid_rowconfigure(0, weight=1) 
+
+        self.grid_columnconfigure(0, weight=1) 
+
+    def getCheckedItems(self):
+        values = []
+        for var in self.vars:
+            value =  var.get()
+            if value:
+                values.append(value)
+        return values
+
+    def __add_scroll_bars(self):
+
+        """add scroll bar """
+
+        # Defining vertical scrollbar 
+
+        self.verscrollbar = AutoScrollbar(self) 
+
+        # Calling grid method with all its 
+
+        # parameter w.r.t vertical scrollbar 
+
+        self.verscrollbar.grid(row=0, column=1,sticky=tk.N+tk.S) 
+
+        # Defining horizontal scrollbar 
+
+        self.horiscrollbar = AutoScrollbar(self,orient=tk.HORIZONTAL) 
+
+        # Calling grid method with all its  
+
+        self.horiscrollbar.grid(row=1, column=0, sticky=tk.E+tk.W) 
+
+
+    def __addcommmandscroll (self):
+
+        """set and add scroll bar """
+
+        self.canvas.config(xscrollcommand=self.horiscrollbar.set, 
+
+                            yscrollcommand=self.verscrollbar.set)
+
+        self.verscrollbar.config(command=self.canvas.yview) 
+
+        self.horiscrollbar.config(command=self.canvas.xview) 
+
+
+    def __conf (self):
+
+        """ Configuring canvas """  
+
+        self.canvas.bind("<Configure>",
+
+                            self.onFrameConfigure) #bind an event whenever the size of the viewPort frame changes.
+
+
+    def onFrameConfigure(self, event):                                              
+
+        '''Reset the scroll region to encompass the inner frame'''
+
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))#whenever the size of the frame changes, alter the scroll region respectively.    
+
+

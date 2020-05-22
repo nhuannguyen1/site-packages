@@ -131,8 +131,12 @@ def PathFromFileNameAndDirpath (dir_path = None,
     return full_path
 
 def getpathfromtk(outputpath):
+        """
         pathin = outputpath.get("1.0",
                                 "end - 1 chars")
+        """
+        pathin = outputpath.get()
+        
         try:
             if os.path.exists(pathin) == False:
                 messagebox.showinfo("directory", "directory not found for option")
@@ -160,3 +164,13 @@ def credirfol (dirNamec, subforder):
     except:
         print ( "already exists")
     return os.path.join(dirNamec, subforder)
+
+def refullpath(dirpath, filename):
+    """ return full name from dir folder and finame name"""
+    try:
+        fpath = os.path.join(dirpath, filename)
+        return fpath
+    
+    except:
+        messagebox.showerror("error", "Check dir path or filename ")
+    

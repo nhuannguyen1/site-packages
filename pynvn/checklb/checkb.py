@@ -1,22 +1,42 @@
 import tkinter as tk
+from pynvn.autoscrollbar.autoscrbar import AutoScrollbar
 
-class ChecklistBox(tk.Frame):
-    """ create list check box"""
-    def __init__(self, parent, choices, **kwargs):
-        tk.Frame.__init__(self, parent, **kwargs)
-
+class ChecklistBox:
+    """return check list box"""
+    def __init__(self, parent, 
+                choices = ["Nhuan", "Hong"], 
+                i = 0,
+                onvalue = True,
+                offvalue = "" ,
+                width = 60,
+                **kwargs):
+        self.choices = choices
+        self.onvalue = onvalue
+        self.offvalue = offvalue
+        self.parent = parent
         self.vars = []
-        bg = self.cget("background")
-        for choice in choices:
-            var = tk.StringVar(value=choice)
-            self.vars.append(var)
-            cb = tk.Checkbutton(self, var=var, text=choice,
-                                onvalue=choice, offvalue="",
-                                anchor="w", width=20, background=bg,
-                                relief="flat", highlightthickness=0
-            )
-            cb.pack(side="top", fill="x", anchor="w")
-
+        self.i = i
+        self.width = width
+        self.rechecklistbox()
+    def rechecklistbox (self):
+        """ return check list box from arr """
+        for choice in self.choices:
+            if ".xlsx" in choice:
+                var = tk.StringVar(value=choice)
+                self.vars.append(var)
+                cb = tk.Checkbutton(self.parent, 
+                                    var=var, 
+                                    text=choice,
+                                    onvalue=choice,
+                                    offvalue=self.offvalue,
+                                    anchor=tk.W, 
+                                    width = self.width ,
+                                    bg = "white",
+                                    relief="flat", 
+                                    highlightthickness=0
+                                    )
+                cb.grid(row=self.i,column=0, sticky =  tk.NSEW) 
+                self.i = self.i + 1
 
     def getCheckedItems(self):
         values = []
