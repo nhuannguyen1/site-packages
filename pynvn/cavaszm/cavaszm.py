@@ -129,4 +129,3 @@ class zmcv:
                                                         image=imagetk)
         #self.cavas.lower(self.imageid)  # set it into background
         self.cavas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
-    
