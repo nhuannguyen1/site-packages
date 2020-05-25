@@ -16,7 +16,6 @@ class PathSteel:
                     ):
             self.path_Full = path_Full
             self.dir_path = dir_path
-            #self.FolderName = FolderName
             self.Path_Conf = Path_Conf
             self.Is_Directory_Path_To_SubFolder =\
                  Is_Directory_Path_To_SubFolder
@@ -26,8 +25,8 @@ class PathSteel:
             self.pathdestination = pathdestination
             self.subfolder = subfolder
 
-    # Get absolute path to resource, works for dev and for PyInstaller """
     def resource_path_is_from_pyinstall_and_dev(self):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
         try:
             # PyInstaller creates a temp folder and stores path in _MEIPASS
             base_path = sys._MEIPASS
@@ -35,17 +34,17 @@ class PathSteel:
             base_path = os.path.abspath(".")
         return os.path.join(base_path, self.FileName)
 
-    #function to get faname from fullpath 
     def ExtractFileNameFromPath (self):
+        """function to get faname from fullpath """
         # get file Name
         try:
             FileName = os.path.basename(self.path_Full)
         except AttributeError as error:
             print (error)
         return FileName
-
-    # Return full path conbine subfolder 
+ 
     def refpath(self,args = None):
+        """Return full path conbine subfolder"""
         # check directory path is to subfolder or not ?
         if self.Is_Directory_Path_To_SubFolder == True:
             #unpack to get element in list
@@ -58,15 +57,15 @@ class PathSteel:
             full_path = os.path.join(dir_path,
                                     self.FileName)
         else:
-            
             # Create full path
             full_path = os.path.join(self.dir_path,
                                     self.FileName)
             if os.path.exists(full_path) == False:
                 file = open(full_path, 'w+')
         return full_path
-    # get path of module was imported 
+
     def getpathmodule (self):
+        """ get path of module was imported """
         pathf = os.path.join((os.path.dirname(self.modulename.__file__)),
                                                 self.FileName)
         return pathf
@@ -95,13 +94,12 @@ class PathSteel:
     def FileName(self,newname):
         self.__FileName = newname
     
-
-#using function to return resourse path
 def resource_path_is_from_pyinstall_and_dev (FileName = None,
                                              Subfolder = None ,
                                              Is_Directory_Path_To_SubFolder = False,
                                              dir_path = None
                                             ):
+    """using function to return resourse path"""
 
     PathS = PathSteel(FileName = FileName,
                         Is_Directory_Path_To_SubFolder = Is_Directory_Path_To_SubFolder,
@@ -109,21 +107,24 @@ def resource_path_is_from_pyinstall_and_dev (FileName = None,
                     )
     return PathS.refpath(Subfolder)
 
-#Get file name from path full
 def ExtractFileNameFromPath(path = None):
-       PathS = PathSteel(path_Full = path) 
-       return PathS.ExtractFileNameFromPath()
- # running in a PyInstaller bundle or running in a normal Python process
+    """Get file name from path full"""
+    PathS = PathSteel(path_Full = path) 
+    return PathS.ExtractFileNameFromPath()
+
+ 
 def IsRunningInPyinstallerBundle ():
+    """running in a PyInstaller bundle or running in a normal Python process"""
     try:
         if getattr(sys, 'frozen') and hasattr(sys, '_MEIPASS'):
             return True
     except:
         return False
 
-# get Path full from directory path and file name 
 def PathFromFileNameAndDirpath (dir_path = None, 
                                 filename = None):
+    """get Path full from directory path and file name"""
+
     PathS = PathSteel(dir_path = dir_path,
                         FileName = filename
                     )
@@ -131,36 +132,41 @@ def PathFromFileNameAndDirpath (dir_path = None,
     return full_path
 
 def getpathfromtk(outputpath):
-        """
-        pathin = outputpath.get("1.0",
-                                "end - 1 chars")
-        """
+    """ get content entry from output for tk widget"""
+    """
+    pathin = outputpath.get("1.0",
+                            "end - 1 chars")
+    """
+    #pathin = outputpath.get()
+    try:
         pathin = outputpath.get()
-        
-        try:
-            if os.path.exists(pathin) == False:
-                messagebox.showinfo("directory", "directory not found for option")
-            else: 
-                return pathin
-        except:
-            messagebox.showinfo ("directory", "recheck file path from Gui")
+        if os.path.exists(pathin) == False:
+            messagebox.showinfo("directory", "directory not found for option")
+        else: 
+            return pathin
+    except:
+        messagebox.showerror ("directory", "recheck file path from Gui")
 def retabspath():
+    """ return dir path folder """
     return os.path.dirname(os.path.abspath(__file__))
     
 def abspath(Balance_Stock):
     return os.path.abspath(Balance_Stock)
 
 def getdirpath(pathfull):
+    """ get dir path from path full """
     return os.path.dirname(pathfull)
 def getfilenamewoexten (filenameinstension):
+    """ extract file name from file name """
     filename, file_extension = os.path.splitext(filenameinstension)
     return filename
 def parentdirectory (path):
+    """ get dir path from path full """
     return os.path.dirname (path)
 def credirfol (dirNamec, subforder):
+    """ create dir folder """
     try:
         dirName = os.makedirs(os.path.join(dirNamec, subforder))
-        
     except:
         print ( "already exists")
     return os.path.join(dirNamec, subforder)
@@ -170,7 +176,6 @@ def refullpath(dirpath, filename):
     try:
         fpath = os.path.join(dirpath, filename)
         return fpath
-    
     except:
         messagebox.showerror("error", "Check dir path or filename ")
     

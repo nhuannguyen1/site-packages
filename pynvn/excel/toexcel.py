@@ -57,10 +57,13 @@ class toexcel:
                              usecols = [index],
                              nrows= 1)
             # convert type arr to int
-            self.worksheet.cell(row = cell[0], column = cell[1]).value = df.iat[0,0]
+            self.worksheet.cell(row = cell[0], 
+                                column = cell[1]).value = df.iat[0,0]
     # write value to excell 
     def wrivaltoexc (self):
         loc_col = self.reloccol()
-        self.worksheet.cell(row = loc_col[0],column = loc_col[1]).value = "Path CSV"
+        self.worksheet.cell(row = loc_col[0],
+                            column = loc_col[1]).value = "Path CSV"
         # fill out value path to excel 
-        self.worksheet.cell(row = loc_col[0],column = (int(loc_col[1]) + 1)).value = self.path
+        self.worksheet.cell(row = loc_col[0],
+                            column = (int(loc_col[1]) + 1)).value = self.path

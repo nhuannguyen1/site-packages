@@ -10,6 +10,7 @@ class gui(tk.Frame):
                         widthx = None ,
                         widthy = None,
                         condv = 3,
+                        title = "ATAD STEEL STRUCTURE CORPORATION",
                         resizable =[0,0]):
 
         #self.tktk = tktk
@@ -22,6 +23,7 @@ class gui(tk.Frame):
         self.widthx = widthx
         self.resizable = resizable
         self.condv = condv
+        self.title = title
     
     def setcfbs (self):
         
@@ -33,7 +35,7 @@ class gui(tk.Frame):
                             self.resizable [1])
                             
         self.tktk.iconbitmap(self.pathico)
-        self.tktk.title ("ATAD STEEL STRUCTURE CORPORATION")
+        self.tktk.title (self.title )
 
     def center(self):
         """set calulate for widget to center window"""
