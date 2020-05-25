@@ -46,6 +46,7 @@ class opcus(tk.Frame):
                         w_front = 100,
                         imagenextlayout = None,
                         imageprelayout = None,
+                        dirfolder = None,
                         *args,**kwargs):
                 tk.Frame.__init__(self, tktk, bg = "pink")
                 self.controller = controller
@@ -56,6 +57,7 @@ class opcus(tk.Frame):
                 self.imagepre = imagepre
                 self.height = kwargs["height"]
                 self.width = kwargs["width"]
+                self.dirfolder = dirfolder
                 # set back area
                 self.w_front =  w_front
                 self.w_back =  kwargs["w_back"]

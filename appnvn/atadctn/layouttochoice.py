@@ -7,31 +7,21 @@ from tkinter import (Frame,
 import tkinter as tk
 from appnvn.atadctn.treectn import scbg,cvframeg
 from pynvn.caculate.cacul_cavas import placereccenter
-
 import re
 from PIL import ImageTk
 from pynvn.caculate.ratio import ratio
-
 from pynvn.caculate.coord_point import coordp
-
 from pynvn.caculate.area import area
-
 from pynvn.cavas_drawing.buttondr import crebutton
 from pynvn.cavaszm.cavaszm import zmcv
 import string
-
 from pynvn.nsew.nsew import directnmwe
-
 from pynvn.cavas_write.writetext import writetext
-
 from pynvn.cavas_dim.cavas_dim import dimrec
-
 from pynvn.cavas_drawing.draw import dcavas
-
 from pynvn.iter import bidirectional_iterator
-
+from pynvn.path.ppath import repathfolderchild
 import os
-
 class layoutchoice(tk.Frame):
         """Customer information"""
         def __init__(self,tktk = None,
@@ -47,6 +37,7 @@ class layoutchoice(tk.Frame):
                         w_front = 100,
                         imagenextlayout = None, 
                         imageprelayout = None,
+                        dirfolder = None,
                         *args,**kwargs):
                 self.tktk = tktk
                 tk.Frame.__init__(self, tktk)
@@ -60,6 +51,7 @@ class layoutchoice(tk.Frame):
                 self.width = kwargs["width"]
                 self.imagenextlayout = imagenextlayout
                 self.imageprelayout = imageprelayout
+                self.dirfolder = dirfolder
                  # set back area
                 self.w_front =  w_front
                 self.w_back =  kwargs["w_back"]
@@ -80,8 +72,8 @@ class layoutchoice(tk.Frame):
                 self.frameab = [0,700,750,50,"azure"]
                 self.frameac = [0,0,40,700,"azure"]
                 self.framead = [710,0,40,700,"azure"]
-
-                pathimage = r"D:\5.ATADRD\CTNATAD\clayout"
+                # return folder stock image
+                pathimage =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
                 os.chdir(pathimage)
                 self.imgs = os.listdir(pathimage)
                 self.bd = bidirectional_iterator(self.imgs)
@@ -117,7 +109,6 @@ class layoutchoice(tk.Frame):
                                 command = lambda: self.pre_img(),
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
-
                 # cavas d
                 self.canvasad =  self.sc.canvasd
 
@@ -153,7 +144,6 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
                 self.next_img()
-
 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""

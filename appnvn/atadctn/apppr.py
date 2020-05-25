@@ -14,6 +14,7 @@ class apppr(tk.Frame):
                     imagepre=None,
                     imagenextlayout = None,
                     imageprelayout = None,
+                    dirfolder = None,
                     *args, 
                     **kwargs):
         self.tktk = tktk
@@ -25,8 +26,9 @@ class apppr(tk.Frame):
         self.imagepre = imagepre
         self.imagenextlayout = imagenextlayout
         self.imageprelayout = imageprelayout
+        self.dirfolder = dirfolder
         tk.Frame.__init__(self,tktk)
-
+        
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -64,7 +66,8 @@ class apppr(tk.Frame):
                     imagenext=self.imagenext,
                     imagepre=self.imagepre,
                     imagenextlayout = self.imagenextlayout,
-                    imageprelayout= self.imageprelayout)
+                    imageprelayout= self.imageprelayout,
+                    dirfolder = self.dirfolder)
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;

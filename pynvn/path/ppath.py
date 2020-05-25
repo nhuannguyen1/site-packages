@@ -133,10 +133,6 @@ def PathFromFileNameAndDirpath (dir_path = None,
 
 def getpathfromtk(outputpath):
     """ get content entry from output for tk widget"""
-    """
-    pathin = outputpath.get("1.0",
-                            "end - 1 chars")
-    """
     #pathin = outputpath.get()
     try:
         pathin = outputpath.get()
@@ -156,13 +152,16 @@ def abspath(Balance_Stock):
 def getdirpath(pathfull):
     """ get dir path from path full """
     return os.path.dirname(pathfull)
+
 def getfilenamewoexten (filenameinstension):
     """ extract file name from file name """
     filename, file_extension = os.path.splitext(filenameinstension)
     return filename
+
 def parentdirectory (path):
     """ get dir path from path full """
     return os.path.dirname (path)
+
 def credirfol (dirNamec, subforder):
     """ create dir folder """
     try:
@@ -178,4 +177,11 @@ def refullpath(dirpath, filename):
         return fpath
     except:
         messagebox.showerror("error", "Check dir path or filename ")
-    
+
+def repathfolderchild(dirpath, subFolder):
+    """ return path folder child from dir path and sub folder """
+    path = os.path.join(dirpath,subFolder)
+    if os.path.exists(path):
+        return path
+    else: 
+        messagebox.showerror ("Error","Folder name {} not exsists".format(subFolder))

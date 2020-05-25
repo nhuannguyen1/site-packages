@@ -26,7 +26,8 @@ class incus(Frame):
                         imagenext = None,
                         imagepre = None,
                         imagenextlayout = None,
-                        imageprelayout = None
+                        imageprelayout = None,
+                        dirfolder = None
                         ):
                 
                 Frame.__init__(self, tktk)
@@ -44,6 +45,7 @@ class incus(Frame):
                 self.imagenext = imagenext
                 self.imagepre = imagepre
                 self.filewin = self.controller
+                self.dirfolder = dirfolder
                 self.pack()
                 #gui for data 
                 self.sc = scbg(parent = self,

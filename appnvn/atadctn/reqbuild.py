@@ -38,7 +38,8 @@ class reqbuild(Frame):
                         imagenext = None,
                         imagepre = None,
                         imagenextlayout = None,
-                        imageprelayout = None
+                        imageprelayout = None,
+                        dirfolder = None
                         ):
                 self.tktk = tktk
                 Frame.__init__(self, tktk)
@@ -55,7 +56,7 @@ class reqbuild(Frame):
                 self.imagepre = imagepre
                 self.imagenextlayout = imagenextlayout
                 self.imageprelayout = imageprelayout
-
+                self.dirfolder = dirfolder
                 #gui for data 
                 self.cavheight_width = [1200,750]
                 self.framea = [0,0,450,750,"white"]
@@ -121,7 +122,8 @@ class reqbuild(Frame):
                                 dis_direc = 400,
                                 frameb=self.frameb,
                                 imagenextlayout=self.imagenextlayout,
-                                imageprelayout = self.imageprelayout
+                                imageprelayout = self.imageprelayout,
+                                dirfolder= self.dirfolder
                                 )
                         self.frames[page_name] = frame
                         
@@ -667,7 +669,8 @@ class reqbuild(Frame):
                                 dis_direc = 400,
                                 frameb=self.frameb,
                                 imagenextlayout=self.imagenextlayout,
-                                imageprelayout = self.imageprelayout
+                                imageprelayout = self.imageprelayout,
+                                dirfolder= self.dirfolder
                                 )
                         self.frames[page_name] = frame
                         frame.grid(row=0,
