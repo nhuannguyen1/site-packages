@@ -48,7 +48,7 @@ class opcus(tk.Frame):
                         imageprelayout = None,
                         dirfolder = None,
                         *args,**kwargs):
-                tk.Frame.__init__(self, tktk, bg = "pink")
+                tk.Frame.__init__(self, tktk, bg = "azure")
                 self.controller = controller
                 self.labelfont = labelfont
                 self.labelfont_sm = labelfont_sm
