@@ -139,7 +139,6 @@ class layoutchoice(tk.Frame):
                                 crwidth=self.frameb[2]/2+ 30, 
                                 crheight=20, 
                                 image = self.imagenext,
-                                command = lambda: self.next_img(),
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)

@@ -34,7 +34,7 @@ class apppr(tk.Frame):
         # will be raised above the others
         self.filewin = tk.Toplevel(self.tktk)
         container = tk.Frame(self.filewin,
-                            bg = "yellow")
+                            bg = "white")
         container.pack(side="top",
                         fill="both", 
                         expand=True)

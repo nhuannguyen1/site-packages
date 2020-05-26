@@ -23,6 +23,9 @@ import string
 from appnvn.atadctn.opcus import opcus
 from appnvn.atadctn.layouttochoice import layoutchoice
 
+global checkclass 
+checkclass = "opcus"
+
 class reqbuild(Frame):
         """Customer information"""
         def __init__(self,tktk = None,
@@ -612,12 +615,30 @@ class reqbuild(Frame):
                 # set confg for all (label, combo, entry)"""
                 # config label
 
-                labels = (self.lbw,self.lbh,self.lbf,
-                        self.lbb,self.lbl,self.lbl,arealb,
-                        sbs,self.lbr,add,lb1,self.lbwf,
-                        self.lbwb,self.lbwl,self.lbwr,lb6,rb1,
-                        rb2,rb3,lb7,lb8,lb9,
-                        lb10,lb11)
+                labels = (self.lbw,
+                                self.lbh,
+                                self.lbf,
+                                self.lbb,
+                                self.lbl,
+                                self.lbl,
+                                arealb,
+                                sbs,
+                                self.lbr,
+                                add,
+                                lb1,
+                                self.lbwf,
+                                self.lbwb,
+                                self.lbwl,
+                                self.lbwr,
+                                lb6,
+                                rb1,
+                                rb2,
+                                rb3,
+                                lb7,
+                                lb8,
+                                lb9,
+                                lb10,
+                                lb11)
                 for label in labels:
                         label.config (bg = self.bglb,
                                         font=self.labelfont_sm,
@@ -629,12 +650,21 @@ class reqbuild(Frame):
                         conb.config (font=self.labelfont_sm)
 
                 # config entry 
-                entrys = (self.entryw,self.entryh,
-                                self.etf,self.etb,
-                                self.etl,self.etr,
-                                self.adde,self.et1,self.et2,
-                                self.et3,self.et4,et5,
-                                et6,et7,et8)
+                entrys = (self.entryw,
+                                self.entryh,
+                                self.etf,
+                                self.etb,
+                                self.etl,
+                                self.etr,
+                                self.adde,
+                                self.et1,
+                                self.et2,
+                                self.et3,
+                                self.et4,
+                                et5,
+                                et6,
+                                et7,
+                                et8)
                 for entry in entrys:
                         entry.config(font=self.labelfont_sm,
                                         bg = "white",
@@ -648,9 +678,8 @@ class reqbuild(Frame):
         def validate_username(self, index, username):
                 """validate user name """
                 self.getparameter()
-                for F in (opcus,layoutchoice):
-                        page_name = F.__name__
-                        frame = F(tktk=self.listFramedr, 
+                if checkclass == "opcus":
+                        frame = opcus(tktk=self.listFramedr, 
                                 controller=self,
                                 imagenext=self.imagenext,
                                 imagepre=self.imagepre,
@@ -672,11 +701,39 @@ class reqbuild(Frame):
                                 imageprelayout = self.imageprelayout,
                                 dirfolder= self.dirfolder
                                 )
-                        self.frames[page_name] = frame
                         frame.grid(row=0,
                                         column=0, 
                                         sticky="nsew")
-                self.show_frame("opcus")
+                else:
+                        for F in (opcus,layoutchoice):
+                                page_name = F.__name__
+                                frame = F(tktk=self.listFramedr, 
+                                        controller=self,
+                                        imagenext=self.imagenext,
+                                        imagepre=self.imagepre,
+                                        height = self.height ,
+                                        width = self.width,
+                                        w_front = self.w_front,
+                                        w_back = self.w_back,
+                                        w_left = self.w_left,
+                                        w_right = self.w_right,
+                                        wr_front = self.wr_front,
+                                        wr_back = self.wr_back ,
+                                        wr_left= self.wr_left,
+                                        wr_right= self.wr_right,
+                                        dis_r = self.dis_r,
+                                        dis_dim = self.dis_r/3,
+                                        dis_direc = 400,
+                                        frameb=self.frameb,
+                                        imagenextlayout=self.imagenextlayout,
+                                        imageprelayout = self.imageprelayout,
+                                        dirfolder= self.dirfolder
+                                        )
+                                self.frames[page_name] = frame
+                                frame.grid(row=0,
+                                                column=0, 
+                                                sticky="nsew")
+                        self.show_frame("opcus")
                 return self.pattern.match(username) is not None
         def print_error(self):
                 print("Invalid username character, only input number")
