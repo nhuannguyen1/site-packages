@@ -11,9 +11,11 @@ class zmcv:
                     centerp =[0,0], 
                     usingcoord = False,
                     imageid = None,
+                    arealayoutwh = [10000,20000],
                     imagepath = None,
                     isimage = False
                     ):
+        self.arealayoutwh = arealayoutwh
         self.usingcoord = usingcoord
         self.cavas = cavas
         self.frameb = frameb
@@ -69,6 +71,8 @@ class zmcv:
             #self.__scale =  self.imscale * self.__ratio  # image pyramide scale
             self.__reduction = 4  # reduction degree of image pyramid
             w, h = self.__pyramid[-1].size
+            w, h  = w+ 300, h + 300
+            print ( w, h)
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
                 h /= self.__reduction  # divide on reduction degree
@@ -83,7 +87,8 @@ class zmcv:
             # Put image into container rectangle and use it to set proper coordinates to the image
             self.container = self.cavas.create_rectangle((coordrec), 
                                                         width=0,
-                                                        fill="blue")
+                                                        fill="blue"
+                                                        )
             self.sccv()
             self.__scale =  self.minradio
             self.__show_image()  # show image on the canvas
@@ -176,8 +181,10 @@ class zmcv:
                       self.cavas.canvasy(self.cavas.winfo_height()))
         box_img_int = tuple(map(int, box_image))  # convert to integer or it will not work properly
         # Get scroll region box
-        box_scroll = [min(box_img_int[0], box_canvas[0]), min(box_img_int[1], box_canvas[1]),
-                      max(box_img_int[2], box_canvas[2]), max(box_img_int[3], box_canvas[3])]
+        box_scroll = [min(box_img_int[0], box_canvas[0]),
+                    min(box_img_int[1], box_canvas[1]),
+                    max(box_img_int[2], box_canvas[2]), 
+                    max(box_img_int[3], box_canvas[3])]
         # Horizontal part of the image is in the visible area
         if  box_scroll[0] == box_canvas[0] and box_scroll[2] == box_canvas[2]:
             box_scroll[0]  = box_img_int[0]
@@ -201,10 +208,10 @@ class zmcv:
                                                         int(y2 - y1)), self.__filter))
             imageid = self.cavas.create_image(max(box_canvas[0],
                                                 box_img_int[0]),
-                                               max(box_canvas[1], 
-                                               box_img_int[1]),
-                                               anchor='nw', 
-                                               image=imagetk)
+                                                max(box_canvas[1], 
+                                                box_img_int[1]),
+                                                anchor='nw', 
+                                                image=imagetk)
             self.cavas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
 
     def __move_from(self, event):
