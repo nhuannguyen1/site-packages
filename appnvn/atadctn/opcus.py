@@ -112,7 +112,8 @@ class opcus(tk.Frame):
                 # create rectangle parent
                 dcavas (cavas=self.canvasb,
                                 topp=self.leftpoint,
-                                bottomp =self.rightpoint ).drec(fill="yellow")
+                                bottomp =self.rightpoint \
+                                ).drec(fill="yellow")
                 #set back road  
                 plcn = setbackdimention(w_front=self.w_front,
                                         w_back=self.w_back,
@@ -127,7 +128,8 @@ class opcus(tk.Frame):
                 # create rectangle kid
                 dcavas (cavas=self.canvasb,
                         topp=self.topleftkid,
-                        bottomp =self.toprightkid ).drec(fill="#e79c2b")
+                        bottomp =self.toprightkid)\
+                        .drec(fill="#e79c2b")
                 # create road for front 
                 rf = create_poly_from_tleft_bright(topleftpoint_p=self.leftpoint,
                                                         bottomrightpoint_p=self.rightpoint,
@@ -135,7 +137,8 @@ class opcus(tk.Frame):
                                                         w_back_r=self.wr_back,
                                                         w_left_r=self.wr_left,
                                                         w_right_r=self.wr_right,
-                                                        dis_r=self.dis_r )
+                                                        dis_r=self.dis_r
+                                                )
                 rfa = rf.roadfront()
                 #create front of road
                 self.createfront(rfa,fill = colorroad)
@@ -160,7 +163,6 @@ class opcus(tk.Frame):
                                 topleftk=self.topleftkid,
                                 bottomrightk=self.toprightkid,
                                 dis_dim=self.dis_dim)
-
                 # create dim for h 
                 self.dimforh()
                 #dim for top
@@ -186,8 +188,8 @@ class opcus(tk.Frame):
                                 topleftkid=self.topleftkid,
                                 toprightkid= self.toprightkid,
                                 centerpoint = self.coord.centerpointkid()).warea()
+                                
                 # create direction nwse
-
                 nsew = directnmwe(canvasb = self.canvasb,
                                 height = self.height, 
                                 width = self.width,
@@ -198,7 +200,8 @@ class opcus(tk.Frame):
                                 wr_right = self.wr_right,
                                 dis_direc = self.dis_direc, 
                                 leftpoint= self.leftpoint, 
-                                rightpoint=self.rightpoint)
+                                rightpoint=self.rightpoint
+                                )
                 nsew.nsew(font = ('times', 16),fill = "black")
                 self.value_dis = nsew.revalue_dis()
 
@@ -240,7 +243,8 @@ class opcus(tk.Frame):
                 # create rectange of parent 
                 self.rectangle_wd = self.canvasb.create_rectangle (*self.leftpoint,
                                                                         *self.rightpoint,
-                                                                        fill="red")
+                                                                        fill="red"
+                                                                        )
         def createreck (self,**kwargs):
                 """Create rectangle of widget kid"""
                 try:
@@ -252,7 +256,8 @@ class opcus(tk.Frame):
 
                 self.rrectangle_kid = self.canvasb.create_rectangle (*self.topleftkid,
                                                                         *self.toprightkid,
-                                                                        fill="#e79c2b")
+                                                                        fill="#e79c2b"
+                                                                        )
         
         def createfront(self,rfa,**kwargs):
                 """Create front road"""

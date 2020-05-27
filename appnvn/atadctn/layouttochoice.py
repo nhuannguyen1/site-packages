@@ -22,6 +22,7 @@ from pynvn.cavas_drawing.draw import dcavas
 from pynvn.iter import bidirectional_iterator
 from pynvn.path.ppath import repathfolderchild
 import os
+
 class layoutchoice(tk.Frame):
         """Customer information"""
         def __init__(self,tktk = None,
@@ -68,10 +69,10 @@ class layoutchoice(tk.Frame):
                 self.dis_direc = kwargs["dis_direc"]
                 self.frameb = frameb 
                 self.w_buttoncavas = 50
-                self.frameaa = [40,0,670,700,"azure"]
-                self.frameab = [0,700,750,50,"azure"]
-                self.frameac = [0,0,40,700,"azure"]
-                self.framead = [710,0,40,700,"azure"]
+                self.frameaa = [40,0,670,580,"azure"]
+                self.frameab = [0,self.frameaa[3],750,170,"azure"]
+                self.frameac = [0,0,40,580,"azure"]
+                self.framead = [710,0,40,580,"azure"]
                 # return folder stock image
                 pathimage =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
                 os.chdir(pathimage)
@@ -89,18 +90,21 @@ class layoutchoice(tk.Frame):
                                 framec =self.frameac,
                                 framed = self.framead,
                                 frameaincavas=True, 
-                                framebincavas=True,
+                                framebincavas=False,
                                 framecincavas=True, 
                                 framedincavas= True
                                 )
+                # create fame b
+                frameab = self.sc.frameb
                 # cavas a
                 self.canvasaa = self.sc.canvasa
-
                 # cavas b
-                self.canvasab = self.sc.canvasb
-        
+                #self.canvasab = self.sc.canvasb
                 # cavas c 
                 self.canvasac = self.sc.canvasc
+                # frame d
+                self.canvasad = self.sc.canvasd
+
                 crebutton(self.canvasac,
                                 crwidth=self.frameac[2]/2, 
                                 crheight=self.frameac[3]/2, 
@@ -108,10 +112,10 @@ class layoutchoice(tk.Frame):
                                 bg = "azure",
                                 command = lambda: self.pre_img(),
                                 activebackground = "#33B5E5",
-                                relief = tk.FLAT)
+                                relief = tk.FLAT
+                                )
                 # cavas d
                 self.canvasad =  self.sc.canvasd
-
                 crebutton(self.canvasad,
                                 crwidth=self.framead[2]/2, 
                                 crheight=self.framead[3]/2, 
@@ -119,31 +123,77 @@ class layoutchoice(tk.Frame):
                                 bg = "azure",
                                 command = lambda: self.next_img(),
                                 activebackground = "#33B5E5",
-                                relief = tk.FLAT)
-
+                                relief = tk.FLAT
+                                )
                 self.pattern = re.compile("[0-9]")
                 # create frawing  
                 self.createdrawing()
+                frameab.grid_columnconfigure(0, weight=1)
+                #frameab.grid_rowconfigure(0, weight=1)
+                frameabc = tk.Frame(frameab, bg = "azure")
+                frameabc.grid(column = 0, row = 0)
+                
+                #frameabc.grid (column = 0, row = 0)
 
-                # create buttom previuos
-                crebutton(self.canvasab,
-                                crwidth=self.frameb[2]/2-30, 
-                                crheight=20, 
+                frameabc.rowconfigure(0, weight=1) 
+
+                frameabc.columnconfigure(0, weight=1) 
+
+                # create buttom previuos at frameab
+                lbq = tk.Label (frameabc, 
+                                bg = "azure",
+                                text = "Do you agree with this layout ?",
+                                font=self.labelfont_sm)
+
+                lbq.grid (column = 0,
+                                pady = (0,10),
+                                row = 0, 
+                                sticky = tk.W)
+
+                btq = tk.Button(frameabc,
+                                bg = "azure",
+                                text = "Yes",
+                                font=self.labelfont_sm)
+
+                btq.grid(column = 1, 
+                        row = 0,
+                        pady = 10,  
+                        sticky = tk.E)
+
+                lbd = tk.Label (frameabc, 
+                                bg = "azure",
+                                text = "You cannot choose any layout ?",
+                                font=self.labelfont_sm)
+                lbd.grid (column = 0, 
+                        row = 1,
+                        pady = 10, 
+                        sticky = tk.W)
+
+                btd = tk.Button(frameabc, 
+                                bg = "azure",
+                                text = "Yes",
+                                font=self.labelfont_sm)
+
+                btd.grid(column = 1, 
+                        row = 1,
+                        pady = 10, 
+                        sticky = tk.E)
+                # button next
+                btn = tk.Button(frameabc,
                                 image = self.imagepre,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
+                btn.grid(column = 0, row = 2, sticky = tk.W)
 
-                # create buttom next
-                crebutton(self.canvasab,
-                                crwidth=self.frameb[2]/2+ 30, 
-                                crheight=20, 
+                # button previous
+                btp = tk.Button(frameabc,
                                 image = self.imagenext,
                                 bg = "azure",
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
+                btp.grid(column = 1, row = 2, sticky = tk.E)
                 self.next_img()
-
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
                 # create dim for h 
@@ -211,13 +261,14 @@ class layoutchoice(tk.Frame):
                                 dis_direc = self.dis_direc * 2.3, 
                                 leftpoint= self.leftpoint, 
                                 rightpoint=self.rightpoint)
-                nsew.nsew(font = ('times', 16),
-                                fill = "black")
+
+                nsew.nsew(font = ('times', 16),fill = "black")
+
                 self.value_dis = nsew.revalue_dis()
+
         def next_img(self):
                 """ next value """
                 self.createdrawing()
-                #bd = bidirectional_iterator(self.imgs)
                 self.fileimage=self.bd.next()
                 zmcv(cavas=self.canvasaa,
                                 isimage=True,
@@ -237,5 +288,4 @@ class layoutchoice(tk.Frame):
                                 imagepath=self.fileimage,
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
-                                )
-
+                        )

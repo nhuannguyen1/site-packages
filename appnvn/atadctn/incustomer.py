@@ -32,7 +32,6 @@ class incus(Frame):
                 
                 Frame.__init__(self, tktk)
                 self.controller = controller
-                #self.tktk = tktk
                 self.labelfont = labelfont
                 self.labelfont_sm = labelfont_sm
                 self.br_image_path  = br_image_path
@@ -40,7 +39,6 @@ class incus(Frame):
                 self.logoicon = logoicon
                 self.padx = padx
                 self.pathico = pathico
-                #self.filewin = Toplevel(self.tktk)
                 self.bglb = bglb
                 self.imagenext = imagenext
                 self.imagepre = imagepre
@@ -55,12 +53,8 @@ class incus(Frame):
                                 bgpr = "#5b9bd5")
                 
                 self.listFramevp = self.sc.framecv
-
                 self.canv =  self.sc.canvas
-                
                 self.creategui()
-
-
         def creategui(self):
                 """create gui for customer information"""
                 #image logo

@@ -61,6 +61,7 @@ class reqbuild(Frame):
                 self.imageprelayout = imageprelayout
                 self.dirfolder = dirfolder
                 #gui for data 
+                
                 self.cavheight_width = [1200,750]
                 self.framea = [0,0,450,750,"white"]
                 self.frameb = [450,0,750,750,"azure"]
