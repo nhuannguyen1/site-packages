@@ -11,7 +11,7 @@ class zmcv:
                     centerp =[0,0], 
                     usingcoord = False,
                     imageid = None,
-                    arealayoutwh = [10000,20000],
+                    arealayoutwh = (8000,8000),
                     imagepath = None,
                     isimage = False
                     ):
@@ -55,12 +55,16 @@ class zmcv:
             self.cavas.bind('<Button-4>',   self.__wheel)  # zoom for Linux, wheel scroll up
             # Handle keystrokes in idle mode, because program slows down on a weak computers,
             # when too many key stroke events in the same time
-            self.cavas.bind('<Key>', lambda event: self.cavas.after_idle(self.__keystroke, event))
+            self.cavas.bind('<Key>', lambda event: self.cavas.after_idle(self.__keystroke, 
+                                                                                    event)
+                                                                        )
 
             with warnings.catch_warnings():  # suppress DecompressionBombWarning
                 warnings.simplefilter('ignore')
                 self.__image = Image.open(self.path)  # open image, but down't load it
             self.imwidth, self.imheight = self.__image.size  # public for outer classes
+
+            
 
             self.__min_side = min(self.imwidth, self.imheight)  # get the smaller image side
             # Create image pyramid
@@ -70,18 +74,30 @@ class zmcv:
             self.__curr_img = 0  # current image from the pyramid
             #self.__scale =  self.imscale * self.__ratio  # image pyramide scale
             self.__reduction = 4  # reduction degree of image pyramid
+
             w, h = self.__pyramid[-1].size
+            
+            wr, hr = self.arealayoutwh
+
+            self.ratio = wr/w
+            print (self.ratio )
+
+
+            #self.__pyramid[-1].resize((int(w)*3,int(h)*3),self.__filter)
+
+
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
                 h /= self.__reduction  # divide on reduction degree
                 self.__pyramid.append(self.__pyramid[-1].resize((int(w),
                                                                  int(h)), 
                                                                  self.__filter))
+            
             # top left and button right of rec coord
-            coordrec = [self.centerp[0] - self.imwidth/2,
-                        self.centerp[1] - self.imheight/2,
-                        self.centerp[0] + self.imwidth/2,
-                        self.centerp[1] + self.imheight/2]
+            coordrec = [self.centerp[0] - wr/2,
+                        self.centerp[1] - hr/2,
+                        self.centerp[0] + wr/2,
+                        self.centerp[1] + hr/2]
             # Put image into container rectangle and use it to set proper coordinates to the image
             self.container = self.cavas.create_rectangle((coordrec), 
                                                         width=0,
@@ -106,7 +122,8 @@ class zmcv:
             if (event.delta > 0):
                     self.cavas.scale("all",
                                         self.frameb[2]/2 - self.distancezx, 
-                                        self.frameb[3]/2 - self.distancezy, 1.1, 1.1)
+                                        self.frameb[3]/2 - self.distancezy, 
+                                        1.1, 1.1)
             elif (event.delta < 0):
                     self.cavas.scale("all", 
                                         self.frameb[2]/2 - self.distancezx, 
@@ -114,16 +131,21 @@ class zmcv:
                     self.cavas.configure(scrollregion = self.cavas.bbox("all"))
         else:
             if (event.delta > 0):
-                self.cavas.scale("all",*self.centerp , 1.1, 1.1)
+                self.cavas.scale("all",*self.centerp , 
+                                            1.1, 1.1)
             elif (event.delta < 0):
-                self.cavas.scale("all",*self.centerp , 0.9, 0.9)
+                self.cavas.scale("all",*self.centerp , 
+                                            0.9, 0.9)
                 self.cavas.configure(scrollregion = self.cavas.bbox("all"))
     
     #move
     def move_start(self, event):
-                self.cavas.scan_mark(event.x, event.y)
+                self.cavas.scan_mark(event.x, 
+                                    event.y)
     def move_move(self, event):
-                self.cavas.scan_dragto(event.x, event.y, gain=1) 
+                self.cavas.scan_dragto(event.x, 
+                                        event.y, 
+                                        gain=1) 
     
     def sccv (self):
         """ scale in cavas """
@@ -146,8 +168,10 @@ class zmcv:
         """ Put CanvasImage widget on the parent widget """
         self.__imframe.grid(**kw)  # place CanvasImage widget on the grid
         self.__imframe.grid(sticky='nswe')  # make frame container sticky
-        self.__imframe.rowconfigure(0, weight=1)  # make canvas expandable
-        self.__imframe.columnconfigure(0, weight=1)
+        self.__imframe.rowconfigure(0, 
+                                    weight=1)  # make canvas expandable
+        self.__imframe.columnconfigure(0, 
+                                        weight=1)
 
     def pack(self, **kw):
         """ Exception: cannot use pack with this widget """
@@ -203,10 +227,10 @@ class zmcv:
         y2 = min(box_canvas[3], box_image[3]) - box_image[1]
         if int(x2 - x1) > 0 and int(y2 - y1) > 0:  # show image if it in the visible area
             image = self.__pyramid[max(0, self.__curr_img)].crop(  # crop current img from pyramid
-                                        (int(x1 / (self.__scale)),
-                                        int(y1 / (self.__scale)),
-                                        int(x2 / (self.__scale)),
-                                        int(y2 / (self.__scale))))
+                                                                (int(x1 / (self.__scale*self.ratio)),
+                                                                int(y1 / (self.__scale*self.ratio)),
+                                                                int(x2 / (self.__scale*self.ratio)),
+                                                                int(y2 / (self.__scale*self.ratio))))
             #
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), 
                                                         int(y2 - y1)), 
@@ -254,10 +278,16 @@ class zmcv:
             scale        *= self.__delta
         # Take appropriate image from the pyramid
         k = self.imscale * self.__ratio * self.minradio  # temporary coefficient
-        self.__curr_img = min((-1) * int(math.log(k, self.__reduction)), len(self.__pyramid) - 1)
-        self.__scale = k * math.pow(self.__reduction, max(0, self.__curr_img))
+        self.__curr_img = min((-1) * int(math.log(k, self.__reduction)), 
+                            len(self.__pyramid) - 1)
+        self.__scale = k * math.pow(self.__reduction, 
+                                max(0, self.__curr_img))
         #
-        self.cavas.scale('all', x, y, scale, scale)  # rescale all objects
+        self.cavas.scale('all', 
+                            x, 
+                            y, 
+                            scale, 
+                            scale)  # rescale all objects
         # Redraw some figures before showing image on the screen
         self.redraw_figures()  # method for child classes
         self.__show_image()
@@ -271,10 +301,26 @@ class zmcv:
             self.__previous_state = event.state  # remember the last keystroke state
             # Up, Down, Left, Right keystrokes
             if event.keycode in [68, 39, 102]:  # scroll right, keys 'd' or 'Right'
-                self.__scroll_x('scroll',  1, 'unit', event=event)
+                self.__scroll_x('scroll',  
+                                1, 
+                                'unit', 
+                                event=event
+                                )
+
             elif event.keycode in [65, 37, 100]:  # scroll left, keys 'a' or 'Left'
-                self.__scroll_x('scroll', -1, 'unit', event=event)
+                self.__scroll_x('scroll',
+                                     -1, 
+                                     'unit', 
+                                     event=event
+                                     )
             elif event.keycode in [87, 38, 104]:  # scroll up, keys 'w' or 'Up'
-                self.__scroll_y('scroll', -1, 'unit', event=event)
+                self.__scroll_y('scroll', 
+                                -1, 
+                                'unit', 
+                                event=event)
             elif event.keycode in [83, 40, 98]:  # scroll down, keys 's' or 'Down'
-                self.__scroll_y('scroll',  1, 'unit', event=event)
+                self.__scroll_y('scroll',  
+                                1, 
+                                'unit', 
+                                event=event
+                                )

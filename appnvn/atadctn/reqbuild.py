@@ -104,34 +104,7 @@ class reqbuild(Frame):
                 self.creategui()
                 self.frames = {}
                 #azure"""
-                frame = opcus(tktk=self.listFramedr, 
-                                controller=self,
-                                imagenext=self.imagenext,
-                                imagepre=self.imagepre,
-                                height = self.height ,
-                                width = self.width,
-                                w_front = self.w_front,
-                                w_back = self.w_back,
-                                w_left = self.w_left,
-                                w_right = self.w_right,
-                                wr_front = self.wr_front,
-                                wr_back = self.wr_back ,
-                                wr_left= self.wr_left,
-                                wr_right= self.wr_right,
-                                dis_r = self.dis_r,
-                                dis_dim = self.dis_r/3,
-                                dis_direc = 400,
-                                frameb=self.frameb,
-                                imagenextlayout=self.imagenextlayout,
-                                imageprelayout = self.imageprelayout,
-                                dirfolder= self.dirfolder
-                                )
-                        
-                frame.grid(row=0,
-                                column=0, 
-                                sticky="nsew")
-                                
-
+                self.showframe(nameframe="opcus")
         def show_frame(self, page_name):
                 '''Show a frame for the given page name'''
                 frame = self.frames[page_name]
@@ -599,7 +572,7 @@ class reqbuild(Frame):
                 btnext = tk.Button(self.listFramevp,
                                         image  = self.imagenext,
                                         bg = "white",
-                                        command = lambda: self.showlayoutchoice(),
+                                        command = lambda: self.showframe(),
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
@@ -674,95 +647,37 @@ class reqbuild(Frame):
         def validate_username(self, index, username):
                 """validate user name """
                 self.getparameter()
-
-                height_p  = self.height - self.w_front - self.w_back
-                width_p = self.width - self.w_left - self.w_right
                 if self.checkclass == "opcus":
                         frame = opcus(tktk=self.listFramedr, 
-                                controller=self,
-                                imagenext=self.imagenext,
-                                imagepre=self.imagepre,
-                                height = self.height ,
-                                width = self.width,
-                                w_front = self.w_front,
-                                w_back = self.w_back,
-                                w_left = self.w_left,
-                                w_right = self.w_right,
-                                wr_front = self.wr_front,
-                                wr_back = self.wr_back ,
-                                wr_left= self.wr_left,
-                                wr_right= self.wr_right,
-                                dis_r = self.dis_r,
-                                dis_dim = self.dis_r/3,
-                                dis_direc = 400,
-                                frameb=self.frameb,
-                                imagenextlayout=self.imagenextlayout,
-                                imageprelayout = self.imageprelayout,
-                                dirfolder= self.dirfolder
-                                )
+                                                controller=self,
+                                                imagenext=self.imagenext,
+                                                imagepre=self.imagepre,
+                                                height = self.height ,
+                                                width = self.width,
+                                                w_front = self.w_front,
+                                                w_back = self.w_back,
+                                                w_left = self.w_left,
+                                                w_right = self.w_right,
+                                                wr_front = self.wr_front,
+                                                wr_back = self.wr_back ,
+                                                wr_left= self.wr_left,
+                                                wr_right= self.wr_right,
+                                                dis_r = self.dis_r,
+                                                dis_dim = self.dis_r/3,
+                                                dis_direc = 400,
+                                                frameb=self.frameb,
+                                                imagenextlayout=self.imagenextlayout,
+                                                imageprelayout = self.imageprelayout,
+                                                dirfolder= self.dirfolder
+                                                )
                         frame.grid(row=0,
-                                        column=0, 
+                                        column=0,
                                         sticky="nsew")
-                else:
-                        for F in (opcus,layoutchoice):
-                                page_name = F.__name__
-                                frame = F(tktk=self.listFramedr, 
-                                        controller=self,
-                                        imagenext=self.imagenext,
-                                        imagepre=self.imagepre,
-                                        height = self.height ,
-                                        width = self.width,
-                                        w_front = self.w_front,
-                                        w_back = self.w_back,
-                                        w_left = self.w_left,
-                                        w_right = self.w_right,
-                                        wr_front = self.wr_front,
-                                        wr_back = self.wr_back ,
-                                        wr_left= self.wr_left,
-                                        wr_right= self.wr_right,
-                                        dis_r = self.dis_r,
-                                        dis_dim = self.dis_r/3,
-                                        dis_direc = 400,
-                                        frameb=self.frameb,
-                                        imagenextlayout=self.imagenextlayout,
-                                        imageprelayout = self.imageprelayout,
-                                        dirfolder= self.dirfolder
-                                        )
-                                self.frames[page_name] = frame
-                                frame.grid(row=0,
-                                                column=0, 
-                                                sticky="nsew")
-                        #self.show_frame("opcus")
+                self.checkclass = "opcus" 
                 return self.pattern.match(username) is not None
 
-        def showframe(self):
-                """
-                frame = layoutchoice(tktk=self.listFramedr, 
-                                controller=self,
-                                imagenext=self.imagenext,
-                                imagepre=self.imagepre,
-                                height = self.height ,
-                                width = self.width,
-                                w_front = self.w_front,
-                                w_back = self.w_back,
-                                w_left = self.w_left,
-                                w_right = self.w_right,
-                                wr_front = self.wr_front,
-                                wr_back = self.wr_back ,
-                                wr_left= self.wr_left,
-                                wr_right= self.wr_right,
-                                dis_r = self.dis_r,
-                                dis_dim = self.dis_r/3,
-                                dis_direc = 400,
-                                frameb=self.frameb,
-                                imagenextlayout=self.imagenextlayout,
-                                imageprelayout = self.imageprelayout,
-                                dirfolder= self.dirfolder
-                                )
-                frame.grid(row=0,
-                        column=0, 
-                        sticky="nsew")
-                """
+        def showframe(self, nameframe = "layoutchoice"):
+                """ show frame """
                 for F in (opcus,layoutchoice):
                         page_name = F.__name__
                         frame = F(tktk=self.listFramedr, 
@@ -791,33 +706,15 @@ class reqbuild(Frame):
                         frame.grid(row=0,
                                         column=0, 
                                         sticky="nsew")
-                self.show_frame("layoutchoice")
+                if nameframe == "layoutchoice":
+                        self.show_frame("layoutchoice")
+                        self.checkclass = "layoutchoice"
+                else:
+                        self.show_frame("opcus")
+
         def print_error(self):
                 print("Invalid username character, only input number")
-        """
-        @property
-        def height (self):
-                return self.__height
-        @height.setter
-        def height (self, heightn):
-                 self.__height = heightn
 
-        @property
-        def w_front (self):
-                return self.__w_front
-        @w_front.setter
-        def height (self, w_frontn):
-                 self.__w_front = w_frontn
-
-        @property
-        def w_back (self):
-                return self.__w_back
-        @w_back.setter
-        def w_back (self, w_frontn):
-                 self.__w_front = w_frontn
-        """
-
-        
         def getparameter(self):                                                
                 # width and height of parent area
                 
