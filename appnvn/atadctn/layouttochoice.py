@@ -193,6 +193,7 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
                 btp.grid(column = 1, row = 2, sticky = tk.E)
+                
                 self.next_img()
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
