@@ -71,8 +71,6 @@ class zmcv:
             #self.__scale =  self.imscale * self.__ratio  # image pyramide scale
             self.__reduction = 4  # reduction degree of image pyramid
             w, h = self.__pyramid[-1].size
-            w, h  = w+ 300, h + 300
-            print ( w, h)
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
                 h /= self.__reduction  # divide on reduction degree
@@ -181,10 +179,14 @@ class zmcv:
                       self.cavas.canvasy(self.cavas.winfo_height()))
         box_img_int = tuple(map(int, box_image))  # convert to integer or it will not work properly
         # Get scroll region box
-        box_scroll = [min(box_img_int[0], box_canvas[0]),
-                    min(box_img_int[1], box_canvas[1]),
-                    max(box_img_int[2], box_canvas[2]), 
-                    max(box_img_int[3], box_canvas[3])]
+        box_scroll = [min(box_img_int[0], 
+                        box_canvas[0]),
+                        min(box_img_int[1], 
+                        box_canvas[1]),
+                        max(box_img_int[2], 
+                        box_canvas[2]), 
+                        max(box_img_int[3], 
+                        box_canvas[3])]
         # Horizontal part of the image is in the visible area
         if  box_scroll[0] == box_canvas[0] and box_scroll[2] == box_canvas[2]:
             box_scroll[0]  = box_img_int[0]
@@ -201,11 +203,14 @@ class zmcv:
         y2 = min(box_canvas[3], box_image[3]) - box_image[1]
         if int(x2 - x1) > 0 and int(y2 - y1) > 0:  # show image if it in the visible area
             image = self.__pyramid[max(0, self.__curr_img)].crop(  # crop current img from pyramid
-                                    (int(x1 / (self.__scale)), int(y1 / (self.__scale)),
-                                     int(x2 / (self.__scale)), int(y2 / (self.__scale))))
+                                        (int(x1 / (self.__scale)),
+                                        int(y1 / (self.__scale)),
+                                        int(x2 / (self.__scale)),
+                                        int(y2 / (self.__scale))))
             #
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), 
-                                                        int(y2 - y1)), self.__filter))
+                                                        int(y2 - y1)), 
+                                                        self.__filter))
             imageid = self.cavas.create_image(max(box_canvas[0],
                                                 box_img_int[0]),
                                                 max(box_canvas[1], 
