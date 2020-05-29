@@ -11,7 +11,7 @@ class zmcv:
                     centerp =[0,0], 
                     usingcoord = False,
                     imageid = None,
-                    arealayoutwh = (8000,8000),
+                    arealayoutwh = (6000,6000),
                     imagepath = None,
                     isimage = False
                     ):
@@ -64,9 +64,8 @@ class zmcv:
                 self.__image = Image.open(self.path)  # open image, but down't load it
             self.imwidth, self.imheight = self.__image.size  # public for outer classes
 
-            
-
-            self.__min_side = min(self.imwidth, self.imheight)  # get the smaller image side
+            self.__min_side = min(self.imwidth, 
+                                    self.imheight)  # get the smaller image side
             # Create image pyramid
             self.__pyramid = [Image.open(self.path)]
             # Set ratio coefficient for image pyramid
@@ -80,11 +79,6 @@ class zmcv:
             wr, hr = self.arealayoutwh
 
             self.ratio = wr/w
-            print (self.ratio )
-
-
-            #self.__pyramid[-1].resize((int(w)*3,int(h)*3),self.__filter)
-
 
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
@@ -104,7 +98,7 @@ class zmcv:
                                                         fill="blue"
                                                         )
             self.sccv()
-            self.__scale =  self.minradio
+            self.__scale =  self.minradio /1.1
             self.__show_image()  # show image on the canvas
             self.cavas.focus_set()  # set focus on the canvas
 
@@ -115,7 +109,6 @@ class zmcv:
             self.cavas.bind("<B1-Motion>", self.move_move)
             self.sccv()
 
-
     def zoomer(self,event):
         """windows zoom """
         if self.usingcoord == False:
@@ -123,19 +116,26 @@ class zmcv:
                     self.cavas.scale("all",
                                         self.frameb[2]/2 - self.distancezx, 
                                         self.frameb[3]/2 - self.distancezy, 
-                                        1.1, 1.1)
+                                        1.1, 
+                                        1.1)
             elif (event.delta < 0):
                     self.cavas.scale("all", 
                                         self.frameb[2]/2 - self.distancezx, 
-                                        self.frameb[3]/2 - self.distancezy , 0.9, 0.9)
+                                        self.frameb[3]/2 - self.distancezy ,
+                                        0.9, 
+                                        0.9)
                     self.cavas.configure(scrollregion = self.cavas.bbox("all"))
         else:
             if (event.delta > 0):
-                self.cavas.scale("all",*self.centerp , 
-                                            1.1, 1.1)
+                self.cavas.scale("all",
+                                *self.centerp , 
+                                1.1, 
+                                1.1)
             elif (event.delta < 0):
-                self.cavas.scale("all",*self.centerp , 
-                                            0.9, 0.9)
+                self.cavas.scale("all",
+                                *self.centerp , 
+                                0.9, 
+                                0.9)
                 self.cavas.configure(scrollregion = self.cavas.bbox("all"))
     
     #move
