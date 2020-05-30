@@ -75,8 +75,10 @@ class layoutchoice(tk.Frame):
                 self.framead = [710,0,40,580,"azure"]
                 # return folder stock image
                 pathimage =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
+                
                 os.chdir(pathimage)
                 self.imgs = os.listdir(pathimage)
+                print ("pathimage",self.imgs)
                 self.bd = bidirectional_iterator(self.imgs)
                 
                 self.sc = scbg(parent = self,

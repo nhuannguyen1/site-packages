@@ -18,8 +18,7 @@ class cexcel:
                                 data_only=True)
         names = wb1.sheetnames
         ws1 = wb1.worksheets[0]
-        wb2 = xl.load_workbook(filename=self.pathdes,
-                                data_only=True)
+        wb2 = xl.load_workbook(filename=self.pathdes)
         ws2 = wb2[names[0]] 
 
         for i,row in enumerate(ws1.iter_rows()):

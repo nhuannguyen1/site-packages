@@ -26,7 +26,7 @@ class ChecklistBox:
         """ return check list box from arr """
         for idx,choice in enumerate(self.choices):
             if ".xlsx" in choice:
-                var = tk.StringVar(value=choice)
+                var = tk.StringVar()
                 varsn = tk.StringVar(value=self.listsheetname[idx])
                 self.vars.append(var)
 
@@ -69,10 +69,8 @@ class ChecklistBox:
                             column=1, 
                             sticky =  tk.E) 
 
-
                 self.i = self.i + 1
     def getCheckedItems(self):
-        self.rechecklistbox()
         values = []
         for var in self.vars:
             value =  var.get()
