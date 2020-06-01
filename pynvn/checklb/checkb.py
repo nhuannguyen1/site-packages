@@ -76,4 +76,4 @@ class ChecklistBox:
             value =  var.get()
             if value:
                 values.append(value)
-        return values
+        return values        

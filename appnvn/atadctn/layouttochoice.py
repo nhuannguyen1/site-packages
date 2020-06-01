@@ -74,12 +74,12 @@ class layoutchoice(tk.Frame):
                 self.frameac = [0,0,40,580,"azure"]
                 self.framead = [710,0,40,580,"azure"]
                 # return folder stock image
-                pathimage =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
+                folderchild =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
                 
-                os.chdir(pathimage)
-                self.imgs = os.listdir(pathimage)
-                print ("pathimage",self.imgs)
-                self.bd = bidirectional_iterator(self.imgs)
+                os.chdir(folderchild)
+                self.folderchilds = os.listdir(folderchild)
+                
+                #self.bd = bidirectional_iterator(self.imgs)
                 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
@@ -292,3 +292,5 @@ class layoutchoice(tk.Frame):
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
                         )
+        def ref(self):
+                self.bd = bidirectional_iterator(self.imgs)

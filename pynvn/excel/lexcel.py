@@ -11,7 +11,7 @@ class listexcel:
         """ return list sheet name  follow list sheet """
         wsl = []
         for els in self.l_ex:
-            elop = xl.load_workbook(els,)
+            elop = xl.load_workbook(els)
             sname = elop.sheetnames[0]
             wsl.append(sname)
         return wsl
