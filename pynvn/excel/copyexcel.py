@@ -17,21 +17,21 @@ class cexcel:
 
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
-        wb1 = xl.load_workbook(filename=self.pathtocopy,
-                                read_only= True,
-                                data_only=True)
+        # load workbook 1
+        wb1 = xl.load_workbook(filename=self.pathtocopy)
         names = wb1.sheetnames
         ws1 = wb1.worksheets[0]
         if names[0] == "AZB-30":
-            # return full path get data
-            pfull = refullpath(self.dirpath,
-                                "KE HOACH NGAN SACH.xlsx")
                                 
-            hexcel(wsheet=ws1,fpath=pfull).habz30()
+            hexcel(wsheet=ws1,
+                    dpath=self.dirpath,
+                    namefile="KE HOACH NGAN SACH.xlsx").habz30()
             try:
                 wb1.save(self.pathtocopy)
             except:
-                messagebox.showerror("error","Check path for Pfile_k")
+                messagebox.showerror("error","Check path for Pfile")
+
+        # load workbook 2
         wb2 = xl.load_workbook(filename=self.pathdes)
 
         ws2 = wb2[names[0]] 
