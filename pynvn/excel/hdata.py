@@ -1,7 +1,7 @@
 import openpyxl as xl
 from tkinter import messagebox
 from pynvn.path.ppath import refullpath
-from pynvn.excel import returnsheet,repathlinkexcel,relistsheet
+from pynvn.excel import returnsheet,repathlinkexcel,relistsheet,colnum_string
 
 class hexcel:
     """copy excel to excel"""
@@ -24,20 +24,32 @@ class hexcel:
         """handling data azb-30 sheet"""
         # return name sheet for link fomular
         #pfile = repathlinkexcel(dpath=self.dpath,namefile=self.namefile,namesheet=self.namesheet )
+
+        #=SUMPRODUCT(('HM.HÀNG RÀO'!$A$38:$A$61='AZB-30'!C16)*('HM.HÀNG RÀO'!$B$38:$B$61 = 'AZB-30'!J3)*'HM.HÀNG RÀO'!$I$38:$I$61)
         # return list of list 
         lsheetnames = relistsheet(self.fpath)
-        print ("lsheetnames",lsheetnames)
+        """
         for lsheet in lsheetnames:
             if self.keyhm in lsheet:
-                pfile = repathlinkexcel(dpath=self.dpath,namefile=self.namefile,namesheet=lsheet)
+                pfile = repathlinkexcel(dpath=self.dpath,
+                                        namefile=self.namefile,
+                                        namesheet=lsheet)
+        """
+        stt = "'" + "AZB-30" + "'"
+        for k in range (10,30):
+            cln = colnum_string(k)
+            hmname =  self.wsheet.cell(row=3, column=k).value
+            #print ("hmname,lsheetnames",hmname,lsheetnames)
+            if hmname in lsheetnames:
+                print ("hmname,lsheetnames",hmname,lsheetnames)
+                pfile = repathlinkexcel(dpath=self.dpath,
+                                        namefile=self.namefile,
+                                        namesheet=hmname)
+                for i in range(14,474):
+                    valuene = '=SUMPRODUCT(({0}!$A$38:$A$61={1}!C{2})*({0}!$B$38:$B$61 = "{3}")*{0}!$I$38:$I$61)'.format(pfile,stt,i,hmname)
 
-                print ("pfile",pfile)
-                stt = "'" + "AZB-30" + "'"
-                print ("stt",stt)
-
-                valuene = '=SUMPRODUCT(({0}!A38:A61={1}!C16)*{0}!I38:I61)'.format(pfile,stt)
+                    self.wsheet.cell(row=i, column=k).value = valuene
 
 
-                print ("valuene",valuene)
 
-                self.wsheet["J16"].value = valuene
+                
