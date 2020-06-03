@@ -32,9 +32,9 @@ class hexcel:
         """fomulas for column follow index"""
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
-                                amesheet=hmname)
+                                namesheet=hmname)
         for i in range(starr,finshr):
-            valuene = '=SUMPRODUCT(({0}!$A$38:$A${3}={1}!C{2})*{0}!$I$38:$I${3})'.format(pfile,
+            valuene = '=SUMPRODUCT(({0}!$A$501:$A${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
                                                                                         "'" + "AZB-30" + "'",
                                                                                         i,
                                                                                         self.mrow)

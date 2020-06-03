@@ -1,17 +1,20 @@
 from openpyxl import Workbook
 import openpyxl
-file = r"D:\9.AZB\2020.05.23\01.PROJECT_NAME_AZB\1.input_C\KE HOACH NGAN SACH.xlsx"
-wb = openpyxl.load_workbook(file, read_only=True,data_only= True)
-ws = wb["PTVT1"]
+
 class credict:
     """ create dict for value and key """
-    def __init__ (self, wsheet = None,rangea = "C7:C1000"):
+    def __init__ (self, wsheet = None,
+                        rangea = "C7:C1000", 
+                        pathfull = None, 
+                        namesheet ="PTVT1"):
         self.wsheet = wsheet
         self.rangea = rangea
+        wb = openpyxl.load_workbook(pathfull, read_only=True,data_only= True)
+        self.ws = wb[namesheet]
     def reindexrownotnone(self):
         """ renturn index which value not none"""
         key_list = []
-        for row in ws[self.rangea]:
+        for row in self.ws[self.rangea]:
             for cell in row:
                 if cell.value != None:
                     key_list.append(cell.row)
@@ -19,7 +22,7 @@ class credict:
     def revaluerownotnone(self):
         """ renturn value which value not none"""
         value_list = []
-        for row in ws[self.rangea]:
+        for row in self.ws[self.rangea]:
             for cell in row:
                 if cell.value != None:
                     value_list.append(cell.value)
