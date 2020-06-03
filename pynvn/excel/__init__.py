@@ -10,11 +10,6 @@ def  repathlinkexcel (dpath,namefile,namesheet):
     pfile = "'" + dpath + "/" + "[" + namefile + "]" + namesheet + "'"
     return pfile
 
-def relistsheet(path):
-    """ return all sheet of excel file """
-    wb1 = xl.load_workbook(filename=path)
-    names = wb1.sheetnames
-    return names
 def colnum_string(n):
     """conver colum number become string"""
     string = ""
@@ -22,3 +17,18 @@ def colnum_string(n):
         n, remainder = divmod(n - 1, 26)
         string = chr(65 + remainder) + string
     return string
+
+def relistsheet(path):
+    """ return all sheet of excel file """
+    wb1 = xl.load_workbook(filename=path)
+    names = wb1.sheetnames
+    return names
+def returnactivesheet(path):
+    """ return active sheet """
+    wb1 = xl.load_workbook(filename=path)
+    sheet = wb1.active
+    return sheet
+def returnsheetbyname(path = None, sheetname = "PTVT"):
+    """return sheet by name """
+    wb1 = xl.load_workbook(filename=path,data_only= True)
+    return wb1[sheetname]

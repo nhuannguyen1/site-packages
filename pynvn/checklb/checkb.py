@@ -25,7 +25,7 @@ class ChecklistBox:
     def rechecklistbox (self):
         """ return check list box from arr """
         for idx,choice in enumerate(self.choices):
-            if ".xlsx" in choice:
+            if ".xlsx" in choice and "AZB" in choice :
                 var = tk.StringVar()
                 varsn = tk.StringVar(value=self.listsheetname[idx])
                 self.vars.append(var)
