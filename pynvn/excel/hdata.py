@@ -28,13 +28,13 @@ class hexcel:
 
                 self.fomuluasfcol(k,hmname=hmname)
 
-    def fomuluasfcol (self,k,starr=14,finshr = 474,hmname = None ):
+    def fomuluasfcol (self,k,starr=6,finshr = 474,hmname = None ):
         """fomulas for column follow index"""
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
                                 namesheet=hmname)
         for i in range(starr,finshr):
-            valuene = '=SUMPRODUCT(({0}!$A$501:$A${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
+            valuene = '=SUMPRODUCT(({0}!$B$501:$B${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
                                                                                         "'" + "AZB-30" + "'",
                                                                                         i,
                                                                                         self.mrow)

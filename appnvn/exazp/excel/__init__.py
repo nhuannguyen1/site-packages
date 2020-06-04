@@ -9,7 +9,7 @@ class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
                         sheetnametor="PTVT1", 
-                        rangeg ="A38:A60",
+                        rangeg ="A501:A700",
                         sheetnametow=None ):
 
         self.fpath = fpath
@@ -52,6 +52,9 @@ class hexcel:
         ndcv = rel.redictvaluesandvaluecol(columnumber=5)
         # unit
         unit1 = rel.redictvaluesandvaluecol(columnumber=6)
+        # khoi luong
+        kl = rel.redictvaluesandvaluecol(columnumber=7)
+        print (kl)
         # muc hao phi
         mhp = rel.redictvaluesandvaluecol(columnumber=8)
 
@@ -70,13 +73,15 @@ class hexcel:
                     ndcvcontent = ndcv[cevalu]
                     # unit
                     uni = unit1[cevalu]
+                    # khoi luong
+                    klv = kl[cevalu]
                     # muc hao phi
                     mhpv = mhp[cevalu]
                     if realtime == False:
                         sht1 = wsheet
                     for indexr in range(indexr,indexr + len (arr)):
-                        sht1.range(indexr,indexcolumn).value = arr[i]
-                        sht1.range(indexr,indexcolumn + 1).value = ndcvcontent[i]
-                        sht1.range(indexr,indexcolumn + 2).value = uni[i]
-                        sht1.range(indexr,indexcolumn + 6).value = mhpv[i]
+                        sht1.range(indexr + 1 ,indexcolumn).value = arr[i]
+                        sht1.range(indexr + 1 ,indexcolumn + 1).value = ndcvcontent[i]
+                        sht1.range(indexr + 1 ,indexcolumn + 2).value = uni[i]
+                        sht1.range(indexr + 1 ,indexcolumn + 6).value = mhpv[i]
                         i = i + 1

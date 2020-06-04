@@ -40,6 +40,7 @@ class credict:
                 value1 = self.wsheet.cell(row=ie,column = columnumber).value
                 if value1 != None:
                     arrchild.append(value1)
+                
             arrch.append(arrchild)
             arrchild = []
         dictionary = dict(zip(self.revaluerownotnone(), arrch))

@@ -77,9 +77,14 @@ class layoutchoice(tk.Frame):
                 folderchild =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
                 
                 os.chdir(folderchild)
+
+                print ("folderchild",folderchild)
+
                 self.folderchilds = os.listdir(folderchild)
+
+                print ("folderchildssss",self.folderchilds)
                 
-                #self.bd = bidirectional_iterator(self.imgs)
+                self.bd = bidirectional_iterator(self.imgs)
                 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
@@ -96,6 +101,7 @@ class layoutchoice(tk.Frame):
                                 framecincavas=True, 
                                 framedincavas= True
                                 )
+
                 # create fame b
                 frameab = self.sc.frameb
                 # cavas a
