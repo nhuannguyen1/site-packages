@@ -76,18 +76,7 @@ class layoutchoice(tk.Frame):
                 self.frameac = [0,0,40,580,"azure"]
                 self.framead = [710,0,40,580,"azure"]
 
-                # return folder stock image
-                folderchild =repathfolderchild(dirpath = self.dirfolder, 
-                                                subFolder= "clayout")
-                os.chdir(folderchild)
-                self.folderchilds = os.listdir(folderchild)
-                whlist = []
-
-                for folderchild in self.folderchilds:
-                        w, h = exstrtolistint (folderchild)
-                        whlist.append ((w, h))
-
-                self.bd = bidirectional_iterator(self.imgs)
+                self.foldernext()
 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
@@ -104,7 +93,6 @@ class layoutchoice(tk.Frame):
                                 framecincavas=True, 
                                 framedincavas= True
                                 )
-
                 # create fame b
                 frameab = self.sc.frameb
                 # cavas a
@@ -138,15 +126,17 @@ class layoutchoice(tk.Frame):
                 self.pattern = re.compile("[0-9]")
                 # create frawing  
                 self.createdrawing()
-                frameab.grid_columnconfigure(0, weight=1)
+                frameab.grid_columnconfigure(0, 
+                                        weight=1)
                 #frameab.grid_rowconfigure(0, weight=1)
-                frameabc = tk.Frame(frameab, bg = "azure")
-                frameabc.grid(column = 0, row = 0)
-                
-                frameabc.rowconfigure(0, weight=1) 
-
-                frameabc.columnconfigure(0, weight=1) 
-
+                frameabc = tk.Frame(frameab, 
+                                bg = "azure")
+                frameabc.grid(column = 0, 
+                                row = 0)
+                frameabc.rowconfigure(0, 
+                                        weight=1) 
+                frameabc.columnconfigure(0, 
+                                        weight=1) 
                 # create buttom previuos at frameab
                 lbq = tk.Label (frameabc, 
                                 bg = "azure",
@@ -186,7 +176,7 @@ class layoutchoice(tk.Frame):
                         row = 1,
                         pady = 10, 
                         sticky = tk.E)
-                # button next
+                # button previous
                 btn = tk.Button(frameabc,
                                 image = self.imagepre,
                                 bg = "azure",
@@ -194,33 +184,36 @@ class layoutchoice(tk.Frame):
                                 relief = tk.FLAT)
                 btn.grid(column = 0, row = 2, sticky = tk.W)
 
-                # button previous
+                # button next
                 btp = tk.Button(frameabc,
                                 image = self.imagenext,
                                 bg = "azure",
+                                command = lambda: self.foldernext(),
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
-                btp.grid(column = 1, row = 2, sticky = tk.E)
 
-                self.next_img()
+                btp.grid(column = 1, 
+                        row = 2, 
+                        sticky = tk.E)
+
+                #self.next_img()
+
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
+
                 # create dim for h 
                 height_p  = self.height - self.w_front - self.w_back
                 width_p = self.width - self.w_left - self.w_right
-
                 plc = placereccenter(info_height_k= height_p,
                                         info_width_k= width_p,
                                         info_width_P =self.frameaa[2],
                                         info_height_p=self.frameaa[3]
                                         )
-                
                 # top left
                 self.leftpoint = plc.pointleftrec()
                 # top right
                 self.rightpoint = plc.pointrightrec()
                 self.centerp = plc.pointcenterofparent()
-
                 dcavas(cavas=self.canvasaa,
                         topp=self.leftpoint,
                         bottomp=self.rightpoint).drec(fill = "#c49b65")
@@ -233,7 +226,6 @@ class layoutchoice(tk.Frame):
                 self.centerp = self.coord.centerpoinparent()
                 sepk = self.coord.pointstartend()
                 ct2p = self.coord.centertowpoint()
-
                 # create rectangle 
                 drh = dimrec (cavas=self.canvasaa,
                                 locationarrow=sepk,
@@ -270,15 +262,13 @@ class layoutchoice(tk.Frame):
                                 dis_direc = self.dis_direc * 2.3, 
                                 leftpoint= self.leftpoint, 
                                 rightpoint=self.rightpoint)
-
-                nsew.nsew(font = ('times', 16),fill = "black")
-
+                nsew.nsew(font = ('times', 16),
+                        fill = "black")
                 self.value_dis = nsew.revalue_dis()
-
         def next_img(self):
                 """ next value """
                 self.createdrawing()
-                self.fileimage=self.bd.next()
+                self.fileimage=self.imagede.next()
                 zmcv(cavas=self.canvasaa,
                                 isimage=True,
                                 centerp=self.centerp,
@@ -290,7 +280,7 @@ class layoutchoice(tk.Frame):
         def pre_img(self):
                 """ previous value """
                 self.createdrawing()
-                self.fileimage=self.bd.prev()
+                self.fileimage=self.imagede.prev()
                 zmcv(cavas=self.canvasaa,
                                 isimage=True,
                                 centerp=self.centerp,
@@ -298,5 +288,42 @@ class layoutchoice(tk.Frame):
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
                         )
-        def ref(self):
-                self.bd = bidirectional_iterator(self.imgs)
+
+        def foldernext(self):
+                """ next folder for next project"""
+                # return path folder level 1
+                kfolder =repathfolderchild(dirpath = self.dirfolder, 
+                                                subFolder= "clayout")
+                # get list folders of folder level 1
+                lfolder = self.listfolderoflayoutp(kfolder)
+
+                lkfolder = bidirectional_iterator(lfolder)
+
+                kfolderl1 = lkfolder.next()
+                print ("kfolderl1",kfolderl1)
+
+                # get w, h in list
+                whlist = self.returnlistwh(foldernamelist=lfolder)
+                self.whf = bidirectional_iterator(whlist)
+
+                # folder image put many image
+                pkfolderl1 =repathfolderchild(dirpath = kfolder, 
+                                                subFolder= kfolderl1)
+                print ("pkfolderl1",pkfolderl1)
+                # get image of folder 
+                limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
+
+                self.imagede = bidirectional_iterator(limfolder)
+
+        def listfolderoflayoutp(self,folderchild):
+                """ return list folder of clayout"""
+                os.chdir(folderchild)
+                return os.listdir(folderchild)
+
+        def returnlistwh(self,foldernamelist):
+                """ return list w and h """
+                whlist = []
+                for folderch in foldernamelist:
+                        w, h = exstrtolistint (folderch)
+                        whlist.append ((w, h))
+                return whlist
