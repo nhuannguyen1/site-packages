@@ -23,7 +23,6 @@ def left(s, amount):
 
 def exstrtolistint (strp = None, symbtoplitp = "_",symbtoplitsecond = "x" ):
     """ return exstr of list int form string"""
-    leftt = leftstr(substr=strp)
-    listtr = splitstrtolist(leftt)
+    leftt = leftstr(substr=strp,symbtoplit=symbtoplitp)
+    listtr = splitstrtolist(leftt,"x")
     return converliststrtoint (listtr)
-    

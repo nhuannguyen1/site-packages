@@ -21,6 +21,7 @@ from pynvn.cavas_dim.cavas_dim import dimrec
 from pynvn.cavas_drawing.draw import dcavas
 from pynvn.iter import bidirectional_iterator
 from pynvn.path.ppath import repathfolderchild
+from pynvn.list.str import exstrtolistint
 import os
 
 class layoutchoice(tk.Frame):
@@ -40,6 +41,7 @@ class layoutchoice(tk.Frame):
                         imageprelayout = None,
                         dirfolder = None,
                         *args,**kwargs):
+
                 self.tktk = tktk
                 tk.Frame.__init__(self, tktk)
                 self.controller = controller
@@ -73,19 +75,20 @@ class layoutchoice(tk.Frame):
                 self.frameab = [0,self.frameaa[3],750,170,"azure"]
                 self.frameac = [0,0,40,580,"azure"]
                 self.framead = [710,0,40,580,"azure"]
+
                 # return folder stock image
-                folderchild =repathfolderchild(dirpath = self.dirfolder, subFolder= "clayout")
-                
+                folderchild =repathfolderchild(dirpath = self.dirfolder, 
+                                                subFolder= "clayout")
                 os.chdir(folderchild)
-
-                print ("folderchild",folderchild)
-
                 self.folderchilds = os.listdir(folderchild)
+                whlist = []
 
-                print ("folderchildssss",self.folderchilds)
-                
+                for folderchild in self.folderchilds:
+                        w, h = exstrtolistint (folderchild)
+                        whlist.append ((w, h))
+
                 self.bd = bidirectional_iterator(self.imgs)
-                
+
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
                                 cavwidth=self.frameb[2],
@@ -112,7 +115,6 @@ class layoutchoice(tk.Frame):
                 self.canvasac = self.sc.canvasc
                 # frame d
                 self.canvasad = self.sc.canvasd
-
                 crebutton(self.canvasac,
                                 crwidth=self.frameac[2]/2, 
                                 crheight=self.frameac[3]/2, 
@@ -141,8 +143,6 @@ class layoutchoice(tk.Frame):
                 frameabc = tk.Frame(frameab, bg = "azure")
                 frameabc.grid(column = 0, row = 0)
                 
-                #frameabc.grid (column = 0, row = 0)
-
                 frameabc.rowconfigure(0, weight=1) 
 
                 frameabc.columnconfigure(0, weight=1) 
