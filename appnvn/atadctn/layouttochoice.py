@@ -76,7 +76,21 @@ class layoutchoice(tk.Frame):
                 self.frameac = [0,0,40,580,"azure"]
                 self.framead = [710,0,40,580,"azure"]
 
+                # return path folder level 1
+                self.kfolder =repathfolderchild(dirpath = self.dirfolder, 
+                                                subFolder= "clayout")
+                # get list folders of folder level 1
+                self.lfolder = self.listfolderoflayoutp(self.kfolder )
+
+                self.lkfolder = bidirectional_iterator(self.lfolder)
+
+                # get w, h in list
+                whlist = self.returnlistwh(foldernamelist=self.lfolder)
+                self.whf = bidirectional_iterator(whlist)
+
+
                 self.foldernext()
+
 
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
@@ -196,7 +210,7 @@ class layoutchoice(tk.Frame):
                         row = 2, 
                         sticky = tk.E)
 
-                #self.next_img()
+                self.next_img()
 
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
@@ -274,6 +288,7 @@ class layoutchoice(tk.Frame):
                                 centerp=self.centerp,
                                 imagepath=self.fileimage,
                                 frameb=self.frameaa,
+                                arealayoutwh=self.wh,
                                 value_dis=self.value_dis
                                 )
 
@@ -285,34 +300,20 @@ class layoutchoice(tk.Frame):
                                 isimage=True,
                                 centerp=self.centerp,
                                 imagepath=self.fileimage,
+                                arealayoutwh=self.wh,
                                 frameb=self.frameaa,
                                 value_dis=self.value_dis
                         )
 
         def foldernext(self):
                 """ next folder for next project"""
-                # return path folder level 1
-                kfolder =repathfolderchild(dirpath = self.dirfolder, 
-                                                subFolder= "clayout")
-                # get list folders of folder level 1
-                lfolder = self.listfolderoflayoutp(kfolder)
-
-                lkfolder = bidirectional_iterator(lfolder)
-
-                kfolderl1 = lkfolder.next()
-                print ("kfolderl1",kfolderl1)
-
-                # get w, h in list
-                whlist = self.returnlistwh(foldernamelist=lfolder)
-                self.whf = bidirectional_iterator(whlist)
-
+                kfolderl1 = self.lkfolder.next()
+                self.wh = self.whf.next()                
                 # folder image put many image
-                pkfolderl1 =repathfolderchild(dirpath = kfolder, 
+                pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
                                                 subFolder= kfolderl1)
-                print ("pkfolderl1",pkfolderl1)
                 # get image of folder 
                 limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
-
                 self.imagede = bidirectional_iterator(limfolder)
 
         def listfolderoflayoutp(self,folderchild):

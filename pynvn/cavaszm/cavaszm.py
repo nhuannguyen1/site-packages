@@ -11,7 +11,7 @@ class zmcv:
                     centerp =[0,0], 
                     usingcoord = False,
                     imageid = None,
-                    arealayoutwh = (6000,6000),
+                    arealayoutwh = [4000,4000],
                     imagepath = None,
                     isimage = False
                     ):
