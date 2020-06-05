@@ -75,23 +75,19 @@ class layoutchoice(tk.Frame):
                 self.frameab = [0,self.frameaa[3],750,170,"azure"]
                 self.frameac = [0,0,40,580,"azure"]
                 self.framead = [710,0,40,580,"azure"]
+        
+                self.height_p  = self.height - self.w_front - self.w_back
+                self.width_p = self.width - self.w_left - self.w_right
 
                 # return path folder level 1
                 self.kfolder =repathfolderchild(dirpath = self.dirfolder, 
                                                 subFolder= "clayout")
                 # get list folders of folder level 1
                 self.lfolder = self.listfolderoflayoutp(self.kfolder )
-
                 self.lkfolder = bidirectional_iterator(self.lfolder)
-
                 # get w, h in list
                 whlist = self.returnlistwh(foldernamelist=self.lfolder)
                 self.whf = bidirectional_iterator(whlist)
-
-
-                self.foldernext()
-
-
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
                                 cavwidth=self.frameb[2],
@@ -107,16 +103,21 @@ class layoutchoice(tk.Frame):
                                 framecincavas=True, 
                                 framedincavas= True
                                 )
-                # create fame b
-                frameab = self.sc.frameb
+
                 # cavas a
                 self.canvasaa = self.sc.canvasa
-                # cavas b
-                #self.canvasab = self.sc.canvasb
                 # cavas c 
                 self.canvasac = self.sc.canvasc
                 # frame d
                 self.canvasad = self.sc.canvasd
+                self.pattern = re.compile("[0-9]")
+                # create frawing  
+                self.createdrawing()
+                self.createnextpreimage()
+                self.createnextprefolder()
+                self.foldernext()
+                self.next_img()
+        def createnextpreimage (self):
                 crebutton(self.canvasac,
                                 crwidth=self.frameac[2]/2, 
                                 crheight=self.frameac[3]/2, 
@@ -126,8 +127,7 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT
                                 )
-                # cavas d
-                self.canvasad =  self.sc.canvasd
+
                 crebutton(self.canvasad,
                                 crwidth=self.framead[2]/2, 
                                 crheight=self.framead[3]/2, 
@@ -137,9 +137,9 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT
                                 )
-                self.pattern = re.compile("[0-9]")
-                # create frawing  
-                self.createdrawing()
+        def createnextprefolder(self):
+                # create fame b
+                frameab = self.sc.frameb
                 frameab.grid_columnconfigure(0, 
                                         weight=1)
                 #frameab.grid_rowconfigure(0, weight=1)
@@ -210,16 +210,12 @@ class layoutchoice(tk.Frame):
                         row = 2, 
                         sticky = tk.E)
 
-                self.next_img()
-
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
-
                 # create dim for h 
-                height_p  = self.height - self.w_front - self.w_back
-                width_p = self.width - self.w_left - self.w_right
-                plc = placereccenter(info_height_k= height_p,
-                                        info_width_k= width_p,
+
+                plc = placereccenter(info_height_k= self.height_p,
+                                        info_width_k= self.width_p,
                                         info_width_P =self.frameaa[2],
                                         info_height_p=self.frameaa[3]
                                         )
@@ -244,7 +240,7 @@ class layoutchoice(tk.Frame):
                 drh = dimrec (cavas=self.canvasaa,
                                 locationarrow=sepk,
                                 locationtext=ct2p,
-                                text= str(height_p),
+                                text= str(self.height_p),
                                 angle= 90)
                 # arrow
                 drh.createarrow()
@@ -257,7 +253,7 @@ class layoutchoice(tk.Frame):
                 drw = dimrec (cavas=self.canvasaa,
                                 locationarrow=coordse,
                                 locationtext=ct2p,
-                                text= str(width_p)
+                                text= str(self.width_p)
                                 )
                 # arrow
                 drw.createarrow()
@@ -279,6 +275,7 @@ class layoutchoice(tk.Frame):
                 nsew.nsew(font = ('times', 16),
                         fill = "black")
                 self.value_dis = nsew.revalue_dis()
+                
         def next_img(self):
                 """ next value """
                 self.createdrawing()
@@ -308,14 +305,14 @@ class layoutchoice(tk.Frame):
         def foldernext(self):
                 """ next folder for next project"""
                 kfolderl1 = self.lkfolder.next()
-                self.wh = self.whf.next()                
+                self.wh = self.whf.next()   
                 # folder image put many image
                 pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
                                                 subFolder= kfolderl1)
                 # get image of folder 
                 limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
                 self.imagede = bidirectional_iterator(limfolder)
-
+                self.next_img()
         def listfolderoflayoutp(self,folderchild):
                 """ return list folder of clayout"""
                 os.chdir(folderchild)
@@ -326,5 +323,6 @@ class layoutchoice(tk.Frame):
                 whlist = []
                 for folderch in foldernamelist:
                         w, h = exstrtolistint (folderch)
-                        whlist.append ((w, h))
+                        if (w < self.width_p and h < self.height_p):
+                                whlist.append ((w, h))
                 return whlist

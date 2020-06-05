@@ -37,7 +37,6 @@ class zmcv:
                                     w = self.value_dis * 2,
                                     h = self.value_dis * 2)\
                                     .reratiomin()
-
         if self.usingcoord:
             self.cavas.bind("<MouseWheel>",self.zoomer)
             # This is what enables using the mouse:
@@ -57,7 +56,7 @@ class zmcv:
             # when too many key stroke events in the same time
             self.cavas.bind('<Key>', lambda event: self.cavas.after_idle(self.__keystroke, 
                                                                                     event)
-                                                                        )
+                                                                                        )
 
             with warnings.catch_warnings():  # suppress DecompressionBombWarning
                 warnings.simplefilter('ignore')
@@ -75,11 +74,10 @@ class zmcv:
             self.__reduction = 4  # reduction degree of image pyramid
 
             w, h = self.__pyramid[-1].size
-            
             wr, hr = self.arealayoutwh
-
-            self.ratio = wr/w
-
+            self.ratio = min(wr/w,hr/h) 
+            #self.ratio = min(wr/w,hr/h) if wr/ h > 1 else max(w/wr,h/hr) 
+            
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
                 h /= self.__reduction  # divide on reduction degree
@@ -196,7 +194,6 @@ class zmcv:
     def __show_image(self):
         """ Show image on the Canvas. Implements correct image zoom almost like in Google Maps """
         box_image = self.cavas.coords(self.container)  # get image area
-        #print ("box_image",box_image)
         box_canvas = (self.cavas.canvasx(0),  # get visible area of the canvas
                       self.cavas.canvasy(0),
                       self.cavas.canvasx(self.cavas.winfo_width()),
@@ -294,7 +291,8 @@ class zmcv:
 
     def __keystroke(self, event):
         """ Scrolling with the keyboard.
-            Independent from the language of the keyboard, CapsLock, <Ctrl>+<key>, etc. """
+            Independent from the language of the keyboard, CapsLock, <Ctrl>+<key>, etc. 
+        """
         if event.state - self.__previous_state == 4:  # means that the Control key is pressed
             pass  # do nothing if Control key is pressed
         else:
