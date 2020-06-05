@@ -22,6 +22,8 @@ from pynvn.cavas_drawing.draw import dcavas
 from pynvn.iter import bidirectional_iterator
 from pynvn.path.ppath import repathfolderchild
 from pynvn.list.str import exstrtolistint
+from appnvn.atadctn.folder import returnlistfolderbywh
+from pynvn.folder import listfolderofpfolder
 import os
 
 class layoutchoice(tk.Frame):
@@ -83,11 +85,14 @@ class layoutchoice(tk.Frame):
                 self.kfolder =repathfolderchild(dirpath = self.dirfolder, 
                                                 subFolder= "clayout")
                 # get list folders of folder level 1
-                self.lfolder = self.listfolderoflayoutp(self.kfolder )
+                self.lfoldernotf = listfolderofpfolder(self.kfolder )
+                # get list foder when filered wh 
+                self.lfolder = returnlistfolderbywh(foldernamelist=self.lfoldernotf,
+                                                        width_p= self.width_p, 
+                                                        height_p= self.height_p)
+
                 self.lkfolder = bidirectional_iterator(self.lfolder)
-                # get w, h in list
-                whlist = self.returnlistwh(foldernamelist=self.lfolder)
-                self.whf = bidirectional_iterator(whlist)
+                
                 self.sc = scbg(parent = self,
                                 cavheight=self.frameb[3],
                                 cavwidth=self.frameb[2],
@@ -194,6 +199,7 @@ class layoutchoice(tk.Frame):
                 btn = tk.Button(frameabc,
                                 image = self.imagepre,
                                 bg = "azure",
+                                command = lambda: self.folderpre(),
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT)
                 btn.grid(column = 0, row = 2, sticky = tk.W)
@@ -260,11 +266,6 @@ class layoutchoice(tk.Frame):
                 #text 
                 drw.createtext()
                 #dim for top
-                #caculate for area 
-                writetext(canvas=self.canvasaa,
-                                topleftkid=self.leftpoint,
-                                toprightkid= self.rightpoint,
-                                centerpoint = self.centerp).warea()
                 # create direction nwse
                 nsew = directnmwe(canvasb = self.canvasaa,
                                 height = self.height- self.w_front - self.w_back, 
@@ -305,7 +306,7 @@ class layoutchoice(tk.Frame):
         def foldernext(self):
                 """ next folder for next project"""
                 kfolderl1 = self.lkfolder.next()
-                self.wh = self.whf.next()   
+                self.wh = exstrtolistint (kfolderl1)  
                 # folder image put many image
                 pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
                                                 subFolder= kfolderl1)
@@ -313,10 +314,23 @@ class layoutchoice(tk.Frame):
                 limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
                 self.imagede = bidirectional_iterator(limfolder)
                 self.next_img()
+
+        def folderpre(self):
+                """ previus folder for prevous project"""
+                kfolderl1 = self.lkfolder.prev()
+                self.wh = exstrtolistint (kfolderl1) 
+                # folder image put many image
+                pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
+                                                subFolder= kfolderl1)
+                # get image of folder 
+                limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
+                self.imagede = bidirectional_iterator(limfolder)
+                self.pre_img()
         def listfolderoflayoutp(self,folderchild):
                 """ return list folder of clayout"""
                 os.chdir(folderchild)
-                return os.listdir(folderchild)
+                lfolderp = os.listdir(folderchild)
+                return lfolderp
 
         def returnlistwh(self,foldernamelist):
                 """ return list w and h """
@@ -325,4 +339,4 @@ class layoutchoice(tk.Frame):
                         w, h = exstrtolistint (folderch)
                         if (w < self.width_p and h < self.height_p):
                                 whlist.append ((w, h))
-                return whlist
+                return whlist 

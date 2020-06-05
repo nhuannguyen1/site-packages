@@ -58,9 +58,7 @@ class zmcv:
                                                                                     event)
                                                                                         )
 
-            with warnings.catch_warnings():  # suppress DecompressionBombWarning
-                warnings.simplefilter('ignore')
-                self.__image = Image.open(self.path)  # open image, but down't load it
+            self.__image = Image.open(self.path)  # open image, but down't load it
             self.imwidth, self.imheight = self.__image.size  # public for outer classes
 
             self.__min_side = min(self.imwidth, 
@@ -71,13 +69,22 @@ class zmcv:
             self.__ratio =  1
             self.__curr_img = 0  # current image from the pyramid
             #self.__scale =  self.imscale * self.__ratio  # image pyramide scale
-            self.__reduction = 4  # reduction degree of image pyramid
-
+            self.__reduction = 45  # reduction degree of image pyramid
             w, h = self.__pyramid[-1].size
+
             wr, hr = self.arealayoutwh
-            self.ratio = min(wr/w,hr/h) 
-            #self.ratio = min(wr/w,hr/h) if wr/ h > 1 else max(w/wr,h/hr) 
             
+            self.__returnreduction(max(wr, hr))
+
+            self.ratio = min(wr/w,hr/h) 
+            retioimage = w/h 
+            if wr <= hr:
+                self.ratio = min(wr/w,hr/h)
+                hr = wr/ retioimage    
+            else:
+                self.ratio = min(wr/w,hr/h)
+                wr =  hr * retioimage
+            hr = wr/ retioimage    
             while w > 512 and h > 512:  # top pyramid image is around 512 pixels in size
                 w /= self.__reduction  # divide on reduction degree
                 h /= self.__reduction  # divide on reduction degree
@@ -278,7 +285,7 @@ class zmcv:
         self.__curr_img = min((-1) * int(math.log(k, self.__reduction)), 
                             len(self.__pyramid) - 1)
         self.__scale = k * math.pow(self.__reduction, 
-                                max(0, self.__curr_img))
+                                max(0, self.__curr_img))/1.1
         #
         self.cavas.scale('all', 
                             x, 
@@ -322,3 +329,16 @@ class zmcv:
                                 'unit', 
                                 event=event
                                 )
+    def __returnreduction(self, size):
+            if int(size) in range(0,7000):
+                self.reduction = 4
+            elif int(size) in range(7000,13000):
+                self.reduction = 14
+            elif int(size) in range(13000,19000): 
+                self.reduction = 20
+            elif int(size) in range(19000,26000):
+                self.reduction = 45
+            else:
+                self.reduction = 60
+
+
