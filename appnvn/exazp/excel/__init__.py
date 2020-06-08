@@ -46,9 +46,10 @@ class hexcel:
                     pathfull=self.fpath,
                     namesheet=self.sheetnametor)
 
-        redic =rel.redictvaluesandvaluecol()
+        redic =rel.redictvaluesandvaluecol(columnumber=4)
         # content job
         ndcv = rel.redictvaluesandvaluecol(columnumber=5)
+        print ("ndcv",ndcv)
         # unit
         unit1 = rel.redictvaluesandvaluecol(columnumber=6)
         # khoi luong
@@ -60,37 +61,35 @@ class hexcel:
         #active wsheet
         wsheet = wb1[active_sheet_name]
 
-        for rangecell in wsheet[self.rangeg]:
-            i = 0
-            
-            for cell in rangecell:
-                cevalu =  cell.value
+        # return indext row and column
+        indexrcevalu = [[cell.row,cell.value] for rangecell in wsheet[self.rangeg] for cell in rangecell  if  cell.value in getvaluelist]
+        #indexrcevalu = [[cell.row,cell.value] for cell in rangecell  if  cell.value in getvaluelist]
 
+        print ("indexr,cevalu",indexrcevalu)
 
-                indexr,cevalu = [cell.row,cevalu] if cevalu in getvaluelist
-
-                if cevalu in getvaluelist:
-
+        for index_row, valuek in indexrcevalu:
+            valuearr = redic[valuek]
+            print ("valuearr",valuearr)
 
 
 
 
-                    indexr = cell.row
-                    #key
-                    arr = redic[cevalu]
-                    # noi dung cong viec
-                    ndcvcontent = ndcv[cevalu]
-                    # unit
-                    uni = unit1[cevalu]
-                    # khoi luong
-                    klv = kl[cevalu]
-                    # muc hao phi
-                    mhpv = mhp[cevalu]
-                    if realtime == False:
-                        sht1 = wsheet
-                    for indexr in range(indexr,indexr + len (arr)):
-                        sht1.range(indexr + 1 ,indexcolumn).value = arr[i]
-                        sht1.range(indexr + 1 ,indexcolumn + 1).value = ndcvcontent[i]
-                        sht1.range(indexr + 1 ,indexcolumn + 2).value = uni[i]
-                        sht1.range(indexr + 1 ,indexcolumn + 6).value = mhpv[i]
-                        i = i + 1
+        """
+        #key
+        arr = redic[cevalu]
+        # noi dung cong viec
+        ndcvcontent = ndcv[cevalu]
+        # unit
+        uni = unit1[cevalu]
+        # khoi luong
+        klv = kl[cevalu]
+        # muc hao phi
+        mhpv = mhp[cevalu]
+        sht1 = sht1 if realtime else wsheet
+        for indexr in range(indexr,indexr + len (arr)):
+                    sht1.range(indexr + 1 ,indexcolumn).value = arr[i]
+                    sht1.range(indexr + 1 ,indexcolumn + 1).value = ndcvcontent[i]
+                    sht1.range(indexr + 1 ,indexcolumn + 2).value = uni[i]
+                    sht1.range(indexr + 1 ,indexcolumn + 6).value = mhpv[i]
+                    i = i + 1
+        """
