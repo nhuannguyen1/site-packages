@@ -4,24 +4,20 @@ import openpyxl as xl
 from pynvn.excel.crelistadict import credict
 import xlwings as xw 
 
-
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
                         sheetnametor="PTVT1", 
                         rangeg ="A501:A700",
                         sheetnametow=None ):
-
         self.fpath = fpath
         self.sheetnametor=sheetnametor
         self.rangeg = rangeg
         self.sheetnametow=sheetnametow
-
     def tohlitemsheet (self, indexcolumn = 2):
         """ return item value cell of A38:A60 """
         self.gdatafromothersheet(realtime = False)
         wb1.save(self.fpath)
-
     def gdatafromothersheet (self,realtime = True,indexcolumn = 2):
         """ get data from mothers sheet """
         if realtime:
@@ -29,67 +25,46 @@ class hexcel:
                 self.fpath = xw.books.active.fullname
             except:
                 messagebox.showerror ("Error","Not yet open file excel")
-
         # return sheet name
         wb1 = xl.load_workbook(filename=self.fpath,
                             read_only=True)
-
         ptvl = wb1[self.sheetnametor]
         ptvl = returnsheetbyname(path=self.fpath,
                                 sheetname=self.sheetnametor)
-
+        # load work book by full path 
         wb = xw.Book(self.fpath)
+        # set active workbook
         sht1 = wb.sheets.active
+        # get name active workbook 
         active_sheet_name = wb.sheets.active.name
         # get dict 
         rel = credict(wsheet=ptvl,
                     pathfull=self.fpath,
                     namesheet=self.sheetnametor)
-
+        #create dict with key is parent ma so 
         redic =rel.redictvaluesandvaluecol(columnumber=4)
-        # content job
-        ndcv = rel.redictvaluesandvaluecol(columnumber=5)
-        print ("ndcv",ndcv)
-        # unit
-        unit1 = rel.redictvaluesandvaluecol(columnumber=6)
-        # khoi luong
-        kl = rel.redictvaluesandvaluecol(columnumber=7)
-        # muc hao phi
-        mhp = rel.redictvaluesandvaluecol(columnumber=8)
-
+        # return list maso parent not node in cell value 
         getvaluelist = rel.revaluerownotnone()
-        #active wsheet
+        #active wsheet for openxl 
         wsheet = wb1[active_sheet_name]
-
+        # return list valie not none at D
+        listvalueDnotnone = rel.revaluerownotnone(rangf="D7:D1000")
+        # get dict ma so include same row
+        dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range=listvalueDnotnone)
         # return indext row and column
-        indexrcevalu = [[cell.row,cell.value] for rangecell in wsheet[self.rangeg] for cell in rangecell  if  cell.value in getvaluelist]
-        #indexrcevalu = [[cell.row,cell.value] for cell in rangecell  if  cell.value in getvaluelist]
-
-        print ("indexr,cevalu",indexrcevalu)
-
-        for index_row, valuek in indexrcevalu:
-            valuearr = redic[valuek]
-            print ("valuearr",valuearr)
-
-
-
-
-        """
-        #key
-        arr = redic[cevalu]
-        # noi dung cong viec
-        ndcvcontent = ndcv[cevalu]
-        # unit
-        uni = unit1[cevalu]
-        # khoi luong
-        klv = kl[cevalu]
-        # muc hao phi
-        mhpv = mhp[cevalu]
-        sht1 = sht1 if realtime else wsheet
-        for indexr in range(indexr,indexr + len (arr)):
-                    sht1.range(indexr + 1 ,indexcolumn).value = arr[i]
-                    sht1.range(indexr + 1 ,indexcolumn + 1).value = ndcvcontent[i]
-                    sht1.range(indexr + 1 ,indexcolumn + 2).value = uni[i]
-                    sht1.range(indexr + 1 ,indexcolumn + 6).value = mhpv[i]
-                    i = i + 1
-        """
+        indexrcevalu = [[cell.row,
+                        cell.value] for rangecell in wsheet[self.rangeg]\
+                         for cell in rangecell  if  cell.value in getvaluelist]
+        # set value to acitve sheet 
+        for indexr, value_parent in indexrcevalu:
+            valuearr = redic[value_parent]
+            sht1 = sht1 if realtime else wsheet
+            i = 0 
+            for indexr in range(indexr,indexr + len(valuearr)):
+                listothercell =dictms[valuearr[i]] 
+                sht1.range(indexr + 1 ,indexcolumn).value = valuearr[i]
+                sht1.range(indexr + 1 ,indexcolumn + 1).value = listothercell[0]
+                sht1.range(indexr + 1 ,indexcolumn + 2).value = listothercell[1]
+                sht1.range(indexr + 1 ,indexcolumn + 6).value = listothercell[2]
+                i = i + 1
+        wb1 = None
