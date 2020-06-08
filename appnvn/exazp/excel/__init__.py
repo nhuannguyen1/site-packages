@@ -60,11 +60,21 @@ class hexcel:
         #active wsheet
         wsheet = wb1[active_sheet_name]
 
-        for row in wsheet[self.rangeg]:
+        for rangecell in wsheet[self.rangeg]:
             i = 0
-            for cell in row:
+            
+            for cell in rangecell:
                 cevalu =  cell.value
+
+
+                indexr,cevalu = [cell.row,cevalu] if cevalu in getvaluelist
+
                 if cevalu in getvaluelist:
+
+
+
+
+
                     indexr = cell.row
                     #key
                     arr = redic[cevalu]
