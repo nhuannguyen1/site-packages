@@ -18,7 +18,7 @@ class credict:
             self.ws = wb[namesheet]
         else:
             wb = xw.Book(self.fpath)
-            self.ws.sheets[namesheet]
+            self.ws = wb.sheets[namesheet]
 
     def reindexrownotnone(self):
         """ renturn index which value not none"""
@@ -43,10 +43,7 @@ class credict:
         res = list(zip(self.reindexrownotnone(), 
                     self.reindexrownotnone()[1:] + self.reindexrownotnone()[:1])) 
         for eler in res:
-            s,t = eler
-            arrchild = [self.wsheet.cell(row=ie,
-                                        column = columnumber).value for ie in range(s,t) if self.wsheet.cell(row=ie,
-                                                                                                            column = columnumber).value != None ]
+            arrchild = self.__listchild(eler,columnumber=columnumber)
             arrch.append(arrchild)
             arrchild = None
         dictionary = dict(zip(self.revaluerownotnone(), arrch))
@@ -59,22 +56,43 @@ class credict:
         """ return dict by value rangce_col and indexcolumn """
         dictvalue_rangcol_indexcolumn = {}
         for value_criteria in value_criteria_range:
-            indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
-                            self.valuebycol_row(cell.row,indexcolumn[1]),
-                            self.valuebycol_row(cell.row,indexcolumn[2]),
-                            ] for range_cell in  self.ws[range_col]\
-                                                             for cell in range_cell  if  cell.value == value_criteria
-                            ]
-            dictvalue_rangcol_indexcolumn [value_criteria] = indexrcevalu[0]
+            listindexrcevalu = self.__indexvalue(value_criteria=value_criteria,
+                                                range_col=range_col,
+                                                indexcolumn=indexcolumn)
 
+            dictvalue_rangcol_indexcolumn [value_criteria] = listindexrcevalu[0]
         return dictvalue_rangcol_indexcolumn
             
     def valuebycol_row(self,irow,icolumn):
         """ return value cell by index column and row"""
-        return self.wsheet.cell(row=irow,column = icolumn).value 
+        if engine ="openpyxl":
+            valuebycolr = self.wsheet.cell(row=irow,column = icolumn).value 
+        else:
+            valuebycolr = self.wsheet.range(irow,icolumn).value 
+        return valuebycolr
 
+    def __listchild(self,ele,columnumber = 4):
+        s,t = ele
+        if engine ="openpyxl":
+            arrchild = [self.wsheet.cell(row=ie,column = columnumber).value for ie in range(s,t) if self.wsheet.cell(row=ie,column = columnumber).value != None]
+        else:
+            arrchild = [self.wsheet.range((ie,columnumber)).value for ie in range(s,t) if self.wsheet.cell((ie,columnumber)).value != None] #nhuan
+        return arrchild
 
-
+    def __indexvalue (self,value_criteria,range_col ="D7:D1000",indexcolumn = [5,6,8]):
+        if engine ="openpyxl":
+            indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
+                            self.valuebycol_row(cell.row,indexcolumn[1]),
+                            self.valuebycol_row(cell.row,indexcolumn[2]),
+                            ] for range_cell in  self.ws[range_col] for cell in range_cell  if  cell.value == value_criteria
+                            ]
+        else:
+            indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
+                            self.valuebycol_row(cell.row,indexcolumn[1]),
+                            self.valuebycol_row(cell.row,indexcolumn[2]),
+                            ] for cell in  self.ws.range[range_col] if  cell.value == value_criteria
+                            ]
+        return indexrcevalu
 
 
 
