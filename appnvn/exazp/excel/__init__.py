@@ -17,15 +17,13 @@ class hexcel:
         self.rangeg = rangeg
         self.sheetnametow=sheetnametow
 
-    def tohlitemativesheet (self, indexcolumn = 2):
-        """ update data from child file"""
-        self.gdatafromothersheet(realtime = True)
     def tohlitemsheet (self, indexcolumn = 2):
         """ return item value cell of A38:A60 """
         self.gdatafromothersheet(realtime = False)
         wb1.save(self.fpath)
 
     def gdatafromothersheet (self,realtime = True,indexcolumn = 2):
+        """ get data from mothers sheet """
         if realtime:
             try:
                 self.fpath = xw.books.active.fullname
@@ -42,6 +40,7 @@ class hexcel:
 
         wb = xw.Book(self.fpath)
         sht1 = wb.sheets.active
+        active_sheet_name = wb.sheets.active.name
         # get dict 
         rel = credict(wsheet=ptvl,
                     pathfull=self.fpath,
@@ -54,13 +53,13 @@ class hexcel:
         unit1 = rel.redictvaluesandvaluecol(columnumber=6)
         # khoi luong
         kl = rel.redictvaluesandvaluecol(columnumber=7)
-        print (kl)
         # muc hao phi
         mhp = rel.redictvaluesandvaluecol(columnumber=8)
 
         getvaluelist = rel.revaluerownotnone()
         #active wsheet
-        wsheet = wb1.active
+        wsheet = wb1[active_sheet_name]
+
         for row in wsheet[self.rangeg]:
             i = 0
             for cell in row:

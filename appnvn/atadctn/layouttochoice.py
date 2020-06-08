@@ -24,6 +24,7 @@ from pynvn.path.ppath import repathfolderchild
 from pynvn.list.str import exstrtolistint
 from appnvn.atadctn.folder import returnlistfolderbywh
 from pynvn.folder import listfolderofpfolder
+from pynvn.folder.list  import listfileofpfolder
 import os
 
 class layoutchoice(tk.Frame):
@@ -219,7 +220,6 @@ class layoutchoice(tk.Frame):
         def createdrawing (self, colorroad = "#c49b65",*args,**kwargs):
                 """Drawing layout follow customer"""
                 # create dim for h 
-
                 plc = placereccenter(info_height_k= self.height_p,
                                         info_width_k= self.width_p,
                                         info_width_P =self.frameaa[2],
@@ -311,8 +311,8 @@ class layoutchoice(tk.Frame):
                 pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
                                                 subFolder= kfolderl1)
                 # get image of folder 
-                limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
-                self.imagede = bidirectional_iterator(limfolder)
+                listimage = listfileofpfolder(folderchild=pkfolderl1)
+                self.imagede = bidirectional_iterator(listimage)
                 self.next_img()
 
         def folderpre(self):
@@ -323,20 +323,5 @@ class layoutchoice(tk.Frame):
                 pkfolderl1 =repathfolderchild(dirpath = self.kfolder, 
                                                 subFolder= kfolderl1)
                 # get image of folder 
-                limfolder = self.listfolderoflayoutp(folderchild=pkfolderl1)
-                self.imagede = bidirectional_iterator(limfolder)
+                listimage = listfileofpfolder(folderchild=pkfolderl1)
                 self.pre_img()
-        def listfolderoflayoutp(self,folderchild):
-                """ return list folder of clayout"""
-                os.chdir(folderchild)
-                lfolderp = os.listdir(folderchild)
-                return lfolderp
-
-        def returnlistwh(self,foldernamelist):
-                """ return list w and h """
-                whlist = []
-                for folderch in foldernamelist:
-                        w, h = exstrtolistint (folderch)
-                        if (w < self.width_p and h < self.height_p):
-                                whlist.append ((w, h))
-                return whlist 

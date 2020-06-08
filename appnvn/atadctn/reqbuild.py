@@ -23,7 +23,7 @@ import string
 from appnvn.atadctn.opcus import opcus
 from appnvn.atadctn.layouttochoice import layoutchoice
 
-
+from pynvn.tkinker.packgird import forget,return_gird_pack
 
 class reqbuild(Frame):
         """Customer information"""
@@ -568,7 +568,7 @@ class reqbuild(Frame):
                                 columnspan = 1,
                                 sticky  = "w",
                                 )
-
+                # next buttons
                 btnext = tk.Button(self.listFramevp,
                                         image  = self.imagenext,
                                         bg = "white",
@@ -579,6 +579,13 @@ class reqbuild(Frame):
                 btnext.grid(column = 1,
                                 row = row,
                                 sticky  = "e"
+                                )
+                # click go to layout to choice 
+                self.btlabel = tk.Label (self.listFramevp,text = "Click go to layout")
+                self.btlabel.grid(column = 2,
+                                row = row,
+                                sticky  = "e",
+                                columnspan = 2
                                 )
 
                 # set confg for all (label, combo, entry)"""
@@ -607,7 +614,8 @@ class reqbuild(Frame):
                                 lb8,
                                 lb9,
                                 lb10,
-                                lb11)
+                                lb11,
+                                self.btlabel)
                 for label in labels:
                         label.config (bg = self.bglb,
                                         font=self.labelfont_sm,
@@ -673,6 +681,11 @@ class reqbuild(Frame):
                         frame.grid(row=0,
                                         column=0,
                                         sticky="nsew")
+                        return_gird_pack(self.btlabel,
+                                        column = 2,
+                                        row = 23,
+                                        sticky  = "e",
+                                        columnspan = 2)
                 self.checkclass = "opcus" 
                 return self.pattern.match(username) is not None
 
@@ -707,6 +720,7 @@ class reqbuild(Frame):
                                         column=0, 
                                         sticky="nsew")
                 if nameframe == "layoutchoice":
+                        forget(self.btlabel)
                         self.show_frame("layoutchoice")
                         self.checkclass = "layoutchoice"
                 else:
@@ -797,4 +811,14 @@ class reqbuild(Frame):
                 except:
                         messagebox.showerror("Error","check your input {0},\
                                                 \nCharacters input must be numbers\
-                                                 can not string".format(self.lbwr["text"]))         
+                                                 can not string".format(self.lbwr["text"]))
+
+        def forget(self,widget): 
+                # This will remove the widget from toplevel 
+                # basically widget do not get deleted 
+                # it just becomes invisible and loses its position 
+                # and can be retrieve 
+                widget.grid_forget()
+        
+        def return_gird(self,widget, **kw):
+                widget.grid(**kw)

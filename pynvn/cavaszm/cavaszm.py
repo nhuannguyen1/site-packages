@@ -235,10 +235,12 @@ class zmcv:
                                                                 int(y1 / (self.__scale*self.ratio)),
                                                                 int(x2 / (self.__scale*self.ratio)),
                                                                 int(y2 / (self.__scale*self.ratio))))
-            #
+            
+            # resize image
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), 
                                                         int(y2 - y1)), 
                                                         self.__filter))
+            
             imageid = self.cavas.create_image(max(box_canvas[0],
                                                 box_img_int[0]),
                                                 max(box_canvas[1], 

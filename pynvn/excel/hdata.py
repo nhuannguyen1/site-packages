@@ -28,7 +28,7 @@ class hexcel:
 
                 self.fomuluasfcol(k,hmname=hmname)
 
-    def fomuluasfcol (self,k,starr=6,finshr = 474,hmname = None ):
+    def fomuluasfcol (self,k,starr=6,finshr = 282,hmname = None ):
         """fomulas for column follow index"""
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,

@@ -45,3 +45,11 @@ class credict:
             arrchild = []
         dictionary = dict(zip(self.revaluerownotnone(), arrch))
         return dictionary
+
+    def returnarrvaluebyindexcolumnandrow(self, valuecolumn):
+        """ return arr value by index column and row """
+        for value in valuecolumn:
+            if value in self.ws[self.rangea]
+
+
+
