@@ -56,7 +56,7 @@ class credict:
                                             range_col ="D7:D1000", 
                                             indexcolumn = [5,6,8]):
         """ return dict by value rangce_col and indexcolumn """
-            if self.engine =="openpyxl":
+        if self.engine =="openpyxl":
                 indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
 
                                 self.valuebycol_row(cell.row,indexcolumn[1]),
@@ -69,12 +69,12 @@ class credict:
 
                                 ]
             
-            else:
+        else:
                 indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
                                 self.valuebycol_row(cell.row,indexcolumn[1]),
                                 self.valuebycol_row(cell.row,indexcolumn[2])] for cell in self.ws.range(range_col) if cell.value == value_criteria_range]
-            
-            return indexrcevalu
+
+        return indexrcevalu
             
     def valuebycol_row(self,irow,icolumn):
         """ return value cell by index column and row"""

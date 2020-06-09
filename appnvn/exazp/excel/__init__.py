@@ -43,16 +43,23 @@ class hexcel:
         # return list valie not none at D
         listvalueDnotnone = rel.revaluerownotnone(rangf="D7:D1000")
         # get dict ma so include same row
-        dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range =listvalueDnotnone)
+        #dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range =listvalueDnotnone)
         # return indext row and column
-        indexrcevalu = [[cell.row,
-                        cell.value] for rangecell in sht1.range[self.rangeg]\
-                         for cell in rangecell  if  cell.value in getvaluelist]
+        indexrcevalu = [[cell.row,cell.value] for rangecell in sht1.range(self.rangeg) for cell in rangecell  if  cell.value in getvaluelist]
+        """
+        for rangecell in sht1.range[self.rangeg]:
+            for cell in rangecell :
+                if  cell.value in getvaluelist:
+                    print (cell.row,cell.value)
+        """
         # set value to acitve sheet 
         for indexr, value_parent in indexrcevalu:
             valuearr = redic[value_parent]
             i = 0 
+
             for indexr in range(indexr,indexr + len(valuearr)):
+                dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range =listvalueDnotnone)
+                print ("dictms",dictms)
                 listothercell =dictms[valuearr[i]] 
                 sht1.range(indexr + 1 ,indexcolumn).value = valuearr[i]
                 sht1.range(indexr + 1 ,indexcolumn + 1).value = listothercell[0]
