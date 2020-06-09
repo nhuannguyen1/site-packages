@@ -26,11 +26,6 @@ class hexcel:
             except:
                 messagebox.showerror ("Error","Not yet open file excel")
         # return sheet name
-        wb1 = xl.load_workbook(filename=self.fpath,
-                            read_only=True)
-        ptvl = wb1[self.sheetnametor]
-        ptvl = returnsheetbyname(path=self.fpath,
-                                sheetname=self.sheetnametor)
         # load work book by full path 
         wb = xw.Book(self.fpath)
         # set active workbook
@@ -38,27 +33,24 @@ class hexcel:
         # get name active workbook 
         active_sheet_name = wb.sheets.active.name
         # get dict 
-        rel = credict(wsheet=ptvl,
-                    pathfull=self.fpath,
-                    namesheet=self.sheetnametor)
+        rel = credict(pathfull=self.fpath,
+                    namesheet=self.sheetnametor,
+                    engine="xlwings")
         #create dict with key is parent ma so 
         redic =rel.redictvaluesandvaluecol(columnumber=4)
         # return list maso parent not node in cell value 
         getvaluelist = rel.revaluerownotnone()
-        #active wsheet for openxl 
-        wsheet = wb1[active_sheet_name]
         # return list valie not none at D
         listvalueDnotnone = rel.revaluerownotnone(rangf="D7:D1000")
         # get dict ma so include same row
-        dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range=listvalueDnotnone)
+        dictms = rel.returndictvaluebyindexcolumnandrow(value_criteria_range =listvalueDnotnone)
         # return indext row and column
         indexrcevalu = [[cell.row,
-                        cell.value] for rangecell in wsheet[self.rangeg]\
+                        cell.value] for rangecell in sht1.range[self.rangeg]\
                          for cell in rangecell  if  cell.value in getvaluelist]
         # set value to acitve sheet 
         for indexr, value_parent in indexrcevalu:
             valuearr = redic[value_parent]
-            sht1 = sht1 if realtime else wsheet
             i = 0 
             for indexr in range(indexr,indexr + len(valuearr)):
                 listothercell =dictms[valuearr[i]] 
@@ -67,4 +59,3 @@ class hexcel:
                 sht1.range(indexr + 1 ,indexcolumn + 2).value = listothercell[1]
                 sht1.range(indexr + 1 ,indexcolumn + 6).value = listothercell[2]
                 i = i + 1
-        wb1 = None
