@@ -5,6 +5,7 @@ def listfolderofpfolder(folderchild):
     os.chdir(folderchild)
     try:
         lfolderp = os.listdir(folderchild)
+
     except:
         messagebox.showerror ("Error"," No folder parent folder: {}".format(folderchild))
     return lfolderp

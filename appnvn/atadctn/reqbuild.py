@@ -556,27 +556,28 @@ class reqbuild(Frame):
                         )
                 row += 1
                 # next and previous buttons
-                btpre = tk.Button(self.listFramevp,
+                self.btpre = tk.Button(self.listFramevp,
                                         image = self.imagepre,
                                         bg = "white",
-                                        command = lambda: self.controller.show_frame("incus"),
+                                        command = lambda: self.show_frame_control(),
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
-                btpre.grid(column = 1,
+                self.btpre.grid(column = 1,
                                 row = row,
                                 columnspan = 1,
                                 sticky  = "w",
                                 )
+
                 # next buttons
-                btnext = tk.Button(self.listFramevp,
+                self.btnext = tk.Button(self.listFramevp,
                                         image  = self.imagenext,
                                         bg = "white",
                                         command = lambda: self.showframe(),
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
-                btnext.grid(column = 1,
+                self.btnext.grid(column = 1,
                                 row = row,
                                 sticky  = "e"
                                 )
@@ -686,8 +687,22 @@ class reqbuild(Frame):
                                         row = 23,
                                         sticky  = "e",
                                         columnspan = 2)
+
+                        return_gird_pack(self.btnext,
+                                        column = 1,
+                                        row = 23,
+                                        sticky  = "e")
+                                        
+
                 self.checkclass = "opcus" 
                 return self.pattern.match(username) is not None
+        def show_frame_control (self,nameframe ="incus"):
+                self.btpre.grid(column = 1,
+                                row = 23,
+                                columnspan = 1,
+                                sticky  = "w",
+                                )
+                self.controller.show_frame(nameframe)
 
         def showframe(self, nameframe = "layoutchoice"):
                 """ show frame """
@@ -721,6 +736,12 @@ class reqbuild(Frame):
                                         sticky="nsew")
                 if nameframe == "layoutchoice":
                         forget(self.btlabel)
+                        forget(self.btnext)
+                        self.btpre.grid(column = 1,
+                                row = 23,
+                                columnspan = 1,
+                                sticky  = tk.EW,
+                                )
                         self.show_frame("layoutchoice")
                         self.checkclass = "layoutchoice"
                 else:
@@ -813,12 +834,4 @@ class reqbuild(Frame):
                                                 \nCharacters input must be numbers\
                                                  can not string".format(self.lbwr["text"]))
 
-        def forget(self,widget): 
-                # This will remove the widget from toplevel 
-                # basically widget do not get deleted 
-                # it just becomes invisible and loses its position 
-                # and can be retrieve 
-                widget.grid_forget()
-        
-        def return_gird(self,widget, **kw):
-                widget.grid(**kw)
+

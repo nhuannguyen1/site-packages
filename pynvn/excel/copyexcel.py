@@ -23,16 +23,23 @@ class cexcel:
         wb1 = xl.load_workbook(filename=self.pathtocopy)
         names = wb1.sheetnames
         ws1 = wb1.worksheets[0]
-        if names[0] == "AZB-30":
-                                
-            hexcel(wsheet=ws1,
-                    dpath=self.dirpath,
-                    namefile=self.namefile).habz30()
+        if (names[0] == "AZB-30" or  names[0] == "AZB-60"):
+            exelh = hexcel(wsheet=ws1,
+                        dpath=self.dirpath,
+                        namefile=self.namefile)
+            if names[0] == "AZB-30":                                    
+                exelh.habz30()
+            else:
+                wbazb30 = xl.load_workbook(filename=refullpath(dirpath=self.dirpath,filename="AZB30.xlsx"))
+                names = wb1.sheetnames
+                exelh.habz60(wsheet_AZ30=wbazb30["AZB-30"])
+
             try:
                 wb1.save(self.pathtocopy)
             except:
                 messagebox.showerror("error","Check path for Pfile")
-
+        # handing data AZB-60 
+            
         # load workbook 2
         wb2 = xl.load_workbook(filename=self.pathdes)
         ws2 = wb2[names[0]] 

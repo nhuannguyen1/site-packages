@@ -11,9 +11,3 @@ def return_gird_pack(widget,
     """ visible gird and pack """
     widget.grid(**kw) if insidepackorgird == "gird" else widget.pack(**kw)
 
-    """
-    if insidepackorgird == "gird":
-        widget.grid(**kw)
-    else:
-        widget.pack(**kw)
-    """
