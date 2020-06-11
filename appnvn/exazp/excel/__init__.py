@@ -9,11 +9,10 @@ class hexcel:
     def __init__ (self, fpath = None,
                         sheetnametor="PTVT1", 
                         rangeg ="A501:A700",
-                        sheetnametow=None ):
+                        ):
         self.fpath = fpath
         self.sheetnametor=sheetnametor
         self.rangeg = rangeg
-        self.sheetnametow=sheetnametow
     def tohlitemsheet (self, indexcolumn = 2):
         """ return item value cell of A38:A60 """
         self.gdatafromothersheet(realtime = False)
@@ -49,7 +48,7 @@ class hexcel:
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 
             valuearr = redic[value_parent]
-            
+            print (valuearr,valuearr)
             index1, value1 = valuearr[0]
             sht1.range(indexr,indexcolumn + 1).value  =  rel.listothercell(irow =index1-2,icolumn=5)
             # get don vi

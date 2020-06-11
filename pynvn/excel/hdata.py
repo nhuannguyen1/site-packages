@@ -36,7 +36,7 @@ class hexcel:
                                 namefile=self.namefile,
                                 namesheet=hmname)
         for i in range(starr,finshr):
-            valuene = '=SUMPRODUCT(({0}!$B$501:$B${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
+            valuene = '=SUMPRODUCT(--({0}!$B$501:$B$677 <>"")*({0}!$B$501:$B${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
                                                                                         "'" + "AZB-30" + "'",
                                                                                         i,
                                                                                         self.mrow)

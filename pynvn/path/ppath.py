@@ -185,3 +185,11 @@ def repathfolderchild(dirpath, subFolder):
         return path
     else: 
         messagebox.showerror ("Error","Folder name {} not exsists".format(subFolder))
+def resource_path_is_from_pyinstall_and_dev(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+    except Exception:
+            base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
