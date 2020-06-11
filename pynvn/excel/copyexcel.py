@@ -15,31 +15,17 @@ class cexcel:
         self.pathtocopy = pathtocopy
         self.namefile = namefile
         # return dirpath of child folder 
+    def _Getlistsheet(self):
         self.dirpath = getdirpath(self.pathtocopy)
+        self.wb1 = xl.load_workbook(filename=self.pathtocopy)
+        self.ws1 = wb1.worksheets[0]
+        self.names = wb1.sheetnames
 
     def copysheettoexcelexist(self):
-        """ copy sheet name  to excel existing """
-        # load workbook 1
+        """ copy sheet name  to excel existing """ 
         wb1 = xl.load_workbook(filename=self.pathtocopy)
-        names = wb1.sheetnames
         ws1 = wb1.worksheets[0]
-        if (names[0] == "AZB-30" or  names[0] == "AZB-60"):
-            exelh = hexcel(wsheet=ws1,
-                        dpath=self.dirpath,
-                        namefile=self.namefile)
-            if names[0] == "AZB-30":                                    
-                exelh.habz30()
-            else:
-                wbazb30 = xl.load_workbook(filename=refullpath(dirpath=self.dirpath,filename="AZB30.xlsx"))
-                names = wb1.sheetnames
-                exelh.habz60(wsheet_AZ30=wbazb30["AZB-30"])
-
-            try:
-                wb1.save(self.pathtocopy)
-            except:
-                messagebox.showerror("error","Check path for Pfile")
-        # handing data AZB-60 
-            
+        names = wb1.sheetnames
         # load workbook 2
         wb2 = xl.load_workbook(filename=self.pathdes)
         ws2 = wb2[names[0]] 
@@ -51,3 +37,23 @@ class cexcel:
             wb2.save(self.pathdes)
         except IOError:
             messagebox.showerror ("error", 'File is {} still open, close it'.format(self.pathtocopy))
+    def runaz30azb60(self):   
+        wb1 = xl.load_workbook(filename=self.pathtocopy)
+        names = wb1.sheetnames
+        ws1 = wb1.worksheets[0]
+        if (names[0] == "AZB-30" or  names[0] == "AZB-60"):
+            exelh = hexcel(wsheet=ws1,
+                        dpath=self.dirpath,
+                        namefile=self.namefile)
+            if names[0] == "AZB-30":                                    
+                exelh.habz30()
+            else:
+                wbazb30 = xl.load_workbook(filename=refullpath(dirpath=self.dirpath,filename="AZB30.xlsx"),read_only=True)
+                names = wb1.sheetnames
+                exelh.habz60(wsheet_AZ30=wbazb30["AZB-30"])
+            try:
+                wb1.save(self.pathtocopy)
+            except:
+                messagebox.showerror("error","Check path for Pfile")
+    
+    

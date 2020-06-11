@@ -22,6 +22,7 @@ class hexcel:
     def habz30 (self):
         """handling data azb-30 sheet"""
         lsheetnames = relistsheet(self.fpath)
+        print (lsheetnames)
         for k in range (10,self.mcol):
             hmname =  self.wsheet.cell(row=3, 
                                         column=k).value
@@ -36,12 +37,14 @@ class hexcel:
                                 namefile=self.namefile,
                                 namesheet=hmname)
         for i in range(starr,finshr):
-            valuene = '=SUMPRODUCT(--({0}!$B$501:$B$677 <>"")*({0}!$B$501:$B${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
+            valuene = '=SUMPRODUCT(--({0}!$B$501:$B${3}<>"")*({0}!$B$501:$B${3}={1}!C{2})*{0}!$I$501:$I${3})'.format(pfile,
                                                                                         "'" + "AZB-30" + "'",
                                                                                         i,
                                                                                         self.mrow)
+
             self.wsheet.cell(row=i, 
                             column=k).value = valuene
+
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
         # list all sheet name from file path 
@@ -62,9 +65,9 @@ class hexcel:
                                 namesheet=hmname)
         if str(valuechek)[:2] != namefiter:
 
-            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CB:$CB)'.format(pfile,i) + "+" + 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA)'.format(pfile,i)
+            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CB:$CB)'.format(pfile,i)
         else:
-            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC)'.format(pfile,i) + "+" + 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i)
+            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i) 
 
         return valueeee
 

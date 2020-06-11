@@ -42,8 +42,7 @@ class credict:
     def redictvaluesandvaluecol(self, columnumber = 4 ):
         """ return dict value and value column"""
         arrch = []
-        res = list(zip(self.reindexrownotnone(), 
-                    self.reindexrownotnone()[1:] + self.reindexrownotnone()[:1])) 
+        res = list(zip(self.reindexrownotnone(), self.reindexrownotnone()[1:] + self.reindexrownotnone()[:1])) 
         for eler in res:
             arrchild = self.__listchild(eler,columnumber=columnumber)
             arrch.append(arrchild)

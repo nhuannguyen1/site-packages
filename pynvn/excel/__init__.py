@@ -30,5 +30,5 @@ def returnactivesheet(path):
     return sheet
 def returnsheetbyname(path = None, sheetname = "PTVT"):
     """return sheet by name """
-    wb1 = xl.load_workbook(filename=path,data_only= True)
+    wb1 = xl.load_workbook(filename=path)
     return wb1[sheetname]
