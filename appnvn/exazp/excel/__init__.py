@@ -28,7 +28,9 @@ class hexcel:
         self.__hm_ttnt = int(dicrowconf["hm_ttnt"])
         self.__hm_vt =col2num (dicrowconf["hm_vt"]) 
         self.__hm_nc =col2num (dicrowconf["hm_nc"]) 
-        self.__hm_mtc =col2num (dicrowconf["hm_mtc"]) 
+        self.__hm_mtc =col2num (dicrowconf["hm_mtc"])
+        
+        self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         
         self.__returnothervalue()
     def __returnothervalue(self):
@@ -58,7 +60,8 @@ class hexcel:
         # get dict 
         rel = credict(pathfull=self.__fpath,
                     namesheet=self.__sheetnametor,
-                    engine="xlwings")
+                    engine="xlwings",
+                    rangea=self.__khns_rangenumbermct_ptvt)
         #create dict with key is parent ma vat tu 
         redic =rel.redictvaluesandvaluecol(columnumber=self.__mvt)
         # return list ma cong tac not node in cell value of ptvl
@@ -94,6 +97,17 @@ class hexcel:
     def valuehangmucforthvt(self):
         lrow = self.sht1.range('BC' + str(self.sht1.cells.last_cell.row)).end('up').row
         for index in range(8, lrow + 1):
-            self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$L$8:$L${0})".format(self.m_row,self.__sheetnametor,index,"'" + self.sheetnameactive + "'")
-            self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$M$8:$M${0})".format(self.m_row,self.__sheetnametor,index,"'" + self.sheetnameactive + "'")
-            self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$N$8:$N${0})".format(self.m_row,self.__sheetnametor,index,"'" + self.sheetnameactive + "'")
+            self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$L$8:$L${0})".format(self.m_row,
+                                                                                                                    self.__sheetnametor,index,
+                                                                                                                    "'" + self.sheetnameactive + "'")
+            self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$M$8:$M${0})".format(self.m_row,
+                                                                                                                    self.__sheetnametor,
+                                                                                                                    index,
+                                                                                                                    "'" + self.sheetnameactive + "'")
+            self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$N$8:$N${0})".format(self.m_row,
+                                                                                                            self.__sheetnametor,
+                                                                                                            index,
+                                                                                                            "'" + self.sheetnameactive + "'")
+            
+
+

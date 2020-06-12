@@ -19,10 +19,7 @@ class credict:
                                         data_only= True
                                         )
             self.ws = wb[namesheet]
-
-
         else:
-            print ("pathfull",pathfull)
             wb = xw.Book(pathfull)
             self.ws = wb.sheets[namesheet]
             self.lastrow = self.ws.range('A' + str(wb.sheets[0].cells.last_cell.row)).end('up').row
@@ -93,8 +90,8 @@ class credict:
         s,t = ele
         if self.engine =="openpyxl":
             arrchild = [self.ws.cell(row=ie,
-                                    column = columnumber).value for ie in range(s,t) if self.ws.cell(row=ie,
-                                                                                                    column = columnumber).value != None]
+                        column = columnumber).value for ie in range(s,t) if self.ws.cell(row=ie,
+                                                                                        column = columnumber).value != None]
         else:
             arrchild = [[self.ws.range((ie,columnumber)).row,
                         self.ws.range((ie,columnumber)).value] for ie in range(s,t) if self.ws.range((ie,
