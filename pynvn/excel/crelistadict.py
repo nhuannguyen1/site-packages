@@ -1,7 +1,8 @@
 from openpyxl import Workbook
 import openpyxl
 import xlwings as xw 
-
+from pynvn.excel import mrowandmcolum
+from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn
 class credict:
     """ create dict for value and key """
     def __init__ (self, ws = None,
@@ -18,10 +19,14 @@ class credict:
                                         data_only= True
                                         )
             self.ws = wb[namesheet]
+
+
         else:
+            print ("pathfull",pathfull)
             wb = xw.Book(pathfull)
             self.ws = wb.sheets[namesheet]
-
+            self.lastrow = self.ws.range('A' + str(wb.sheets[0].cells.last_cell.row)).end('up').row
+            self.rangea = returnrangelastcolumn(stringrang=rangea,lrow=self.lastrow)
     def reindexrownotnone(self):
         """ renturn index which value not none"""
         if self.engine =="openpyxl":
@@ -30,13 +35,13 @@ class credict:
             key_list = [cell.row for cell in self.ws.range(self.rangea) if cell.value != None]
         return key_list
 
-    def revaluerownotnone(self,rangf ="C7:C1000" ):
+    def revaluerownotnone(self):
         """ renturn value which value not none"""
         if self.engine =="openpyxl":
-            value_list = [cell.value for row in self.ws[rangf] for cell in row if cell.value != None ]
+            value_list = [cell.value for row in self.ws[self.rangea] for cell in row if cell.value != None ]
             
         else:
-            value_list = [cell.value for cell in self.ws.range(rangf) if cell.value != None]
+            value_list = [cell.value for cell in self.ws.range(self.rangea) if cell.value != None]
 
         return value_list
     def redictvaluesandvaluecol(self, columnumber = 4 ):

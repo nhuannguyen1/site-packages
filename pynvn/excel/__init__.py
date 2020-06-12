@@ -1,5 +1,7 @@
 from pynvn.excel.toexcel import toexcel
 import openpyxl as xl
+import string
+from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
     wb1 = xl.load_workbook(filename=path)
@@ -32,3 +34,25 @@ def returnsheetbyname(path = None, sheetname = "PTVT"):
     """return sheet by name """
     wb1 = xl.load_workbook(filename=path)
     return wb1[sheetname]
+def mrowandmcolum (path = None):
+    "return maxcolumn and max row column"
+    wb1 = xl.load_workbook(filename=path)
+    wsactive = wb1.active
+    return [wsactive.max_row,wsactive.max_column]
+
+def col2num(col):
+    """Return number corresponding to excel-style column."""
+    num = 0
+    for c in col:
+        if c in string.ascii_letters:
+            num = num * 26 + (ord(c.upper()) - ord('A')) + 1
+    return num
+def convertrangaphatonunber (rangapha = None ):
+    """ convert rang anphab to cell number"""
+    a,n,s,a1,n1 =  sepnumberandstrfromstr(sstr=rangapha)
+    return  (col2num(a),int(n)),(col2num(a1),int(n1))
+def returnrangelastcolumn(stringrang,lrow = 100):
+    """ return range excel by range and by last row"""
+    return returnrangewolastrow(sstr=stringrang) + str(lrow)
+
+

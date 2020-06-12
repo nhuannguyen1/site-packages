@@ -22,7 +22,6 @@ class hexcel:
     def habz30 (self):
         """handling data azb-30 sheet"""
         lsheetnames = relistsheet(self.fpath)
-        print (lsheetnames)
         for k in range (10,self.mcol):
             hmname =  self.wsheet.cell(row=3, 
                                         column=k).value

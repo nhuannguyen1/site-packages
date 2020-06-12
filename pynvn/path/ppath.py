@@ -176,7 +176,7 @@ def refullpath(dirpath, filename):
         fpath = os.path.join(dirpath, filename)
         return fpath
     except:
-        messagebox.showerror("error", "Check dir path or filename ")
+        messagebox.showerror("error", "Check dir path {} or filename {} ".format(dirpath,filename))
 
 def repathfolderchild(dirpath, subFolder):
     """ return path folder child from dir path and sub folder """
