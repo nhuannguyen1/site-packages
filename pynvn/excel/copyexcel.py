@@ -15,13 +15,13 @@ class cexcel:
         self.pathdes = pathdes
         self.pathtocopy = pathtocopy
         self.namefile = namefile
-        self.namesheetchild = namesheetchild\
+        self.namesheetchild = namesheetchild
         self.__Getlistsheet()
     def __Getlistsheet(self):
         self.dirpath = getdirpath(self.pathtocopy)
-        self.wb1 = xl.load_workbook(filename=self.pathtocopy)
-        self.names = wb1.sheetnames
-        self.ws1 = wb1[self.names[0]]
+        self.wb1 = xl.load_workbook(filename=self.pathtocopy,read_only=True,data_only=True)
+        self.names = self.wb1.sheetnames
+        self.ws1 = self.wb1[self.names[0]]
         # check name sheet 
         if self.namesheetchild  in self.names[0]:
             pass
@@ -41,20 +41,22 @@ class cexcel:
             for j,col in enumerate(row):
                 ws2.cell(row=i+1,column=j+1).value = col.value
         """
-
+        mr = self.ws1.max_row 
+        mc = self.ws1.max_column 
         # copying the cell values from source  
         # excel file to destination excel file 
-        for i in range (43, mr + 1): 
-            if self.ws1.cell(row = i, column = 2) == "":
+        m = 0 
+        for i in range (43, mr + 1):
+            valuee = self.ws1.cell(row = i, column = 3).value
+            print ("valuee",valuee)
+            if valuee != None:
+                m = m + 1
                 for j in range (1, mc + 1): 
-                    n = 0
-                    k = i 
+                    k = 43 + m
                     # reading cell value from source excel file 
                     c = self.ws1.cell(row = i, column = j) 
                     # writing the read value to destination excel file 
-                    ws2.cell(row = k, column = j).value = c.value 
-
-
+                    ws2.cell(row = k, column = j).value = c.value
 
         try:
             wb2.save(self.pathdes)
