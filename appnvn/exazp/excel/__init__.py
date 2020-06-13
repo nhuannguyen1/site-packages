@@ -6,6 +6,7 @@ import xlwings as xw
 from pynvn.string  import sepnumberandstrfromstr
 from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn,col2num
 from pynvn.csv.rcsv import returndictrowforcsv
+
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
@@ -13,6 +14,7 @@ class hexcel:
                         rangeg ="A501:A1000",
                         pathconf = None
                         ):
+                        
         dicrowconf = returndictrowforcsv(path=pathconf)
         self.__fpath = fpath
         self.__sheetnametor=dicrowconf["khns_sheetnamekhns"]
@@ -68,7 +70,10 @@ class hexcel:
         getvaluelist = rel.revaluerownotnone()
         # return index row and value of active sheet  ma cong tac
         indexrcevalu = [[cell.row,
-                        cell.value] for rangecell in self.sht1.range(self.rangegc) for cell in rangecell  if  cell.value in getvaluelist]
+                        cell.value] for rangecell in 
+                        self.sht1.range(self.rangegc)
+                        for cell in rangecell  if  cell.value
+                        in getvaluelist]
         # set value to acitve sheet 
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 

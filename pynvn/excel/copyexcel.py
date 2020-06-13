@@ -15,8 +15,9 @@ class cexcel:
         self.pathdes = pathdes
         self.pathtocopy = pathtocopy
         self.namefile = namefile
-        self.namesheetchild = namesheetchild
-    def _Getlistsheet(self):
+        self.namesheetchild = namesheetchild\
+        self.__Getlistsheet()
+    def __Getlistsheet(self):
         self.dirpath = getdirpath(self.pathtocopy)
         self.wb1 = xl.load_workbook(filename=self.pathtocopy)
         self.names = wb1.sheetnames
@@ -25,7 +26,9 @@ class cexcel:
         if self.namesheetchild  in self.names[0]:
             pass
         else:
-            messagebox.showerror("error", "Name sheet must start from symbols {}...".format(self.namesheetchild))
+            messagebox.showerror("error", 
+                                "Name sheet must start \
+                                from symbols {}...".format(self.namesheetchild))
 
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """ 
@@ -33,35 +36,28 @@ class cexcel:
         wb2 = xl.load_workbook(filename=self.pathdes)
         ws2 = wb2[self.names[0]] 
         # set data from sheet to other sheet 
+        """
         for i,row in enumerate(self.ws1.iter_rows()):
             for j,col in enumerate(row):
                 ws2.cell(row=i+1,column=j+1).value = col.value
+        """
+
+        # copying the cell values from source  
+        # excel file to destination excel file 
+        for i in range (43, mr + 1): 
+            if self.ws1.cell(row = i, column = 2) == "":
+                for j in range (1, mc + 1): 
+                    n = 0
+                    k = i 
+                    # reading cell value from source excel file 
+                    c = self.ws1.cell(row = i, column = j) 
+                    # writing the read value to destination excel file 
+                    ws2.cell(row = k, column = j).value = c.value 
+
+
+
         try:
             wb2.save(self.pathdes)
-        except IOError:
-            messagebox.showerror ("error", 'File is {} still open, close it'.format(self.pathtocopy))
-    def runaz30azb60(self):
-        """ run AZB30 and run AZB60"""
-        if (self.names[0] == "AZB-30" or  self.names[0] == "AZB-60"):
-            exelh = hexcel(wsheet=self.ws1,
-                        dpath=self.dirpath,
-                        namefile=self.namefile)
-            if self.names[0] == "AZB-30":                                    
-                exelh.habz30()
-            else:
-                try:
-                    wbazb30 = xl.load_workbook(filename=refullpath(dirpath=self.dirpath,filename="AZB30.xlsx"),read_only=True)
-                except:
-                    messagebox.showerror("error","check dirpath {} and file name {}".format(dirpath,filename))
-                try:
-                    nsazb = wbazb30["AZB-30"]
-                except:
-                    messagebox.showerror("error","check dirpath {} and file name {}".format(dirpath,filename))
-
-                exelh.habz60(wsheet_AZ30=wbazb30[nsazb])
-            try:
-                self.wb1.save(self.pathtocopy)
-            except:
-                messagebox.showerror("error","Check path for Pfile {}".format(self.pathtocopy))
-        else:
-            messagebox.showerror ("error", "No sheet name AZB-30 or AZB-60, recheck file again")
+        except:
+            messagebox.showerror ("error", 'File is {} still open,\
+                                             close it'.format(self.pathtocopy))
