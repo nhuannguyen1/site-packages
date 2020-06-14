@@ -1,16 +1,8 @@
-import openpyxl as xl
-from tkinter import messagebox
-from pynvn.excel.hdata import hexcel
-from pynvn.path.ppath import getdirpath,refullpath
-from pynvn.excel import col2num
-import xlwings as xw 
-from pynvn.csv.rcsv import returndictrowforcsv
-class cexcel:
+class azb10:
     """copy excel to excel"""
     def __init__(self,sheetname = None,
                     pathdes= None, 
                     pathtocopy= None,
-                    namesheetchild = "AZB",
                     pathconf = None
                 ):
         dicrowconf = returndictrowforcsv(path=pathconf)
@@ -19,7 +11,6 @@ class cexcel:
         self.__zab10_recor_l1m = int(dicrowconf["zab10_recor_l1m"])
         self.__zab10_recor_l2m = int(dicrowconf["zab10_recor_l2m"])
         self.__zab10_recor_l3m = int(dicrowconf["zab10_recor_l3m"])
-        
         # azb10 for both
         self.__zab10_totalpaodstr = (dicrowconf["zab10_totalpaod"])
         self.__zab10_totalpaod = col2num(dicrowconf["zab10_totalpaod"])
@@ -58,7 +49,6 @@ class cexcel:
         self.sheetname = sheetname
         self.pathdes = pathdes
         self.pathtocopy = pathtocopy
-        self.namesheetchild = namesheetchild
         self.__Getlistsheet()
     def __Getlistsheet(self):
         self.app = xw.App(visible=False)
@@ -70,12 +60,6 @@ class cexcel:
         self.cols = self.ws1.api.UsedRange.Columns.count
         self.listmaxrc = self.indexvaluerc + [self.rows]
         # check name sheet 
-        if self.namesheetchild  in self.wsname:
-            pass
-        else:
-            messagebox.showerror("error", 
-                                "Name sheet must start \
-                                from symbols {}...".format(self.namesheetchild))
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
         l,m = 0,0
