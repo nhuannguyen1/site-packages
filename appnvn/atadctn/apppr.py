@@ -16,6 +16,7 @@ class apppr(tk.Frame):
                     imagenextlayout = None,
                     imageprelayout = None,
                     dirfolder = None,
+                    pathclayout = None,
                     *args, 
                     **kwargs):
         self.tktk = tktk
@@ -54,7 +55,8 @@ class apppr(tk.Frame):
                         resizable=[True,True]).setcfbs()
                 
         # set menu 
-        menu (tktk=self.filewin).createmenu()
+        #menu (tktk=self.filewin).createmenu()
+        menu (tktk=self.filewin,pathicon=pathico, pathclayout = pathclayout).createmenu()
         self.frames = {}
         for F in (incus,reqbuild):
             page_name = F.__name__

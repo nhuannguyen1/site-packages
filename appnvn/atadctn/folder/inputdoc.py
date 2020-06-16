@@ -12,12 +12,14 @@ class infolder(tk.Tk):
                     labelfont = ('times', 20),
                     labelfont_sm = ('times', 16), 
                     pathclayout = None,
+                    namequotation = "quotation.xlsx",
                     **kwargs):
         self.__tktk = tktk
         self.__labelfont = labelfont
         self.__labelfont_sm = labelfont_sm
         self.__pathclayout = pathclayout
         self.__filewin = tk.Toplevel(self.__tktk)
+        self.__namequotation = namequotation
         gui (tktk=self.__filewin,
             pathico=pathicon,
             width=800,
@@ -260,12 +262,22 @@ class infolder(tk.Tk):
         return credirfol(dirNamec = self.__pathclayout,
                 subforder=self.__createfoldername())
         
-        
     def returnlistfileinfolder(self):
+        """ return list file in folder"""
         pathtocopy = getpathfromtk(self.output1)
         return listfileinfolder(pathtocopy)
     
     def tranferdatatofolder (self):
+        """tranfer data to folder"""
+        # copy file image layout 
         pathcopy = self.__createfolderbyname()
         for f in self.returnlistfileinfolder():
             shutil.copy(f,pathcopy)
+        # copy file excel quotation 
+        fileexqu = self.returnfiletocopyquotation()
+        shutil.copy(fileexqu,
+                    pathcopy + "/" + self.__namequotation)
+
+    def returnfiletocopyquotation(self):
+        """ return path file excel in folder """
+        return getpathfromtk(self.output2)
