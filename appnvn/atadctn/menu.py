@@ -1,18 +1,24 @@
 
 import tkinter as tk
-from tkinter import *
 from tkinter import ttk
+from appnvn.atadctn.folder.inputdoc import infolder
 class menu:
     """set menu for atad"""
-    def __init__(self,tktk = None):
+    def __init__(self,tktk = None,
+                    pathicon = None,
+                    pathclayout = None):
     # set logo and title 
         self.tktk = tktk
+        self.pathicon = pathicon
+        self.pathclayout = pathclayout
     def createmenu (self):
         # create option
-        menubar = Menu(self.tktk)
-        filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", 
-                            command=lambda: self.donothing())
+        menubar = tk.Menu(self.tktk)
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Add Layout", 
+                            command=lambda: infolder(tktk=self.tktk,
+                                                    pathicon=self.pathicon,
+                                                    pathclayout =self.pathclayout))
         filemenu.add_command(label="Open", 
                             command=lambda: self.donothing())                                                                                                                   
         filemenu.add_command(label="Save", 
@@ -21,15 +27,13 @@ class menu:
                             command=lambda: self.donothing())
         filemenu.add_command(label="Close", 
                             command=lambda: self.donothing())
-
         filemenu.add_separator()
-
         filemenu.add_command(label="Exit", 
                             command=self.tktk.quit)
-        menubar.add_cascade(label="Option", 
+        menubar.add_cascade(label="File", 
                             menu=filemenu)
         # create edit 
-        editmenu = Menu(menubar, tearoff=0)
+        editmenu = tk.Menu(menubar, tearoff=0)
         editmenu.add_command(label = "Undo", command = lambda: self.donothing())
 
         editmenu.add_separator()
@@ -43,14 +47,14 @@ class menu:
         menubar.add_cascade(label = "Edit", menu = editmenu)
 
         # menu setting
-        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label = "language", command = lambda: self.donothing())
         helpmenu.add_command(label = "About...", command = lambda: self.donothing())
         menubar.add_cascade(label = "configuration", menu = helpmenu)
 
 
         # menu help
-        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu = tk.Menu(menubar, tearoff=0)
         helpmenu.add_command(label = "Help Index", command = lambda: self.donothing())
         helpmenu.add_command(label = "About...", command = lambda: self.donothing())
         menubar.add_cascade(label = "Help", menu = helpmenu)

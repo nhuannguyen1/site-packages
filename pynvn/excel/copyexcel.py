@@ -1,10 +1,11 @@
 import openpyxl as xl
 from tkinter import messagebox
-from pynvn.excel.hdata import hexcel
 from pynvn.path.ppath import getdirpath,refullpath
 from pynvn.excel import col2num
 import xlwings as xw 
 from pynvn.csv.rcsv import returndictrowforcsv
+from appnvn.exazp.excel.itemhm import azb10
+
 class cexcel:
     """copy excel to excel"""
     def __init__(self,sheetname = None,
@@ -13,93 +14,42 @@ class cexcel:
                     namesheetchild = "AZB",
                     pathconf = None
                 ):
-        dicrowconf = returndictrowforcsv(path=pathconf)
-        self.__azb10startr = int(dicrowconf["azb10startr"])
-        #line azb10s folow row at mother
-        self.__zab10_recor_l1m = int(dicrowconf["zab10_recor_l1m"])
-        self.__zab10_recor_l2m = int(dicrowconf["zab10_recor_l2m"])
-        self.__zab10_recor_l3m = int(dicrowconf["zab10_recor_l3m"])
-        
-        # azb10 for both
-        self.__zab10_totalpaodstr = (dicrowconf["zab10_totalpaod"])
-        self.__zab10_totalpaod = col2num(dicrowconf["zab10_totalpaod"])
-        self.__zab10_frmpstr = (dicrowconf["zab10_frmp"])
-        self.__zab10_frmp = col2num(dicrowconf["zab10_frmp"])
-        self.__zab10_refundstr = (dicrowconf["zab10_refund"])
-        self.__zab10_refund = col2num(dicrowconf["zab10_refund"])
-        self.__zab10_efastr = (dicrowconf["zab10_efa"])
-        self.__zab10_efa = col2num(dicrowconf["zab10_efa"])
-        self.__zab10_finalabstr = (dicrowconf["zab10_finalab"])
-        self.__zab10_finalab = col2num(dicrowconf["zab10_finalab"])
-
-        self.__zab10_nbstr = (dicrowconf["zab10_nb"])
-        self.__zab10_nb = col2num(dicrowconf["zab10_nb"])
-
-        self.listsubtal = [self.__zab10_totalpaod,
-                            self.__zab10_frmp,
-                            self.__zab10_refund,
-                            self.__zab10_efa,
-                            self.__zab10_finalab,
-                            self.__zab10_nb]
-
-        self.listsubtalstr = [self.__zab10_totalpaodstr,
-                            self.__zab10_frmpstr,
-                            self.__zab10_refundstr,
-                            self.__zab10_efastr,
-                            self.__zab10_finalabstr,
-                            self.__zab10_nbstr]
-            
-        
-        self.indexvaluerc = [self.__zab10_recor_l1m,
-                            self.__zab10_recor_l2m,
-                            self.__zab10_recor_l3m]
-
-        self.__azb10netbi =col2num (dicrowconf["azb10netbi"])
-        self.sheetname = sheetname
+        self.dicrowconf = returndictrowforcsv(path=pathconf)
         self.pathdes = pathdes
         self.pathtocopy = pathtocopy
         self.namesheetchild = namesheetchild
         self.__Getlistsheet()
     def __Getlistsheet(self):
-        self.app = xw.App(visible=False)
-        self.wb1 = xw.Book(self.pathtocopy)
-        self.names = self.wb1.sheets
-        self.ws1 = self.wb1.sheets[self.names[0]] 
-        self.wsname = self.ws1.name
-        self.rows = self.ws1.api.UsedRange.Rows.count
-        self.cols = self.ws1.api.UsedRange.Columns.count
-        self.listmaxrc = self.indexvaluerc + [self.rows]
+        self.__app = xw.App(visible=False)
+        self.__wb1  = xw.Book(self.pathtocopy)
+        self.names = self.__wb1 .sheets
+        self.__ws1 = self.__wb1 .sheets[self.names[0]] 
+        self.__wsname = self.__ws1.name
+        self.__wb2 = xw.Book(self.pathdes)
+        #max row ws1
+        self.rows = self.__ws1.api.UsedRange.Rows.count
+        #max colum ws1
+        self.cols = self.__ws1.api.UsedRange.Columns.count
+        
+        # sheet to destionation (mother file)
+        self.__ws2 = self.__wb2 .sheets[self.__wsname]
         # check name sheet 
-        if self.namesheetchild  in self.wsname:
+        if self.namesheetchild  in self.__wsname:
             pass
         else:
             messagebox.showerror("error", 
                                 "Name sheet must start \
                                 from symbols {}...".format(self.namesheetchild))
+
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
-        l,m = 0,0
-        wb2 = xw.Book(self.pathdes)
-        # Grabs the needed value
-        ws2 = wb2.sheets[self.wsname]
-        for i in range (self.__azb10startr, self.rows):
-            valuee = self.ws1.range(i,3).value
-            # value of Resource Code/Mã Tài nguyên
-            valuerc = self.ws1.range(i,2).value
-            if valuerc != None:
-                m = self.indexvaluerc[l]
-                l = l + 1
-            if valuee != None:
-                for j in range (1, self.cols + 1):
-                    if (j in self.listsubtal) and (valuerc != None):
+        azb_10 =azb10(dictconf=self.dicrowconf,
+                        wsheetcopy=self.__ws1,
+                        wsheetdes=self.__ws2,
+                        mrowwscopy=self.rows,
+                        mcolumnwscopy=self.cols).copysheettoexcelexist()
 
-                        ws2.range(m,j).value = '=SUBTOTAL(9,{2}{0}:{2}{1})'.format(m + 1,
-                                                                                    self.listmaxrc[l] - 1,
-                                                                                    self.listsubtalstr[self.listsubtal.index(j)])
-                    else:
-                        ws2.range(m,j).value = self.ws1.range(i,j).value
-                m = m + 1
-        self.wb1.close()
-        wb2.save()
-        wb2.close()
-        self.app.quit()
+        self.__wb1.close()
+        self.__wb2.save()
+        self.__wb2.close()
+        self.__app.quit()

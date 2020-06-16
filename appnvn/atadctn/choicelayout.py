@@ -85,7 +85,9 @@ class layoutgui(Frame):
                             image = self.br_image_path,
                             bd = 0
                         )
-        price.pack(fill=BOTH ,expand=YES)
+        price.pack(fill=BOTH ,
+                    expand=YES)
+                    
     def creategui(self):      
         add = tk.Label(self.listFramevp,text = "Add:",
                             anchor="center",

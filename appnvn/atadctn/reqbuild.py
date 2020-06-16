@@ -199,8 +199,8 @@ class reqbuild(Frame):
                                 columnspan = 4,
                                 sticky  = tk.EW
                                 ) 
-
-                v = StringVar(self.listFramevp, 
+                
+                v = tk.StringVar(self.listFramevp, 
                                 value='Address Street'
                                 )
                 self.adde = tk.Entry(self.listFramevp,
@@ -555,7 +555,8 @@ class reqbuild(Frame):
                         sticky  = "w"
                         )
                 row += 1
-                # next and previous buttons
+
+                # previous buttons
                 self.btpre = tk.Button(self.listFramevp,
                                         image = self.imagepre,
                                         bg = "white",
@@ -563,12 +564,13 @@ class reqbuild(Frame):
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
+
                 self.btpre.grid(column = 1,
                                 row = row,
                                 columnspan = 1,
                                 sticky  = "w",
                                 )
-
+                
                 # next buttons
                 self.btnext = tk.Button(self.listFramevp,
                                         image  = self.imagenext,
@@ -577,8 +579,10 @@ class reqbuild(Frame):
                                         activebackground = "#33B5E5", 
                                         relief = tk.FLAT
                                         )
+                
                 self.btnext.grid(column = 1,
                                 row = row,
+                                columnspan = 1,
                                 sticky  = "e"
                                 )
                 # click go to layout to choice 
@@ -692,8 +696,13 @@ class reqbuild(Frame):
                                         column = 1,
                                         row = 23,
                                         sticky  = "e")
+                                
+                        self.btpre.grid(column = 1,
+                                row = 23,
+                                columnspan = 1,
+                                sticky  = "w",
+                                )
                                         
-
                 self.checkclass = "opcus" 
                 return self.pattern.match(username) is not None
         def show_frame_control (self,nameframe ="incus"):
@@ -701,6 +710,12 @@ class reqbuild(Frame):
                                 row = 23,
                                 columnspan = 1,
                                 sticky  = "w",
+                                )
+                
+                return_gird_pack(self.btnext,
+                                column = 1,
+                                row = 23,
+                                sticky  = "e"
                                 )
                 self.controller.show_frame(nameframe)
 
@@ -734,6 +749,7 @@ class reqbuild(Frame):
                         frame.grid(row=0,
                                         column=0, 
                                         sticky="nsew")
+
                 if nameframe == "layoutchoice":
                         forget(self.btlabel)
                         forget(self.btnext)

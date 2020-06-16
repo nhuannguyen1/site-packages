@@ -66,7 +66,9 @@ class incus(Frame):
                                 compound="center",
                                 highlightthickness = 0)
 
-                logolbl.grid (row = row,pady = 10,columnspan = 4)
+                logolbl.grid (row = row,
+                                pady = 10,
+                                columnspan = 4)
                 
                 #line 1
                 ci = tk.Label(self.listFramevp,

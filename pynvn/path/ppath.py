@@ -52,7 +52,6 @@ class PathSteel:
             dir_path = os.path.join(self.dir_path,
                                             self.subfolder)
                 
-                #dir_path = self.dir_path + "\\" + subFolder
             # Concatenate folder and file name 
             full_path = os.path.join(dir_path,
                                     self.FileName)
@@ -79,7 +78,6 @@ class PathSteel:
             os.system('start "excel" {}'.format(filename))
         except:
             messagebox.showerror("Error","File name: {} is openning, close file to continue ".format(filename))
-            #print ("File name: {} is open, close file to continue ".format(filename))
     @property
     def subfolder(self):
         return self.__subfolder
@@ -167,7 +165,7 @@ def credirfol (dirNamec, subforder):
     try:
         dirName = os.makedirs(os.path.join(dirNamec, subforder))
     except:
-        print ( "already exists")
+        messagebox.showerror ("Error","{} already exists".format(subforder))
     return os.path.join(dirNamec, subforder)
 
 def refullpath(dirpath, filename):
@@ -182,9 +180,12 @@ def repathfolderchild(dirpath, subFolder):
     """ return path folder child from dir path and sub folder """
     path = os.path.join(dirpath,subFolder)
     if os.path.exists(path):
-        return path
+        pass
     else: 
-        messagebox.showerror ("Error","Folder name {} not exsists".format(subFolder))
+        path = credirfol(dirNamec=dirpath,
+                        subFolder= subFolder)
+    return path
+
 def resource_path_is_from_pyinstall_and_dev(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -193,3 +194,8 @@ def resource_path_is_from_pyinstall_and_dev(relative_path):
     except Exception:
             base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
+def listfileinfolder(path):
+    """ return list file in folder"""
+    os.chdir(path)
+    # list file  excel 
+    return os.listdir(path)

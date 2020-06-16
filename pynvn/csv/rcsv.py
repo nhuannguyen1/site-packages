@@ -54,6 +54,7 @@ class rcsv:
     
 def returndictrowforcsv (path):
     """ count number of row in csv """
+    print ("path",path)
     with open(path, 'r') as readFile:
         listk = {lcsv[0]:lcsv[1] for lcsv in list(csv.reader(readFile, delimiter=','))}
     return listk

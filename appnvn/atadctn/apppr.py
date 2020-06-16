@@ -4,6 +4,7 @@ from appnvn.atadctn.reqbuild import reqbuild
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 class apppr(tk.Frame):
+    
 
     def __init__(self, tktk = None, 
                     br_image=None, 
@@ -38,7 +39,7 @@ class apppr(tk.Frame):
         container.pack(side="top",
                         fill="both", 
                         expand=True)
-
+        
         container.grid_rowconfigure(0, 
                                     weight=1)
         container.grid_columnconfigure(0, 

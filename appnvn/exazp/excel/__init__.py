@@ -31,6 +31,7 @@ class hexcel:
         self.__hm_vt =col2num (dicrowconf["hm_vt"]) 
         self.__hm_nc =col2num (dicrowconf["hm_nc"]) 
         self.__hm_mtc =col2num (dicrowconf["hm_mtc"])
+        self.__hm_th =col2num (dicrowconf["hm_th"])
         
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         
@@ -113,6 +114,7 @@ class hexcel:
                                                                                                             self.__sheetnametor,
                                                                                                             index,
                                                                                                             "'" + self.sheetnameactive + "'")
+            self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)
             
 
 
