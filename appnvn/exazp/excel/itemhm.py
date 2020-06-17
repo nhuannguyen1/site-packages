@@ -53,7 +53,6 @@ class azb10:
         l,m = 0,0
         for i in range (self.__azb10startr, self.__mrowwscopy):
             valuee = self.__wsheetcopy.range(i,3).value
-            print (valuee)
             # value of Resource Code/Mã Tài nguyên
             valuerc = self.__wsheetcopy.range(i,2).value
             if valuerc != None:

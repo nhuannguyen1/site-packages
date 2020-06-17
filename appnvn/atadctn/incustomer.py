@@ -182,7 +182,6 @@ class incus(Frame):
                 ckgender2.grid(column = 2,
                                 row  = row)
 
-        
                 #set Address
                 row = row + 1
                 add = tk.Label(self.listFramevp,

@@ -4,8 +4,6 @@ from appnvn.atadctn.reqbuild import reqbuild
 from appnvn.atadctn.icontt import gui
 from appnvn.atadctn.menu import menu
 class apppr(tk.Frame):
-    
-
     def __init__(self, tktk = None, 
                     br_image=None, 
                     pathico=None,
@@ -55,8 +53,9 @@ class apppr(tk.Frame):
                         resizable=[True,True]).setcfbs()
                 
         # set menu 
-        #menu (tktk=self.filewin).createmenu()
-        menu (tktk=self.filewin,pathicon=pathico, pathclayout = pathclayout).createmenu()
+        menu (tktk=self.filewin,
+                pathicon=pathico, 
+                pathclayout = pathclayout).createmenu()
         self.frames = {}
         for F in (incus,reqbuild):
             page_name = F.__name__
@@ -72,16 +71,13 @@ class apppr(tk.Frame):
                     imageprelayout= self.imageprelayout,
                     dirfolder = self.dirfolder)
             self.frames[page_name] = frame
-
             # put all of the pages in the same location;
             # the one on the top of the stacking order
             # will be the one that is visible.
             frame.grid(row=0,
                         column=0, 
                         sticky="nsew")
-
         self.show_frame("incus")
-
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]

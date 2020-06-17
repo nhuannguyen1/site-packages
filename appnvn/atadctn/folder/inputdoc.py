@@ -10,7 +10,8 @@ class infolder(tk.Tk):
                     pathicon =None,
                     *args,
                     labelfont = ('times', 20),
-                    labelfont_sm = ('times', 16), 
+                    labelfont_sm = ('times', 16),
+                    labelfont_botton = ('times', 11), 
                     pathclayout = None,
                     namequotation = "quotation.xlsx",
                     **kwargs):
@@ -18,6 +19,7 @@ class infolder(tk.Tk):
         self.__labelfont = labelfont
         self.__labelfont_sm = labelfont_sm
         self.__pathclayout = pathclayout
+        self.__labelfont_botton = labelfont_botton
         self.__filewin = tk.Toplevel(self.__tktk)
         self.__namequotation = namequotation
         gui (tktk=self.__filewin,
@@ -58,6 +60,7 @@ class infolder(tk.Tk):
                         )
         sltt.grid(column = 1, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)
 
         row = row + 1
@@ -68,6 +71,7 @@ class infolder(tk.Tk):
                         )
         sl.grid(column = 0, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)
 
         self.vsle = tk.IntVar(self.__listFramevp, 
@@ -77,11 +81,13 @@ class infolder(tk.Tk):
         sle = tk.Entry(self.__listFramevp,
                         justify=tk.CENTER,
                         textvariable = self.vsle,
+                        font=self.__labelfont_sm,
                         bg = "white",
                         relief = tk.SOLID
                         )
         sle.grid(column = 1, 
                         row  = row,
+                        pady = 10,
                         sticky  = tk.EW,
                         )
         #width of layout 
@@ -92,6 +98,7 @@ class infolder(tk.Tk):
                         )
         slw.grid(column = 2, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)
 
         #Height of layout
@@ -104,11 +111,13 @@ class infolder(tk.Tk):
                         justify=tk.CENTER,
                         textvariable = self.vslh,
                         bg = "white",
+                        font=self.__labelfont_sm,
                         relief = tk.SOLID
                         )
 
         slh.grid(column = 1, 
                         row  = row,
+                        pady = 10,
                         sticky  = tk.EW,
                         )
 
@@ -119,6 +128,7 @@ class infolder(tk.Tk):
                         )
         slw.grid(column = 2, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)        
     
         #note of layout
@@ -131,11 +141,13 @@ class infolder(tk.Tk):
                         textvariable = self.vsln,
                         justify=tk.CENTER,
                         bg = "white",
+                        font=self.__labelfont_sm,
                         relief = tk.SOLID
                         )
 
         sln.grid(column = 1, 
                         row  = row,
+                        pady = 10,
                         sticky  = tk.EW,
                         )
 
@@ -146,6 +158,7 @@ class infolder(tk.Tk):
                         )
         note.grid(column = 2, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)
         
         # path to folder image 
@@ -158,26 +171,29 @@ class infolder(tk.Tk):
                         )
         pdi.grid(column = 0, 
                 row = row,
+                pady = 10,
                 sticky  = tk.W)
 
         # create output text, it is used to save directory 
         self.output1 = tk.Entry (self.__listFramevp, 
                                 justify=tk.CENTER,
                                 relief = tk.SOLID,
+                                font=self.__labelfont_sm,
                                 bg = "white"
                               )
         self.output1.grid(row = row,
                         column = 1,
+                        pady = 10,
                         sticky  = tk.EW
                         )
         button1 = tk.Button(self.__listFramevp,
-                            height = 1,
-                            width = 4,
+                            font=self.__labelfont_botton,
                             bd = 1,
                             command = lambda: self.askfolderlayout()
                             )
         button1.grid(row = row,
                     column = 2,
+                    pady = 10,
                     sticky = "we"
                     )
 
@@ -190,26 +206,29 @@ class infolder(tk.Tk):
                         )
         pdi.grid(column = 0, 
                         row = row,
+                        pady = 10,
                         sticky  = tk.W)
 
         # create output text, it is used to save directory 
         self.output2 = tk.Entry (self.__listFramevp, 
                                 justify=tk.CENTER,
                                 relief = tk.SOLID,
+                                font=self.__labelfont_sm,
                                 bg = "white"
                               )
         self.output2.grid(row = row,
                         column = 1,
+                        pady = 10,
                         sticky  = tk.EW,
                         )
         button2 = tk.Button(self.__listFramevp,
-                            height = 1,
-                            width = 4,
+                            font=self.__labelfont_botton,
                             bd = 1,
                             command = lambda: self.mfileoquation()
                             )
         button2.grid(row = row,
                     column = 2,
+                    pady = 10,
                     sticky = "we"
                     )
         # update data
@@ -223,6 +242,7 @@ class infolder(tk.Tk):
         row = row + 1
         button.grid(row = row,
                     column = 1,
+                    pady = 10,
                     sticky = "we"
                     )
         # exit 
@@ -236,6 +256,7 @@ class infolder(tk.Tk):
         row = row + 1 
         buttone.grid(row = row,
                     column = 1,
+                    pady = 10,
                     sticky = "we"
                     )
 

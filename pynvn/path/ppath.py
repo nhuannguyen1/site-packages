@@ -196,6 +196,9 @@ def resource_path_is_from_pyinstall_and_dev(relative_path):
     return os.path.join(base_path, relative_path)
 def listfileinfolder(path):
     """ return list file in folder"""
-    os.chdir(path)
-    # list file  excel 
-    return os.listdir(path)
+    try: 
+        os.chdir(path)
+        # list file  excel 
+        return os.listdir(path)
+    except:
+        messagebox.showerror ("Error","check for folder path {}".format(path))
