@@ -19,7 +19,7 @@ class menu:
                             command=lambda: infolder(tktk=self.tktk,
                                                     pathicon=self.pathicon,
                                                     pathclayout =self.pathclayout))
-        filemenu.add_command(label="Open", 
+        filemenu.add_command(label="Modify Layout", 
                             command=lambda: self.donothing())                                                                                                                   
         filemenu.add_command(label="Save", 
                             command=lambda: self.donothing())

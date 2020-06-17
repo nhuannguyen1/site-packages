@@ -42,7 +42,6 @@ class incus(Frame):
                 self.bglb = bglb
                 self.imagenext = imagenext
                 self.imagepre = imagepre
-                self.filewin = self.controller
                 self.dirfolder = dirfolder
                 self.pack()
                 #gui for data 

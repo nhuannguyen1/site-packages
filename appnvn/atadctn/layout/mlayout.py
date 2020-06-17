@@ -4,7 +4,7 @@ from appnvn.atadctn.icontt import gui
 from tkinter import filedialog
 from pynvn.path.ppath import credirfol,listfileinfolder,getpathfromtk
 import shutil
-class infolder(tk.Tk):
+class mlayout(tk.Frame):
     """ config layout, add layout more from input user """
     def __init__(self, 
                     tktk = None,
