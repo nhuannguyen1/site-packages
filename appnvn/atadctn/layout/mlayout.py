@@ -1,10 +1,9 @@
 import tkinter as tk # python 3
 from appnvn.atadctn.treectn import scbg
 from appnvn.atadctn.icontt import gui
-from tkinter import filedialog
-from pynvn.path.ppath import credirfol,listfileinfolder,getpathfromtk
-import shutil
-class mlayout(tk.Frame):
+from appnvn.atadctn.treectn import scrollbarvn
+from pynvn.checklb.checkb import ChecklistBox
+class mlayout(tk.Tk):
     """ config layout, add layout more from input user """
     def __init__(self, 
                     tktk = None,
@@ -16,6 +15,7 @@ class mlayout(tk.Frame):
                     pathclayout = None,
                     namequotation = "quotation.xlsx",
                     **kwargs):
+       
         self.__tktk = tktk
         self.__labelfont = labelfont
         self.__labelfont_sm = labelfont_sm
@@ -33,271 +33,45 @@ class mlayout(tk.Frame):
             condv=2.7
             )\
             .setcfbs()
-        container = tk.Frame(self.__filewin,
-                            bg = "white")
-        container.pack(side="top",
-                        fill="both", 
-                        expand=True)
-
-        #gui for data 
-        self.__sc = scbg(parent = container,
+        self.sc  = scbg(parent = self.__filewin,
                         cavheight=600,
                         cavwidth=600,
-                        bg = "white", 
-                        bgpr = "#5b9bd5"
+                        isonlyaframe= False,
+                        bg = "#e6ecf5",
+                        bgpr = "#5b9bd5",
+                        framea = [0,0,470,120,"#e6ecf5"],
+                        frameb = [0,120,470,100,"white"],
+                        framec = [0,240,470,150,"#e6ecf5"]
                         )
+        self.framea = self.sc.framea
+        self.frameb = self.sc.frameb
+        self.framec = self.sc.framec
 
-        self.__listFramevp = self.__sc.framecv
+        try: 
+            self.scf.destroy()
+        except:
+            pass
+        self.scf = scrollbarvn(parent=self.frameb,
+                                bg = "white")
+        self.scframe = self.scf.frame
+
+        self.cb = ChecklistBox(parent=self.scframe,
+                                width= 123,listsheetname=[""]
+                                )
+
         self.__creategui()
     def __creategui(self):
         """ create to input size layout """
-        row = 0
-        sltt = tk.Label(self.__listFramevp,
-                        text = "Input your layout infomation",
+        sltt = tk.Label(self.framea,
+                        text = "All layout of Container House",
                         font=self.__labelfont,
                         bg = "white",
                         )
         sltt.grid(column = 1, 
-                        row = row,
+                        row = 0,
                         pady = 10,
-                        sticky  = tk.W)
-
-        row = row + 1
-        sl = tk.Label(self.__listFramevp,
-                        text = "*Size Layout:",
-                        bg = "white",
-                        font=self.__labelfont_sm
+                        sticky  = tk.W
                         )
-        sl.grid(column = 0, 
-                        row = row,
-                        pady = 10,
-                        sticky  = tk.W)
-
-        self.vsle = tk.IntVar(self.__listFramevp, 
-                            value=6000
-                            )
-            
-        sle = tk.Entry(self.__listFramevp,
-                        justify=tk.CENTER,
-                        textvariable = self.vsle,
-                        font=self.__labelfont_sm,
-                        bg = "white",
-                        relief = tk.SOLID
-                        )
-        sle.grid(column = 1, 
-                        row  = row,
-                        pady = 10,
-                        sticky  = tk.EW,
-                        )
-        #width of layout 
-        slw = tk.Label(self.__listFramevp,
-                        text = "*Width",
-                        bg = "white",
-                        font=self.__labelfont_sm
-                        )
-        slw.grid(column = 2, 
-                        row = row,
-                        pady = 10,
-                        sticky  = tk.W)
-
-        #Height of layout
-        row = row + 1
-        self.vslh = tk.IntVar(self.__listFramevp, 
-                            value=6000
-                            )
-
-        slh = tk.Entry(self.__listFramevp,
-                        justify=tk.CENTER,
-                        textvariable = self.vslh,
-                        bg = "white",
-                        font=self.__labelfont_sm,
-                        relief = tk.SOLID
-                        )
-
-        slh.grid(column = 1, 
-                        row  = row,
-                        pady = 10,
-                        sticky  = tk.EW,
-                        )
-
-        slw = tk.Label(self.__listFramevp,
-                        text = "*Height",
-                        font=self.__labelfont_sm,
-                        bg = "white",
-                        )
-        slw.grid(column = 2, 
-                        row = row,
-                        pady = 10,
-                        sticky  = tk.W)        
-    
-        #note of layout
-        row = row + 1
-        self.vsln = tk.StringVar(self.__listFramevp, 
-                            value="Note"
-                            )
-
-        sln = tk.Entry(self.__listFramevp,
-                        textvariable = self.vsln,
-                        justify=tk.CENTER,
-                        bg = "white",
-                        font=self.__labelfont_sm,
-                        relief = tk.SOLID
-                        )
-
-        sln.grid(column = 1, 
-                        row  = row,
-                        pady = 10,
-                        sticky  = tk.EW,
-                        )
-
-        note = tk.Label(self.__listFramevp,
-                        text = "*Note",
-                        font=self.__labelfont_sm,
-                        bg = "white",
-                        )
-        note.grid(column = 2, 
-                        row = row,
-                        pady = 10,
-                        sticky  = tk.W)
         
-        # path to folder image 
-        row = row + 1
-        pdi = tk.Label(self.__listFramevp,
-                        text = "*Path to image folder:",
-                        font=self.__labelfont_sm,
-                        bg = "white",
-                        
-                        )
-        pdi.grid(column = 0, 
-                row = row,
-                pady = 10,
-                sticky  = tk.W)
 
-        # create output text, it is used to save directory 
-        self.output1 = tk.Entry (self.__listFramevp, 
-                                justify=tk.CENTER,
-                                relief = tk.SOLID,
-                                font=self.__labelfont_sm,
-                                bg = "white"
-                              )
-        self.output1.grid(row = row,
-                        column = 1,
-                        pady = 10,
-                        sticky  = tk.EW
-                        )
-        button1 = tk.Button(self.__listFramevp,
-                            font=self.__labelfont_botton,
-                            bd = 1,
-                            command = lambda: self.askfolderlayout()
-                            )
-        button1.grid(row = row,
-                    column = 2,
-                    pady = 10,
-                    sticky = "we"
-                    )
 
-        # path to folder image 
-        row = row + 1
-        pdi = tk.Label(self.__listFramevp,
-                        text = "*Path to quotation:",
-                        font=self.__labelfont_sm,
-                        bg = "white",
-                        )
-        pdi.grid(column = 0, 
-                        row = row,
-                        pady = 10,
-                        sticky  = tk.W)
-
-        # create output text, it is used to save directory 
-        self.output2 = tk.Entry (self.__listFramevp, 
-                                justify=tk.CENTER,
-                                relief = tk.SOLID,
-                                font=self.__labelfont_sm,
-                                bg = "white"
-                              )
-        self.output2.grid(row = row,
-                        column = 1,
-                        pady = 10,
-                        sticky  = tk.EW,
-                        )
-        button2 = tk.Button(self.__listFramevp,
-                            font=self.__labelfont_botton,
-                            bd = 1,
-                            command = lambda: self.mfileoquation()
-                            )
-        button2.grid(row = row,
-                    column = 2,
-                    pady = 10,
-                    sticky = "we"
-                    )
-        # update data
-        button = tk.Button(self.__listFramevp,
-                            height = 1,
-                            text = "Update Data",
-                            width = 4,
-                            command = lambda: self.tranferdatatofolder(),
-                            bd = 1,
-                            )
-        row = row + 1
-        button.grid(row = row,
-                    column = 1,
-                    pady = 10,
-                    sticky = "we"
-                    )
-        # exit 
-        buttone = tk.Button(self.__listFramevp,
-                            height = 1,
-                            text = "Exit",
-                            width = 4,
-                            command =lambda: self.__filewin.withdraw(),
-                            bd = 1,
-                            )
-        row = row + 1 
-        buttone.grid(row = row,
-                    column = 1,
-                    pady = 10,
-                    sticky = "we"
-                    )
-
-    def askfolderlayout(self):
-        self.output1.delete(0, 'end')
-        # ask directory
-        files = filedialog.askdirectory(title = "Directory of child files",
-                                        initialdir=self.output1.get())
-        self.output1.insert(tk.END,files)
-
-    def mfileoquation(self):
-        """ open file parent"""
-        self.output2.delete(0, 'end')
-        # ask directory
-        files = filedialog.askopenfilename(title = "Directory of parent file",
-                                            initialdir=self.output2.get())
-        self.output2.insert(tk.END,
-                            files)
-    def __createfoldername(self):
-        """ return name """
-        return str(self.vsle.get())+ "x" + str(self.vslh.get()) + "_"  + self.vsln.get()
-    def __createfolderbyname(self):
-        """ create folder of layout stock quotation and image"""
-        return credirfol(dirNamec = self.__pathclayout,
-                subforder=self.__createfoldername())
-        
-    def returnlistfileinfolder(self):
-        """ return list file in folder"""
-        pathtocopy = getpathfromtk(self.output1)
-        return listfileinfolder(pathtocopy)
-    
-    def tranferdatatofolder (self):
-        """tranfer data to folder"""
-        # copy file image layout 
-        pathcopy = self.__createfolderbyname()
-        for f in self.returnlistfileinfolder():
-            shutil.copy(f,pathcopy)
-        # copy file excel quotation 
-        fileexqu = self.returnfiletocopyquotation()
-        shutil.copy(fileexqu,
-                    pathcopy + "/" + self.__namequotation)
-
-    def returnfiletocopyquotation(self):
-        """ return path file excel in folder """
-        return getpathfromtk(self.output2)

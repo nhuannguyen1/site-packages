@@ -2,34 +2,36 @@
 import tkinter as tk
 from tkinter import ttk
 from appnvn.atadctn.folder.inputdoc import infolder
+from appnvn.atadctn.layout.mlayout import mlayout
 class menu:
     """set menu for atad"""
     def __init__(self,tktk = None,
                     pathicon = None,
                     pathclayout = None):
     # set logo and title 
-        self.tktk = tktk
-        self.pathicon = pathicon
-        self.pathclayout = pathclayout
+        self.__tktk = tktk
+        self.__pathicon = pathicon
+        self.__pathclayout = pathclayout
     def createmenu (self):
         # create option
-        menubar = tk.Menu(self.tktk)
+        menubar = tk.Menu(self.__tktk)
         filemenu = tk.Menu(menubar, tearoff=0)
         filemenu.add_command(label="Add Layout", 
-                            command=lambda: infolder(tktk=self.tktk,
-                                                    pathicon=self.pathicon,
-                                                    pathclayout =self.pathclayout))
+                            command=lambda: infolder(tktk=self.__tktk,
+                                                    pathicon=self.__pathicon,
+                                                    pathclayout =self.__pathclayout))
         filemenu.add_command(label="Modify Layout", 
-                            command=lambda: self.donothing())                                                                                                                   
+                            command=lambda: mlayout(tktk=self.__tktk))
+
         filemenu.add_command(label="Save", 
-                            command=lambda: self.donothing())
+                            command=lambda: mlayout(tktk=self.__tktk))
         filemenu.add_command(label="Backup", 
                             command=lambda: self.donothing())
         filemenu.add_command(label="Close", 
                             command=lambda: self.donothing())
         filemenu.add_separator()
         filemenu.add_command(label="Exit", 
-                            command=self.tktk.quit)
+                            command=self.__tktk.quit)
         menubar.add_cascade(label="File", 
                             menu=filemenu)
         # create edit 
@@ -59,5 +61,5 @@ class menu:
         helpmenu.add_command(label = "About...", command = lambda: self.donothing())
         menubar.add_cascade(label = "Help", menu = helpmenu)
 
-        self.tktk.config(menu=menubar)
+        self.__tktk.config(menu=menubar)
     

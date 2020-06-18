@@ -319,7 +319,6 @@ class scbg (tk.Frame):
 
         self.horiscrollbar.config(command=self.canvas.xview) 
 
-
     def __conf (self):
 
         """ Configuring canvas """  
@@ -403,6 +402,7 @@ class scrollbarvn(tk.Frame):
         self.__addcommmandscroll()
         self.__conf()
         self.__creframe()
+        self.__scrobarforcontrol()
 
     def __creframe (self):
         self.frame = tk.Frame(self.canvas,bg = "white" )
@@ -471,18 +471,13 @@ class scrollbarvn(tk.Frame):
 
 
     def __conf (self):
-
         """ Configuring canvas """  
-
         self.canvas.bind("<Configure>",
-
                             self.onFrameConfigure) #bind an event whenever the size of the viewPort frame changes.
-
-
     def onFrameConfigure(self, event):                                              
-
         '''Reset the scroll region to encompass the inner frame'''
-
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))#whenever the size of the frame changes, alter the scroll region respectively.    
-
-
+    def __scrobarforcontrol(self):
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")

@@ -3,6 +3,7 @@ from appnvn.atadctn.treectn import scbg
 from appnvn.atadctn.icontt import gui
 from tkinter import filedialog
 from pynvn.path.ppath import credirfol,listfileinfolder,getpathfromtk
+from pynvn.list.flist import filterlistbylstr
 import shutil
 class infolder(tk.Tk):
     """ config layout, add layout more from input user """
@@ -16,6 +17,7 @@ class infolder(tk.Tk):
                     pathclayout = None,
                     namequotation = "quotation.xlsx",
                     **kwargs):
+       
         self.__tktk = tktk
         self.__labelfont = labelfont
         self.__labelfont_sm = labelfont_sm
@@ -285,7 +287,10 @@ class infolder(tk.Tk):
     def returnlistfileinfolder(self):
         """ return list file in folder"""
         pathtocopy = getpathfromtk(self.output1)
-        return listfileinfolder(pathtocopy)
+        lfilecopy = listfileinfolder(pathtocopy)
+        lfileafterfilter = filterlistbylstr (criteria=[".gif",".jpg"],
+                                            liststr=lfilecopy)
+        return lfileafterfilter
     
     def tranferdatatofolder (self):
         """tranfer data to folder"""
