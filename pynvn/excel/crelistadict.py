@@ -2,7 +2,8 @@ from openpyxl import Workbook
 import openpyxl
 import xlwings as xw 
 from pynvn.excel import mrowandmcolum
-from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn
+from pynvn.excel import (convertrangaphatonunber,
+                            returnrangelastcolumn)
 class credict:
     """ create dict for value and key """
     def __init__ (self, ws = None,

@@ -9,21 +9,15 @@ class hexcel_child:
     def __init__(self,sheetname = None,
                     pathdes= None, 
                     pathtocopy= None,
-                    namefile="KE HOACH NGAN SACH.xlsx",
                     namesheetchild = "AZB",
                     pathconf = None
                 ):
-
         self.sheetname = sheetname
         self.pathdes = pathdes
         self.pathtocopy = pathtocopy
-        self.namefile = namefile
         self.namesheetchild = namesheetchild
-
         self.dicrowconf = returndictrowforcsv(path=pathconf)
-        
-
-
+        self.__namefile=dicrowconf["khns_namfile"]
         self._Getlistsheet()
     def _Getlistsheet(self):
         self.dirpath = getdirpath(self.pathtocopy)
@@ -43,7 +37,7 @@ class hexcel_child:
 
             exelh = hexcel_sep(wsheet=self.ws1,
                         dpath=self.dirpath,
-                        namefile=self.namefile,
+                        namefile=self.__namefile,
                         dicrowconf = self.dicrowconf)
             if self.names[0] == "AZB-30":                                    
                 exelh.habz30()

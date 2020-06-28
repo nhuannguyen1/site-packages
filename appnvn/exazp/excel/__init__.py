@@ -10,11 +10,8 @@ from pynvn.string import no_accent_vietnamese
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
-                        sheetnametor="PTVT", 
-                        rangeg ="A501:A1000",
                         pathconf = None
                         ):
-                        
         dicrowconf = returndictrowforcsv(path=pathconf)
         self.__fpath = fpath
         self.__sheetnametor=dicrowconf["khns_sheetnamekhns"]
@@ -28,22 +25,28 @@ class hexcel:
         self.__hm_dvt = int(dicrowconf["hm_dvt"])
         self.__hm_dgth = int(dicrowconf["hm_dgth"])
         self.__hm_ttnt = int(dicrowconf["hm_ttnt"])
+
+        self.__hm_startrowvalue = int(dicrowconf["hm_startrowvalue"])
+
+        self.__hm_vta = dicrowconf["hm_vt"]
+        self.__hm_nca = dicrowconf["hm_nc"]
+        self.__hm_mtca = dicrowconf["hm_mtc"]
+        self.__hm_tha = dicrowconf["hm_th"]
+
         self.__hm_vt =col2num (dicrowconf["hm_vt"]) 
         self.__hm_nc =col2num (dicrowconf["hm_nc"]) 
         self.__hm_mtc =col2num (dicrowconf["hm_mtc"])
         self.__hm_th =col2num (dicrowconf["hm_th"])
-        
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
-        
         self.__returnothervalue()
+
     def __returnothervalue(self):
         try:
             self.__fpath = xw.books.active.fullname
-            #self.m_row, self.m_col = mrowandmcolum(self.__fpath)
         except:
             messagebox.showerror ("Error",
                                         "Not yet open file excel")
-        
+            
         # load work book by full path 
         wb = xw.Book(self.__fpath)
         # set active workbook
@@ -77,12 +80,10 @@ class hexcel:
                         for cell in rangecell  if  cell.value
                         in getvaluelist]
         # set value to acitve sheet 
-        print (redic)
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 
-            value_parent_h = no_accent_vietnamese(value_parent.replace(" ", ""))
-            print (value_parent_h)
-            valuearr = redic.get(value_parent_h,[[indexr,"Test"]])
+            value_parent_h = no_accent_vietnamese(value_parent)
+            valuearr = redic.get(value_parent_h,[[indexr,"Kiem tra ma cong tac"]])
             index1, value1 = valuearr[0]
             self.sht1.range(indexr,self.__hm_ndcv).value  =  rel.listothercell(irow =index1-2,
                                                                                     icolumn=self.__khns_ndcv)
@@ -106,19 +107,30 @@ class hexcel:
                 i = i + 1
     def valuehangmucforthvt(self):
         lrow = self.sht1.range('BC' + str(self.sht1.cells.last_cell.row)).end('up').row
-        for index in range(8, lrow + 1):
-            self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$L$8:$L${0})".format(self.m_row,
-                                                                                                                    self.__sheetnametor,index,
-                                                                                                                    "'" + self.sheetnameactive + "'")
-            self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$M$8:$M${0})".format(self.m_row,
+        # column vt
+        self.sht1.range(self.__hm_startrowvalue,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$L$8:$L${0})".format(lrow,
                                                                                                                     self.__sheetnametor,
-                                                                                                                    index,
+                                                                                                                    self.__hm_startrowvalue,
                                                                                                                     "'" + self.sheetnameactive + "'")
-            self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$N$8:$N${0})".format(self.m_row,
+        vtformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_vt).formula
+        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_vta,self.__hm_startrowvalue,lrow)).formula = vtformulas
+        # column nc
+        self.sht1.range(self.__hm_startrowvalue,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$M$8:$M${0})".format(lrow,
+                                                                                                                    self.__sheetnametor,
+                                                                                                                    self.__hm_startrowvalue,
+                                                                                                                    "'" + self.sheetnameactive + "'")
+        ncformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_nc).formula
+        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_nca,self.__hm_startrowvalue,lrow)).formula = ncformulas
+        # column mtc 
+        self.sht1.range(self.__hm_startrowvalue,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$N$8:$N${0})".format(lrow,
                                                                                                             self.__sheetnametor,
-                                                                                                            index,
+                                                                                                            self.__hm_startrowvalue,
                                                                                                             "'" + self.sheetnameactive + "'")
-            self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)
-            
+        mtcformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_mtc).formula
+        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_mtca,self.__hm_startrowvalue,lrow)).formula = mtcformulas    
+         
+        # column sum
+        self.sht1.range(self.__hm_startrowvalue,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(self.__hm_startrowvalue)
 
-
+        sumformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_th).formula
+        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_tha,self.__hm_startrowvalue,lrow)).formula = sumformulas           
