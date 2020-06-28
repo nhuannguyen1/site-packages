@@ -6,11 +6,11 @@ import xlwings as xw
 from pynvn.string  import sepnumberandstrfromstr
 from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn,col2num
 from pynvn.csv.rcsv import returndictrowforcsv
-
+from pynvn.string import no_accent_vietnamese
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
-                        sheetnametor="PTVT1", 
+                        sheetnametor="PTVT", 
                         rangeg ="A501:A1000",
                         pathconf = None
                         ):
@@ -51,8 +51,9 @@ class hexcel:
         self.sheetnameactive = wb.sheets.active.name
         # get set thvt 
         self.thvt = wb.sheets[self.__sheetnametor]
+        
         # find last row
-        self.m_row = self.thvt.range('D' + str(self.sht1.cells.last_cell.row)).end('up').row + 5
+        self.m_row = self.sht1.range('A' + str(self.sht1.cells.last_cell.row)).end('up').row + 5
 
         self.rangegc = returnrangelastcolumn(stringrang=self.__rangeg,
                                                         lrow=self.m_row)
@@ -76,9 +77,12 @@ class hexcel:
                         for cell in rangecell  if  cell.value
                         in getvaluelist]
         # set value to acitve sheet 
+        print (redic)
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 
-            valuearr = redic[value_parent]
+            value_parent_h = no_accent_vietnamese(value_parent.replace(" ", ""))
+            print (value_parent_h)
+            valuearr = redic.get(value_parent_h,[[indexr,"Test"]])
             index1, value1 = valuearr[0]
             self.sht1.range(indexr,self.__hm_ndcv).value  =  rel.listothercell(irow =index1-2,
                                                                                     icolumn=self.__khns_ndcv)
