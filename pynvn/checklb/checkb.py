@@ -4,12 +4,14 @@ from pynvn.autoscrollbar.autoscrbar import AutoScrollbar
 class ChecklistBox:
     """return check list box"""
     def __init__(self, parent, 
-                choices = ["Nhuan", "Hong"], 
-                i = 0,
+                choices = ["Nhuan", "Hong", "Trum","Nhuan", "Hong", "Trum"], 
+                i = 1,
                 onvalue = True,
                 offvalue = "" ,
                 width = 60,
                 listsheetname = None,
+                midstr = "_ Sheet name: ",
+                texttitle = "File Name _ sheet Name",
                 **kwargs):
         self.choices = choices
         self.onvalue = onvalue
@@ -19,60 +21,37 @@ class ChecklistBox:
         self.i = i
         self.width = width
         self.listsheetname = listsheetname
-        self.i = 1
-        self.rechecklistbox()
-
-    def rechecklistbox (self):
+        self.midstr = midstr
+        self.texttitle = texttitle
+        self.__rechecklistbox()
+    def __rechecklistbox (self):
         """ return check list box from arr """
         for idx,choice in enumerate(self.choices):
             var = tk.StringVar()
-            varsn = tk.StringVar(value=self.listsheetname[idx])
-            self.vars.append(var)
-            lb = tk.Label (self.parent,
-                                text = "File Name _ sheet Name",
-                                bg = "white")
-            lb.grid(row=0,
-                    column=0, 
-                    sticky =  tk.W) 
 
+            self.vars.append(var)
+            listname = "" if self.listsheetname == None else self.listsheetname[idx]
+            if self.texttitle != "":
+                lb = tk.Label (self.parent,text = self.texttitle,bg = "white")
+                lb.grid(row=0,
+                        column=0, 
+                        sticky =  tk.W)
             cb = tk.Checkbutton(self.parent, 
                                 var=var, 
-                                text=choice + "_ Sheet name: " + self.listsheetname[idx] ,
+                                text=choice + self.midstr + listname,
                                 onvalue=choice,
                                 offvalue=self.offvalue,
                                 anchor=tk.W, 
-                                width = int (self.width/2) ,
-                                bg = "white",
+                                bg = "azure",
                                 relief="flat", 
                                 highlightthickness=0
                                 )
             cb.grid(row=self.i,
-                        column=0, 
-                        sticky =  tk.NSEW) 
-
-            lb1 = tk.Label (self.parent,
-                            bg = "white",
-                            text = "Caculate")
-            lb1.grid(row=0,column=1, 
-                            sticky =  tk.NSEW) 
-            cbs = tk.Checkbutton(self.parent, 
-                                var=varsn, 
-                                onvalue=self.listsheetname[idx],
-                                offvalue=self.offvalue,
-                                width = int (self.width/2) - 2,
-                                bg = "white",
-                                relief="flat", 
-                                justify = tk.RIGHT,
-                                highlightthickness=0
-                                )
-            cbs.grid(row=self.i,
-                        column=1, 
-                        sticky =  tk.E) 
+                        column=0,
+                        sticky = tk.NSEW,
+                        ) 
             self.i = self.i + 1
+
     def getCheckedItems(self):
-        values = []
-        for var in self.vars:
-            value =  var.get()
-            if value:
-                values.append(value)
-        return values        
+        """ get checked items """
+        return [var.get() for var in self.vars if var.get() !=""]

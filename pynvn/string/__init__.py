@@ -1,5 +1,7 @@
 from tkinter import messagebox
 import re
+import csv
+import ast
 def sepnumberandstrfromstr (sstr):
     """Splitting text and number in string"""
     # Splitting text and number in string 
@@ -36,3 +38,7 @@ def no_accent_vietnamese(s):
     s = re.sub(r'[Đ]', 'D', s)
     s = re.sub(r'[đ]', 'd', s)
     return s
+def converlistinstrtolist(listinstr = '["A","B" ,"C" ," D"]', path = None):
+    """ convert list in string to list """
+    reader = csv.reader(open(path, 'r'))
+    return {k:ast.literal_eval(v)  for k,v in reader}

@@ -75,6 +75,5 @@ class auth:
             # Save the credentials for the next run
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
-        print ("creds",creds)
         return creds
     

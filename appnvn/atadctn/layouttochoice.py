@@ -133,7 +133,6 @@ class layoutchoice(tk.Frame):
                                 activebackground = "#33B5E5",
                                 relief = tk.FLAT
                                 )
-
                 crebutton(self.canvasad,
                                 crwidth=self.framead[2]/2, 
                                 crheight=self.framead[3]/2, 

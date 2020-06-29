@@ -176,15 +176,18 @@ def refullpath(dirpath, filename):
     except:
         messagebox.showerror("error", "Check dir path {} or filename {} ".format(dirpath,filename))
 
-def repathfolderchild(dirpath, subFolder):
+def repathfolderchild(dirpath, subFolder, createfolderifnotexsting = True):
     """ return path folder child from dir path and sub folder """
     path = os.path.join(dirpath,subFolder)
     if os.path.exists(path):
-        pass
+        return path
     else: 
-        path = credirfol(dirNamec=dirpath,
+        if createfolderifnotexsting:
+            path = credirfol(dirNamec=dirpath,
                         subFolder= subFolder)
-    return path
+            return path
+        else:
+             messagebox.showerror ("folder", "folder name {0} in path parent {1} not exists".format(subFolder,dirpath))
 
 def resource_path_is_from_pyinstall_and_dev(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
