@@ -22,8 +22,8 @@ class cexcel:
     def __Getlistsheet(self):
         self.__app = xw.App(visible=False)
         self.__wb1  = xw.Book(self.pathtocopy)
-        self.names = self.__wb1 .sheets
-        self.__ws1 = self.__wb1 .sheets[self.names[0]] 
+        self.names = self.__wb1.sheets
+        self.__ws1 = self.__wb1.sheets[self.names[0]] 
         self.__wsname = self.__ws1.name
         self.__wb2 = xw.Book(self.pathdes)
         #max row ws1
