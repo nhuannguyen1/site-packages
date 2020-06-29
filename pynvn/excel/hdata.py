@@ -22,7 +22,6 @@ class hexcel_sep:
                 self.mcol = self.wsheet.max_column
                 self.mrow = self.wsheet.max_row
                 self.wsheet_AZ30 = wsheet_AZ30
-                print ("self.mrow",self.mrow)
 
                 self.__azb30_starcolumn = col2num(dicrowconf["azb30_starcolumn"])
                 self.__azb30_rowhm = int(dicrowconf["azb30_rowhm"])
@@ -33,16 +32,13 @@ class hexcel_sep:
                 self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
                 self.__hm_rangege = (dicrowconf["hm_rangege"])
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
-                print ("self.numberhm",self.numberhm)
     def habz30 (self):
         """handling data azb-30 sheet"""
         lsheetnames = relistsheet(self.fpath)
         for k in range (self.__azb30_starcolumn ,self.mcol):
             hmname =  self.wsheet.cell(row=self.__azb30_rowhm , 
                                         column=k).value
-
             if hmname in lsheetnames:
-
                 self.fomuluasfcol(k,hmname=hmname)
 
     def fomuluasfcol (self,k,hmname = None ):
@@ -59,7 +55,6 @@ class hexcel_sep:
                                                                 self.mrow,
                                                                 self.numberhm
                                                                 )
-
 
             self.wsheet.cell(row=i, 
                             column=k).value = valuene
@@ -92,7 +87,10 @@ class hexcel_sep:
 
     def listsheetnameinexsting (self, listnames, wsheet_AZ30):
         
-        return [wsheet_AZ30.cell(row=self.__azb30_rowhm,column=k).value for k in range (self.__azb30_starcolumn ,self.mcol) if wsheet_AZ30.cell(row=self.__azb30_rowhm,column=k).value in listnames]
+        return [wsheet_AZ30.cell(row=self.__azb30_rowhm,
+                                column=k).value for k in range (self.__azb30_starcolumn ,
+                                                                self.mcol) if wsheet_AZ30.cell(row=self.__azb30_rowhm,
+                                                                                                column=k).value in listnames]
 
     def returnlistvaluebycolumnindex (self):
 
