@@ -1,5 +1,6 @@
 from tkinter import messagebox
-
+import ast
+import csv
 def leftstr (substr = None, symbtoplit = "_"):
     """ left side of sring """
     # len of str
@@ -31,3 +32,8 @@ def exstrtolistint (strp = None, symbtoplitp = "_",symbtoplitsecond = "x" ):
     leftt = leftstr(substr=strp,symbtoplit=symbtoplitp)
     listtr = splitstrtolist(leftt,"x")
     return converliststrtoint (listtr,errormsg="Recheck folder name of child parent folder Folder have to template :widthxheight_infor")
+
+def converlistinstrtolist(path = None):
+    """ convert list in string to list """
+    reader = csv.reader(open(path, 'r'))
+    return {k:ast.literal_eval(v)  for k,v in reader}

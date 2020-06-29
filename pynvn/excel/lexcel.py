@@ -1,3 +1,5 @@
+
+from tkinter import messagebox
 import openpyxl as xl 
 class listexcel:
     """ return list excel or list sheet """
@@ -11,7 +13,10 @@ class listexcel:
         """ return list sheet name  follow list sheet """
         wsl = []
         for els in self.l_ex:
-            elop = xl.load_workbook(els)
-            sname = elop.sheetnames[0]
-            wsl.append(sname)
+            try:
+                elop = xl.load_workbook(els)
+                sname = elop.sheetnames[0]
+                wsl.append(sname)
+            except:
+                messagebox.showerror("Error","check file name excel: {0} close it if it is opening".format(els))
         return wsl
