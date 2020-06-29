@@ -21,7 +21,8 @@ class menu:
                                                     pathicon=self.__pathicon,
                                                     pathclayout =self.__pathclayout))
         filemenu.add_command(label="Modify Layout", 
-                            command=lambda: mlayout(tktk=self.__tktk))
+                            command=lambda: mlayout(tktk=self.__tktk,
+                                                    pathclayout=self.__pathclayout))
 
         filemenu.add_command(label="Save", 
                             command=lambda: mlayout(tktk=self.__tktk))

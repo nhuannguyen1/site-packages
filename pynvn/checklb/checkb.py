@@ -4,7 +4,7 @@ from pynvn.autoscrollbar.autoscrbar import AutoScrollbar
 class ChecklistBox:
     """return check list box"""
     def __init__(self, parent, 
-                choices = ["Nhuan", "Hong", "Trum"], 
+                choices = ["Nhuan", "Hong", "Trum","Nhuan", "Hong", "Trum"], 
                 i = 1,
                 onvalue = True,
                 offvalue = "" ,
@@ -28,28 +28,30 @@ class ChecklistBox:
         """ return check list box from arr """
         for idx,choice in enumerate(self.choices):
             var = tk.StringVar()
+
             self.vars.append(var)
-            lb = tk.Label (self.parent,
-                                text = self.texttitle,
-                                bg = "white")
-            lb.grid(row=0,
-                    column=0, 
-                    sticky =  tk.W) 
+            listname = "" if self.listsheetname == None else self.listsheetname[idx]
+            if self.texttitle != "":
+                lb = tk.Label (self.parent,text = self.texttitle,bg = "white")
+                lb.grid(row=0,
+                        column=0, 
+                        sticky =  tk.W)
             cb = tk.Checkbutton(self.parent, 
                                 var=var, 
-                                text=choice + self.midstr + self.listsheetname[idx],
+                                text=choice + self.midstr + listname,
                                 onvalue=choice,
                                 offvalue=self.offvalue,
                                 anchor=tk.W, 
-                                width = int (self.width/2),
-                                bg = "white",
+                                bg = "azure",
                                 relief="flat", 
                                 highlightthickness=0
                                 )
             cb.grid(row=self.i,
-                        column=0, 
-                        sticky = tk.NSEW) 
+                        column=0,
+                        sticky = tk.NSEW,
+                        ) 
             self.i = self.i + 1
+
     def getCheckedItems(self):
         """ get checked items """
         return [var.get() for var in self.vars if var.get() !=""]

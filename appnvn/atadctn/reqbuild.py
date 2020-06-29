@@ -74,7 +74,6 @@ class reqbuild(Frame):
                                 isonlyaframe= False,
                                 framea = self.framea, 
                                 frameb = self.frameb 
-
                                 )
 
                 self.height = 6000
