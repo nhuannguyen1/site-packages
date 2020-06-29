@@ -17,7 +17,7 @@ class hexcel_child:
         self.pathtocopy = pathtocopy
         self.namesheetchild = namesheetchild
         self.dicrowconf = returndictrowforcsv(path=pathconf)
-        self.__namefile=dicrowconf["khns_namfile"]
+        self.__namefile=self.dicrowconf["khns_namfile"]
         self._Getlistsheet()
     def _Getlistsheet(self):
         self.dirpath = getdirpath(self.pathtocopy)

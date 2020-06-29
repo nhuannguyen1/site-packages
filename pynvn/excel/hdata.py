@@ -22,6 +22,7 @@ class hexcel_sep:
                 self.mcol = self.wsheet.max_column
                 self.mrow = self.wsheet.max_row
                 self.wsheet_AZ30 = wsheet_AZ30
+                print ("self.mrow",self.mrow)
 
                 self.__azb30_starcolumn = col2num(dicrowconf["azb30_starcolumn"])
                 self.__azb30_rowhm = int(dicrowconf["azb30_rowhm"])
@@ -49,12 +50,16 @@ class hexcel_sep:
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
                                 namesheet=hmname)
+        
         for i in range(self.__azb30_startrowhm,self.__azb30_maxrowhm):
-            valuene = '=SUMPRODUCT(--({0}!$B${4}:$B${3}<>"")*({0}!$B${4}:$B${3}={1}!C{2})*{0}!$I${4}:$I${3})'.format(pfile,
-                                                                                        "'" + "AZB-30" + "'",
-                                                                                        i,
-                                                                                        self.mrow,
-                                                                                        self.numberhm)
+
+            valuene = "=SUMIFS({0}!$I${4}:$I${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
+                                                                "'" + "AZB-30" + "'",
+                                                                i,
+                                                                self.mrow,
+                                                                self.numberhm
+                                                                )
+
 
             self.wsheet.cell(row=i, 
                             column=k).value = valuene
@@ -64,7 +69,7 @@ class hexcel_sep:
         # list all sheet name from file path 
         lsheetnames = relistsheet(self.fpath)
         lsheet = self.listsheetnameinexsting(listnames=lsheetnames,wsheet_AZ30=wsheet_AZ30)
-        for i in range(self.__azb60_startrowhm,self.mrow):
+        for i in range(self.__azb60_startrowhm,self.mrow - 1):
             sumvalue = ""
             for hmname in lsheet:
                 valuesum = self.valuecolsheet(i = i ,hmname=hmname)
