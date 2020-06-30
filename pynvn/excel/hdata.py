@@ -80,20 +80,16 @@ class hexcel_sep:
                                 namefile=self.namefile,
                                 namesheet=hmname)
         if str(valuechek)[:2] != self.__azb60_msdforkct:
-
             valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CB:$CB)'.format(pfile,i)
         else:
             valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i) 
-
         return valueeee
 
     def listsheetnameinexsting (self, listnames, wsheet_AZ30):
-        
         return [wsheet_AZ30.range(self.__azb30_rowhm,
                                 k).value for k in range (self.__azb30_starcolumn,
                                                                 self.mcol) if wsheet_AZ30.range(self.__azb30_rowhm,
                                                                                                 k).value in listnames]
-
     def returnlistvaluebycolumnindex (self):
 
         return [cell.value for row in ws.iter_rows('C{}:C{}'.format(ws.min_row,ws.max_row)) for cell in row ]

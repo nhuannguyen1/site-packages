@@ -43,6 +43,7 @@ class hexcel_child:
                                         filename=self.__namefile)
         
         self.__wbthns  = xw.Book(self.__fpath)
+        
     def runaz30azb60(self):
         """ run AZB30 and run AZB60"""
         if (self.lsheetname[0] == "AZB-30" or  self.lsheetname[0] == "AZB-60"):
@@ -71,7 +72,6 @@ class hexcel_child:
                     messagebox.showerror("error",
                                         "check dirpath {} and file name {}".format(self.__dirpath,
                                                                                     "AZB30.xlsx"))
-                
             try:
                 self.__wb1.save()
             except:
