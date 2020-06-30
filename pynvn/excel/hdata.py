@@ -43,7 +43,6 @@ class hexcel_sep:
             hmname =  self.wsheet.range(self.__azb30_rowhm , 
                                         k).value
             if hmname in lsheetnames:
-                print ("k,hmname",k,hmname)
                 self.fomuluasfcol(k,hmname=hmname)
 
     def fomuluasfcol (self,k,hmname = None ):

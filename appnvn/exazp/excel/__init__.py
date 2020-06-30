@@ -105,8 +105,6 @@ class hexcel:
                 self.sht1.range(indexrk + 1 ,self.__hm_ttnt).value = '=I{0}*H{1}'.format(indexr,
                                                                                 indexrk + 1)
                 i = i + 1
-
-
     def listothercell (self,irow,icolumn):
         """ return value of column sheet ptvl1"""
         valuebycolr = self.thvt.range(irow,icolumn).value 
