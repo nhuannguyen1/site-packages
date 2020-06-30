@@ -68,26 +68,29 @@ class hexcel_sep:
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
         # list all sheet name from file path 
-        lsheetnames =  [sheet.name for sheet in self.__wb1.sheets ]
-        lsheet = self.listsheetnameinexsting(listnames=lsheetnames,wsheet_AZ30=wsheet_AZ30)
-        for i in range(self.__azb60_startrowhm,self.mrow - 1):
+        lsheet = self.listsheetnameinexsting(listnames= [sheet.name for sheet in self.__wb1.sheets ],
+                                            wsheet_AZ30=wsheet_AZ30
+                                            )
+        #for i in range(self.__azb60_startrowhm,self.mrow - 1):
 
-            sumvalue = ""
-            for hmname in lsheet:
-                valuesum = self.valuecolsheet(i = i ,hmname=hmname)
-                sumvalue = sumvalue + "+" +  valuesum
-            self.wsheet.range(i,self.__azb60_dongia).value =  "=" + sumvalue 
+        sumvalue = ""
+        for hmname in lsheet:
+            valuesum = self.valuecolsheet(i = self.__azb60_startrowhm,
+                                            hmname=hmname)
+            sumvalue = sumvalue + "+" +  valuesum
+        self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).value =  "=" + sumvalue 
+
     
-    def valuecolsheet (self,i = 1,hmname = None):
+    def valuecolsheet (self,i = 1,hmname = None, iden = "kct"):
         """fomulas for column follow index"""
-        valuechek = self.wsheet.range(i,3).value 
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
-                                namesheet=hmname)
-        if str(valuechek)[:2] != self.__azb60_msdforkct:
+                                namesheet=hmname
+                                )
+        if iden != "kct"
             valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CB:$CB)'.format(pfile,i)
         else:
-            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i) 
+            valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i)
         return valueeee
 
     def listsheetnameinexsting (self, listnames, wsheet_AZ30):
@@ -95,6 +98,7 @@ class hexcel_sep:
                                 k).value for k in range (self.__azb30_starcolumn,
                                                                 self.mcol) if wsheet_AZ30.range(self.__azb30_rowhm,
                                                                                                 k).value in listnames]
+
     def returnlistvaluebycolumnindex (self):
 
         return [cell.value for row in ws.iter_rows('C{}:C{}'.format(ws.min_row,ws.max_row)) for cell in row ]
