@@ -6,8 +6,7 @@ from pynvn.excel import (
 
 from pynvn.excel import col2num,colnum_string
 from pynvn.string import sepnumberandstrfromstr
-import xlwings as xw
-
+from pynvn.string.slist import returnseplistintbbystr
 class hexcel_sep:
     """copy excel to excel"""
     def __init__(self,wsheet = None,
@@ -33,6 +32,11 @@ class hexcel_sep:
                 self.__azb60_msdforkct = (dicrowconf["azb60_msdforkct"])
                 self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
                 self.__hm_rangege = (dicrowconf["hm_rangege"])
+
+                self.__azb60_rangeketcauthep = (dicrowconf["azb60_rangeketcauthep"])
+
+                self.rangese = returnseplistintbbystr(strint=self.__azb60_rangeketcauthep)
+
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
                 self.__wb1  = wbnsct
                 
@@ -67,6 +71,7 @@ class hexcel_sep:
         lsheetnames =  [sheet.name for sheet in self.__wb1.sheets ]
         lsheet = self.listsheetnameinexsting(listnames=lsheetnames,wsheet_AZ30=wsheet_AZ30)
         for i in range(self.__azb60_startrowhm,self.mrow - 1):
+
             sumvalue = ""
             for hmname in lsheet:
                 valuesum = self.valuecolsheet(i = i ,hmname=hmname)
