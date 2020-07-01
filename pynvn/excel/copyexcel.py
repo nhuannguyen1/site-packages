@@ -1,4 +1,3 @@
-import openpyxl as xl
 from tkinter import messagebox
 from pynvn.path.ppath import getdirpath,refullpath
 from pynvn.excel import col2num
