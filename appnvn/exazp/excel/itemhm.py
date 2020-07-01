@@ -1,6 +1,7 @@
-from pynvn.excel import col2num
+from pynvn.excel import col2num,colnum_string
 from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr
-from xlwings as xw
+from pynvn.list.flist import pairlistandlist
+import xlwings as xw 
 class azb10:
     """copy excel to excel"""
     def __init__(self,
@@ -76,47 +77,37 @@ class azb30:
     """copy excel to excel"""
     def __init__(self,
                     dictconf = None,
-                    mrowwscopy = None,
-                    mcolumnwscopy = None,
                     pathdes= None, 
                     pathtocopy= None,
+                    namesheet = "AZB-30"
                 ):
-        self.__wsheetcopy = wsheetcopy
-        self.__mrowwscopy = mrowwscopy
-        self.__mcolumnwscopy = mcolumnwscopy
-        self.__wsheetdes = wsheetdes
+        self.__namesheet = namesheet
         self.__pathdes = pathdes
         self.__pathtocopy = pathtocopy
-
-        app = xw.App(visible=False)
+        self.app = xw.App(visible=False)
         self.desxw = xw.Book(pathdes)
         self.copyxw = xw.Book(pathtocopy)
-
+        self.ws1 = self.copyxw.sheets[self.__namesheet]
+        #max row ws1
+        self.rows = self.ws1.api.UsedRange.Rows.count
+        #max colum ws1
+        self.cols = self.ws1.api.UsedRange.Columns.count
         zab30_recor_l = dictconf["zab30_recor_l1"]
-
         self.__zab30_recor_l_lint = returnseplistintbbystr(zab30_recor_l)
-
-        zab30_recor_lm = dictconf["zab30_recor_l1m"]
-
-        self.__zab30_recor_lm_lint = returnseplistintbbystr(zab30_recor_lm)
-
-        self.__listmaxrc = self.__zab30_recor_lm_lint + [self.__mrowwscopy]
-
-    def copysheettoexcelexist(self, namesheet = "AZB-30"):
+        self.__listmaxrc = self.__zab30_recor_l_lint + [self.rows]
+        colunsande = [colnum_string(1),colnum_string(self.cols)]
+        self.__listrange = pairlistandlist(listm=self.__listmaxrc,list_str=colunsande)
+    def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
-
         try:
-            self.desxw.sheets[namesheet].delete()
+            self.desxw.sheets[self.__namesheet].delete()
             self.desxw.save()
         except:
             pass
-
-        ws1 = self.copyxw.sheets[namesheet]
-        ws1.api.Copy(Before=self.desxw.sheets['Sheet1'].api)
-
-        my_values = self.desxw.sheets[namesheet].range('A42:V51').options(ndim=2).value 
-
-        self.desxw.sheets['Sheet1'].range('A42:V51').value = my_values
-        wb2.save()
-        wb2.app.quit()
-
+        self.ws1.api.Copy(Before=self.desxw.sheets["Sheet1"].api)
+        for rangele in self.__listrange:
+            my_values = self.desxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
+            self.desxw.sheets[self.__namesheet].range(rangele).value = my_values
+        self.desxw.save()
+        self.desxw.close()
+        self.app.quit()

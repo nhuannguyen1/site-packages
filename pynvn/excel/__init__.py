@@ -54,3 +54,4 @@ def convertrangaphatonunber (rangapha = None ):
 def returnrangelastcolumn(stringrang,lrow = 100):
     """ return range excel by range and by last row"""
     return returnrangewolastrow(sstr=stringrang) + str(lrow)
+

@@ -24,6 +24,9 @@ class cexcel:
         self.names = self.__wb1.sheets
         self.__ws1 = self.__wb1.sheets[self.names[0]] 
         self.__wsname = self.__ws1.name
+        self.__wb1.close()
+        self.__app.quit()
+        """
         self.__wb2 = xw.Book(self.pathdes)
         #max row ws1
         self.rows = self.__ws1.api.UsedRange.Rows.count
@@ -32,6 +35,7 @@ class cexcel:
         
         # sheet to destionation (mother file)
         self.__ws2 = self.__wb2 .sheets[self.__wsname]
+        """
         # check name sheet 
         if self.namesheetchild  in self.__wsname:
             pass
@@ -51,12 +55,6 @@ class cexcel:
 
         if self.__wsname == "AZB-30":
             azb_10 =azb30(dictconf=self.dicrowconf,
-                        wsheetcopy=self.__ws1,
-                        wsheetdes=self.__ws2,
-                        mrowwscopy=self.rows,
-                        mcolumnwscopy=self.cols).copysheettoexcelexist()
-        
-        self.__wb1.close()
-        self.__wb2.save()
-        self.__wb2.close()
-        self.__app.quit()
+                        pathdes=self.pathdes,
+                        pathtocopy=self.pathtocopy
+                        ).copysheettoexcelexist()
