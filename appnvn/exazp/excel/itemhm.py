@@ -1,5 +1,6 @@
 from pynvn.excel import col2num
 from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr
+from xlwings as xw
 class azb10:
     """copy excel to excel"""
     def __init__(self,
@@ -75,55 +76,47 @@ class azb30:
     """copy excel to excel"""
     def __init__(self,
                     dictconf = None,
-                    wsheetdes = None,
                     mrowwscopy = None,
                     mcolumnwscopy = None,
-                    wsheetcopy = None
+                    pathdes= None, 
+                    pathtocopy= None,
                 ):
         self.__wsheetcopy = wsheetcopy
         self.__mrowwscopy = mrowwscopy
         self.__mcolumnwscopy = mcolumnwscopy
         self.__wsheetdes = wsheetdes
-        self.__azb30startr = int(dictconf["azb30startr"])
-        #line azb10s folow row at mother
-        self.__zab30_recor_l1m = int(dictconf["zab30_recor_l1m"])
-        self.__zab30_recor_l2m = int(dictconf["zab30_recor_l2m"])
-        self.__zab30_recor_l3m = int(dictconf["zab30_recor_l3m"])
-        self.__zab30_recor_l4m = int(dictconf["zab30_recor_l4m"])
-        self.__zab30_recor_l5m = int(dictconf["zab30_recor_l5m"])
-        self.__zab30_recor_l6m = int(dictconf["zab30_recor_l6m"])
-        self.__zab30_recor_l7m = int(dictconf["zab30_recor_l7m"])
+        self.__pathdes = pathdes
+        self.__pathtocopy = pathtocopy
 
-        self.__azb30_ms = col2num(dictconf["azb30_ms"])
+        app = xw.App(visible=False)
+        self.desxw = xw.Book(pathdes)
+        self.copyxw = xw.Book(pathtocopy)
 
         zab30_recor_l = dictconf["zab30_recor_l1"]
+
         self.__zab30_recor_l_lint = returnseplistintbbystr(zab30_recor_l)
 
         zab30_recor_lm = dictconf["zab30_recor_l1m"]
-        self.__zab30_recor_lm_lint = returnseplistintbbystr(zab30_recor_lm)
-        
-        zab30_listsubtal = dictconf["zab30_listsubtal"]
-        self.__zab30_listsubtallist = str_seplistintbbystr(zab30_listsubtal)
 
-        self.__zab30_listsubtalint = [col2num(cola) for cola in self.__zab30_listsubtallist]
+        self.__zab30_recor_lm_lint = returnseplistintbbystr(zab30_recor_lm)
 
         self.__listmaxrc = self.__zab30_recor_lm_lint + [self.__mrowwscopy]
 
-    def copysheettoexcelexist(self):
+    def copysheettoexcelexist(self, namesheet = "AZB-30"):
         """ copy sheet name  to excel existing """
-        l,m = 0,0
-        for i in range (self.__azb30startr, self.__mrowwscopy):
-            valuee = self.__wsheetcopy.range(i,self.__azb30_ms).value
-            # value of Resource Code/Mã Tài nguyên
-            if valuee != None:
-                for j in range (1, self.__mcolumnwscopy + 1):
-                    if  j in self.__zab30_recor_l_lint:
-                        self.__wsheetdes.range(m,j).value = '=SUBTOTAL(9,{2}{0}:{2}{1})'.format(m + 1,
-                                                                                    self.__listmaxrc[l + 1] - 1,
-                                                                                    self.__listsubtalstr[self.__listsubtal.index(j)]
-                                                                                    )
-                        m = j 
-                        l = l + 1 
-                    else:
-                        self.__wsheetdes.range(m,j).value = self.__wsheetcopy.range(i,j).value
-                m = m + 1
+
+        try:
+            self.desxw.sheets[namesheet].delete()
+            self.desxw.save()
+        except:
+            pass
+
+        ws1 = self.copyxw.sheets[namesheet]
+        ws1.api.Copy(Before=self.desxw.sheets['Sheet1'].api)
+
+        my_values = self.desxw.sheets[namesheet].range('A42:V51').options(ndim=2).value 
+
+        self.desxw.sheets['Sheet1'].range('A42:V51').value = my_values
+        wb2.save()
+        wb2.app.quit()
+
