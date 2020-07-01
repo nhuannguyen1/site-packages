@@ -1,10 +1,9 @@
-import openpyxl as xl
 from tkinter import messagebox
 from pynvn.path.ppath import getdirpath,refullpath
 from pynvn.excel import col2num
 import xlwings as xw 
 from pynvn.csv.rcsv import returndictrowforcsv
-from appnvn.exazp.excel.itemhm import azb10
+from appnvn.exazp.excel.itemhm import azb10,azb30
 
 class cexcel:
     """copy excel to excel"""
@@ -43,12 +42,20 @@ class cexcel:
 
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
-        azb_10 =azb10(dictconf=self.dicrowconf,
+        if self.__wsname == "AZB-10":
+            azb_10 =azb10(dictconf=self.dicrowconf,
                         wsheetcopy=self.__ws1,
                         wsheetdes=self.__ws2,
                         mrowwscopy=self.rows,
                         mcolumnwscopy=self.cols).copysheettoexcelexist()
 
+        if self.__wsname == "AZB-30":
+            azb_10 =azb30(dictconf=self.dicrowconf,
+                        wsheetcopy=self.__ws1,
+                        wsheetdes=self.__ws2,
+                        mrowwscopy=self.rows,
+                        mcolumnwscopy=self.cols).copysheettoexcelexist()
+        
         self.__wb1.close()
         self.__wb2.save()
         self.__wb2.close()
