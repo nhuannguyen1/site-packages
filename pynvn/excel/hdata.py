@@ -30,11 +30,13 @@ class hexcel_sep:
                 self.__azb30_startrowhm = int(dicrowconf["azb30_startrowhm"])
                 self.__azb60_startrowhm = int(dicrowconf["azb60_startrowhm"])
                 self.__azb60_msdforkct = (dicrowconf["azb60_msdforkct"])
+
+                self.__azb60_dongiaa = dicrowconf["azb60_dongia"]
                 self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
                 self.__hm_rangege = (dicrowconf["hm_rangege"])
 
                 self.__azb60_rangeketcauthep = (dicrowconf["azb60_rangeketcauthep"])
-
+                # return range number
                 self.rangese = returnseplistintbbystr(strint=self.__azb60_rangeketcauthep)
 
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
@@ -67,27 +69,44 @@ class hexcel_sep:
         self.wsheet.range("{0}{1}:{0}{2}".format(ka,self.__azb30_startrowhm,self.__azb30_maxrowhm)).formula = vtformulas
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
+        sumvalue = self.__returnsumvalue(iden="other",
+                                        wsheet_AZ30=wsheet_AZ30)
+
+        self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).value =  "=" + sumvalue 
+
+        vtformulas = self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).formula
+
+        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.__azb60_startrowhm,self.mrow - 1)).formula = vtformulas
+
+        # rewwrite ket cau thep 
+        sumvalue = self.__returnsumvalue(iden="kct",
+                                        wsheet_AZ30=wsheet_AZ30)
+        
+        self.wsheet.range(self.rangese[0],self.__azb60_dongia).value =  "=" + sumvalue 
+
+        vtformulas = self.wsheet.range(self.rangese[0],self.__azb60_dongia).formula
+
+        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.rangese[0],self.rangese[1])).formula = vtformulas
+
+    def __returnsumvalue (self,iden ="kct",wsheet_AZ30 = None):
         # list all sheet name from file path 
         lsheet = self.listsheetnameinexsting(listnames= [sheet.name for sheet in self.__wb1.sheets ],
                                             wsheet_AZ30=wsheet_AZ30
                                             )
-        #for i in range(self.__azb60_startrowhm,self.mrow - 1):
-
         sumvalue = ""
         for hmname in lsheet:
             valuesum = self.valuecolsheet(i = self.__azb60_startrowhm,
-                                            hmname=hmname)
-            sumvalue = sumvalue + "+" +  valuesum
-        self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).value =  "=" + sumvalue 
+                                            hmname=hmname,iden=iden)
+            sumvalue = sumvalue + "+" +  valuesum        
+        return sumvalue
 
-    
     def valuecolsheet (self,i = 1,hmname = None, iden = "kct"):
         """fomulas for column follow index"""
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
                                 namesheet=hmname
                                 )
-        if iden != "kct"
+        if iden != "kct":
             valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CA:$CA) + SUMIF({0}!$BC:$BC,C{1},{0}!$CB:$CB)'.format(pfile,i)
         else:
             valueeee = 'SUMIF({0}!$BC:$BC,C{1},{0}!$CC:$CC) + SUMIF({0}!$BC:$BC,C{1},{0}!$CD:$CD)'.format(pfile,i)

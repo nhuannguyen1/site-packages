@@ -64,7 +64,6 @@ class hexcel_child:
                     messagebox.showerror("error",
                                         "check dirpath 1 {} and file name {}".format(self.__dirpath,
                                                                                     "AZB30.xlsx"))
-
                 try:
                     nsazb = self.wbazb30.sheets["AZB-30"]
                     exelh.habz60(wsheet_AZ30=nsazb)
