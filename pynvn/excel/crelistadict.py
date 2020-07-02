@@ -70,7 +70,7 @@ class credict:
                                 for cell in range_cell  if  cell.value == value_criteria_range
 
                                 ]
-            
+                                
         else:
                 indexrcevalu = [[self.valuebycol_row(cell.row,indexcolumn[0]),
                                 self.valuebycol_row(cell.row,indexcolumn[1]),

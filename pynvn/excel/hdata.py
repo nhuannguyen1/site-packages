@@ -23,6 +23,8 @@ class hexcel_sep:
                 self.mcol = self.wsheet.api.UsedRange.Columns.count
                 #max row ws1
                 self.mrow = self.wsheet.api.UsedRange.Rows.count
+                self.__hm_maxrow = int(dicrowconf["hm_maxrow"])
+
                 self.wsheet_AZ30 = wsheet_AZ30
                 self.__azb30_starcolumn = col2num(dicrowconf["azb30_starcolumn"])
                 self.__azb30_rowhm = int(dicrowconf["azb30_rowhm"])
@@ -34,11 +36,9 @@ class hexcel_sep:
                 self.__azb60_dongiaa = dicrowconf["azb60_dongia"]
                 self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
                 self.__hm_rangege = (dicrowconf["hm_rangege"])
-
                 self.__azb60_rangeketcauthep = (dicrowconf["azb60_rangeketcauthep"])
                 # return range number
                 self.rangese = returnseplistintbbystr(strint=self.__azb60_rangeketcauthep)
-
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
                 self.__wb1  = wbnsct
                 
@@ -57,10 +57,10 @@ class hexcel_sep:
                                 namefile=self.namefile,
                                 namesheet=hmname)
         
-        self.wsheet.range(self.__azb30_startrowhm,k).value = "=SUMIFS({0}!$I${4}:$I${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
+        self.wsheet.range(self.__azb30_startrowhm,k).value = "=SUMIFS({0}!$L${4}:$L${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
                                                                 "'" + "AZB-30" + "'",
                                                                 self.__azb30_startrowhm,
-                                                                self.mrow,
+                                                                self.__hm_maxrow ,
                                                                 self.numberhm
                                                                 )
 
