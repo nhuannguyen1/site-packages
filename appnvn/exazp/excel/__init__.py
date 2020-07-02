@@ -1,16 +1,15 @@
 from tkinter import messagebox
-from pynvn.excel import returnsheetbyname,mrowandmcolum,col2num
-import openpyxl as xl
 from pynvn.excel.crelistadict import credict
 import xlwings as xw 
 from pynvn.string  import sepnumberandstrfromstr
-from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn,col2num
+from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn,colnum_string,returnsheetbyname,mrowandmcolum,col2num
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.string import no_accent_vietnamese
 from pynvn.excel.path import returnactivewbpath
 from pynvn.list.str import converlistinstrtolist
 from pynvn.csv.tolist import convertcsvtolist 
 from pynvn.path.ppath import refullpath,parentdirectory
+
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
@@ -24,12 +23,21 @@ class hexcel:
         self.__mvt = int(dicrowconf["khns_mavatu"])
         self.__khns_ndcv = int(dicrowconf["khns_noidungcongviec"])
         self.__khns_dvt = int(dicrowconf["khns_dvt"])
-        self.__khns_dvt = int(dicrowconf["khns_muchaophi"])
+
+        self.__khns_muchaophi = (dicrowconf["khns_muchaophi"])
+        self.__khns_muchaophi_int = col2num(self.__khns_muchaophi)
+
         self.__hm_mvt = int(dicrowconf["hm_mvt"])
         self.__hm_ndcv = int(dicrowconf["hm_noidungcongviec"])
         self.__hm_dvt = int(dicrowconf["hm_dvt"])
-        self.__hm_dgth = int(dicrowconf["hm_dgth"])
-        self.__hm_ttnt = int(dicrowconf["hm_ttnt"])
+
+        self.__hm_dgth_str = (dicrowconf["hm_dgth"])
+
+        self.__hm_dgth = col2num(self.__hm_dgth_str)
+
+        self.__hm_ttnt_str = (dicrowconf["hm_ttnt"])
+        self.__hm_ttnt = col2num(self.__hm_ttnt_str)
+
         self.__hm_startrowvalue = int(dicrowconf["hm_startrowvalue"])
         self.__hm_vta = dicrowconf["hm_vt"]
         self.__hm_nca = dicrowconf["hm_nc"]
@@ -100,9 +108,11 @@ class hexcel:
                                                                                             icolumn=self.__khns_ndcv)
                 self.sht1.range(indexrk + 1 ,self.__hm_dvt).value = self.listothercell(irow =index,
                                                                                 icolumn=self.__khns_dvt)
+
                 self.sht1.range(indexrk + 1 ,self.__hm_dgth).value = self.listothercell(irow =index,
-                                                                                icolumn=self.__khns_dvt)
-                self.sht1.range(indexrk + 1 ,self.__hm_ttnt).value = '=I{0}*H{1}'.format(indexr,
+                                                                                icolumn=self.__khns_muchaophi_int )
+
+                self.sht1.range(indexrk + 1 ,self.__hm_ttnt).value = '=L{0}*K{1}'.format(indexr,
                                                                                 indexrk + 1)
                 i = i + 1
     def listothercell (self,irow,icolumn):

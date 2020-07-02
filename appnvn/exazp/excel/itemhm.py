@@ -2,6 +2,7 @@ from pynvn.excel import col2num,colnum_string
 from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr
 from pynvn.list.flist import pairlistandlist
 import xlwings as xw 
+from xlwings.constants import DeleteShiftDirection
 class azb10:
     """copy excel to excel"""
     def __init__(self,
@@ -93,6 +94,8 @@ class azb30:
         #max colum ws1
         self.cols = self.ws1.api.UsedRange.Columns.count
         zab30_recor_l = dictconf["zab30_recor_l1"]
+        self.__azb30_ms =col2num(dictconf["azb30_ms"]) 
+
         self.__zab30_recor_l_lint = returnseplistintbbystr(zab30_recor_l)
         self.__listmaxrc = self.__zab30_recor_l_lint + [self.rows]
         colunsande = [colnum_string(1),colnum_string(self.cols)]
@@ -105,9 +108,19 @@ class azb30:
         except:
             pass
         self.ws1.api.Copy(Before=self.desxw.sheets["Sheet1"].api)
+
         for rangele in self.__listrange:
-            my_values = self.desxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
+            my_values = self.copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
             self.desxw.sheets[self.__namesheet].range(rangele).value = my_values
+        k = 0
+        for i in range (self.__zab30_recor_l_lint[0],242):
+            valuecompare = self.desxw.sheets[self.__namesheet].range(i,self.__azb30_ms ).value 
+            if valuecompare == None:
+                n = i - k
+                print (i,n)
+                self.desxw.sheets[self.__namesheet].range('{0}:{0}'.format(n)).api.Delete(DeleteShiftDirection.xlShiftUp)
+                k = k + 1
+        self.copyxw.close()
         self.desxw.save()
         self.desxw.close()
         self.app.quit()
