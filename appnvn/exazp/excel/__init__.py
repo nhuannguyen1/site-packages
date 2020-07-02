@@ -44,6 +44,9 @@ class hexcel:
         self.__hm_mtca = dicrowconf["hm_mtc"]
         self.__hm_tha = dicrowconf["hm_th"]
 
+        self.__hm_ct = dicrowconf["hm_ct"]
+        self.__hm_ct_int = col2num(self.__hm_ct)
+
         self.__hm_vt =col2num (dicrowconf["hm_vt"]) 
         self.__hm_nc =col2num (dicrowconf["hm_nc"]) 
         self.__hm_mtc =col2num (dicrowconf["hm_mtc"])
@@ -55,6 +58,10 @@ class hexcel:
         # csv for value 
         self.valuenotnone = refullpath(dirparhconf,self.__valuenotnone)
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
+
+        # return list ma cong tac not node in cell value of ptvl by csv
+        self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
+
         self.__returnothervalue()
 
     def __returnothervalue(self):
@@ -67,6 +74,8 @@ class hexcel:
         self.sheetnameactive = wb.sheets.active.name
         # get set thvt 
         self.thvt = wb.sheets[self.__sheetnametor]
+
+        self.row_ptvt = self.thvt.api.UsedRange.Rows.count
         
         # find last row
         self.m_row = self.sht1.range('A' + str(self.sht1.cells.last_cell.row)).end('up').row + 5
@@ -79,14 +88,13 @@ class hexcel:
         """ get data from mothers sheet """
         #create dict with key is parent ma vat tu 
         redic = converlistinstrtolist(path=self.pathtovalue)
-        # return list ma cong tac not node in cell value of ptvl
-        getvaluelist = convertcsvtolist(path=self.valuenotnone)
+
         # return index row and value of active sheet  ma cong tac
         indexrcevalu = [[cell.row,
                         cell.value] for rangecell in 
                         self.sht1.range(self.rangegc)
                         for cell in rangecell  if  cell.value
-                        in getvaluelist]
+                        in self.getvaluelist]
         # set value to acitve sheet 
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 
@@ -121,31 +129,19 @@ class hexcel:
         return valuebycolr
 
     def valuehangmucforthvt(self):
-        lrow = self.sht1.range('BC' + str(self.sht1.cells.last_cell.row)).end('up').row
-        # column vt
-        self.sht1.range(self.__hm_startrowvalue,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$L$8:$L${0})".format(lrow,
+        lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
+        for index in range(self.__hm_startrowvalue, lrow + 1):
+            if self.sht1.range(index,self.__hm_ct_int).value in self.getvaluelist:
+                self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$I$8:$I${0})".format(self.row_ptvt,
                                                                                                                     self.__sheetnametor,
-                                                                                                                    self.__hm_startrowvalue,
+                                                                                                                    index,
                                                                                                                     "'" + self.sheetnameactive + "'")
-        vtformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_vt).formula
-        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_vta,self.__hm_startrowvalue,lrow)).formula = vtformulas
-        # column nc
-        self.sht1.range(self.__hm_startrowvalue,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$M$8:$M${0})".format(lrow,
+                self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$J$8:$J${0})".format(self.row_ptvt,
                                                                                                                     self.__sheetnametor,
-                                                                                                                    self.__hm_startrowvalue,
+                                                                                                                    index,
                                                                                                                     "'" + self.sheetnameactive + "'")
-        ncformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_nc).formula
-        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_nca,self.__hm_startrowvalue,lrow)).formula = ncformulas
-        # column mtc 
-        self.sht1.range(self.__hm_startrowvalue,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$N$8:$N${0})".format(lrow,
+                self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$K$8:$K${0})".format(self.row_ptvt,
                                                                                                             self.__sheetnametor,
-                                                                                                            self.__hm_startrowvalue,
+                                                                                                            index,
                                                                                                             "'" + self.sheetnameactive + "'")
-        mtcformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_mtc).formula
-        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_mtca,self.__hm_startrowvalue,lrow)).formula = mtcformulas    
-         
-        # column sum
-        self.sht1.range(self.__hm_startrowvalue,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(self.__hm_startrowvalue)
-
-        sumformulas = self.sht1.range(self.__hm_startrowvalue,self.__hm_th).formula
-        self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_tha,self.__hm_startrowvalue,lrow)).formula = sumformulas           
+                self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)
