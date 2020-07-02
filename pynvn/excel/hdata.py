@@ -95,7 +95,7 @@ class hexcel_sep:
                                             )
         sumvalue = ""
         for hmname in lsheet:
-            valuesum = self.valuecolsheet(i = self.__azb60_startrowhm,
+            valuesum = self.valuecolsheet(i = self.rangese[0],
                                             hmname=hmname,iden=iden)
             sumvalue = sumvalue + "+" +  valuesum        
         return sumvalue
@@ -120,4 +120,4 @@ class hexcel_sep:
 
     def returnlistvaluebycolumnindex (self):
 
-        return [cell.value for row in ws.iter_rows('C{}:C{}'.format(ws.min_row,ws.max_row)) for cell in row ]
+        return [cell.value for row in ws.iter_rows('C{}:C{}'.format(ws.min_row,ws.max_row)) for cell in row]
