@@ -2,6 +2,7 @@ from pynvn.excel.toexcel import toexcel
 import openpyxl as xl
 import string
 from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
+from xlwings.constants import DeleteShiftDirection
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
     wb1 = xl.load_workbook(filename=path)
@@ -55,3 +56,24 @@ def returnrangelastcolumn(stringrang,lrow = 100):
     """ return range excel by range and by last row"""
     return returnrangewolastrow(sstr=stringrang) + str(lrow)
 
+def delrowbyindexcell (incolumndel = "C", 
+                        valueofindexcoldel = None, 
+                        wb = None,
+                        namesheet = None,
+                        startrow =1,
+                        endrow = 1000,
+                        valuetoendrow = "VTC"
+                        ):
+    """ delete row by value of cell """
+    for i in range (startrow,
+                        endrow):
+        valuecompare =wb.sheets[namesheet].range(i,
+                                                incolumndel ).value 
+        k = i
+        if valuecompare == None:
+            while True:
+                wb.sheets[namesheet].range('{0}:{0}'.format(k)).api.Delete(DeleteShiftDirection.xlShiftUp)
+                if wb.sheets[namesheet].range(k,incolumndel).value != None:
+                    break
+        if wb.sheets[namesheet].range(k,incolumndel).value == valuetoendrow :
+            break
