@@ -26,16 +26,6 @@ class cexcel:
         self.__wsname = self.__ws1.name
         self.__wb1.close()
         self.__app.quit()
-        """
-        self.__wb2 = xw.Book(self.pathdes)
-        #max row ws1
-        self.rows = self.__ws1.api.UsedRange.Rows.count
-        #max colum ws1
-        self.cols = self.__ws1.api.UsedRange.Columns.count
-        
-        # sheet to destionation (mother file)
-        self.__ws2 = self.__wb2 .sheets[self.__wsname]
-        """
         # check name sheet 
         if self.namesheetchild  in self.__wsname:
             pass
@@ -47,14 +37,15 @@ class cexcel:
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
         if self.__wsname == "AZB-10":
-            azb_10 =azb10(dictconf=self.dicrowconf,
+            azb10(dictconf=self.dicrowconf,
                         wsheetcopy=self.__ws1,
                         wsheetdes=self.__ws2,
                         mrowwscopy=self.rows,
                         mcolumnwscopy=self.cols).copysheettoexcelexist()
 
         if self.__wsname == "AZB-30":
-            azb_10 =azb30(dictconf=self.dicrowconf,
+            azb30(dictconf=self.dicrowconf,
                         pathdes=self.pathdes,
                         pathtocopy=self.pathtocopy
                         ).copysheettoexcelexist()
+        
