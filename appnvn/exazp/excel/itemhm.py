@@ -117,7 +117,6 @@ class azb30:
             valuecompare = self.desxw.sheets[self.__namesheet].range(i,self.__azb30_ms ).value 
             if valuecompare == None:
                 n = i - k
-                print (i,n)
                 self.desxw.sheets[self.__namesheet].range('{0}:{0}'.format(n)).api.Delete(DeleteShiftDirection.xlShiftUp)
                 k = k + 1
         self.copyxw.close()
