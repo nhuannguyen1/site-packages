@@ -42,5 +42,5 @@ def no_accent_vietnamese(s):
 def converlistinstrtolist(listinstr = '["A","B" ,"C" ," D"]', path = None):
     """ convert list in string to list """
     reader = csv.reader(open(path, 'r'))
-    
     return {k:ast.literal_eval(v)  for k,v in reader}
+print ()
