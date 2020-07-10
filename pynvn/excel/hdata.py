@@ -70,7 +70,7 @@ class hexcel_sep:
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
         sumvalue = self.__returnsumvalue(iden="other",
-                                        wsheet_AZ30=wsheet_AZ30)
+                                        wsheet_AZ30=wsheet_AZ30,startrow60=self.__azb60_startrowhm)
 
         self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).value =  "=" + sumvalue 
 
@@ -80,7 +80,7 @@ class hexcel_sep:
 
         # rewwrite ket cau thep 
         sumvalue = self.__returnsumvalue(iden="kct",
-                                        wsheet_AZ30=wsheet_AZ30)
+                                        wsheet_AZ30=wsheet_AZ30,startrow60=self.rangese[0])
         
         self.wsheet.range(self.rangese[0],self.__azb60_dongia).value =  "=" + sumvalue 
 
@@ -88,14 +88,15 @@ class hexcel_sep:
 
         self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.rangese[0],self.rangese[1])).formula = vtformulas
 
-    def __returnsumvalue (self,iden ="kct",wsheet_AZ30 = None):
+    def __returnsumvalue (self,iden ="kct",wsheet_AZ30 = None, startrow60 = 100):
         # list all sheet name from file path 
         lsheet = self.listsheetnameinexsting(listnames= [sheet.name for sheet in self.__wb1.sheets ],
                                             wsheet_AZ30=wsheet_AZ30
                                             )
         sumvalue = ""
         for hmname in lsheet:
-            valuesum = self.valuecolsheet(i = self.rangese[0],
+
+            valuesum = self.valuecolsheet(i = startrow60,
                                             hmname=hmname,iden=iden)
             sumvalue = sumvalue + "+" +  valuesum        
         return sumvalue
