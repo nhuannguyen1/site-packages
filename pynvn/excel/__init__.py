@@ -70,10 +70,10 @@ def delrowbyindexcell (incolumndel = "C",
         valuecompare =wb.sheets[namesheet].range(i,
                                                 incolumndel ).value 
         k = i
-        if valuecompare == None:
+        if (valuecompare == None or valuecompare == ""):
             while True:
                 wb.sheets[namesheet].range('{0}:{0}'.format(k)).api.Delete(DeleteShiftDirection.xlShiftUp)
-                if wb.sheets[namesheet].range(k,incolumndel).value != None:
+                if (wb.sheets[namesheet].range(k,incolumndel).value != None and (wb.sheets[namesheet].range(k,incolumndel).value != "")) :
                     break
         if wb.sheets[namesheet].range(k,incolumndel).value == valuetoendrow :
             break
