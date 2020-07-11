@@ -51,7 +51,8 @@ class credict:
             arrch.append(arrchild)
             arrchild = None
         dictionary = dict(zip(self.revaluerownotnone(), arrch))
-        return dictionary
+        new_dict = {key:val for key, val in dictionary.items() if len(val) != 0} 
+        return new_dict
     
     def returndictvaluebyindexcolumnandrow(self, 
                                             value_criteria_range, 

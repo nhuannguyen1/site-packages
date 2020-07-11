@@ -1,5 +1,5 @@
 import xlwings as xw
-def cprange(pathtocopy,rangetocopy='BB5:CF100',pathtodes ,rangetopaste="BB5", namesheettocopy ='sheet_config' ):
+def cprange(pathtocopy = None,rangetocopy='BB5:CF100',pathtodes = None,rangetopaste="BB5", namesheettocopy ='sheet_config' ):
 
     """ copy and paste range excel to another file
         ex: copy range [A1:C3] of pathtocopy to 
@@ -8,12 +8,12 @@ def cprange(pathtocopy,rangetocopy='BB5:CF100',pathtodes ,rangetopaste="BB5", na
     """
     # visible excel file
     #app = xw.App(visible=False)
-    sheetdesactive = xw.sheets.active
-    sheetdesactive.range(rangetopaste).api.select
+    #sheetdesactive = xw.sheets.active
+    pathtodes.range(rangetopaste).api.select
     wbtocopy = xw.Book(pathtocopy)
     sheet_copy = wbtocopy.sheets[namesheettocopy]
     sheet_copy.range(rangetocopy).api.copy
-    sheetdesactive.api.paste
+    pathtodes.api.paste
     # not cut excel 
     wbtocopy.app.api.CutCopyMode=False
     wbtocopy.close()
