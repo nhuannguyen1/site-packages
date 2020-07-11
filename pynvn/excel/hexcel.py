@@ -13,6 +13,7 @@ class hexcel_child:
                     namesheetchild = "AZB",
                     pathconf = None
                 ):
+        self.pathconf = pathconf
         self.pathtocopy = pathtocopy
         self.namesheetchild = namesheetchild
         self.dicrowconf = returndictrowforcsv(path=pathconf)
@@ -41,8 +42,12 @@ class hexcel_child:
 
         self.__fpath = refullpath(dirpath=self.__dirpath,
                                         filename=self.__namefile)
-        
-        self.__wbthns  = xw.Book(self.__fpath)
+        try:
+            self.__wbthns  = xw.Book(self.__fpath)
+        except:
+            messagebox.showerror ("Error directory", "Directory {0} not exists, \
+                                recheck Directory again Note: extension of excel maybe xls or xlsx,\
+                                     check file config {1} have parameter 'khns_namfile'".format(self.__fpath,self.pathconf))
         
     def runaz30azb60(self):
         """ run AZB30 and run AZB60"""

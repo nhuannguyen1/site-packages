@@ -7,57 +7,13 @@ from appnvn.exazp.excel.itemhm import azb10,azb30
 from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr
 from pynvn.excel import delrowbyindexcell
 from pynvn.list.flist import pairlistandlist
-class cexcel_re:
-    """copy excel to excel"""
-    def __init__(self,sheetname = None,
-                    pathdes= None, 
-                    pathtocopy= None,
-                    namesheetchild = "AZB",
-                    pathconf = None
-                ):
-        self.dicrowconf = returndictrowforcsv(path=pathconf)
-        self.pathdes = pathdes
-        self.pathtocopy = pathtocopy
-        self.namesheetchild = namesheetchild
-        self.__Getlistsheet()
-    def __Getlistsheet(self):
-        self.__app = xw.App(visible=False)
-        self.__wb1  = xw.Book(self.pathtocopy)
-        self.names = self.__wb1.sheets
-        self.__ws1 = self.__wb1.sheets[self.names[0]] 
-        self.__wsname = self.__ws1.name
-        self.__wb1.close()
-        self.__app.quit()
-        # check name sheet 
-        if self.namesheetchild  in self.__wsname:
-            pass
-        else:
-            messagebox.showerror("error", 
-                                "Name sheet must start \
-                                from symbols {}...".format(self.namesheetchild))
-
-    def copysheettoexcelexist(self):
-        """ copy sheet name  to excel existing """
-        if self.__wsname == "AZB-10":
-            azb10(dictconf=self.dicrowconf,
-                        wsheetcopy=self.__ws1,
-                        wsheetdes=self.__ws2,
-                        mrowwscopy=self.rows,
-                        mcolumnwscopy=self.cols).copysheettoexcelexist()
-
-        if self.__wsname == "AZB-30":
-            azb30(dictconf=self.dicrowconf,
-                        pathdes=self.pathdes,
-                        pathtocopy=self.pathtocopy
-                        ).copysheettoexcelexist()
-    
+from pynvn.string.slist import str_returnliststr
 class cexcel:
     """copy excel to excel"""
     def __init__(self,
                     pathconf = None,
                     pathdes= None, 
                     pathtocopy= None,
-                    namesheetk = "AZB"
                 ):
         # call dict 
         dictconf = returndictrowforcsv(path=pathconf)
@@ -87,6 +43,10 @@ class cexcel:
         self.__azb30_ms =col2num(dictconf["azb30_ms"])
 
         self.__zab30_valuelastrow = dictconf["zab30_valuelastrow"]
+
+        listsheetex1 = dictconf["listsheetnamechild"]
+        listsheetex1 = listsheetex1.replace(":", ",")
+        listsheetex = str_returnliststr(listsheetex1)
         try:
             self.__zab30_valuelastrow = float(self.__zab30_valuelastrow)
         except:
@@ -175,7 +135,6 @@ class cexcel:
         except:
             pass
 
-
         # azb80
         zab80_recor_l = dictconf["zab80_recor_l1"]
         self.__zab80_recor_l_lint = returnseplistintbbystr(zab80_recor_l)
@@ -192,9 +151,26 @@ class cexcel:
         except:
             pass
 
+        # azb20
+        zab20_recor_l = dictconf["zab20_recor_l1"]
+        self.__zab20_recor_l_lint = returnseplistintbbystr(zab20_recor_l)
+        self.__listmaxrcazb20 = self.__zab20_recor_l_lint + [self.rows]
+        # ms azb20
+        self.__azb20_ms =col2num(dictconf["azb20_ms"]) 
+
+        self.__listrangeazb20 = pairlistandlist(listm=self.__listmaxrcazb20,
+                                            list_str=colunsande)
+
+        self.__zab20_valuelastrow = dictconf["zab20_valuelastrow"]
+        try:
+            self.__zab20_valuelastrow = float(self.__zab20_valuelastrow)
+        except:
+            pass
 
         # sheet name of azb 
         self.__namesheet = self.ws1.name
+        if self.__namesheet not in listsheetex:
+            messagebox.showerror("error", "name sheet {0} of workbook{1} not valid, its name is AZB-NN".format(self.__namesheet,pathtocopy))
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
         # delete sheetname if extsting
@@ -300,6 +276,19 @@ class cexcel:
                             startrow=self.__zab80_recor_l_lint[0],
                             endrow=self.rows,
                             valuetoendrow=self.__zab80_valuelastrow
+                            )   
+        if self.__namesheet == "AZB-20":
+            for rangele in self.__listrangeazb20:
+                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
+                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
+            # delete empty cell
+            delrowbyindexcell(incolumndel= self.__azb20_ms,
+                            valueofindexcoldel=None,
+                            wb=self.__desxw,
+                            namesheet=self.__namesheet,
+                            startrow=self.__zab20_recor_l_lint[0],
+                            endrow=self.rows,
+                            valuetoendrow=self.__zab20_valuelastrow
                             )   
         self.__copyxw.close()
         self.__desxw.save()
