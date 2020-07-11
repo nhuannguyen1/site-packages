@@ -12,11 +12,13 @@ class covertcsvexcel:
         dirparhconf = parentdirectory(self.__pathconf)
         dicrowconf = returndictrowforcsv(path=pathconf)
         self.__sheetnametor=dicrowconf["khns_sheetnamekhns"]
+        self.__khns_namfile=dicrowconf["khns_namfile"]
+
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         self.__valuenotnone =dicrowconf["valuenotnone"]
         self.__dictvalue =dicrowconf["dictvalue"]
         self.__mvt = int(dicrowconf["khns_mavatu"])
-        self.__fpath = returnactivewbpath()
+        self.__fpath = returnactivewbpath(namefile=self.__khns_namfile)
         self.__rel = credict(pathfull=self.__fpath,
                     namesheet=self.__sheetnametor,
                     engine="xlwings",
@@ -25,15 +27,18 @@ class covertcsvexcel:
         self.pathtovalue = refullpath(dirparhconf,self.__dictvalue)
         # csv for value 
         self.valuenotnone = refullpath(dirparhconf,self.__valuenotnone)
+        self.redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
         self.valueredicttocsv()
         self.valuelisttocsv()
     def valueredicttocsv(self):
         """ return value and key follow dict"""
-        redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
-        dicttocsv(dictl=redic,
+        #redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
+        dicttocsv(dictl=self.redic,
                     path=self.pathtovalue
                     )
     def valuelisttocsv (self):
         """ value list to csv """
-        getvaluelist = self.__rel.revaluerownotnone()
+        #getvaluelist = self.__rel.revaluerownotnone()
+        #redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
+        getvaluelist = list(self.redic.keys())
         listva = listocsvver(pathtow=self.valuenotnone,listv=getvaluelist)

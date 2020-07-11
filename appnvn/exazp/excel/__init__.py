@@ -9,6 +9,8 @@ from pynvn.excel.path import returnactivewbpath
 from pynvn.list.str import converlistinstrtolist
 from pynvn.csv.tolist import convertcsvtolist 
 from pynvn.path.ppath import refullpath,parentdirectory
+from pynvn.string.slist import returnseplistintbbystr,returnliststr_from_str
+from pynvn.excel.list import listbyrangeremoveduplicate
 
 class hexcel:
     """hading data excel for azzbbb"""
@@ -19,7 +21,13 @@ class hexcel:
         self.__fpath = fpath
         dirparhconf = parentdirectory(pathconf)
         self.__sheetnametor=dicrowconf["khns_sheetnamekhns"]
+        self.__namefile=dicrowconf["khns_namfile"]
         self.__rangeg =dicrowconf["hm_rangege"]
+
+        self.__rangeintct = returnseplistintbbystr(self.__rangeg)
+
+        self.__rangestrct = returnliststr_from_str(self.__rangeg)
+
         self.__mvt = int(dicrowconf["khns_mavatu"])
         self.__khns_ndcv = int(dicrowconf["khns_noidungcongviec"])
         self.__khns_dvt = int(dicrowconf["khns_dvt"])
@@ -58,15 +66,18 @@ class hexcel:
         # csv for value 
         self.valuenotnone = refullpath(dirparhconf,self.__valuenotnone)
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
+        # hangmuccongtac 
+        self.__hm_startpasterange = dicrowconf["hm_startpasterange"]
+        self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
+        self.__hm_congtac = dicrowconf["hm_congtac"]
 
         # return list ma cong tac not node in cell value of ptvl by csv
         self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
-
         self.__returnothervalue()
-
+        self.__returnlistcongtac()
     def __returnothervalue(self):
         # return active workbook 
-        self.__fpath = returnactivewbpath()
+        self.__fpath = returnactivewbpath(self.__namefile)
         # load work book by full path 
         wb = xw.Book(self.__fpath)
         # set active workbook
@@ -76,25 +87,68 @@ class hexcel:
         self.thvt = wb.sheets[self.__sheetnametor]
 
         self.row_ptvt = self.thvt.api.UsedRange.Rows.count
-        
-        # find last row
-        self.m_row = self.sht1.range('A' + str(self.sht1.cells.last_cell.row)).end('up').row + 5
 
+        # find last row
+        #self.m_row = self.sht1.range('A' + str(self.sht1.cells.last_cell.row)).end('up').row + 5
+        self.m_row = self.sht1.api.UsedRange.Rows.count
         self.rangegc = returnrangelastcolumn(stringrang=self.__rangeg,
                                                         lrow=self.m_row)
+    def __returnlistcongtac(self):
+        # return list of cong tac
+        """
+        listofcongtac = self.sht1.range("{0}{1}:{0}{2}".format(self.__hm_congtac,self.__startpasterange[0] + 2,self.m_row)).value
+        self.listofcongtac  = list(set(listofcongtac))
+        """
+
+        rangea = "{0}{1}:{0}{2}".format(self.__hm_congtac,self.__startpasterange[0] + 2,self.m_row)
+        self.listofcongtac  =  listbyrangeremoveduplicate(sheetexcel=self.sht1,rangea=rangea)
 
     def gdatafromothersheet (self,
                             realtime = True):
         """ get data from mothers sheet """
         #create dict with key is parent ma vat tu 
         redic = converlistinstrtolist(path=self.pathtovalue)
+        dem = 0
+        cindex = self.__rangeintct[0] + 4
+        for lct in self.listofcongtac:
+            if lct in self.getvaluelist:
+                rangea = "{0}{1}".format(self.__rangestrct[0],cindex)
+                self.sht1.range(rangea).value = lct
+                valuearr = redic[lct]
+                index1, value1 = valuearr[0]
+                indexr = cindex
+                self.sht1.range(indexr,self.__hm_ndcv).value  =  self.listothercell(irow =index1-2,
+                                                                                    icolumn=self.__khns_ndcv)
+                # get don vi
+                self.sht1.range(indexr,self.__hm_dvt).value  =  self.listothercell(irow =index1 - 2,
+                                                                        icolumn=self.__khns_dvt)
+                # get value sum if 
+                self.sht1.range(indexr,self.__hm_ttnt).value =  '=SUMIF($BC:$BC,A{},$BL:$BL)'.format (indexr)            
+                i = 0 
+                for indexrk in range(indexr,indexr + len(valuearr)):
+                    index, value = valuearr[i]
+                    self.sht1.range(indexrk + 1 ,self.__hm_mvt).value = value
+                    self.sht1.range(indexrk + 1 ,self.__hm_ndcv).value = self.listothercell(irow =index,
+                                                                                            icolumn=self.__khns_ndcv)
+                    self.sht1.range(indexrk + 1 ,self.__hm_dvt).value = self.listothercell(irow =index,
+                                                                                icolumn=self.__khns_dvt)
 
+                    self.sht1.range(indexrk + 1 ,self.__hm_dgth).value = self.listothercell(irow =index,
+                                                                                icolumn=self.__khns_muchaophi_int )
+
+                    self.sht1.range(indexrk + 1 ,self.__hm_ttnt).value = '=L{0}*K{1}'.format(indexr,
+                                                                                indexrk + 1)
+                    i = i + 1
+                cindex = cindex + len(valuearr)+ 2
+
+        """
         # return index row and value of active sheet  ma cong tac
         indexrcevalu = [[cell.row,
                         cell.value] for rangecell in 
                         self.sht1.range(self.rangegc)
                         for cell in rangecell  if  cell.value
                         in self.getvaluelist]
+
         # set value to acitve sheet 
         for indexr, value_parent in indexrcevalu:
             # get noi dung cong viec 
@@ -123,6 +177,7 @@ class hexcel:
                 self.sht1.range(indexrk + 1 ,self.__hm_ttnt).value = '=L{0}*K{1}'.format(indexr,
                                                                                 indexrk + 1)
                 i = i + 1
+        """
     def listothercell (self,irow,icolumn):
         """ return value of column sheet ptvl1"""
         valuebycolr = self.thvt.range(irow,icolumn).value 

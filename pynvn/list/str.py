@@ -34,6 +34,6 @@ def exstrtolistint (strp = None, symbtoplitp = "_",symbtoplitsecond = "x" ):
     return converliststrtoint (listtr,errormsg="Recheck folder name of child parent folder Folder have to template :widthxheight_infor")
 
 def converlistinstrtolist(path = None):
-    """ convert list in string to list """
+    """ convert list in string to dict """
     reader = csv.reader(open(path, 'r'))
     return {k:ast.literal_eval(v)  for k,v in reader}
