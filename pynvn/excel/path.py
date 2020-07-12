@@ -1,5 +1,6 @@
 from tkinter import messagebox
 import xlwings as xw
+from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn
 def returnactivewbpath (namefile):
     """ return active workbook """
     try:

@@ -53,7 +53,11 @@ def convertrangaphatonunber (rangapha = None ):
     a,n,s,a1,n1 =  sepnumberandstrfromstr(sstr=rangapha)
     return  (col2num(a),int(n)),(col2num(a1),int(n1))
 def returnrangelastcolumn(stringrang,lrow = 100):
-    """ return range excel by range and by last row"""
+    """ 
+        return range excel by range and by last row
+        ex: 'A5:A100' ---> 'A5:2000'
+        2000 is last row replace in stringrang
+    """
     return returnrangewolastrow(sstr=stringrang) + str(lrow)
 
 def delrowbyindexcell (incolumndel = "C", 
