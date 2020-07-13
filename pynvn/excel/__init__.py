@@ -101,3 +101,18 @@ def cellcoordbyvalue(max_row = 20,
     """
     lrowcol = [row for row in range(min_row, max_row + 1) for col in range(min_col, max_col + 1) if sheet.range((row,col)).value == valuetofile]
     return lrowcol
+def lcellindexbyvalue(lvalue, 
+                        max_row = 20, 
+                        min_row = 1 , 
+                        max_col = 10,
+                        min_col= 0 , 
+                        sheet = None,
+                    ):
+    """ return list cell index row by list value """
+    return  [cellcoordbyvalue(max_col=max_col,
+                                        max_row=max_row,
+                                        min_row=min_row,
+                                        min_col=min_col,
+                                        sheet=sheet,
+                                        valuetofile=value)[0] for value in lvalue
+            ]
