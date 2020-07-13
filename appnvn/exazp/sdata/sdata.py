@@ -32,13 +32,10 @@ class covertcsvexcel:
         self.valuelisttocsv()
     def valueredicttocsv(self):
         """ return value and key follow dict"""
-        #redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
         dicttocsv(dictl=self.redic,
                     path=self.pathtovalue
                     )
     def valuelisttocsv (self):
         """ value list to csv """
-        #getvaluelist = self.__rel.revaluerownotnone()
-        #redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
         getvaluelist = list(self.redic.keys())
         listva = listocsvver(pathtow=self.valuenotnone,listv=getvaluelist)
