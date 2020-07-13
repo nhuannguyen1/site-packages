@@ -1,13 +1,14 @@
 from tkinter import messagebox
-from pynvn.path.ppath import getdirpath,refullpath
-from pynvn.excel import col2num,colnum_string
+from pynvn.path.ppath import getdirpath,refullpath,ExtractFileNameFromPath
+from pynvn.excel import col2num,colnum_string, repathlinkexcel,relistsheet,delrowbyindexcell
 import xlwings as xw 
 from pynvn.csv.rcsv import returndictrowforcsv
 from appnvn.exazp.excel.itemhm import azb10,azb30
-from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr
-from pynvn.excel import delrowbyindexcell
+from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr,returnlist_from_listinstr
 from pynvn.list.flist import pairlistandlist
 from pynvn.string.slist import str_returnliststr
+from pynvn.excel.openpyxl import returnloccellbyvalue
+from pynvn.excel import cellcoordbyvalue
 class cexcel:
     """copy excel to excel"""
     def __init__(self,
@@ -33,36 +34,26 @@ class cexcel:
         self.rows = self.ws1.api.UsedRange.Rows.count
         #max colum ws1
         self.cols = self.ws1.api.UsedRange.Columns.count
-        colunsande = [colnum_string(1),
+        self.colunsande = [colnum_string(1),
                     colnum_string(self.cols)]
-        # azb30
-        zab30_recor_l = dictconf["zab30_recor_l1"]
-        self.__zab30_recor_l_lint = returnseplistintbbystr(zab30_recor_l)
-        self.__listmaxrc = self.__zab30_recor_l_lint + [self.rows]
-        # ms azb30
-        self.__azb30_ms =col2num(dictconf["azb30_ms"])
-
-        self.__zab30_valuelastrow = dictconf["zab30_valuelastrow"]
-
-        listsheetex1 = dictconf["listsheetnamechild"]
-        listsheetex1 = listsheetex1.replace(":", ",")
-        listsheetex = str_returnliststr(listsheetex1)
-        try:
-            self.__zab30_valuelastrow = float(self.__zab30_valuelastrow)
-        except:
-            pass
-        
-        self.__listrange = pairlistandlist(listm=self.__listmaxrc,
-                                            list_str=colunsande)
         # azb10
         zab10_recor_l = dictconf["zab10_recor_l1"]
         self.__zab10_recor_l_lint = returnseplistintbbystr(zab10_recor_l)
+
+        zab10_valueim = dictconf["zab10_valueim"].replace(":", ",")
+
+        self.__zab10_valueim = returnlist_from_listinstr(zab10_valueim)
+
         self.__listmaxrcazb10 = self.__zab10_recor_l_lint + [self.rows]
         # ms azb10
-        self.__azb10_ms =col2num(dictconf["azb10_ms"]) 
+        self.__azb10_msstr =dictconf["azb10_ms"]
+        self.__azb10_mssint =col2num(dictconf["azb10_ms"]) 
+
+        # max row 
+        
 
         self.__listrangeazb10 = pairlistandlist(listm=self.__listmaxrcazb10,
-                                            list_str=colunsande)
+                                            list_str=self.colunsande )
 
 
         self.__zab10_valuelastrow = dictconf["zab10_valuelastrow"]
@@ -70,227 +61,92 @@ class cexcel:
             self.__zab10_valuelastrow = float(self.__zab10_valuelastrow)
         except:
             pass
+        
+        zab10_locuseformulas = dictconf["zab10_locuseformulas"].replace(":", ",")
+        self.__zab10_locuseformulas = returnlist_from_listinstr(zab10_locuseformulas)
 
-        # azb60
-        zab60_recor_l = dictconf["zab60_recor_l1"]
-        self.__zab60_recor_l_lint = returnseplistintbbystr(zab60_recor_l)
-        self.__listmaxrcazb60 = self.__zab60_recor_l_lint + [self.rows]
-        # ms azb60
-        self.__azb60_ms =col2num(dictconf["azb60_ms"]) 
-
-        self.__listrangeazb60 = pairlistandlist(listm=self.__listmaxrcazb60,
-                                            list_str=colunsande)
-
-        self.__zab60_valuelastrow = dictconf["zab60_valuelastrow"]
-        try:
-            self.__zab60_valuelastrow = float(self.__zab60_valuelastrow)
-        except:
-            pass
-
-        # azb50
-        zab50_recor_l = dictconf["zab50_recor_l1"]
-        self.__zab50_recor_l_lint = returnseplistintbbystr(zab50_recor_l)
-        self.__listmaxrcazb50 = self.__zab50_recor_l_lint + [self.rows]
-        # ms azb50
-        self.__azb50_ms =col2num(dictconf["azb50_ms"]) 
-
-        self.__listrangeazb50 = pairlistandlist(listm=self.__listmaxrcazb50,
-                                            list_str=colunsande)
-
-        self.__zab50_valuelastrow = dictconf["zab50_valuelastrow"]
-        try:
-            self.__zab50_valuelastrow = float(self.__zab50_valuelastrow)
-        except:
-            pass
-
-        # azb40
-        zab40_recor_l = dictconf["zab40_recor_l1"]
-        self.__zab40_recor_l_lint = returnseplistintbbystr(zab40_recor_l)
-        self.__listmaxrcazb40 = self.__zab40_recor_l_lint + [self.rows]
-        # ms azb40
-        self.__azb40_ms =col2num(dictconf["azb40_ms"]) 
-
-        self.__listrangeazb40 = pairlistandlist(listm=self.__listmaxrcazb40,
-                                            list_str=colunsande)
-
-        self.__zab40_valuelastrow = dictconf["zab40_valuelastrow"]
-        try:
-            self.__zab40_valuelastrow = float(self.__zab40_valuelastrow)
-        except:
-            pass
-
-        # azb70
-        zab70_recor_l = dictconf["zab70_recor_l1"]
-        self.__zab70_recor_l_lint = returnseplistintbbystr(zab70_recor_l)
-        self.__listmaxrcazb70 = self.__zab70_recor_l_lint + [self.rows]
-        # ms azb70
-        self.__azb70_ms =col2num(dictconf["azb70_ms"]) 
-
-        self.__listrangeazb70 = pairlistandlist(listm=self.__listmaxrcazb70,
-                                            list_str=colunsande)
-
-        self.__zab70_valuelastrow = dictconf["zab70_valuelastrow"]
-        try:
-            self.__zab70_valuelastrow = float(self.__zab70_valuelastrow)
-        except:
-            pass
-
-        # azb80
-        zab80_recor_l = dictconf["zab80_recor_l1"]
-        self.__zab80_recor_l_lint = returnseplistintbbystr(zab80_recor_l)
-        self.__listmaxrcazb80 = self.__zab80_recor_l_lint + [self.rows]
-        # ms azb80
-        self.__azb80_ms =col2num(dictconf["azb80_ms"]) 
-
-        self.__listrangeazb80 = pairlistandlist(listm=self.__listmaxrcazb80,
-                                            list_str=colunsande)
-
-        self.__zab80_valuelastrow = dictconf["zab80_valuelastrow"]
-        try:
-            self.__zab80_valuelastrow = float(self.__zab80_valuelastrow)
-        except:
-            pass
-
-        # azb20
-        zab20_recor_l = dictconf["zab20_recor_l1"]
-        self.__zab20_recor_l_lint = returnseplistintbbystr(zab20_recor_l)
-        self.__listmaxrcazb20 = self.__zab20_recor_l_lint + [self.rows]
-        # ms azb20
-        self.__azb20_ms =col2num(dictconf["azb20_ms"]) 
-
-        self.__listrangeazb20 = pairlistandlist(listm=self.__listmaxrcazb20,
-                                            list_str=colunsande)
-
-        self.__zab20_valuelastrow = dictconf["zab20_valuelastrow"]
-        try:
-            self.__zab20_valuelastrow = float(self.__zab20_valuelastrow)
-        except:
-            pass
-
-        # sheet name of azb 
+        zab10_dup = dictconf["zab10_dup"].replace(":", ",")
+        self.__zab10_dup = returnlist_from_listinstr(zab10_dup)
+        print ("self.__zab10_dup",self.__zab10_dup)
         self.__namesheet = self.ws1.name
+        """
         if self.__namesheet not in listsheetex:
             messagebox.showerror("error", "name sheet {0} of workbook{1} not valid, its name is AZB-NN".format(self.__namesheet,pathtocopy))
+        """
     def copysheettoexcelexist(self):
         """ copy sheet name  to excel existing """
-        # delete sheetname if extsting
-        try:
-            self.__desxw.sheets[self.__namesheet].delete()
-            self.__desxw.save()
-        except:
-            pass
-        # copy sheet name
-        self.ws1.api.Copy(Before=self.__desxw.sheets["Sheet1"].api)
-        # convert value range in sheet 
-        if self.__namesheet == "AZB-30":
-            for rangele in self.__listrange:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-        
-            delrowbyindexcell(incolumndel= self.__azb30_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab30_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab30_valuelastrow
-                            )
+        dirpath = getdirpath(self.__pathtocopy)
+        namefile = ExtractFileNameFromPath(self.__pathtocopy)
+
         if self.__namesheet == "AZB-10":
-            for rangele in self.__listrangeazb10:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb10_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab10_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab10_valuelastrow
-                            )
-        if self.__namesheet == "AZB-60":
-            for rangele in self.__listrangeazb60:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb60_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab60_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab60_valuelastrow
-                            )
-        if self.__namesheet == "AZB-50":
-            for rangele in self.__listrangeazb50:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb50_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab50_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab50_valuelastrow
-                            )        
-
-        if self.__namesheet == "AZB-40":
-            for rangele in self.__listrangeazb40:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb40_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab40_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab40_valuelastrow
-                            )        
-
-        if self.__namesheet == "AZB-70":
-            for rangele in self.__listrangeazb70:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb70_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab70_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab70_valuelastrow
-                            )   
-
-        if self.__namesheet == "AZB-80":
-            for rangele in self.__listrangeazb80:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb80_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab80_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab80_valuelastrow
-                            )   
-        if self.__namesheet == "AZB-20":
-            for rangele in self.__listrangeazb20:
-                my_values = self.__copyxw.sheets[self.__namesheet].range(rangele).options(ndim=2).value 
-                self.__desxw.sheets[self.__namesheet].range(rangele).value = my_values
-            # delete empty cell
-            delrowbyindexcell(incolumndel= self.__azb20_ms,
-                            valueofindexcoldel=None,
-                            wb=self.__desxw,
-                            namesheet=self.__namesheet,
-                            startrow=self.__zab20_recor_l_lint[0],
-                            endrow=self.rows,
-                            valuetoendrow=self.__zab20_valuelastrow
-                            )   
+            pfile = repathlinkexcel(dpath=dirpath,
+                                namefile=namefile,
+                                namesheet=self.__namesheet)
+            sheet_des = self.__desxw.sheets[self.__namesheet]
+            sheet_copy = self.__copyxw.sheets[self.__namesheet]
+            # max row sheet des
+            self.m_row = sheet_des.range(self.__azb10_msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchildsheet(startrow=self.__zab10_recor_l_lint[0],
+                        col_key_msa=self.__azb10_msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = self.__zab10_locuseformulas,
+                        valueim=self.__zab10_valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,col_dup=self.__zab10_dup)
         self.__copyxw.close()
         self.__desxw.save()
         self.__desxw.close()
         self.__app.quit()
+def hchildsheet(startrow = 1,
+                col_key_msa = None,
+                pfile = None, 
+                columnlra = None,
+                max_row = 100, 
+                max_col = 20, 
+                lcolumnformulas = None, 
+                valueim = None,
+                sheet_des = None,
+                sheet_copy = None, 
+                col_dup = None):
+    for abccol in lcolumnformulas:
+        indexcol = col2num(abccol) -  col2num(col_key_msa)  + 1
+        fomularex = "=IFERROR(VLOOKUP({1}{0},{2}!${1}${0}:${4}${6},{7},FALSE),{8})".format(startrow,
+                                                                                        col_key_msa,
+                                                                                        pfile,
+                                                                                        col_key_msa,
+                                                                                        columnlra[1],
+                                                                                        startrow,
+                                                                                        max_row,
+                                                                                        indexcol,
+                                                                                        0
+                                                                                        )
+        sheet_des.range("{0}{1}".format(abccol,startrow)).value = fomularex
+        vtformulas = sheet_des.range("{0}{1}".format(abccol,startrow)).formula
+            
+        sheet_des.range("{0}{1}:{0}{2}".format(abccol,startrow,max_row)).formula = vtformulas
+
+        for numberint in valueim:
+            ms_des = cellcoordbyvalue(max_row=max_row,
+                                        min_row=1,
+                                        max_col=col_key_msa,
+                                        min_col=col_key_msa,
+                                        sheet=sheet_des,
+                                        valuetofile=numberint
+                                        )
+            ms_copy = cellcoordbyvalue(max_row=max_row,
+                                        min_row=1,
+                                        max_col=col_key_msa,
+                                        min_col=col_key_msa,
+                                        sheet=sheet_copy,
+                                        valuetofile=numberint)
+
+            sheet_des.range("{0}{1}".format(abccol,ms_des[0])).value = sheet_copy.range("{0}{1}".format(abccol,ms_copy[0])).value
+        
+    for eles in col_dup:
+        # get value at start row from copy file to des
+        sheet_des.range("{0}{1}".format(eles,startrow + 1)).value = sheet_copy.range("{0}{1}".format(eles,startrow + 1)).formula
+
+        vtformulas = sheet_des.range("{0}{1}".format(eles,startrow + 1)).formula
+        sheet_des.range("{0}{1}:{0}{2}".format(eles,startrow + 1,max_row)).formula = vtformulas

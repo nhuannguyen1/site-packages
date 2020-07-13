@@ -77,7 +77,7 @@ class hexcel_sep:
         vtformulas = self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).formula
 
         self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.__azb60_startrowhm,self.mrow - 1)).formula = vtformulas
-
+        
         # rewwrite ket cau thep 
         sumvalue = self.__returnsumvalue(iden="kct",
                                         wsheet_AZ30=wsheet_AZ30,startrow60=self.rangese[0])

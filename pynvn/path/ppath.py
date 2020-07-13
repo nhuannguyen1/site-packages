@@ -106,7 +106,9 @@ def resource_path_is_from_pyinstall_and_dev (FileName = None,
     return PathS.refpath(Subfolder)
 
 def ExtractFileNameFromPath(path = None):
-    """Get file name from path full"""
+    """Get file name from path full
+        ex:  \\folder\\nhuan.xlsx ---> nhuan.xlsx
+    """
     PathS = PathSteel(path_Full = path) 
     return PathS.ExtractFileNameFromPath()
 

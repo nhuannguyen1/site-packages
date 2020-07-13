@@ -81,3 +81,23 @@ def delrowbyindexcell (incolumndel = "C",
                     break
         if wb.sheets[namesheet].range(k,incolumndel).value == valuetoendrow :
             break
+def cellcoordbyvalue(max_row = 20, 
+                    min_row = 1 , 
+                    max_col = 10,
+                    min_col= 0 , 
+                    sheet = None,
+                    valuetofile = None
+                    ):
+    """find a cell coordinate containing a value """
+    if type(min_col) == str:
+        min_col = col2num(min_col)
+    if type(max_col) == str:
+        max_col = col2num(max_col)
+    """
+    for row in range(min_row, max_row + 1):
+        for col in range(min_col, max_col + 1):
+            if sheet.range((row,col)).value == "TEXT":
+                print("The Row is: "+str(row)+" and the column is "+str(col))
+    """
+    lrowcol = [row for row in range(min_row, max_row + 1) for col in range(min_col, max_col + 1) if sheet.range((row,col)).value == valuetofile]
+    return lrowcol
