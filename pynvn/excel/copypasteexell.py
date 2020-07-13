@@ -18,6 +18,11 @@ def cprangesamesheet(sheet = None,rangetocopy='BB5:CF100',rangetopaste="BB5"):
 
     """ copy and paste range excel to same sheet in file
     """
-    rangetocopy1 = sheet.range(rangetocopy).options(ndim=1).formula
-    sheet.range(rangetopaste).options(ndim=1).formula = rangetocopy1
 
+    sheet_des.range("{0}{1}".format(abccol,
+                                    startrow)).value = fomularex
+    vtformulas = sheet_des.range("{0}{1}".format(abccol,
+                                                startrow)).formula
+    sheet_des.range("{0}{1}:{0}{2}".format(abccol,
+                                            startrow,
+                                            max_row)).formula = vtformulas
