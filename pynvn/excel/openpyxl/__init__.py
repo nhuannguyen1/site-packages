@@ -15,4 +15,4 @@ def returnloccellbyvalue(path = None ,min_row = 1,max_row=100,min_col=3,max_col=
                             max_col=max_col):
         for cell in row:
             if str(cell.value) == str(valuetofind):
-                return [cell.row,cell.column] #change column number for any cell value you want
+                return [cell.row,cell.column] #change column number for any cell value you wants

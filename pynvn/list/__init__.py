@@ -19,3 +19,17 @@ def listpairfrom2list(list_a, list_b):
     ex: list_a=[1,2,3],list_b = [4,7,8]) ---> [[1, 4], [2, 7], [3, 8]]
     """
     return [[x, y] for x, y in zip(list_a, list_b)]
+def converttoint(ele):
+    if type (ele) == float:
+        return int(ele)
+    else:
+        return ele
+def convertoint_ifisfloat(listth):
+    """ 
+    convert to int type is float 
+    ex :  ["a","b","c",3.0,2.0,1.0] ---> ['a', 'b', 'c', 3, 2, 1]
+    
+    """
+    result = map(converttoint,
+                listth) 
+    return list(result)

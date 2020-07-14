@@ -1,9 +1,23 @@
 import xlwings as xw
 from pynvn.list import listpairfrom2list
 from pynvn.csv.tocsv import pairlistinlisttocsv
-copyxw = xw.Book(r'C:\Users\HP\Desktop\12.xlsx')
+copyxw = xw.Book(r'C:\Users\HP\Desktop\exazb\conf_ex.xlsx')
 copyxws = copyxw.sheets
-wsc = copyxws["Sheet3"]
+wsc = copyxws["hrdata_modified"]
+def removevaluenontinlistpair(lista,deleteifvalue = [None]):
+    """
+    pairlistremoved = []
+    for pairarr in lista:
+        if pairarr[0] not in deleteifvalue:
+            pairlistremoved.append(pairarr)
+    return pairlistremoved
+    """
+    return [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
+
+
+
+
+
 def pairlistfromexcel (startrow= 1, 
                         floc = "A", 
                         sloc = "B",
@@ -20,7 +34,10 @@ def pairlistfromexcel (startrow= 1,
     return listpairfrom2list(list_a=listfloc,
                             list_b=listsloc)
 
+
 lissta = pairlistfromexcel(sheet=wsc)
 
-pairlistinlisttocsv(listvalue=lissta,
-                    pathcsv=r'C:\Users\HP\Desktop\12.csv')
+paira = removevaluenontinlistpair(lista=lissta)
+print (paira)
+
+#pairlistinlisttocsv(listvalue=lissta,pathcsv=r'C:\Users\HP\Desktop\exazb\conf_ex.csv')

@@ -2,6 +2,7 @@ from pynvn.excel.toexcel import toexcel
 import openpyxl as xl
 import string
 from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
+import xlwings as xw
 from xlwings.constants import DeleteShiftDirection
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
@@ -116,3 +117,6 @@ def lcellindexbyvalue(lvalue,
                                         sheet=sheet,
                                         valuetofile=value)[0] for value in lvalue
             ]
+def openexcelbyxl (pathex):
+    """ open excel by pathex"""
+    xw.Book(pathex)

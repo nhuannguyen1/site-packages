@@ -1,8 +1,6 @@
 #  write to excel 
 import pandas as pd
-from pynvn.path import (
-                            returndatalistrowbyindex
-                            )
+from pynvn.path import returndatalistrowbyindex
 from pynvn.data import grouper
 
 class toexcel:

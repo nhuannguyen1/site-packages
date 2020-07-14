@@ -76,9 +76,45 @@ class cexcel:
             # copy formulas to another sheet 
             hchild.tranderdatasheettosheet()
             # keep value at msp
-            hchild.returnvaluekeyim()
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
             # change value at col index
-            hchild.hdataatdupcolumn()
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-20":
+            recor_l_lint = int(self.dictconf["zab20_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab20_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab20_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb20_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab20_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab20_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab20_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,
+                        col_dup=col_dup,
+                        max_row_allsheet=self.rows,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+
         if self.__namesheet == "AZB-30":
             recor_l_lint = int(self.dictconf["zab30_recor_l1"])
             valueim = returnlist_from_listinstr(self.dictconf["zab30_valueim"].replace(":", ","))
@@ -104,6 +140,173 @@ class cexcel:
                             formulasfor_col_dup = forbydup)
             # copy formulas to another sheet 
             hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-40":
+            recor_l_lint = int(self.dictconf["zab40_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab40_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab40_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb40_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab40_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab40_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab40_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,
+                        col_dup=col_dup,
+                        max_row_allsheet=self.rows,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-50":
+            recor_l_lint = int(self.dictconf["zab50_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab50_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab50_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb50_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab50_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab50_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab50_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,
+                        col_dup=col_dup,
+                        max_row_allsheet=self.rows,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-60":
+            recor_l_lint = int(self.dictconf["zab60_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab60_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab60_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb60_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab60_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab60_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab60_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                            col_key_msa=msstr,
+                            pfile=pfile,
+                            columnlra=self.colunsande,
+                            max_row=self.m_row,
+                            lcolumnformulas = locuseformulas,
+                            valueim=valueim,
+                            sheet_des =sheet_des,
+                            sheet_copy=sheet_copy,
+                            col_dup=col_dup,
+                            max_row_allsheet=self.rows,
+                            lvaluehavechild=valuehavechild,
+                            formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-70":
+            recor_l_lint = int(self.dictconf["zab70_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab70_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab70_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb70_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab70_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab70_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab70_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,
+                        col_dup=col_dup,
+                        max_row_allsheet=self.rows,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+
+        if self.__namesheet == "AZB-80":
+            recor_l_lint = int(self.dictconf["zab80_recor_l1"])
+            valueim = returnlist_from_listinstr(self.dictconf["zab80_valueim"].replace(":", ","))
+            valuehavechild = returnlist_from_listinstr(self.dictconf["zab80_valuehavechild"].replace(":", ","))
+            msstr =self.dictconf["azb80_ms"]
+            forbydup = returnlist_from_listinstr(self.dictconf["zab80_forbydup"].replace(":", ","))
+            locuseformulas = returnlist_from_listinstr(self.dictconf["zab80_locuseformulas"].replace(":", ","))
+            col_dup = returnlist_from_listinstr(self.dictconf["zab80_dup"].replace(":", ","))
+            # max row sheet des
+            self.m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
+            hchild = hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=self.colunsande,
+                        max_row=self.m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =sheet_des,
+                        sheet_copy=sheet_copy,
+                        col_dup=col_dup,
+                        max_row_allsheet=self.rows,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup)
+            # copy formulas to another sheet 
+            hchild.tranderdatasheettosheet()
+            # keep value at msp
+            if len(valueim) != 0:
+                hchild.returnvaluekeyim()
+            # change value at col index
+            if len(col_dup) !=0:
+                hchild.hdataatdupcolumn()
+    
         self.__copyxw.close()
         self.__desxw.save()
         self.__desxw.close()
