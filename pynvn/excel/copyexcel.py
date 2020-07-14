@@ -272,6 +272,7 @@ class cexcel:
             if len(valueim) != 0:
                 hchild.returnvaluekeyim()
             # change value at col index
+            
             if len(col_dup) !=0:
                 hchild.hdataatdupcolumn()
 

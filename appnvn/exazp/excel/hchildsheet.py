@@ -52,6 +52,7 @@ class hchildsheet:
             self.__sheet_des.range("{0}{1}:{0}{2}".format(abccol,
                                                 self.__startrow,
                                                 self.__max_row)).formula = vtformulas
+
     def returnvaluekeyim (self):
         """ return value at key value from sheet copy to sheet des """
         for abccol in self.__lcolumnformulas:
@@ -76,7 +77,7 @@ class hchildsheet:
     def hdataatdupcolumn(self):
         """ h data at column index """
         for count,eles in enumerate(self.__col_dup,0):
-            if self.__lvaluehavechild != None:
+            if len(self.__lvaluehavechild) != 0:
                 lindexrow = lcellindexbyvalue(max_row=self.__max_row_allsheet,
                                             min_row=self.__startrow,
                                             max_col=self.__col_key_msa,
