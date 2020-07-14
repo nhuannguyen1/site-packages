@@ -1,5 +1,4 @@
 from pynvn.excel import cellcoordbyvalue,lcellindexbyvalue,col2num
-from pynvn.excel.copypasteexell import cprangesamesheet
 class hchildsheet:
     """ h data at sheet child of azb """
     def __init__(self,

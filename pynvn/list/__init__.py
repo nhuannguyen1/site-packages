@@ -13,3 +13,9 @@ def pairlistandlist(listm, list_str):
     """ return pair of list combine list aphabe """
     #res1 =  [[list_str[0] +str(eler[0] + 1 ),list_str[1] + str(eler[1] - 1)] for eler in list(zip(listm, listm[1:])) ]
     return [str(ele[0] + ":" + ele[1]) for ele in  [[list_str[0] +str(eler[0] + 1 ),list_str[1] + str(eler[1] - 1)] for eler in list(zip(listm, listm[1:]))]]
+def listpairfrom2list(list_a, list_b):
+    """
+    pair two list in python
+    ex: list_a=[1,2,3],list_b = [4,7,8]) ---> [[1, 4], [2, 7], [3, 8]]
+    """
+    return [[x, y] for x, y in zip(list_a, list_b)]

@@ -22,3 +22,11 @@ class wrcsv:
             writer = csv.writer(csvFile,lineterminator='\n')
             writer.writerow(self.args)
         csvFile.close()
+def pairlistinlisttocsv(listvalue = None, pathcsv = None):
+    """ write row list to csv (pair list)
+        ex : [[1, 4], [2, 7], [3, 8]] ---> csv file
+    """
+    with open(pathcsv, 'w') as csvFile:
+        writer = csv.writer(csvFile,delimiter =',',lineterminator='\n')
+        writer.writerows(listvalue)
+    csvFile.close()

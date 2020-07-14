@@ -1,16 +1,10 @@
 from tkinter import messagebox
-from pynvn.path.ppath import getdirpath,refullpath,ExtractFileNameFromPath
-from pynvn.excel import col2num,colnum_string, repathlinkexcel,relistsheet,delrowbyindexcell
+from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
+from pynvn.excel import col2num,colnum_string, repathlinkexcel
 import xlwings as xw 
 from pynvn.csv.rcsv import returndictrowforcsv
-from appnvn.exazp.excel.itemhm import azb10,azb30
-from pynvn.string.slist import returnseplistintbbystr,str_seplistintbbystr,returnlist_from_listinstr
-from pynvn.list.flist import pairlistandlist
+from pynvn.string.slist import returnlist_from_listinstr
 from pynvn.string.slist import str_returnliststr
-from pynvn.excel.openpyxl import returnloccellbyvalue
-from pynvn.excel import cellcoordbyvalue,lcellindexbyvalue
-from pynvn.list import pairiterationlist
-from pynvn.excel.copypasteexell import cprangesamesheet
 from appnvn.exazp.excel.hchildsheet import hchildsheet
 class cexcel:
     """copy excel to excel"""
