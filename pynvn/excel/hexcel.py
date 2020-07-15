@@ -63,19 +63,21 @@ class hexcel_child:
             else:
                 try:
                     pathh = refullpath(dirpath=self.__dirpath,filename="AZB30.xlsx")
-                    self.wbazb30  = xw.Book(pathh)
+                    
                     #self.sheetwbazb30 = self.__wbazb30.sheets["AZB-30"]
-                except:
+                except ValueError:
                     messagebox.showerror("error",
                                         "check dirpath 1 {} and file name {}".format(self.__dirpath,
                                                                                     "AZB30.xlsx"))
+                self.wbazb30  = xw.Book(pathh)
                 try:
                     nsazb = self.wbazb30.sheets["AZB-30"]
-                    exelh.habz60(wsheet_AZ30=nsazb)
-                except:
+                except ValueError:
                     messagebox.showerror("error",
                                         "check dirpath {} and file name {}".format(self.__dirpath,
                                                                                     "AZB30.xlsx"))
+                exelh.habz60(wsheet_AZ30=nsazb)
+
             try:
                 self.__wb1.save()
             except:

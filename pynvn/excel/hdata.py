@@ -1,12 +1,16 @@
 from pynvn.path.ppath import refullpath
-from pynvn.excel import (
+from pynvn.string import sepnumberandstrfromstr
+from pynvn.string.slist import returnseplistintbbystr,returnlist_from_listinstr
+from pynvn.excel import (cellcoordbyvalue,
+                        lcellindexbyvalue,
+                        col2num,
+                        valuebyindexrowcell,
+                        returnvaluekeyim,
                         repathlinkexcel,
                         relistsheet,
+                        colnum_string,
+                        rangecopyrefsamesheet
                         )
-
-from pynvn.excel import col2num,colnum_string
-from pynvn.string import sepnumberandstrfromstr
-from pynvn.string.slist import returnseplistintbbystr
 class hexcel_sep:
     """copy excel to excel"""
     def __init__(self,wsheet = None,
@@ -16,28 +20,23 @@ class hexcel_sep:
                     dicrowconf = None,
                     wbnsct = None
                 ):
+                self.dicrowconf = dicrowconf
                 self.dpath = dpath
                 self.wsheet = wsheet
                 self.namefile = namefile
+                self.wsheet_AZ30 = wsheet_AZ30
                 #max colum ws1
                 self.mcol = self.wsheet.api.UsedRange.Columns.count
                 #max row ws1
                 self.mrow = self.wsheet.api.UsedRange.Rows.count
-                self.__hm_maxrow = int(dicrowconf["hm_maxrow"])
 
-                self.wsheet_AZ30 = wsheet_AZ30
-                self.__azb30_starcolumn = col2num(dicrowconf["azb30_starcolumn"])
-                self.__azb30_rowhm = int(dicrowconf["azb30_rowhm"])
-                self.__azb30_maxrowhm = int(dicrowconf["azb30_maxrowhm"])
-                self.__azb30_startrowhm = int(dicrowconf["zab30_recor_l1"])
-                
-                self.__azb60_startrowhm = int(dicrowconf["azb60_startrowhm"])
-                self.__azb60_dongiaa = dicrowconf["azb60_dongia"]
-                self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
-                self.__hm_rangege = (dicrowconf["hm_rangege"])
-                self.__azb60_rangeketcauthep = (dicrowconf["azb60_rangeketcauthep"])
-                # return range number
-                self.rangese = returnseplistintbbystr(strint=self.__azb60_rangeketcauthep)
+                self.__hm_maxrow = int(self.dicrowconf["hm_maxrow"])
+                self.__azb30_starcolumn = col2num(self.dicrowconf["azb30_starcolumn"])
+                self.__azb30_rowhm = int(self.dicrowconf["azb30_rowhm"])
+                self.__azb30_maxrowhm = int(self.dicrowconf["azb30_maxrowhm"])
+                self.__azb30_startrowhm = int(self.dicrowconf["zab30_recor_l1"])
+
+                self.__hm_rangege = (self.dicrowconf["hm_rangege"])
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
                 self.__wb1  = wbnsct
                 
@@ -55,45 +54,74 @@ class hexcel_sep:
         pfile = repathlinkexcel(dpath=self.dpath,
                                 namefile=self.namefile,
                                 namesheet=hmname)
-        
+                                
+        rangecopyrefsamesheet(sheet=self.wsheet,
+                            formulasfirstcell=sumvalue,
+                            col_index=dongia,
+                            startrow=startrowhm,
+                            endrow=m_row)
+        """
         self.wsheet.range(self.__azb30_startrowhm,k).value = "=SUMIFS({0}!$L${4}:$L${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
                                                                 "'" + "AZB-30" + "'",
                                                                 self.__azb30_startrowhm,
                                                                 self.__hm_maxrow ,
                                                                 self.numberhm
                                                                 )
-
         vtformulas = self.wsheet.range(self.__azb30_startrowhm,k).formula
-        ka = colnum_string(k)
-        self.wsheet.range("{0}{1}:{0}{2}".format(ka,self.__azb30_startrowhm,self.__azb30_maxrowhm)).formula = vtformulas
+        self.wsheet.range("{0}{1}:{0}{2}".format(colnum_string(k),self.__azb30_startrowhm,self.__azb30_maxrowhm)).formula = vtformulas
+        """
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
-        sumvalue = self.__returnsumvalue(iden="other",
+        col_msa = (self.dicrowconf["azb60_ms"])
+        startrowhm = int(self.dicrowconf["zab60_recor_l1"])
+        dongia = col2num(self.dicrowconf["azb60_dongia"])
+        dongia_abc = self.dicrowconf["azb60_dongia"]
+        rangeketcauthep = (self.dicrowconf["azb60_rangeketcauthep"])
+        valueim = returnlist_from_listinstr(self.dicrowconf["zab60_valueim"].replace(":", ","))
+        m_row = self.wsheet.range(col_msa + str(self.wsheet.cells.last_cell.row)).end('up').row
+        # return index row by value
+        if len (valueim) != 0: 
+            lindexrow_im = lcellindexbyvalue(max_row=self.mrow,
+                                                min_row=startrowhm,
+                                                max_col=col_msa,
+                                                min_col=col_msa,
+                                                sheet=self.wsheet,
+                                                lvalue=valueim
+                                                )
+        
+            lvaluebyindecell_im = valuebyindexrowcell(lindexcell=lindexrow_im,
+                                                    col=dongia_abc,
+                                                    sheet=self.wsheet)
+
+        # return range number
+        rangese= returnseplistintbbystr(strint=rangeketcauthep)
+        sumvalue = "=" + self.__returnsumvalue(iden="other",
                                         wsheet_AZ30=wsheet_AZ30,
-                                        startrow60=self.__azb60_startrowhm)
+                                        startrow60=startrowhm)
 
-        self.wsheet.range(self.__azb60_startrowhm,
-                            self.__azb60_dongia).value =  "=" + sumvalue 
+        rangecopyrefsamesheet(sheet=self.wsheet,
+                            formulasfirstcell=sumvalue,
+                            col_index=dongia,
+                            startrow=startrowhm,
+                            endrow=m_row)
 
-        vtformulas = self.wsheet.range(self.__azb60_startrowhm,
-                                        self.__azb60_dongia).formula
-
-        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,
-                                            self.__azb60_startrowhm,
-                                            self.mrow - 1)).formula = vtformulas
-        
         # rewwrite ket cau thep 
-        sumvalue = self.__returnsumvalue(iden="kct",
-                                        wsheet_AZ30=wsheet_AZ30,startrow60=self.rangese[0])
+        sumvalue = "=" +  self.__returnsumvalue(iden="kct",
+                                        wsheet_AZ30=wsheet_AZ30,
+                                        startrow60=rangese[0])
         
-        self.wsheet.range(self.rangese[0],self.__azb60_dongia).value =  "=" + sumvalue 
-
-        vtformulas = self.wsheet.range(self.rangese[0],self.__azb60_dongia).formula
-
-        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.rangese[0],self.rangese[1])).formula = vtformulas
-
-
-
+        rangecopyrefsamesheet(sheet=self.wsheet,
+                                formulasfirstcell=sumvalue,
+                                col_index=dongia,
+                                startrow=rangese[0],
+                                endrow=rangese[1])
+        if len (valueim) != 0: 
+            returnvaluekeyim(cola=dongia_abc,
+                            listvalue_im=lvaluebyindecell_im,
+                            sheet=self.wsheet,
+                            indexrow_im=lindexrow_im
+                            )
+  
     def __returnsumvalue (self,iden ="kct",wsheet_AZ30 = None, startrow60 = 100):
         # list all sheet name from file path 
         lsheet = self.listsheetnameinexsting(listnames= [sheet.name for sheet in self.__wb1.sheets ],

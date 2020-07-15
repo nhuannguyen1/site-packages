@@ -163,3 +163,24 @@ def quit_excel(wb):
             wb.app.quit()
         else:
             wb.close()
+def rangecopyrefsamesheet (sheet = None,
+                            formulasfirstcell = None,
+                            col_index = None,
+                            startrow = None,
+                            endrow = None):
+        """copy range have reference at col_index"""
+
+        sheet.range(startrow,col_index).value =  "=" + formulasfirstcell 
+
+        vtformulas = sheet.range(startrow,
+                                        col_index).formula
+
+        sheet.range("{0}{1}:{0}{2}".format(colnum_string(col_index),
+                                            startrow,
+                                            endrow)).formula = vtformulas
+
+def returnvaluekeyim (cola,listvalue_im,sheet,indexrow_im):
+        """ return value by cell index and list value  """
+        for count,numberint in enumerate(indexrow_im,0):
+            sheet.range("{0}{1}".format(cola,
+                                        numberint)).value = listvalue_im[count]
