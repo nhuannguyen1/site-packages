@@ -35,6 +35,7 @@ class cexcel:
         listsheetex = str_returnliststr(self.dictconf["listsheetnamechild"].replace(":", ","))
         # name sheet 
         self.__namesheet = self.ws1.name
+        print("sheet name" ,self.__namesheet)
         # check name sheet name 
         if self.__namesheet not in listsheetex:
             messagebox.showerror("error", "name sheet {0} of workbook{1} not valid, its \
@@ -73,14 +74,6 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
 
         if self.__namesheet == "AZB-20":
             recor_l_lint = int(self.dictconf["zab20_recor_l1"])
@@ -105,15 +98,6 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
-
 
         if self.__namesheet == "AZB-30":
             recor_l_lint = int(self.dictconf["zab30_recor_l1"])
@@ -138,14 +122,6 @@ class cexcel:
                             max_row_allsheet=self.rows,
                             lvaluehavechild=valuehavechild,
                             formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
 
         if self.__namesheet == "AZB-40":
             recor_l_lint = int(self.dictconf["zab40_recor_l1"])
@@ -170,15 +146,6 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
-
         if self.__namesheet == "AZB-50":
             recor_l_lint = int(self.dictconf["zab50_recor_l1"])
             valueim = returnlist_from_listinstr(self.dictconf["zab50_valueim"].replace(":", ","))
@@ -202,14 +169,7 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
+
 
         if self.__namesheet == "AZB-60":
             recor_l_lint = int(self.dictconf["zab60_recor_l1"])
@@ -234,14 +194,6 @@ class cexcel:
                             max_row_allsheet=self.rows,
                             lvaluehavechild=valuehavechild,
                             formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
 
         if self.__namesheet == "AZB-70":
             recor_l_lint = int(self.dictconf["zab70_recor_l1"])
@@ -266,15 +218,6 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
 
         if self.__namesheet == "AZB-80":
             recor_l_lint = int(self.dictconf["zab80_recor_l1"])
@@ -299,15 +242,6 @@ class cexcel:
                         max_row_allsheet=self.rows,
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
-            # copy formulas to another sheet 
-            hchild.tranderdatasheettosheet()
-            # keep value at msp
-            if len(valueim) != 0:
-                hchild.returnvaluekeyim()
-            # change value at col index
-            if len(col_dup) !=0:
-                hchild.hdataatdupcolumn()
-    
         self.__copyxw.close()
         self.__desxw.save()
         self.__desxw.close()

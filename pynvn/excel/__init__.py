@@ -1,9 +1,11 @@
 from pynvn.excel.toexcel import toexcel
+from tkinter import messagebox
 import openpyxl as xl
 import string
 from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
 import xlwings as xw
 from xlwings.constants import DeleteShiftDirection
+#from pynvn.excel.exception import closebookactive
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
     wb1 = xl.load_workbook(filename=path)
@@ -94,13 +96,23 @@ def cellcoordbyvalue(max_row = 20,
         min_col = col2num(min_col)
     if type(max_col) == str:
         max_col = col2num(max_col)
-    """
+    
     for row in range(min_row, max_row + 1):
         for col in range(min_col, max_col + 1):
-            if sheet.range((row,col)).value == "TEXT":
-                print("The Row is: "+str(row)+" and the column is "+str(col))
-    """
-    lrowcol = [row for row in range(min_row, max_row + 1) for col in range(min_col, max_col + 1) if sheet.range((row,col)).value == valuetofile]
+            if sheet.range((row,col)).value == valuetofile:
+                #print("The Row is: "+str(row)+" and the column is "+str(col))
+                return [row,col]
+                break
+    else:
+        messagebox.showerror ("Error", "can not find name value {0} at sheet {1} location column index {2} to {3}, check again".format(valuetofile,
+                                                                                                                                        sheet.name,
+                                                                                                                                        min_col,
+                                                                                                                                        max_col))
+        raise ValueError("can not find name value")
+        #xw.App(visible=False).quit()
+        #raise closebookactive()
+
+    #lrowcol = [row for row in range(min_row, max_row + 1) for col in range(min_col, max_col + 1) if sheet.range((row,col)).value == valuetofile]
     return lrowcol
 def lcellindexbyvalue(lvalue, 
                         max_row = 20, 
@@ -120,3 +132,34 @@ def lcellindexbyvalue(lvalue,
 def openexcelbyxl (pathex):
     """ open excel by pathex"""
     xw.Book(pathex)
+def valuebyindexrowcell(lindexcell = None,
+                        col = None,
+                        sheet = None):
+    """ return list value with indexcell """
+    return [sheet.range("{0}{1}".format(col,indexcell)).value for indexcell in lindexcell]
+def closeallfileexcel (namek_ofpname):
+    """ close all file excel by list if it is openning filter by namek_ofpname """
+    listwb = xw.books
+    for wb in listwb:
+        if namek_ofpname in wb.name:
+            res = messagebox.askyesno("Check file is opening","file name {0} is opening, Please close it, do you close and save it ?".format(wb.name))
+            if res:
+                quit_excel(wb)
+            else:
+                break
+def quit_excel(wb):
+    """
+    quit workbook 
+    wb: workbook object from xlwings
+    """
+    # look if PERSONAL.XLSB is in the list of books associated with the Excel App
+    if "PERSONAL.XLSB" in [b.name for b in wb.app.books]:
+        if len(wb.app.books) == 2: 
+            wb.app.quit()
+        else:
+            wb.close()
+    else:
+        if len(wb.app.books) == 1: 
+            wb.app.quit()
+        else:
+            wb.close()

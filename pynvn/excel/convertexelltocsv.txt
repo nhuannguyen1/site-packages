@@ -1,7 +1,0 @@
-import xlwings as xw
-copyxw = xw.Book(r'C:\Users\HP\Desktop\12.xlsx')
-copyxwcopyxw = copyxw.sheets
-wsc = copyxw["Sheet3"]
-def createpairfromexcel (startrow= 6, excelpath = None, floc = None, sloc = none,sheet = wsc ):
-    
-

@@ -14,14 +14,10 @@ def removevaluenontinlistpair(lista,deleteifvalue = [None]):
     """
     return [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
 
-
-
-
-
 def pairlistfromexcel (startrow= 1, 
                         floc = "A", 
                         sloc = "B",
-                        sheet = None 
+                        sheet = None    
                         ):
     """ create pair list from floc and sloc of excel """
     # max row at floc 
@@ -38,6 +34,5 @@ def pairlistfromexcel (startrow= 1,
 lissta = pairlistfromexcel(sheet=wsc)
 
 paira = removevaluenontinlistpair(lista=lissta)
-print (paira)
 
-#pairlistinlisttocsv(listvalue=lissta,pathcsv=r'C:\Users\HP\Desktop\exazb\conf_ex.csv')
+pairlistinlisttocsv(listvalue=lissta,pathcsv=r'C:\Users\HP\Desktop\exazb\conf_ex.csv')

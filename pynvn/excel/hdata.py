@@ -29,10 +29,9 @@ class hexcel_sep:
                 self.__azb30_starcolumn = col2num(dicrowconf["azb30_starcolumn"])
                 self.__azb30_rowhm = int(dicrowconf["azb30_rowhm"])
                 self.__azb30_maxrowhm = int(dicrowconf["azb30_maxrowhm"])
-                self.__azb30_startrowhm = int(dicrowconf["azb30_startrowhm"])
+                self.__azb30_startrowhm = int(dicrowconf["zab30_recor_l1"])
+                
                 self.__azb60_startrowhm = int(dicrowconf["azb60_startrowhm"])
-                self.__azb60_msdforkct = (dicrowconf["azb60_msdforkct"])
-
                 self.__azb60_dongiaa = dicrowconf["azb60_dongia"]
                 self.__azb60_dongia = col2num(dicrowconf["azb60_dongia"])
                 self.__hm_rangege = (dicrowconf["hm_rangege"])
@@ -70,13 +69,18 @@ class hexcel_sep:
     def habz60 (self,wsheet_AZ30):
         """handling data azb-60 sheet"""
         sumvalue = self.__returnsumvalue(iden="other",
-                                        wsheet_AZ30=wsheet_AZ30,startrow60=self.__azb60_startrowhm)
+                                        wsheet_AZ30=wsheet_AZ30,
+                                        startrow60=self.__azb60_startrowhm)
 
-        self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).value =  "=" + sumvalue 
+        self.wsheet.range(self.__azb60_startrowhm,
+                            self.__azb60_dongia).value =  "=" + sumvalue 
 
-        vtformulas = self.wsheet.range(self.__azb60_startrowhm,self.__azb60_dongia).formula
+        vtformulas = self.wsheet.range(self.__azb60_startrowhm,
+                                        self.__azb60_dongia).formula
 
-        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.__azb60_startrowhm,self.mrow - 1)).formula = vtformulas
+        self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,
+                                            self.__azb60_startrowhm,
+                                            self.mrow - 1)).formula = vtformulas
         
         # rewwrite ket cau thep 
         sumvalue = self.__returnsumvalue(iden="kct",
@@ -87,6 +91,8 @@ class hexcel_sep:
         vtformulas = self.wsheet.range(self.rangese[0],self.__azb60_dongia).formula
 
         self.wsheet.range("{0}{1}:{0}{2}".format(self.__azb60_dongiaa,self.rangese[0],self.rangese[1])).formula = vtformulas
+
+
 
     def __returnsumvalue (self,iden ="kct",wsheet_AZ30 = None, startrow60 = 100):
         # list all sheet name from file path 

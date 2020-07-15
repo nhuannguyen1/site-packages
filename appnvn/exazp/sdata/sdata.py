@@ -13,7 +13,6 @@ class covertcsvexcel:
         dicrowconf = returndictrowforcsv(path=pathconf)
         self.__sheetnametor=dicrowconf["khns_sheetnamekhns"]
         self.__khns_namfile=dicrowconf["khns_namfile"]
-
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         self.__valuenotnone =dicrowconf["valuenotnone"]
         self.__dictvalue =dicrowconf["dictvalue"]
