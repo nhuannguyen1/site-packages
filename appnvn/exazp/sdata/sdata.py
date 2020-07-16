@@ -15,6 +15,7 @@ class covertcsvexcel:
         self.__khns_namfile=dicrowconf["khns_namfile"]
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         self.__valuenotnone =dicrowconf["valuenotnone"]
+        self.__valueall =dicrowconf["valueall"]
         self.__dictvalue =dicrowconf["dictvalue"]
         self.__mvt = int(dicrowconf["khns_mavatu"])
         self.__fpath = returnactivewbpath(namefile=self.__khns_namfile)
@@ -26,7 +27,15 @@ class covertcsvexcel:
         self.pathtovalue = refullpath(dirparhconf,self.__dictvalue)
         # csv for value 
         self.valuenotnone = refullpath(dirparhconf,self.__valuenotnone)
+
+        # csv for all value 
+        self.pathvalueall = refullpath(dirparhconf,self.__valueall)
+
         self.redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
+        # get all key redic incule len != 0 
+        self.redic_all =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt,removeemtyvalue= False)
+        
+
         self.valueredicttocsv()
         self.valuelisttocsv()
     def valueredicttocsv(self):
@@ -36,5 +45,9 @@ class covertcsvexcel:
                     )
     def valuelisttocsv (self):
         """ value list to csv """
+        # convert to csv value chuan 
         getvaluelist = list(self.redic.keys())
         listva = listocsvver(pathtow=self.valuenotnone,listv=getvaluelist)
+        # convert to csv all value
+        lvalueall = list(self.redic_all.keys())
+        listva = listocsvver(pathtow=self.pathvalueall,listv=lvalueall)

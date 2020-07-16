@@ -37,11 +37,13 @@ class hexcel_sep:
                 self.__azb30_startrowhm = int(self.dicrowconf["zab30_recor_l1"])
 
                 self.__hm_rangege = (self.dicrowconf["hm_rangege"])
+                self.__azb30_msa = (self.dicrowconf["azb30_ms"])
                 self.numberhm = int(sepnumberandstrfromstr(self.__hm_rangege)[1])
                 self.__wb1  = wbnsct
                 
     def habz30 (self):
         """handling data azb-30 sheet"""
+
         lsheetnames = [sheet.name for sheet in self.__wb1.sheets ]
         for k in range (self.__azb30_starcolumn ,self.mcol):
             hmname =  self.wsheet.range(self.__azb30_rowhm , 
@@ -55,11 +57,38 @@ class hexcel_sep:
                                 namefile=self.namefile,
                                 namesheet=hmname)
                                 
+        valueim = returnlist_from_listinstr(self.dicrowconf["zab30_valueim"].replace(":", ","))
+        if len(valueim) != 0: 
+            lindexrow_im = lcellindexbyvalue(max_row=self.mrow,
+                                                min_row=self.__azb30_startrowhm,
+                                                max_col=self.__azb30_msa,
+                                                min_col=self.__azb30_msa,
+                                                sheet=self.wsheet,
+                                                lvalue=valueim
+                                                )
+        
+            lvaluebyindecell_im = valuebyindexrowcell(lindexcell=lindexrow_im,
+                                                    col=colnum_string(k),
+                                                    sheet=self.wsheet)
+
+        valueformulas = "=SUMIFS({0}!$L${4}:$L${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
+                                                                                    "'" + "AZB-30" + "'",
+                                                                                    self.__azb30_startrowhm,
+                                                                                    self.__hm_maxrow ,
+                                                                                    self.numberhm
+                                                                                    )
+
         rangecopyrefsamesheet(sheet=self.wsheet,
-                            formulasfirstcell=sumvalue,
-                            col_index=dongia,
-                            startrow=startrowhm,
-                            endrow=m_row)
+                            formulasfirstcell=valueformulas,
+                            col_index=k,
+                            startrow=self.__azb30_startrowhm,
+                            endrow=self.__hm_maxrow)
+        if len (valueim) != 0: 
+            returnvaluekeyim(cola=colnum_string(k),
+                            listvalue_im=lvaluebyindecell_im,
+                            sheet=self.wsheet,
+                            indexrow_im=lindexrow_im
+                            )
         """
         self.wsheet.range(self.__azb30_startrowhm,k).value = "=SUMIFS({0}!$L${4}:$L${3},{0}!$B${4}:$B${3},C{2})".format(pfile,
                                                                 "'" + "AZB-30" + "'",

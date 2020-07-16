@@ -42,7 +42,7 @@ class credict:
             value_list = [cell.value for cell in self.ws.range(self.rangea) if cell.value != None]
 
         return value_list
-    def redictvaluesandvaluecol(self, columnumber = 4 ):
+    def redictvaluesandvaluecol(self, columnumber = 4, removeemtyvalue = True):
         """ return dict value and value column"""
         arrch = []
         res = list(zip(self.reindexrownotnone(), self.reindexrownotnone()[1:] + self.reindexrownotnone()[:1])) 
@@ -51,7 +51,10 @@ class credict:
             arrch.append(arrchild)
             arrchild = None
         dictionary = dict(zip(self.revaluerownotnone(), arrch))
-        new_dict = {key:val for key, val in dictionary.items() if len(val) != 0} 
+        if removeemtyvalue:
+            new_dict = {key:val for key, val in dictionary.items() if len(val) != 0} 
+        else:
+            new_dict = dictionary
         return new_dict
     
     def returndictvaluebyindexcolumnandrow(self, 

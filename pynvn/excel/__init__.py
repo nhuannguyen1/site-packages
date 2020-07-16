@@ -170,7 +170,7 @@ def rangecopyrefsamesheet (sheet = None,
                             endrow = None):
         """copy range have reference at col_index"""
 
-        sheet.range(startrow,col_index).value =  "=" + formulasfirstcell 
+        sheet.range(startrow,col_index).value =   formulasfirstcell 
 
         vtformulas = sheet.range(startrow,
                                         col_index).formula

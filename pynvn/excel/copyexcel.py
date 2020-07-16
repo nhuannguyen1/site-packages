@@ -170,7 +170,6 @@ class cexcel:
                         lvaluehavechild=valuehavechild,
                         formulasfor_col_dup = forbydup)
 
-
         if self.__namesheet == "AZB-60":
             recor_l_lint = int(self.dictconf["zab60_recor_l1"])
             valueim = returnlist_from_listinstr(self.dictconf["zab60_valueim"].replace(":", ","))

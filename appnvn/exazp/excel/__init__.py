@@ -60,11 +60,15 @@ class hexcel:
         self.__hm_mtc =col2num (dicrowconf["hm_mtc"])
         self.__hm_th =col2num (dicrowconf["hm_th"])
         self.__valuenotnone =dicrowconf["valuenotnone"]
+        valueall =dicrowconf["valueall"]
         self.__dictvalue =dicrowconf["dictvalue"]
         # csv for dict 
         self.pathtovalue = refullpath(dirparhconf,self.__dictvalue)
         # csv for value 
         self.valuenotnone = refullpath(dirparhconf,self.__valuenotnone)
+        # path all value 
+        self.pathvalueall = refullpath(dirparhconf,valueall)
+
         self.__khns_rangenumbermct_ptvt =dicrowconf["khns_rangenumbermct_ptvt"]
         # hangmuccongtac 
         self.__hm_startpasterange = dicrowconf["hm_startpasterange"]
@@ -73,6 +77,9 @@ class hexcel:
 
         # return list ma cong tac not node in cell value of ptvl by csv
         self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
+        # return all value from csv 
+        self.getallvalue = convertcsvtolist(path=self.pathvalueall)
+
         self.__returnothervalue()
         self.__returnlistcongtac()
     def __returnothervalue(self):
@@ -186,7 +193,7 @@ class hexcel:
     def valuehangmucforthvt(self):
         lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
         for index in range(self.__hm_startrowvalue, lrow + 1):
-            if self.sht1.range(index,self.__hm_ct_int).value in self.getvaluelist:
+            if self.sht1.range(index,self.__hm_ct_int).value in self.getallvalue:
                 self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$I$8:$I${0})".format(self.row_ptvt,
                                                                                                                     self.__sheetnametor,
                                                                                                                     index,
