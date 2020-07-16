@@ -15,6 +15,11 @@ class hdatahm:
         self.__hm_materiasvattu = dictconf["hm_materiasvattu"]
         self.__hm_vlvk = dictconf["hm_vlvk"]
         self.__hm_VLTP = dictconf["hm_VLTP"]
+        self.__hm_MNCTP = dictconf["hm_MNCTP"]
+
+        self.__hm_VTKCT = dictconf["hm_VTKCT"]
+        self.__hm_NCKCT = dictconf["hm_NCKCT"]
+
         self.__hm_startpasterange = dictconf["hm_startpasterange"]
         sign_vk = dictconf["sign_vk"].replace(":", ",")
         self.sign_vk = returnlist_from_listinstr(sign_vk)
@@ -31,7 +36,15 @@ class hdatahm:
             if ctname == None or ctname == "":
                 continue
             if type(ctname) != str:
-                self.__sheetdesactive.range("{0}{1}".format(self.__hm_VLTP,ct)).value = "={0}{1}".format(self.__hm_materiasvattu,ct)
+                if "62"in str(ctname):
+                    self.__sheetdesactive.range("{0}{1}".format(self.__hm_VTKCT,ct)).value = "={0}{1}".format(self.__hm_materiasvattu,ct)
+                
+                    self.__sheetdesactive.range("{0}{1}".format(self.__hm_NCKCT,ct)).value = "=BG{0}+BH{0}".format(ct)
+                else:
+                    self.__sheetdesactive.range("{0}{1}".format(self.__hm_VLTP,ct)).value = "={0}{1}".format(self.__hm_materiasvattu,ct)
+                
+                    self.__sheetdesactive.range("{0}{1}".format(self.__hm_MNCTP,ct)).value = "=BG{0}+BH{0}".format(ct)
+
             else:
                 if any(elen in ctname for elen in self.sign_BT):
                     self.__sheetdesactive.range("{0}{1}".format(self.__hm_bombt,ct)).value = "={0}{1}".format(self.__hm_macmtc,ct)
