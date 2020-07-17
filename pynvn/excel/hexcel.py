@@ -51,45 +51,28 @@ class hexcel_child:
         
     def runaz30azb60(self):
         """ run AZB30 and run AZB60"""
-        if (self.lsheetname[0] == "AZB-30" or  self.lsheetname[0] == "AZB-60"):
-            exelh = hexcel_sep(wsheet=self.__ws1,
+        exelh = hexcel_sep(wsheet=self.__ws1,
                                 dpath=self.__dirpath,
                                 namefile=self.__namefile,
                                 dicrowconf = self.dicrowconf,
-                                wbnsct=self.__wbthns
+                                wbnsct=self.__wbthns,
+                                pathconf = self.pathconf
                                 )
-            if self.lsheetname[0] == "AZB-30":                                    
-                exelh.habz30()
-            else:
-                try:
-                    pathh = refullpath(dirpath=self.__dirpath,filename="AZB30.xlsx")
-                    
-                    #self.sheetwbazb30 = self.__wbazb30.sheets["AZB-30"]
-                except ValueError:
-                    messagebox.showerror("error",
-                                        "check dirpath 1 {} and file name {}".format(self.__dirpath,
-                                                                                    "AZB30.xlsx"))
-                self.wbazb30  = xw.Book(pathh)
-                try:
-                    nsazb = self.wbazb30.sheets["AZB-30"]
-                except ValueError:
-                    messagebox.showerror("error",
-                                        "check dirpath {} and file name {}".format(self.__dirpath,
-                                                                                    "AZB30.xlsx"))
-                exelh.habz60(wsheet_AZ30=nsazb)
-
-            try:
-                self.__wb1.save()
-            except:
-                messagebox.showerror("error",
-                                    "Check path for Pfile {}".format(self.pathtocopy))
-        else:
-            messagebox.showerror ("error", 
-                                    "No sheet name AZB-30 or AZB-60, recheck file again")
-        self.__wbthns.close()
+        print (self.lsheetname[0])
+        if self.lsheetname[0] == "AZB-30":                                    
+            exelh.habz30()
+        if self.lsheetname[0] == "AZB-60":
+            exelh.habz60()
+        if self.lsheetname[0] == "AZB-50" :
+            exelh.azb50()
+        if self.lsheetname[0] == "AZB-40" :
+            exelh.azb40()
         try:
-            self.__wbazb30.close()
+            self.__wb1.save()
         except:
-            pass
+            messagebox.showerror("error",
+                                    "Check path for Pfile {}".format(self.pathtocopy))
+        
+        self.__wbthns.close()
         self.__wb1.close()
         self.__app.quit()

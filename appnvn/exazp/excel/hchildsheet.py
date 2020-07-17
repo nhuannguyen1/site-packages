@@ -61,7 +61,7 @@ class hchildsheet:
                                                                                         self.__startrow,
                                                                                         self.__max_row_allsheet,
                                                                                         indexcol,
-                                                                                        0
+                                                                                        '"' + "" + '"'
                                                                                         )
             self.__sheet_des.range("{0}{1}".format(abccol,
                                                     self.__startrow)).value = fomularex
