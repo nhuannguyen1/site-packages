@@ -170,11 +170,16 @@ def credirfol (dirNamec, subforder):
         messagebox.showerror ("Error","{} already exists".format(subforder))
     return os.path.join(dirNamec, subforder)
 
-def refullpath(dirpath, filename):
+def refullpath(dirpath, filename, folderchild = None):
     """ return full name from dir folder and finame name"""
     try:
-        fpath = os.path.join(dirpath, filename)
-        return fpath
+        if folderchild == None:
+            fpath = os.path.join(dirpath, filename)
+            return fpath
+        else:
+            fpathc = repathfolderchild(dirpath=dirpath,subFolder=folderchild,createfolderifnotexsting= False)
+            fpath = os.path.join(fpathc, filename)
+            return fpath
     except:
         messagebox.showerror("error", "Check dir path {} or filename {} ".format(dirpath,filename))
 

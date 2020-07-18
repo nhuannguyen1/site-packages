@@ -14,16 +14,12 @@ def load_key(path):
     """
     return open(path, "rb").read()
 
-def encrypt(filename, key):
+def encrypt(filename, key, nametow = None):
     """
     Given a filename (str) and key (bytes), it encrypts the file and write it
     """
     f = Fernet(key)
-    with open(filename, "rb") as file:
-        # read all file data
-        file_data = file.read()
-    # encrypt data
-    encrypted_data = f.encrypt(file_data)
+    encrypted_data = f.encrypt(nametow)
     # write the encrypted file
     with open(filename, "wb") as file:
         file.write(encrypted_data)
@@ -38,4 +34,4 @@ def decrypt(filename,key):
         encrypted_data = file.read()
     # decrypt data
     decrypted_data = f.decrypt(encrypted_data)
-    return decrypted_data
+    return decrypted_data.decode("utf-8")
