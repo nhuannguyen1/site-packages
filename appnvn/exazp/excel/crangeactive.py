@@ -2,6 +2,7 @@ from pynvn.excel.copypasteexell import cprange
 import xlwings as xw
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.string.slist import returnseplistintbbystr
+from pynvn.excel import activesheet
 class crangeactive:
     """ copy sheet and change value cell """
     def __init__(self,pathconf = None,
@@ -17,7 +18,9 @@ class crangeactive:
         self.__hm_startcopyrangebt = dictconf["hm_startcopyrange_bt"]
         self.__startcopyrangebt = returnseplistintbbystr(self.__hm_startcopyrangebt)
         self.__hm_startpasterangebt = dictconf["hm_startpasterange_bt"]
-        self.__sheetdesactive = xw.sheets.active
+        
+        self.__sheetdesactive = activesheet()
+        
         self.copyrangfromconf()
         #self.__copyrangfromconf_bt()
     def copyrangfromconf(self):        

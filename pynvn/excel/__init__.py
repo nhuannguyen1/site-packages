@@ -184,3 +184,10 @@ def returnvaluekeyim (cola,listvalue_im,sheet,indexrow_im):
         for count,numberint in enumerate(indexrow_im,0):
             sheet.range("{0}{1}".format(cola,
                                         numberint)).value = listvalue_im[count]
+def activesheet():
+    """ return active sheet of excel file """
+
+    try: 
+        self.__sheetdesactive = xw.sheets.active
+    except:
+        messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")

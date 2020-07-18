@@ -4,6 +4,7 @@ from pynvn.excel import returnrangelastcolumn
 from pynvn.string.slist import returnseplistintbbystr
 from pynvn.string.slist import returnlist_from_listinstr
 import xlwings as xw
+from pynvn.excel import activesheet
 class hdatahm:
     """h data in hang muc """
     def __init__ (self, pathconf = None):
@@ -26,7 +27,9 @@ class hdatahm:
         sign_BT = dictconf["sign_BT"].replace(":", ",")
         self.sign_BT = returnlist_from_listinstr(sign_BT)
         self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
-        self.__sheetdesactive = xw.sheets.active
+            
+        self.__sheetdesactive = activesheet()
+
         #self.m_row = self.__sheetdesactive.api.UsedRange.Rows.count
         self.m_row = self.__sheetdesactive.range(self.__hm_congtac + str(self.__sheetdesactive.cells.last_cell.row)).end('up').row
         self.__hdata()

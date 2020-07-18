@@ -62,13 +62,20 @@ class azbg:
                         frameb = [0,130,470,100,"white"],
                         framec = [0,240,470,160,"#e6ecf5"]
                         )
+        large_font = ("times new roman",12)
+        lb = tk.Label(self.root,text = "Creator: Mr.Hoàng + Mr.Đồng",font = large_font,bg ="#5b9bd5")
+        lb.place(relx = 0.5, rely = 0.87, anchor = tk.CENTER)
+        lb = tk.Label(self.root,text = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com",font = large_font,bg ="#5b9bd5" )
+        lb.place(relx = 0.5, rely = 0.9, anchor = tk.CENTER)
+            
         self.framea = self.sc.framea
         self.frameb = self.sc.frameb
         self.framec = self.sc.framec
-        large_font = ("times new roman",12)
+        
         lbt = tk.Label (self.framea, 
                         bg = "#e6ecf5" ,
                         image = self.imagelogo,
+                        
                         )
         lbt.grid(row = 0,
                     column = 0,
@@ -144,7 +151,8 @@ class azbg:
         self.openfile5 = tk.Button(self.framec,text = "Copy HM",
                             width = 10,
                             height = 1,
-                            command = lambda: crangeactive(pathconf=self.pathconfig,pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf()
+                            command = lambda: crangeactive(pathconf=self.pathconfig,
+                                                        pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf()
                             )
         self.openfile5.grid(row = 1, column = 1,sticky = "w")
         
@@ -292,7 +300,10 @@ class azbg:
                     pathconf=self.pathconfig).copysheettoexcelexist()
     def hdatafilechecked(self):
         """halding data value"""
-        listcheked =  self.cb.getCheckedItems()
+        try:
+            listcheked =  self.cb.getCheckedItems()
+        except:
+            messagebox.showerror ("Error list file", "Check path to child, no file checked")
         for eleexcell in listcheked:
             pathtocopy = refullpath(dirpath=self.pathin,
                                     filename = eleexcell)
