@@ -82,7 +82,7 @@ class key_license:
                                 font="Times 13 italic")
 
         self.canvas1.create_text(13, 280,
-                                text = "Programmer:Mr. Nhuần - nhuannv.vs@gmail.com",
+                                text = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com",
                                 fill="darkblue",
                                 anchor = "w",
                                 font="Times 13 italic")
@@ -103,6 +103,8 @@ class key_license:
         else:
             write_key(self.ser_key)
             key = load_key(self.ser_key)
-            encrypt(filename=self.valueser_key,key = key,nametow=str(x1).encode('utf_8'))
+            encrypt(filename=self.valueser_key,
+                    key = key,
+                    nametow=str(x1).encode('utf_8'))
             self.canvas1.destroy()
             self.classofoject.guiforgd()

@@ -63,10 +63,21 @@ class azbg:
                         framec = [0,240,470,160,"#e6ecf5"]
                         )
         large_font = ("times new roman",12)
-        lb = tk.Label(self.root,text = "Creator: Mr.Hoàng + Mr.Đồng",font = large_font,bg ="#5b9bd5")
-        lb.place(relx = 0.5, rely = 0.87, anchor = tk.CENTER)
-        lb = tk.Label(self.root,text = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com",font = large_font,bg ="#5b9bd5" )
-        lb.place(relx = 0.5, rely = 0.9, anchor = tk.CENTER)
+        lb = tk.Label(self.root,
+                    text = "Creator: Mr.Hoàng + Mr.Đồng",
+                    font = large_font,bg ="#5b9bd5")
+        lb.place(relx = 0.5, 
+                rely = 0.87, 
+                anchor = tk.CENTER
+                )
+        lb = tk.Label(self.root,
+                    text = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com",
+                    font = large_font,bg ="#5b9bd5" 
+                    )
+
+        lb.place(relx = 0.5, 
+                    rely = 0.9, 
+                    anchor = tk.CENTER)
             
         self.framea = self.sc.framea
         self.frameb = self.sc.frameb
@@ -152,7 +163,7 @@ class azbg:
                             width = 10,
                             height = 1,
                             command = lambda: crangeactive(pathconf=self.pathconfig,
-                                                        pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf()
+                                                            pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf()
                             )
         self.openfile5.grid(row = 1, column = 1,sticky = "w")
         
@@ -176,7 +187,8 @@ class azbg:
         self.openfile4 = tk.Button(self.framec,text = "Update Data",
                             width = 10,
                             height = 1,
-                            command = lambda: hexcel(pathconf =  self.pathconfig,pathconfigexcelcopy=self.pathconfigexcelcopy).gdatafromothersheet()
+                            command = lambda: hexcel(pathconf =  self.pathconfig,
+                                                    pathconfigexcelcopy=self.pathconfigexcelcopy).gdatafromothersheet()
                             )
 
         self.openfile4.grid(row = 2, column = 1,sticky = "e")
@@ -211,7 +223,8 @@ class azbg:
         self.openfile3b = tk.Button(self.framec,text = "update config",
                             width = 10,
                             height = 1,
-                            command = lambda: hconfazb(pathconf=self.pathconfig,pathexconf=self.pathconfigexell).convertocsv()
+                            command = lambda: hconfazb(pathconf=self.pathconfig,
+                                                    pathexconf=self.pathconfigexell).convertocsv()
                             )
         self.openfile3b.grid(row = 4, column = 1,sticky = "e")
 
