@@ -60,6 +60,7 @@ class hexcel_child:
                                 wbnsct=self.__wbthns,
                                 pathconf = self.pathconf
                                 )
+        print (self.lsheetname[0])
         if self.lsheetname[0] == "AZB-30":
             if onlyitemiden:
                 exelh.itemiden()

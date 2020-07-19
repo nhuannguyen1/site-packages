@@ -14,6 +14,7 @@ from pynvn.excel.list import listbyrangeremoveduplicate
 from appnvn.exazp.excel.crangeactive import crangeactive
 from pynvn.csv.tolist import convertcsvto1list
 from pynvn.path.ppath import refullpath,getdirpath
+from pynvn.excel import activesheet,activeworkbook
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
@@ -87,17 +88,12 @@ class hexcel:
 
    
         self.pathlsn = refullpath(dirpath=getdirpath(pathconf),
-                                        filename=dictconf["listsheetnamehm"])
+                                        filename=self.dicrowconf["listsheetnamehm"])
 
-        copyhm = self.dicrowconf["copyhm"]
         try:                        
             self.lsheetname = convertcsvto1list(path=self.pathlsn)
         except:
             pass
-
-
-
-
 
         self.__returnothervalue()
         self.__returnlistcongtac()
@@ -130,12 +126,68 @@ class hexcel:
         # clear hm beforecopy
         #hm_startpasterange = self.dicrowconf["hm_startpasterange_bt"]
         #self.sht1.range(hm_startpasterange).api.Delete()
+        updatedata = self.dicrowconf["updatedata"]
+        if updatedata.strip() == "all":
+            self.wb = activeworkbook(namefile=self.__namefile,
+                                    checknamefile= True)
+            for sheet in self.lsheetname:
+                print (sheet)
+                self.wb.sheets[sheet].activate()
+                self.sht1 = activesheet()
+                self.updatavalue()
+        else:
+            self.sht1 = activesheet()
+            self.updatavalue()
+
+    def listothercell (self,irow,icolumn):
+        """ return value of column sheet ptvl1"""
+        valuebycolr = self.thvt.range(irow,icolumn).value 
+        return valuebycolr
+
+    def valuehangmucforthvt(self):
+        """ value from hang muc for thvt """
+        valuefthvt = self.dicrowconf["valuefthvt"]
+
+        if valuefthvt.strip() == "all":
+            self.wb = activeworkbook(namefile=self.__namefile,
+                                    checknamefile= True)
+            for sheet in self.lsheetname:
+                print (sheet)
+                self.wb.sheets[sheet].activate()
+                self.sht1 = activesheet()
+                self.valuehmnvn()
+        else:
+            self.sht1 = activesheet()
+            self.valuehmnvn()
+
+    def valuehmnvn(self):
+        lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
+        for index in range(self.__hm_startrowvalue, lrow + 1):
+            if self.sht1.range(index,self.__hm_ct_int).value in self.getallvalue:
+                self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$I$8:$I${0})".format(self.row_ptvt,
+                                                                                                                    self.__sheetnametor,
+                                                                                                                    index,
+                                                                                                                    "'" + self.sheetnameactive + "'")
+                self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$J$8:$J${0})".format(self.row_ptvt,
+                                                                                                                    self.__sheetnametor,
+                                                                                                                    index,
+                                                                                                                    "'" + self.sheetnameactive + "'")
+                self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$K$8:$K${0})".format(self.row_ptvt,
+                                                                                                            self.__sheetnametor,
+                                                                                                            index,
+                                                                                                            "'" + self.sheetnameactive + "'")
+                self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)
+
+    def updatavalue(self):
+        # clear hm beforecopy
+        
         crangeactive(pathconf=self.pathconf,
-                    pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf_bt()
+                    pathconfigexcelcopy=self.pathconfigexcelcopy).copyrangfromconf_bt(acsheet=self.sht1)
+        
         #create dict with key is parent ma vat tu 
         redic = converlistinstrtolist(path=self.pathtovalue)
         dem = 0
-        cindex = self.__rangeintct[0] + 4
+        cindex = self.__rangeintct[0] + 2
         for lct in self.listofcongtac:
             if lct in self.getvaluelist:
                 rangea = "{0}{1}".format(self.__rangestrct[0],cindex)
@@ -166,28 +218,3 @@ class hexcel:
                                                                                 indexrk + 1)
                     i = i + 1
                 cindex = cindex + len(valuearr)+ 2
-
-    def listothercell (self,irow,icolumn):
-        """ return value of column sheet ptvl1"""
-        valuebycolr = self.thvt.range(irow,icolumn).value 
-        return valuebycolr
-
-    def valuehangmucforthvt(self):
-        """ value from hang muc for thvt """
-
-        lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
-        for index in range(self.__hm_startrowvalue, lrow + 1):
-            if self.sht1.range(index,self.__hm_ct_int).value in self.getallvalue:
-                self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$I$8:$I${0})".format(self.row_ptvt,
-                                                                                                                    self.__sheetnametor,
-                                                                                                                    index,
-                                                                                                                    "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$J$8:$J${0})".format(self.row_ptvt,
-                                                                                                                    self.__sheetnametor,
-                                                                                                                    index,
-                                                                                                                    "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$K$8:$K${0})".format(self.row_ptvt,
-                                                                                                            self.__sheetnametor,
-                                                                                                            index,
-                                                                                                            "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)

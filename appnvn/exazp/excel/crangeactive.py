@@ -13,7 +13,7 @@ class crangeactive:
         self.pathconfigexcelcopy = pathconfigexcelcopy
         dictconf = returndictrowforcsv(path=pathconf)
         self.__hm_startcopyrange = dictconf["hm_startcopyrange"]
-        fname = dictconf["khns_namfile"] 
+        self.fname = dictconf["khns_namfile"] 
         self.__startcopyrange = returnseplistintbbystr(self.__hm_startcopyrange)
         self.__hm_startpasterange = dictconf["hm_startpasterange"]
         self.__hm_hangmuc = dictconf["hm_hangmuc"]
@@ -21,27 +21,37 @@ class crangeactive:
         self.__hm_startcopyrangebt = dictconf["hm_startcopyrange_bt"]
         self.__startcopyrangebt = returnseplistintbbystr(self.__hm_startcopyrangebt)
         self.__hm_startpasterangebt = dictconf["hm_startpasterange_bt"]
-        # return csv have list sheet name 
         self.pathlsn = refullpath(dirpath=getdirpath(pathconf),
                                         filename=dictconf["listsheetnamehm"])
-        copyhm = dictconf["copyhm"]
+        self.copyhm = dictconf["copyhm"]
+
+    def copyrangfromconf(self): 
+        # return csv have list sheet name 
+        
         try:                        
             self.lsheetname = convertcsvto1list(path=self.pathlsn)
         except:
             pass
-        if copyhm.strip() == "all":
-            self.wb = activeworkbook(namefile=fname,
+        if self.copyhm.strip() == "all":
+            self.wb = activeworkbook(namefile=self.fname,
                                     checknamefile= True)
             for sheet in self.lsheetname:
                 print (sheet)
                 self.wb.sheets[sheet].activate()
                 self.__sheetdesactive = activesheet()
-                self.copyrangfromconf()
+                self.__copyrangfromconfk()
         else:
             self.__sheetdesactive = activesheet()
-            self.copyrangfromconf()
+            self.__copyrangfromconfk()
 
-    def copyrangfromconf(self):        
+    def copyrangfromconf_bt(self,acsheet = None):
+        #self.__sheetdesactive = activesheet()        
+        cprange(pathtocopy=self.pathconfigexcelcopy,
+                pathtodes=acsheet,
+                rangetocopy=self.__hm_startcopyrangebt,
+                rangetopaste=self.__hm_startpasterangebt
+                )
+    def __copyrangfromconfk(self):
         start,end = self.__startcopyrange
         cprange(pathtocopy=self.pathconfigexcelcopy,
                 pathtodes=self.__sheetdesactive,
@@ -51,9 +61,3 @@ class crangeactive:
         self.__sheetdesactive.range("{0}{1}:{0}{2}".format(self.__hm_hangmuc,
                                                             start + 2,end)).value  =\
                                                                 self.__sheetdesactive.name
-    def copyrangfromconf_bt(self):        
-        cprange(pathtocopy=self.pathconfigexcelcopy,
-                pathtodes=self.__sheetdesactive,
-                rangetocopy=self.__hm_startcopyrangebt,
-                rangetopaste=self.__hm_startpasterangebt
-                )

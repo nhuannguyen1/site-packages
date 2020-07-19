@@ -30,10 +30,8 @@ class hdatahm:
         self.sign_BT = returnlist_from_listinstr(sign_BT)
         self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
 
-        self.dirpathconf = getdirpath(pathconf)
-        listsheetnamehm = (dictconf["listsheetnamehm"])
-        self.pathlsn = refullpath(dirpath=self.dirpathconf,
-                                        filename=listsheetnamehm)
+        self.pathlsn = refullpath(dirpath=getdirpath(pathconf),
+                                        filename=dictconf["listsheetnamehm"])
         fct = dictconf["fct"]
         try:                        
             self.lsheetname = convertcsvto1list(path=self.pathlsn)
@@ -44,7 +42,7 @@ class hdatahm:
             self.wb = activeworkbook(namefile=fname,
                                     checknamefile= True)
             for sheet in self.lsheetname:
-                print ()
+                print (sheet)
                 self.wb.sheets[sheet].activate()
                 self.__sheetdesactive = activesheet()
                 self.m_row = self.__sheetdesactive.range(self.__hm_congtac + str(self.__sheetdesactive.cells.last_cell.row)).end('up').row
