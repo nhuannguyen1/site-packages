@@ -2,7 +2,12 @@ from tkinter import messagebox
 from pynvn.excel.crelistadict import credict
 import xlwings as xw 
 from pynvn.string  import sepnumberandstrfromstr
-from pynvn.excel import convertrangaphatonunber,returnrangelastcolumn,colnum_string,returnsheetbyname,mrowandmcolum,col2num
+from pynvn.excel import (convertrangaphatonunber,
+                        returnrangelastcolumn,
+                        colnum_string,
+                        returnsheetbyname,
+                        mrowandmcolum,col2num
+                        )
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.string import no_accent_vietnamese
 from pynvn.excel.path import returnactivewbpath
@@ -80,7 +85,11 @@ class hexcel:
         self.__hm_startpasterange = self.dicrowconf["hm_startpasterange"]
         self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
         self.__hm_congtac = self.dicrowconf["hm_congtac"]
-
+        # add new##########################################################################33
+        """
+        self.__khns_macongtac = self.dicrowconf["khns_macongtac"]
+        self.__khns_noidungcongviec = self.dicrowconf["khns_noidungcongviec"]
+        """
         # return list ma cong tac not node in cell value of ptvl by csv
         self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
         # return all value from csv 
@@ -94,7 +103,6 @@ class hexcel:
             self.lsheetname = convertcsvto1list(path=self.pathlsn)
         except:
             pass
-
         self.__returnothervalue()
         self.__returnlistcongtac()
     def __returnothervalue(self):

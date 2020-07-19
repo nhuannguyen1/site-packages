@@ -237,7 +237,6 @@ class azbg:
                             )
         self.openfile3a.grid(row = 5, column = 1,sticky = "w")
 
-
         #only handling to parent
         self.openfile5 = tk.Button(self.framec,text = "Update PTVT",
                             width = 10,
@@ -331,7 +330,8 @@ class azbg:
             pathtocopy = refullpath(dirpath=self.pathin,
                                     filename = eleexcell)
             hexcel_child(pathtocopy=pathtocopy,
-                        pathconf = self.pathconfig,diplaywindow = self.root).runaz30azb60()  
+                        pathconf = self.pathconfig,
+                        diplaywindow = self.root).runaz30azb60()  
     def itemiden(self):
         try:
             listcheked =  self.cb.getCheckedItems()
@@ -341,4 +341,5 @@ class azbg:
             pathtocopy = refullpath(dirpath=self.pathin,
                                     filename = eleexcell)
             hexcel_child(pathtocopy=pathtocopy,
-                        pathconf = self.pathconfig,diplaywindow = self.root).runaz30azb60(onlyitemiden= True)  
+                        pathconf = self.pathconfig,
+                        diplaywindow = self.root).runaz30azb60(onlyitemiden= True)  
