@@ -1,6 +1,6 @@
 import openpyxl as xl
 import xlwings as xw
-from tkinter import messagebox
+from tkinter import messagebox,Label
 from pynvn.excel.hdata import hexcel_sep
 from pynvn.path.ppath import getdirpath,refullpath
 from pynvn.csv.rcsv import returndictrowforcsv
@@ -11,8 +11,10 @@ class hexcel_child:
     def __init__(self,
                     pathtocopy= None,
                     namesheetchild = "AZB",
-                    pathconf = None
+                    pathconf = None,
+                    diplaywindow  = None
                 ):
+        self.diplaywindow = diplaywindow
         self.pathconf = pathconf
         self.pathtocopy = pathtocopy
         self.namesheetchild = namesheetchild
@@ -58,7 +60,22 @@ class hexcel_child:
                                 wbnsct=self.__wbthns,
                                 pathconf = self.pathconf
                                 )
-        print (self.lsheetname[0])
+        """
+        ns = Label(self.diplaywindow,text =self.lsheetname[0])
+        ns.pack()
+        ns = Label(self.diplaywindow,text =self.lsheetname[0])
+        ns.pack()
+        
+
+        lb = Label(self.diplaywindow,
+                    text =self.lsheetname[0],
+                    bg ="#5b9bd5" 
+                    )
+
+        lb.place(relx = 0.5, 
+                    rely = 0.1, 
+                    )
+        """
         if self.lsheetname[0] == "AZB-30":                                    
             exelh.habz30()
         if self.lsheetname[0] == "AZB-60":

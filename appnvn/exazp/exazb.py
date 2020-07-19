@@ -60,7 +60,7 @@ class azbg:
                         bgpr = "#5b9bd5",
                         framea = [0,0,470,130,"#e6ecf5"],
                         frameb = [0,130,470,100,"white"],
-                        framec = [0,240,470,160,"#e6ecf5"]
+                        framec = [0,240,470,160,"#e6ecf5"],
                         )
         large_font = ("times new roman",12)
         lb = tk.Label(self.root,
@@ -83,6 +83,7 @@ class azbg:
         self.frameb = self.sc.frameb
         self.framec = self.sc.framec
         
+
         lbt = tk.Label (self.framea, 
                         bg = "#e6ecf5" ,
                         image = self.imagelogo,
@@ -321,5 +322,5 @@ class azbg:
             pathtocopy = refullpath(dirpath=self.pathin,
                                     filename = eleexcell)
             hexcel_child(pathtocopy=pathtocopy,
-                        pathconf = self.pathconfig).runaz30azb60()  
+                        pathconf = self.pathconfig,diplaywindow = self.root).runaz30azb60()  
     
