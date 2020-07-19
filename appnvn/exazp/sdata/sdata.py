@@ -4,7 +4,7 @@ from pynvn.path.ppath import parentdirectory,refullpath
 from pynvn.excel.path import returnactivewbpath
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.list.tocsv import listocsvver
-
+from pynvn.excel import col2num
 class covertcsvexcel:
     """ convert data to csv and to excel """
     def __init__ (self,pathconf = None):
@@ -17,7 +17,8 @@ class covertcsvexcel:
         self.__valuenotnone =dicrowconf["valuenotnone"]
         self.__valueall =dicrowconf["valueall"]
         self.__dictvalue =dicrowconf["dictvalue"]
-        self.__mvt = int(dicrowconf["khns_mavatu"])
+        self.__mvta = (dicrowconf["khns_mavatu"])
+        self.__mvt  = col2num(self.__mvta)
         self.__fpath = returnactivewbpath(namefile=self.__khns_namfile)
         self.__rel = credict(pathfull=self.__fpath,
                     namesheet=self.__sheetnametor,

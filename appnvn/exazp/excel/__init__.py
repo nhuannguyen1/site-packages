@@ -39,11 +39,15 @@ class hexcel:
 
         self.__rangestrct = returnliststr_from_str(self.__rangeg)
 
-        self.__mvt = int(self.dicrowconf["khns_mavatu"])
-        self.__khns_ndcv = int(self.dicrowconf["khns_noidungcongviec"])
-        self.__khns_dvt = int(self.dicrowconf["khns_dvt"])
+        self.__mvta = (self.dicrowconf["khns_mavatu"])
+        self.__mvt = col2num (self.__mvta)
+        self.__khns_ndcva = (self.dicrowconf["khns_noidungcongviec"])
+        self.__khns_ndcv = col2num (self.__khns_ndcva)
+        self.__khns_dvta = (self.dicrowconf["khns_dvt"])
+        self.__khns_dvt = col2num (self.__khns_dvta)
 
         self.__khns_muchaophi = (self.dicrowconf["khns_muchaophi"])
+
         self.__khns_muchaophi_int = col2num(self.__khns_muchaophi)
 
         self.__hm_mvt = int(self.dicrowconf["hm_mvt"])
@@ -86,10 +90,16 @@ class hexcel:
         self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
         self.__hm_congtac = self.dicrowconf["hm_congtac"]
         # add new##########################################################################33
-        """
+        
         self.__khns_macongtac = self.dicrowconf["khns_macongtac"]
         self.__khns_noidungcongviec = self.dicrowconf["khns_noidungcongviec"]
-        """
+        self.__khns_vattu = self.dicrowconf["khns_vattu"]
+        self.__khns_nhancong = self.dicrowconf["khns_nhancong"]
+        self.__khns_maytc = self.dicrowconf["khns_maytc"]
+        
+        self.__hm_th_formulas = self.dicrowconf["hm_th_formulas"]
+
+        self.__khns_startrow = int(self.dicrowconf["khns_startrow"])
         # return list ma cong tac not node in cell value of ptvl by csv
         self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
         # return all value from csv 
@@ -112,7 +122,7 @@ class hexcel:
         wb = xw.Book(self.__fpath)
         # set active workbook
         self.sht1 = wb.sheets.active
-        self.sheetnameactive = wb.sheets.active.name
+        #self.sheetnameactive = wb.sheets.active.name
         # get set thvt 
         self.thvt = wb.sheets[self.__sheetnametor]
 
@@ -142,9 +152,11 @@ class hexcel:
                 print (sheet)
                 self.wb.sheets[sheet].activate()
                 self.sht1 = activesheet()
+                self.sheetnameactive = self.sht1.name
                 self.updatavalue()
         else:
             self.sht1 = activesheet()
+            self.sheetnameactive = self.sht1.name
             self.updatavalue()
 
     def listothercell (self,irow,icolumn):
@@ -160,31 +172,46 @@ class hexcel:
             self.wb = activeworkbook(namefile=self.__namefile,
                                     checknamefile= True)
             for sheet in self.lsheetname:
-                print (sheet)
                 self.wb.sheets[sheet].activate()
                 self.sht1 = activesheet()
+                self.sheetnameactive = self.sht1.name
                 self.valuehmnvn()
         else:
             self.sht1 = activesheet()
+            self.sheetnameactive = self.sht1.name
             self.valuehmnvn()
 
     def valuehmnvn(self):
         lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
         for index in range(self.__hm_startrowvalue, lrow + 1):
             if self.sht1.range(index,self.__hm_ct_int).value in self.getallvalue:
-                self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$I$8:$I${0})".format(self.row_ptvt,
+                self.sht1.range(index,self.__hm_vt).value = "=SUMIF({1}!${4}${7}:${4}${0},{3}!{5}{2},{1}!${6}${7}:${6}${0})".format(self.row_ptvt,
                                                                                                                     self.__sheetnametor,
                                                                                                                     index,
-                                                                                                                    "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$J$8:$J${0})".format(self.row_ptvt,
+                                                                                                                    "'" + self.sheetnameactive + "'", 
+                                                                                                                    self.__khns_macongtac,
+                                                                                                                    self.__hm_congtac,
+                                                                                                                    self.__khns_vattu,
+                                                                                                                    self.__khns_startrow)
+                self.sht1.range(index,self.__hm_nc).value = "=SUMIF({1}!${4}${7}:${4}${0},{3}!{5}{2},{1}!${6}${7}:${6}${0})".format(self.row_ptvt,
                                                                                                                     self.__sheetnametor,
                                                                                                                     index,
-                                                                                                                    "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!$C$8:$C${0},{3}!BC{2},{1}!$K$8:$K${0})".format(self.row_ptvt,
+                                                                                                                    "'" + self.sheetnameactive + "'",
+                                                                                                                    self.__khns_macongtac,
+                                                                                                                    self.__hm_congtac,
+                                                                                                                    self.__khns_nhancong,
+                                                                                                                    self.__khns_startrow)
+
+                self.sht1.range(index,self.__hm_mtc).value = "=SUMIF({1}!${4}${7}:${4}${0},{3}!{5}{2},{1}!${6}${7}:${6}${0})".format(self.row_ptvt,
                                                                                                             self.__sheetnametor,
                                                                                                             index,
-                                                                                                            "'" + self.sheetnameactive + "'")
-                self.sht1.range(index,self.__hm_th ).value = "=SUM(BF{0}:BH{0})".format(index)
+                                                                                                            "'" + self.sheetnameactive + "'",
+                                                                                                            self.__khns_macongtac,
+                                                                                                            self.__hm_congtac,
+                                                                                                            self.__khns_maytc,
+                                                                                                            self.__khns_startrow
+                                                                                                            )
+                self.sht1.range(index,self.__hm_th ).value = self.__hm_th_formulas.format(index)
 
     def updatavalue(self):
         # clear hm beforecopy
