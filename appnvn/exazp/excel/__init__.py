@@ -12,6 +12,8 @@ from pynvn.path.ppath import refullpath,parentdirectory
 from pynvn.string.slist import returnseplistintbbystr,returnliststr_from_str
 from pynvn.excel.list import listbyrangeremoveduplicate
 from appnvn.exazp.excel.crangeactive import crangeactive
+from pynvn.csv.tolist import convertcsvto1list
+from pynvn.path.ppath import refullpath,getdirpath
 class hexcel:
     """hading data excel for azzbbb"""
     def __init__ (self, fpath = None,
@@ -82,6 +84,20 @@ class hexcel:
         self.getvaluelist = convertcsvtolist(path=self.valuenotnone)
         # return all value from csv 
         self.getallvalue = convertcsvtolist(path=self.pathvalueall)
+
+   
+        self.pathlsn = refullpath(dirpath=getdirpath(pathconf),
+                                        filename=dictconf["listsheetnamehm"])
+
+        copyhm = self.dicrowconf["copyhm"]
+        try:                        
+            self.lsheetname = convertcsvto1list(path=self.pathlsn)
+        except:
+            pass
+
+
+
+
 
         self.__returnothervalue()
         self.__returnlistcongtac()
@@ -157,6 +173,8 @@ class hexcel:
         return valuebycolr
 
     def valuehangmucforthvt(self):
+        """ value from hang muc for thvt """
+
         lrow =  self.sht1.range(self.__hm_ct + str(self.sht1.cells.last_cell.row)).end('up').row
         for index in range(self.__hm_startrowvalue, lrow + 1):
             if self.sht1.range(index,self.__hm_ct_int).value in self.getallvalue:

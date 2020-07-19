@@ -245,15 +245,24 @@ class azbg:
                             command = lambda: covertcsvexcel(pathconf=self.pathconfig)
                             )
         self.openfile5.grid(row = 5, column = 1,sticky = "e")
+        #item identification
+          
+        buttom_quit = tk.Button (self.framec,
+                                text = "Item iden",
+                                width = 10,
+                                height = 1,
+                                command = lambda: self.itemiden()
+                                )
+        buttom_quit.grid(row = 2, column = 1)
 
-        #quit widget  
+        #quit widget
         buttom_quit = tk.Button (self.framec,
                                 text = "Exit",
                                 width = 10,
                                 height = 1,
                                 command = self.root.quit
                                 )
-        buttom_quit.grid(row = 3, column = 1)
+        buttom_quit.grid(row = 3, column = 1)    
     # open file follow directory 
     def mfolderopenchild(self):
         """ open folder of child files"""
@@ -323,4 +332,13 @@ class azbg:
                                     filename = eleexcell)
             hexcel_child(pathtocopy=pathtocopy,
                         pathconf = self.pathconfig,diplaywindow = self.root).runaz30azb60()  
-    
+    def itemiden(self):
+        try:
+            listcheked =  self.cb.getCheckedItems()
+        except:
+            messagebox.showerror ("Error list file", "Check path to child, no file checked")
+        for eleexcell in listcheked:
+            pathtocopy = refullpath(dirpath=self.pathin,
+                                    filename = eleexcell)
+            hexcel_child(pathtocopy=pathtocopy,
+                        pathconf = self.pathconfig,diplaywindow = self.root).runaz30azb60(onlyitemiden= True)  

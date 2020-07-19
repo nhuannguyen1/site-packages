@@ -186,8 +186,18 @@ def returnvaluekeyim (cola,listvalue_im,sheet,indexrow_im):
                                         numberint)).value = listvalue_im[count]
 def activesheet():
     """ return active sheet of excel file """
-
     try: 
-        self.__sheetdesactive = xw.sheets.active
+        return xw.sheets.active
+    except:
+        messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")
+def activeworkbook(namefile = None,checknamefile = False):
+    try:
+        if checknamefile:
+            if namefile == xw.books.active.name:
+                return xw.books.active
+            else:
+                messagebox.showerror ("error file name","name active workboook is not {0}".format(namefile))
+        else:
+            return xw.sheets.active
     except:
         messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")

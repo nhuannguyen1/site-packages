@@ -4,7 +4,9 @@ from pynvn.excel import returnrangelastcolumn
 from pynvn.string.slist import returnseplistintbbystr
 from pynvn.string.slist import returnlist_from_listinstr
 import xlwings as xw
-from pynvn.excel import activesheet
+from pynvn.excel import activesheet,activeworkbook
+from pynvn.path.ppath import refullpath,getdirpath
+from pynvn.csv.tolist import convertcsvto1list
 class hdatahm:
     """h data in hang muc """
     def __init__ (self, pathconf = None):
@@ -27,12 +29,32 @@ class hdatahm:
         sign_BT = dictconf["sign_BT"].replace(":", ",")
         self.sign_BT = returnlist_from_listinstr(sign_BT)
         self.__startpasterange = returnseplistintbbystr(self.__hm_startpasterange)
-            
-        self.__sheetdesactive = activesheet()
 
-        #self.m_row = self.__sheetdesactive.api.UsedRange.Rows.count
-        self.m_row = self.__sheetdesactive.range(self.__hm_congtac + str(self.__sheetdesactive.cells.last_cell.row)).end('up').row
-        self.__hdata()
+        self.dirpathconf = getdirpath(pathconf)
+        listsheetnamehm = (dictconf["listsheetnamehm"])
+        self.pathlsn = refullpath(dirpath=self.dirpathconf,
+                                        filename=listsheetnamehm)
+        fct = dictconf["fct"]
+        try:                        
+            self.lsheetname = convertcsvto1list(path=self.pathlsn)
+        except:
+            pass
+        fname = dictconf["khns_namfile"] 
+        if fct.strip() == "all":
+            self.wb = activeworkbook(namefile=fname,
+                                    checknamefile= True)
+            for sheet in self.lsheetname:
+                print ()
+                self.wb.sheets[sheet].activate()
+                self.__sheetdesactive = activesheet()
+                self.m_row = self.__sheetdesactive.range(self.__hm_congtac + str(self.__sheetdesactive.cells.last_cell.row)).end('up').row
+                self.__hdata()
+                #self.copyrangfromconf()
+        else:
+            self.__sheetdesactive = activesheet()
+            #self.copyrangfromconf()
+            self.m_row = self.__sheetdesactive.range(self.__hm_congtac + str(self.__sheetdesactive.cells.last_cell.row)).end('up').row
+            self.__hdata()   
     def __hdata (self):
         for ct in range (self.__startpasterange[0] + 2,self.m_row + 2):
             ctname = self.__sheetdesactive.range("{0}{1}".format(self.__hm_congtac,ct)).value

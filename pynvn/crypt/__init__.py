@@ -12,9 +12,12 @@ def load_key(path):
     """
     Loads the key from the current directory named `key.key`
     """
+    
     return open(path, "rb").read()
 
-def encrypt(filename, key, nametow = None):
+def encrypt(filename, 
+            key, 
+            nametow = None):
     """
     Given a filename (str) and key (bytes), it encrypts the file and write it
     """

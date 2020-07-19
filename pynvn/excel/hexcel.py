@@ -51,7 +51,7 @@ class hexcel_child:
                                 recheck Directory again Note: extension of excel maybe xls or xlsx,\
                                      check file config {1} have parameter 'khns_namfile'".format(self.__fpath,self.pathconf))
         
-    def runaz30azb60(self):
+    def runaz30azb60(self, onlyitemiden = False):
         """ run AZB30 and run AZB60"""
         exelh = hexcel_sep(wsheet=self.__ws1,
                                 dpath=self.__dirpath,
@@ -60,23 +60,9 @@ class hexcel_child:
                                 wbnsct=self.__wbthns,
                                 pathconf = self.pathconf
                                 )
-        """
-        ns = Label(self.diplaywindow,text =self.lsheetname[0])
-        ns.pack()
-        ns = Label(self.diplaywindow,text =self.lsheetname[0])
-        ns.pack()
-        
-
-        lb = Label(self.diplaywindow,
-                    text =self.lsheetname[0],
-                    bg ="#5b9bd5" 
-                    )
-
-        lb.place(relx = 0.5, 
-                    rely = 0.1, 
-                    )
-        """
-        if self.lsheetname[0] == "AZB-30":                                    
+        if self.lsheetname[0] == "AZB-30":
+            if onlyitemiden:
+                exelh.itemiden()
             exelh.habz30()
         if self.lsheetname[0] == "AZB-60":
             exelh.habz60()

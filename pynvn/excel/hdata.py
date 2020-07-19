@@ -13,6 +13,7 @@ from pynvn.excel import (cellcoordbyvalue,
                         )
 from pynvn.csv.tocsv import listtocsvbyarow
 from pynvn.csv.tolist import convertcsvto1list
+from tkinter import messagebox
 class hexcel_sep:
     """copy excel to excel"""
     def __init__(self,wsheet = None,
@@ -38,7 +39,10 @@ class hexcel_sep:
                 # return csv have list sheet name 
                 self.pathlsn = refullpath(dirpath=self.dirpathconf,
                                         filename=listsheetnamehm)
-                self.lsheet = convertcsvto1list(path=self.pathlsn)
+                try:                        
+                    self.lsheet = convertcsvto1list(path=self.pathlsn)
+                except:
+                    pass
     def habz30 (self):
         """handling data azb-30 sheet"""
         self.__hm_maxrow = int(self.dicrowconf["hm_maxrow"])
@@ -213,3 +217,17 @@ class hexcel_sep:
                                                                             colmay_nc,
                                                                             colmay_nc_row)
             crow = crow + 1
+    def itemiden(self):
+        """item identification"""
+        self.__azb30_starcolumn = col2num(self.dicrowconf["azb30_starcolumn"])
+        self.__azb30_rowhm = int(self.dicrowconf["azb30_rowhm"])
+        #lsheetnamehm = []
+        lsheetnames = [sheet.name for sheet in self.__wb1.sheets ]
+        lsheetnamehm = [self.wsheet.range(self.__azb30_rowhm , k).value  \
+                        for k in range (self.__azb30_starcolumn ,self.mcol) \
+                        if self.wsheet.range(self.__azb30_rowhm , k).value in lsheetnames]
+        if len(lsheetnamehm) == 0:
+            messagebox.showerror("Error", "Review {0}, has it processed?".format("AZB-30"))
+        # convet to  csv file 
+        listtocsvbyarow(listvalue=lsheetnamehm,
+                        pathcsv=self.pathlsn )
