@@ -7,9 +7,7 @@ from pynvn.path.ppath import getpathfromtk
 from appnvn.atadctn.treectn import scbg
 from pathlib import Path
 from PIL import ImageTk
-from pynvn.path.ppath import (PathSteel,
-                            refullpath,
-                            resource_path_is_from_pyinstall_and_dev,
+from pynvn.path.ppath import (refullpath,
                             listfileinfolder
                             )
 from appnvn.atadctn.treectn import scrollbarvn
