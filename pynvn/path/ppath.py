@@ -1,7 +1,8 @@
 import os
 import csv
 import sys
-from tkinter import messagebox
+from tkinter import messagebox,filedialog
+import tkinter as tk
 import openpyxl as xl
 class PathSteel:
     def  __init__(self, path_Full = None,
@@ -237,3 +238,13 @@ def listfileinfolder(path):
         return os.listdir(path)
     except:
         messagebox.showerror ("Error","check for folder path {}".format(path))
+
+def mfileopen(outputtk):
+        """ open file parent"""
+        outputtk.delete(0, 'end')
+        # ask directory
+        files = filedialog.askopenfilename(title = "Directory of parent file",
+                                            initialdir=outputtk.get())
+        outputtk.insert(tk.END,
+                            files)
+        # get path from entry 

@@ -201,3 +201,22 @@ def activeworkbook(namefile = None,checknamefile = False):
             return xw.sheets.active
     except:
         messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")
+def listsheetofwb (path):
+    """ return all sheet name of wb"""
+    if (path != "" and path != None):
+        wb1  = xw.Book(path)
+        lsheetnames = [sheet.name for sheet in wb1.sheets ]
+        return lsheetnames
+def check_open_wb (path):
+    """ check workbook open or not  """
+    try:
+        listwb = xw.books
+        for wb in listwb:
+            if wb.name in path:
+                return True
+                break
+        else:
+            return False
+    except:
+        return False
+
