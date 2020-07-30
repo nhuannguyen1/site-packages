@@ -132,13 +132,16 @@ def PathFromFileNameAndDirpath (dir_path = None,
     full_path = PathS.refpath()
     return full_path
 
-def getpathfromtk(outputpath):
+def getpathfromtk(outputpath = None,Warning_path_existing = True):
     """ get content entry from output for tk widget"""
     #pathin = outputpath.get()
     try:
         pathin = outputpath.get()
         if os.path.exists(pathin) == False:
-            messagebox.showinfo("directory", "directory not found for option")
+            if Warning_path_existing:
+                messagebox.showinfo("directory", "directory not found for option")
+            else:
+                pass
         else: 
             return pathin
     except:

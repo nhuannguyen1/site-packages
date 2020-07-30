@@ -204,7 +204,11 @@ def activeworkbook(namefile = None,checknamefile = False):
 def listsheetofwb (path):
     """ return all sheet name of wb"""
     if (path != "" and path != None):
-        wb1  = xw.Book(path)
+        if not xw.apps:
+            app = xw.App(visible= True,add_book=False)
+        else:
+            app = xw.apps.active
+        wb1  = app.books.open(path)
         lsheetnames = [sheet.name for sheet in wb1.sheets ]
         return lsheetnames
 def check_open_wb (path):

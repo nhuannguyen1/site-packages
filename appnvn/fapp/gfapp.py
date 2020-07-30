@@ -102,7 +102,7 @@ class gapp:
                                 justify=tk.CENTER,
                                 width = 20,
                                 relief = tk.SOLID,
-                                validate="focusin",
+                                validate="focusout",
                                 validatecommand=vcmd,                                
                                 bg = "yellow"
                               )
@@ -114,7 +114,7 @@ class gapp:
                             height = 1,
                             width = 4,
                             bd = 1,
-                            command = lambda: mfileopen(self.output1)
+                            command = lambda: self.mfileopend(outputtk=self.output1,combopc=self.combopc)
                             )
         button.grid(row = 1,
                     column = 2,
@@ -156,7 +156,7 @@ class gapp:
                                 justify=tk.CENTER,
                                 width = 20,
                                 relief = tk.SOLID,
-                                validate="focusin",
+                                validate="focusout",
                                 validatecommand=vcmd,                                
                                 bg = "yellow"
                               )
@@ -168,7 +168,7 @@ class gapp:
                             height = 1,
                             width = 4,
                             bd = 1,
-                            command = lambda: mfileopen(self.repathdes)
+                            command = lambda: self.mfileopend(outputtk=self.repathdes,combopc=self.combo_des)
                             )
         buttondes.grid(row = 2,
                     column = 2,
@@ -194,17 +194,35 @@ class gapp:
 
     def validate_username(self, index, username):
         """validate user name """
+        """
         # for retrive path data
-        pathfilep = getpathfromtk(self.output1)
+        pathfilep = getpathfromtk(self.output1,
+                                Warning_path_existing=False)
         lsheets  = listsheetofwb(pathfilep)
-        print ("lsheets",lsheets)
-        self.combopc.config(values=["Active Sheet"] + lsheets )
-
+        try:
+            self.combopc.config(values=["Active Sheet"] + lsheets)
+        except:
+            pass  
         # for destionation path data
-        pathfile_des = getpathfromtk(self.repathdes)
+        pathfile_des = getpathfromtk(self.repathdes,
+                                    Warning_path_existing= False)
         lsheets_des = listsheetofwb(pathfile_des)
-        self.combo_des.config(values=["Active Sheet"] + lsheets_des)
+        try:
+            self.combo_des.config(values=["Active Sheet"] + lsheets_des)
+        except:
+            pass
+        """
         return self.pattern.match(username) is not None
+    def mfileopend(self,outputtk,combopc):
+        mfileopen(outputtk)
+        pathfilep = getpathfromtk(outputtk,
+                                Warning_path_existing=False)
+        lsheets  = listsheetofwb(pathfilep)
+        try:
+            combopc.config(values=["Active Sheet"] + lsheets)
+        except:
+            pass  
+        
 
 root = tk.Tk ()
 obj = gapp(root)
