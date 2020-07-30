@@ -51,13 +51,14 @@ class gapp:
 
         self.sc  = scbg(parent = self.root,
                         cavheight=420,
-                        cavwidth=470,
+                        cavwidth=500,
                         isonlyaframe= False,
                         bg = "#e6ecf5",
                         bgpr = "#5b9bd5",
-                        framea = [0,0,470,420,"#e6ecf5"],
+                        framea = [0,0,500,420,"#e6ecf5"],
                         )
         large_font = ("times new roman",12)
+        large_font_1 = ("times new roman",17)
         lb = tk.Label(self.root,
                     text = "Mr.Nhuần - nguyenvannhuan90123@gmail.com",
                     font = large_font,bg ="#5b9bd5")
@@ -70,12 +71,12 @@ class gapp:
 
         lbt = tk.Label (self.framea, 
                         bg = "#e6ecf5" ,
-                        image = self.imagelogo,
-                        
+                        text = "Input your information",
+                        font =large_font_1,
                         )
         lbt.grid(row = 0,
                     column = 0,
-                    columnspan = 3,
+                    columnspan = 6,
                     sticky = tk.EW
                     )
         # path to folder child
@@ -91,13 +92,49 @@ class gapp:
         self.output1 = tk.Entry (self.framea, 
                                 font = large_font,
                                 justify=tk.CENTER,
-                                width = 40,
+                                width = 20,
                                 relief = tk.SOLID,
                                 bg = "yellow"
                               )
         self.output1.grid(row = 1,
                         column = 1,
                         )
+        
+        button = tk.Button(self.framea,
+                            height = 1,
+                            width = 4,
+                            bd = 1,
+                            )
+        button.grid(row = 1,
+                    column = 2,
+                    sticky = "we"
+                    )
+
+        repath = tk.Label(self.framea,
+                        text = "Sheet name:", 
+                        width = 10,
+                        font =large_font,
+                        bg = "#e6ecf5",)
+        repath.grid(row = 1,
+                    column = 3,
+                    sticky =  tk.W
+                    )
+        self.output1 = tk.Entry (self.framea, 
+                                font = large_font,
+                                justify=tk.CENTER,
+                                width = 10,
+                                relief = tk.SOLID,
+                                bg = "yellow"
+                              )
+        self.output1.grid(row = 1,
+                        column = 4,
+                        )
+
+
+
+
+
+
 
 root = tk.Tk ()
 obj = gapp(root)
