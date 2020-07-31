@@ -35,3 +35,11 @@ def str_seplistint_strbystr(strint):
         ex: "BB5:CF100" ---> ['BB5', 'CF100']
     """
     return list(map(str, (re.findall('\w+', strint)))) 
+
+def add_sb_to_str(strint = None, specsb = "$"):
+    """ return list int_str by separate from string
+        ex: "BB5:CF100" ---> $BB$5:$CF$100
+    """
+    lstr = returnliststr_from_str(strint)
+    lint =returnseplistintbbystr(strint)
+    return specsb + lstr[0] + specsb + str(lint[0]) + ":" + specsb + lstr[1] + specsb + str(lint[1])  

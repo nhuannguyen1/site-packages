@@ -11,19 +11,8 @@ from pynvn.path.ppath import (refullpath,
                             listfileinfolder,
                             mfileopen
                             )
-from appnvn.atadctn.treectn import scrollbarvn
-from pynvn.checklb.checkb import ChecklistBox
-from pynvn.excel.copyexcel import cexcel
-from pynvn.excel.hexcel import hexcel_child
-from pynvn.excel.lexcel import listexcel
-from appnvn.exazp.excel import hexcel
-from pynvn.list.flist import filterlistbylstr
-from appnvn.exazp.sdata.sdata import covertcsvexcel
-from appnvn.exazp.excel.crangeactive import crangeactive
-from appnvn.exazp.excel.hhm import hdatahm
 from pynvn.excel import openexcelbyxl,listsheetofwb
 from appnvn.exazp.conf import hconfazb
-from pynvn.excel import closeallfileexcel
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.excel.Fill_formula import fformulas
 import re
@@ -47,7 +36,7 @@ class gapp:
         gui (tktk=self.root,
             pathico=None,
             width=700,
-            height=400, 
+            height=420, 
             widthx=420, 
             widthy=0,
             resizable=[True,True],
@@ -55,11 +44,11 @@ class gapp:
 
         self.sc  = scbg(parent = self.root,
                         cavheight=250,
-                        cavwidth=360,
+                        cavwidth=365,
                         isonlyaframe= False,
                         bg = "#e6ecf5",
                         bgpr = "#5b9bd5",
-                        framea = [0,0,360,250,"#e6ecf5"],
+                        framea = [0,0,365,250,"#e6ecf5"],
                         )
         large_font = ("times new roman",12)
         large_font_1 = ("times new roman",17)
@@ -92,7 +81,8 @@ class gapp:
                         bg = "#e6ecf5",)
         repath.grid(row = 1,
                     column = 0,
-                    sticky =  tk.W
+                    sticky =  tk.W,
+                    padx = (5,0)
                     )
         
         self.output1 = tk.Entry (self.framea, 
@@ -104,6 +94,7 @@ class gapp:
                               )
         self.output1.grid(row = 2,
                         column = 0,
+                        padx = (5,0)
                         )
         
         button = tk.Button(self.framea,
@@ -145,7 +136,8 @@ class gapp:
         repathdes.grid(row = 3,
                     column = 0,
                     sticky =  tk.W,
-                    pady = (5,0)
+                    pady = (5,0),
+                    padx = (5,0)
                     )
         
         self.repathdes = tk.Entry (self.framea, 
@@ -157,6 +149,7 @@ class gapp:
         self.repathdes.grid(row = 4,
                         column = 0,
                         sticky =  tk.EW,
+                        padx = (5,0)
                         )
         
         buttondes = tk.Button(self.framea,
@@ -196,7 +189,8 @@ class gapp:
                         bg = "#e6ecf5",)
         func.grid(row = 5,
                     column = 0,
-                    sticky =  tk.W
+                    sticky =  tk.W,
+                    padx = (5,0)
                     )
         self.pc_fun = tk.StringVar() 
         lfun = ["Select Function In Excel"] + list(returndictrowforcsv(self.pathconfig).keys())
@@ -210,7 +204,9 @@ class gapp:
         self.combo_fun.grid(column = 0, 
                                 row = 6,
                                 columnspan = 3,
-                                sticky = tk.EW) 
+                                sticky = tk.EW,
+                                padx = (5,0)
+                                ) 
                            
         self.combo_fun.current(0)
 
@@ -226,7 +222,8 @@ class gapp:
                             )
         button_open.grid(row = 7,
                     column = 0,
-                    sticky = "w"
+                    sticky = "w",
+                    padx = (5,0)
                     )
 
         button_conf = tk.Button(self.framea,

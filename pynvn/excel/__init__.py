@@ -235,3 +235,13 @@ def check_open_wb (path):
     except:
         return False
 
+def sheet_by_namesheet (path, namesheet):
+    """ return sheet name of wb"""
+    if (path != "" and path != None):
+        if not xw.apps:
+            app = xw.App(visible= True,add_book=False)
+        else:
+            app = xw.apps.active
+        wb1  = app.books.open(path)
+        
+        return wb1.sheets[namesheet]
