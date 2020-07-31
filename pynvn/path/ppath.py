@@ -248,6 +248,6 @@ def mfileopen(outputtk):
         # ask directory
         files = filedialog.askopenfilename(title = "Directory of parent file",
                                             initialdir=outputtk.get())
+
         outputtk.insert(tk.END,
                             files)
-        # get path from entry 
