@@ -5,15 +5,26 @@ import string
 from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
 import xlwings as xw
 from xlwings.constants import DeleteShiftDirection
+from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
 #from pynvn.excel.exception import closebookactive
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
     wb1 = xl.load_workbook(filename=path)
     ws1 = wb1[namesheet]
     return ws1
-def  repathlinkexcel (dpath,namefile,namesheet):
+def  repathlinkexcel (dpath = None ,
+                    namefile = None,
+                    namesheet = None,
+                    usingfullname = False, 
+                    fullname = None 
+                    ):
     """ return path link excel """
-    pfile = "'" + dpath + "/" + "[" + namefile + "]" + namesheet + "'"
+    if usingfullname:
+        dpath = getdirpath(fullname)
+        namefile = ExtractFileNameFromPath(path=fullname)
+        pfile = "'" + dpath + "/" + "[" + namefile + "]" + namesheet + "'"
+    else:
+        pfile = "'" + dpath + "/" + "[" + namefile + "]" + namesheet + "'"
     return pfile
 
 def colnum_string(n):

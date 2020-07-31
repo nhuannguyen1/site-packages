@@ -30,3 +30,8 @@ def returnliststr_from_str (strint):
     """
     pattern = '[a-zA-Z]+'
     return re.findall(pattern, strint) 
+def str_seplistint_strbystr(strint):
+    """ return list int_str by separate from string
+        ex: "BB5:CF100" ---> ['BB5', 'CF100']
+    """
+    return list(map(str, (re.findall('\w+', strint)))) 

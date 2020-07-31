@@ -25,6 +25,7 @@ from pynvn.excel import openexcelbyxl,listsheetofwb
 from appnvn.exazp.conf import hconfazb
 from pynvn.excel import closeallfileexcel
 from pynvn.csv.rcsv import returndictrowforcsv
+from pynvn.excel.Fill_formula import fformulas
 import re
 class gapp:
     """ return azbg gui """
@@ -46,19 +47,19 @@ class gapp:
         gui (tktk=self.root,
             pathico=None,
             width=700,
-            height=320, 
+            height=400, 
             widthx=420, 
             widthy=0,
             resizable=[True,True],
             title= "FAPP").setcfbs()
 
         self.sc  = scbg(parent = self.root,
-                        cavheight=200,
-                        cavwidth=550,
+                        cavheight=250,
+                        cavwidth=360,
                         isonlyaframe= False,
                         bg = "#e6ecf5",
                         bgpr = "#5b9bd5",
-                        framea = [0,0,550,200,"#e6ecf5"],
+                        framea = [0,0,360,250,"#e6ecf5"],
                         )
         large_font = ("times new roman",12)
         large_font_1 = ("times new roman",17)
@@ -85,13 +86,13 @@ class gapp:
                     )
         # path to folder child
         repath = tk.Label(self.framea,
-                        text = "Retrieve path:", 
+                        text = "Retrieve Path:", 
                         width = 10,
                         font =large_font,
                         bg = "#e6ecf5",)
         repath.grid(row = 1,
                     column = 0,
-                    sticky =  tk.E
+                    sticky =  tk.W
                     )
         
         self.output1 = tk.Entry (self.framea, 
@@ -101,60 +102,61 @@ class gapp:
                                 relief = tk.SOLID,                              
                                 bg = "yellow",
                               )
-        self.output1.grid(row = 1,
-                        column = 1,
+        self.output1.grid(row = 2,
+                        column = 0,
                         )
         
         button = tk.Button(self.framea,
                             height = 1,
-                            width = 4,
+                            width = 2,
                             bd = 1,
                             command = lambda: self.mfileopend(outputtk=self.output1,
                                                                 combopc=self.combopc)
                             )
-        button.grid(row = 1,
-                    column = 2,
+        button.grid(row = 2,
+                    column = 1,
                     sticky = "we"
                     )
 
-        repath = tk.Label(self.framea,
-                        text = "Sheet name:", 
-                        font =large_font,
-                        bg = "#e6ecf5",)
-        repath.grid(row = 1,
-                    column = 3,
-                    sticky =  tk.E
-                    )
         lsheets = None
         self.pc = tk.StringVar() 
         self.combopc =  ttk.Combobox(self.framea, 
                                 textvariable = self.pc,
-                                width = 15,
-                                values = ["Active Sheet",""],
-                                state="readonly"
+                                width = 20,
+                                values = ["Active Sheet","Select Sheet Name"],
+                                state="readonly",
+                                justify='center'
                                 )
-        self.combopc.grid(column = 4, row = 1) 
-        self.combopc.bind("<<ComboboxSelected>>",self.selected_rev)
+
+        self.combopc.grid(column = 2, 
+                            row = 2,
+                            padx = (10,0)
+                            ) 
+
+        self.combopc.bind("<<ComboboxSelected>>",
+                            self.selected_rev)
+        self.combopc.current(1)
+
         # destination 
         repathdes = tk.Label(self.framea,
-                        text = "Des path:", 
+                        text = "Destination Path:", 
                         font =large_font,
                         bg = "#e6ecf5",)
-        repathdes.grid(row = 2,
+        repathdes.grid(row = 3,
                     column = 0,
-                    sticky =  tk.E,
-                    pady = 10
+                    sticky =  tk.W,
+                    pady = (5,0)
                     )
         
         self.repathdes = tk.Entry (self.framea, 
                                 font = large_font,
                                 justify=tk.CENTER,
-                                width = 20,
                                 relief = tk.SOLID,                               
                                 bg = "yellow",
                               )
-        self.repathdes.grid(row = 2,
-                        column = 1,
+        self.repathdes.grid(row = 4,
+                        column = 0,
+                        sticky =  tk.EW,
                         )
         
         buttondes = tk.Button(self.framea,
@@ -164,52 +166,54 @@ class gapp:
                             command = lambda: self.mfileopend(outputtk=self.repathdes,
                                                             combopc=self.combo_des)
                             )
-        buttondes.grid(row = 2,
-                    column = 2,
+        buttondes.grid(row = 4,
+                    column = 1,
                     sticky = "we"
                     )
 
-        sndes = tk.Label(self.framea,
-                        text = "Sheet name:", 
-                        font =large_font,
-                        bg = "#e6ecf5",)
-        sndes.grid(row = 2,
-                    column = 3,
-                    sticky =  tk.E
-                    )
         self.pc_des = tk.StringVar() 
         self.combo_des =  ttk.Combobox(self.framea, 
                                 textvariable = self.pc_des,
                                 width = 15,
-                                values = ["Active Sheet",""],
-                                state="readonly"
+                                values = ["Active Sheet","Select Sheet Name"],
+                                state="readonly",
+                                justify='center'
                                 )
-        self.combo_des.grid(column = 4, row = 2) 
+        self.combo_des.grid(column = 2, 
+                            row = 4,
+                            sticky =  tk.EW,
+                            padx = (10,0)
+                            ) 
+        
+        self.combo_des.current(1)
+
         self.combo_des.bind("<<ComboboxSelected>>",self.selected_des)
 
 
         func = tk.Label(self.framea,
-                        text = "Function:", 
+                        text = "Function Excel:", 
                         font =large_font,
                         bg = "#e6ecf5",)
-        func.grid(row = 3,
-                    column = 1,
-                    sticky =  tk.E
+        func.grid(row = 5,
+                    column = 0,
+                    sticky =  tk.W
                     )
         self.pc_fun = tk.StringVar() 
-        lfun = list(returndictrowforcsv(self.pathconfig).keys())
-        print ("lfun",lfun)
+        lfun = ["Select Function In Excel"] + list(returndictrowforcsv(self.pathconfig).keys())
         self.combo_fun =  ttk.Combobox(self.framea, 
                                 textvariable = self.pc_fun,
                                 width = 15,
                                 values = lfun,
-                                state="readonly"
+                                state="readonly",
+                                justify='center'
                                 )
-        self.combo_fun.grid(column = 2, 
-                                row = 3,
-                                columnspan = 2,
+        self.combo_fun.grid(column = 0, 
+                                row = 6,
+                                columnspan = 3,
                                 sticky = tk.EW) 
                            
+        self.combo_fun.current(0)
+
         self.combo_fun.bind("<<ComboboxSelected>>",
                             self.selected_des)
 
@@ -220,8 +224,8 @@ class gapp:
                             bd = 1,
                             command = lambda: openexcelbyxl(self.pathconfigexell)
                             )
-        button_open.grid(row = 4,
-                    column = 1,
+        button_open.grid(row = 7,
+                    column = 0,
                     sticky = "w"
                     )
 
@@ -233,39 +237,41 @@ class gapp:
                             command = lambda: hconfazb(pathconf=self.pathconfig,
                                                     pathexconf=self.pathconfigexell).convertocsv()
                             )
-        button_conf.grid(row = 4,
-                        column = 4,
+        button_conf.grid(row = 7,
+                        column = 2,
                         sticky = "e"
                         )
 
         run = tk.Button(self.framea,
                             height = 1,
-                            width = 8,
+                            width = 4,
                             text = "Run",
                             bd = 1,
-                            command = lambda: hconfazb(pathconf=self.pathconfig,
-                                                    pathexconf=self.pathconfigexell).convertocsv()
+                            command = lambda: fformulas(retr_path=getpathfromtk(self.output1),
+                                                        des_path=getpathfromtk(self.repathdes),
+                                                        retr_sheetname=self.pc.get(),
+                                                        des_sheetname=self.pc_des.get(),
+                                                        fuction= self.pc_fun.get(),
+                                                        pathconf=self.pathconfig
+                                                        ).filltoexcell()
                             )
-        run.grid(row = 5,
-                        column = 4,
+        run.grid(row = 9,
+                        column = 1,
                         sticky = "e"
                         )
                 
 
         run = tk.Button(self.framea,
                             height = 1,
-                            width = 8,
+                            width = 4,
                             text = "Quit",
                             bd = 1,
                             command = self.root.quit
                             )
-        run.grid(row = 6,
-                        column = 4,
+        run.grid(row = 10,
+                        column = 1,
                         sticky = "e"
                         )
-
-
-
 
 
     def mfileopend(self,outputtk,combopc):
