@@ -66,4 +66,4 @@ class fformulas:
                     function_loc=loc_value,
                     plexcel=self.__pexcelretr,
                     ws_des=self.__ws_des
-                    )
+                    ).forexelldes()
