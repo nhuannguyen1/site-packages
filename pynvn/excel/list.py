@@ -15,7 +15,7 @@ def pairslistfromexcel (startrow= 1,
                         floc = "A", 
                         sloc = "B",
                         convetfloattointat_slot = True,
-                        sheet = None 
+                        sheet = None,
                         ):
     """ create pair list from floc and sloc of excel """
     # max row at floc 
@@ -30,8 +30,16 @@ def pairslistfromexcel (startrow= 1,
     return listpairfrom2list(list_a=listfloc,
                             list_b=listsloc)
 
-def removevalueinlistpair(lista,deleteifvalue = [None,""]):
+def removevalueinlistpair(lista,
+                        deleteifvalue = [None,""],
+                        lower_index_0 = True):
     """
     remove value in list pair by list deleteifvalue 
     """
-    return [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
+
+    if lower_index_0:
+        listpair = [[pairarr[0].lower(),pairarr[1]] for pairarr in lista if pairarr[0] not in deleteifvalue]
+    else:
+        listpair = [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
+
+    return listpair

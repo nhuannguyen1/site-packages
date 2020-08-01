@@ -15,6 +15,7 @@ from pynvn.excel import openexcelbyxl,listsheetofwb
 from appnvn.exazp.conf import hconfazb
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.excel.Fill_formula import fformulas
+from pynvn.list.flist import filterlistbylstr
 import re
 class gapp:
     """ return azbg gui """
@@ -193,7 +194,12 @@ class gapp:
                     padx = (5,0)
                     )
         self.pc_fun = tk.StringVar() 
-        lfun = ["Select Function In Excel"] + list(returndictrowforcsv(self.pathconfig).keys())
+        
+        lfun = ["Select Function In Excel"] + filterlistbylstr(liststr=list(returndictrowforcsv(self.pathconfig).keys()),
+                                                                criteria_is_not=True,
+                                                                criteria=["sub_"],
+                                                                upper=True
+                                                                ) 
         self.combo_fun =  ttk.Combobox(self.framea, 
                                 textvariable = self.pc_fun,
                                 width = 15,

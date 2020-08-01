@@ -201,7 +201,13 @@ def activesheet():
         return xw.sheets.active
     except:
         messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")
+
+def activesheet_name():
+    """ return active sheet name """
+    return activesheet().name
+
 def activeworkbook(namefile = None,checknamefile = False):
+    """ return active workbook """
     try:
         if checknamefile:
             if namefile == xw.books.active.name:
@@ -212,6 +218,12 @@ def activeworkbook(namefile = None,checknamefile = False):
             return xw.sheets.active
     except:
         messagebox.showerror("Error","No excel file has been opened yet, please open the excel file")
+
+def activeworkbook_fullname(**kw):
+    """ return active workbook full name """
+    return activeworkbook(**kw).name
+
+
 def listsheetofwb (path):
     """ return all sheet name of wb"""
     if (path != "" and path != None):
