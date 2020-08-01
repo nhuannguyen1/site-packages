@@ -30,7 +30,8 @@ class fformulas:
         if des_sheetname == "Active Sheet":
             self.__ws_des = activesheet()
         else:
-            self.__ws_des = sheet_by_namesheet(path=des_path,namesheet=des_sheetname)
+            self.__ws_des = sheet_by_namesheet(path=des_path,
+                                                namesheet=des_sheetname)
     def filltoexcell(self):
         if self.__fuction == "VLOOKUP":
             vlvalue = self.dictconf["sub_vlookup_lookup_value"]
@@ -59,6 +60,7 @@ class fformulas:
                     ).forexelldes()
         else:
             any_range = self.dictconf[self.__fuction.lower()]
+
             any_loc = "sub_" + self.__fuction.lower() + "_loc"
             loc_value = self.dictconf[any_loc]
 
