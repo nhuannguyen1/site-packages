@@ -15,7 +15,6 @@ class vlookup:
         self.__table_array = table_array
         if lockrange:
             self.__table_array = add_sb_to_str(self.__table_array)
-
         self.__plexcel = plexcel
         self.__rang_lookup = rang_lookup
         self.__loopkup_value_range = loopkup_value_range

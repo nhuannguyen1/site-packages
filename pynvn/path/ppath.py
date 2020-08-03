@@ -173,41 +173,36 @@ def credirfol (dirNamec, subforder):
         messagebox.showerror ("Error","{} already exists".format(subforder))
     return os.path.join(dirNamec, subforder)
 
-def refullpath(dirpath, filename, 
+def refullpath(dirpath, 
+                filename, 
                 folderchild = None, 
                 createfilenameifnotexsting = True,
                 createfolderifnotexsting = True):
     """ return full name from dir folder and finame name"""
-    try:
-        if folderchild == None:
-            fpath = os.path.join(dirpath, filename)
-            if os.path.exists(fpath) == False:
-                open(fpath, 'w') if createfilenameifnotexsting else messagebox.showerror("name file error", 
+    if folderchild == None:
+        fpath = os.path.join(dirpath, filename)
+        if os.path.exists(fpath) == False:
+            open(fpath, 'w') if createfilenameifnotexsting else messagebox.showerror("name file error", 
                                                                                         "Check filename {0} in folder directory {1} not exsting  ".format(filename,
                                                                                                                                                             dirpath))
-            return fpath
-        else:
-            if createfolderifnotexsting:
-                fpathc = repathfolderchild(dirpath=dirpath,
+        return fpath
+    else:
+        if createfolderifnotexsting:
+            fpathc = repathfolderchild(dirpath=dirpath,
                                             subFolder=folderchild,
                                             createfolderifnotexsting= True
                                          )
-            else:
-                fpathc = repathfolderchild(dirpath=dirpath,
+        else:
+            fpathc = repathfolderchild(dirpath=dirpath,
                                             subFolder=folderchild,
                                             createfolderifnotexsting= False
                                             )
-            fpath = os.path.join(fpathc, filename)
-            if os.path.exists(fpath) == False:
+        fpath = os.path.join(fpathc, filename)
+        if os.path.exists(fpath) == False:
                  open(fpath, 'w') if createfilenameifnotexsting else messagebox.showerror("name file error", 
                                                                                         "Check filename {0} in folder directory {1} not exsting  ".format(filename,
                                                                                                                                                             dirpath))
-            return fpath
-    except:
-        messagebox.showerror("error", "Check dir path {} or filename {} ".format(dirpath,
-                                                                                filename))
-
-
+        return fpath
 def repathfolderchild(dirpath, 
                         subFolder, 
                         createfolderifnotexsting = True
@@ -218,9 +213,7 @@ def repathfolderchild(dirpath,
         return path
     else: 
         if createfolderifnotexsting:
-            path = credirfol(dirNamec=dirpath,
-                        subFolder= subFolder)
-            return path
+            return credirfol(dirNamec=dirpath,subforder= subFolder)
         else:
              messagebox.showerror ("folder", "folder name {0} in path parent {1} not exists".format(subFolder,dirpath))
 
@@ -250,3 +243,31 @@ def mfileopen(outputtk):
 
         outputtk.insert(tk.END,
                             files)
+
+def p_pyinstall_and_dev(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+    except Exception:
+            base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+def removeexfilename(filename):
+    """
+    remove extension from file name
+    EX:mmm.csv -----> mmm
+    """
+    return os.path.splitext(filename)[0]
+
+
+def dirfolder (dirNamec, subforder,alertexists = True):
+    """ create dir folder """
+    try:
+        dirName = os.makedirs(os.path.join(dirNamec, subforder))
+    except:
+        if alertexists:
+            messagebox.showerror ("Error","{} already exists".format(subforder))
+        else:
+            pass
+    return os.path.join(dirNamec, 
+                        subforder)

@@ -95,7 +95,9 @@ class key_license:
                         pathtokey = self.pathtokey,
                         pathtovaluecsv_key = self.pathtovaluecsv_key
                         )
-        label1 = tk.Label(self.root, text= "the key is invalid or it can not be activated",fg="red")
+        label1 = tk.Label(self.root, 
+                        text= "the key is invalid or it can not be activated",
+                        fg="red")
 
         if aucre == False:
             self.canvas1.create_window(200, 230, 

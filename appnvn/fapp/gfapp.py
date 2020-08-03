@@ -17,6 +17,7 @@ from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.excel.Fill_formula import fformulas
 from pynvn.list.flist import filterlistbylstr
 import re
+from appnvn.License_key import key_license
 class gapp:
     """ return azbg gui """
     def __init__ (self,
@@ -32,6 +33,33 @@ class gapp:
         self.pathconfigexell = pathconfigexell
         self.imagelogo = imagelogo
         self.pattern = re.compile("^\w{0,10}")
+
+
+        dirname = os.path.dirname(os.path.abspath(__file__))
+        # Create dict with dirname 
+        redictpath = rdict_fleinfolder(dirpath=dirname,folderchild=["img","config"])
+        # ===================================
+        self.imagelogopath = redictpath["img_logo"]
+        self.imagelogo = ImageTk.PhotoImage(file =self.imagelogopath)
+        self.pathconfig = redictpath["config_hrdata_modified"]      
+        self.pathconfigexell = redictpath["config_conf_ex"]  
+        # path to config of excel to copy 
+        self.pathconfigexcelcopy = redictpath["config_config_hm"]  
+        # for license key 
+        self.pathtokey =redictpath["config_key"]
+        self.pathtovaluecsv_key = redictpath["config_fn"]
+        self.ser_key = redictpath["config_seri"]
+        self.valueser_key = redictpath["config_ser"]
+
+        activation = key_license(tktk=self.root,
+                                pathtokey=self.pathtokey,
+                                pathtovaluecsv_key=self.pathtovaluecsv_key,
+                                ser_key=self.ser_key,
+                                valueser_key=self.valueser_key
+                                )
+        if activation:
+            self.guiforgd()
+
     def guiforgd(self):
         """Create interface for software"""
         gui (tktk=self.root,
