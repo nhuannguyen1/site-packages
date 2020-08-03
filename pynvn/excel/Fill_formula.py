@@ -1,7 +1,10 @@
 from pynvn.excel import col2num,colnum_string, repathlinkexcel
 from pynvn.csv.todict import returndictrowforcsv
 from pynvn.excel.fomulas import vlookup,sumif,anyfun
-from pynvn.excel import sheet_by_namesheet,activeworkbook_fullname,activesheet_name,activesheet
+from pynvn.excel import (sheet_by_namesheet,
+                        activeworkbook_fullname,
+                        activesheet_name,
+                        activesheet)
 import xlwings as xw
 from tkinter import messagebox
 class fformulas:

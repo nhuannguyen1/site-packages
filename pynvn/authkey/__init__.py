@@ -1,6 +1,7 @@
 from licensing.models import *
 from licensing.methods import Key, Helpers
 from pynvn.crypt import write_key,load_key,encrypt,decrypt
+import tkinter as tk
 def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFoK2JEQ0ciXQ==",
             product_id = None,
             rsa_pub_key = "<RSAKeyValue><Modulus>n5Q5BtZIlprf+d74p2YmQT1ZnRrCFGqt9JtAzO29/eNbzaM9rFZ5IaD8iIqbc0gVrE2ZFA0tfCtzeAVdV6MlaDaaqexNIZARMBK4dk9AEZb9kAOzdUXZNLv6O3+HyZg6bV75Gj6xFY17YUCefDol5Fyn0Z072lFXUV1DArgb+i2r/YDBI/QTS0crHMUS7iXdlWRk1DdGABvrvtoR78P6+uci5njxjlkniByBODyRMAoml1zk9YBRrCEXi6HLxlurd2Y29QizHRTCACCZP3WsNSiyKZqgKOOjUnZyi+hMX8+W06tcofsjjbKa7D+csFQi0MeL5juiNM3om0vtSD6zjQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>",
@@ -18,23 +19,31 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
         # an error occurred or the key is invalid or it cannot be activated
         # (eg. the limit of activated devices was achieved)
         if "11001" in  result[1]:
-            return checkactiveornotactive(pathtokey =pathtokey ,pathtovaluecsv_key = pathtovaluecsv_key )
+            return checkactiveornotactive(pathtokey =pathtokey,
+                                            pathtovaluecsv_key = pathtovaluecsv_key 
+                                            )
         else:
             write_key(path=pathtokey)
             key = load_key(pathtokey)
-            encrypt(filename=pathtovaluecsv_key,key = key,nametow=b"Not actived")
-            return False
+            encrypt(filename=pathtovaluecsv_key,
+                    key = key,
+                    nametow=b"Not actived")
+            return [False]
     else:
         # everything went fine if we are here!
         write_key(path=pathtokey)
         key = load_key(pathtokey)
-        encrypt(filename=pathtovaluecsv_key,key = key,nametow=b"actived")
-        return True
+        encrypt(filename=pathtovaluecsv_key,
+                key = key,
+                nametow=b"actived")
+        license_key = result[0]
+
+        return [True,str(license_key.expires)]
 def checkactiveornotactive(pathtokey,pathtovaluecsv_key):
     """ check if it can not connect to server """
     key = load_key(pathtokey)
     k = decrypt(filename=pathtovaluecsv_key,key = key)
     if k == "actived":
-        return True
+        return [True]
     else:
-        return False
+        return [False]

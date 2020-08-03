@@ -32,7 +32,7 @@ def key_license (tktk = None,
                     pathtokey = pathtokey,
                     pathtovaluecsv_key = pathtovaluecsv_key
                     )
-    if aucre == False:
+    if aucre[0] == False:
         guiforser(tktk=tktk,
                 pathtokey =pathtokey,
                 pathtovaluecsv_key= pathtovaluecsv_key,
@@ -132,7 +132,7 @@ def _checkvalidkey (tktk,
                     text= "the key is invalid or it can not be activated",
                     fg="red")
 
-    if aucre == False:
+    if aucre[0] == False:
         canvas1.create_window(200, 230, window=label1)
     else:
         write_key(ser_key)
@@ -140,5 +140,6 @@ def _checkvalidkey (tktk,
         encrypt(filename=valueser_key,
                     key = key,
                     nametow=str(x1).encode('utf_8'))
-        tk.messagebox.showinfo("Activation Wizard","Activation successful")
+        tk.messagebox.showinfo("Activation Wizard",
+                                "Activation successful, License expires: " + aucre[1] )
         tktk.quit()
