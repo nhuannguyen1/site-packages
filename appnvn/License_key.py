@@ -18,6 +18,7 @@ def key_license (tktk = None,
     license key of app
     check valid key (valid or invalid)
     """
+
     key = load_key(ser_key)
     try:
         valueser_key_de = decrypt(filename=valueser_key,
@@ -33,14 +34,16 @@ def key_license (tktk = None,
                     )
     if aucre == False:
         guiforser(tktk=tktk,
-                    pathtokey =pathtokey,
-                    pathtovaluecsv_key= pathtovaluecsv_key,
-                    ser_key = ser_key,
-                    valueser_key = valueser_key,
-                    product_id = product_id,
-                    **kw)
+                pathtokey =pathtokey,
+                pathtovaluecsv_key= pathtovaluecsv_key,
+                ser_key = ser_key,
+                valueser_key = valueser_key,
+                product_id = product_id,
+                **kw
+                )
     else:
         return True
+
 def guiforser (tktk = None,
                 pathico = None,
                 width= 400,
@@ -52,9 +55,10 @@ def guiforser (tktk = None,
                 pathtovaluecsv_key = None,
                 valueser_key = None,
                 ser_key = None,
-                product_id = None
+                product_id = None,
+                au_creator =  "Creator: Mr.Hoàng + Mr.Đồng",
+                au_Programmer = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com"
                 ):
-
     gui (tktk=tktk,
             pathico=pathico,
             width=width,
@@ -96,13 +100,13 @@ def guiforser (tktk = None,
                             window=button1)
 
     canvas1.create_text(13, 250,
-                            text = "Creator: Mr.Hoàng + Mr.Đồng",
+                            text = au_creator,
                             fill="darkblue",
                             anchor = "w",
                             font="Times 13 italic")
 
     canvas1.create_text(13, 280,
-                            text = "Programmer: Mr. Nhuần - nhuannv.vs@gmail.com",
+                            text = au_Programmer,
                             fill="darkblue",
                             anchor = "w",
                             font="Times 13 italic")
