@@ -47,3 +47,26 @@ def removespace (instr = None, option = "both"):
     """remove space from string"""
     if option == "both":
         return instr.strip()
+    if option == "left":
+        return instr.lstrip()
+    if option == "right":
+        return instr.rstrip()
+    else:
+        messagebox.showerror("Error","No case for this")
+def cformat_str(instr = None):
+    """ check format of str """
+    instr =  instr.replace(" ", "")
+    if re.match("^([a-zA-Z]+)$",instr):
+        return "a"
+    if re.match("^([0-9]+)$",instr):
+        return "n"
+    if re.match("(^[a-zA-Z]+)([0-9]+)$",instr):
+        return "an"
+    if re.match("([a-zA-Z]+)([0-9]+)(\D)([a-zA-Z]+)([0-9]+)$",instr):
+        return "anan"
+    else:
+        messagebox.showerror ("Error", "check format {0}".format(instr))
+
+    
+        
+    

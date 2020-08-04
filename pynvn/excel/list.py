@@ -1,5 +1,6 @@
 from pynvn.list import listpairfrom2list,convertoint_ifisfloat
-
+from pynvn.string.slist import returnliststr_from_str
+import string
 def listbyrangeremoveduplicate(sheetexcel,rangea):
     """ return list excel remove duplicate"""
     return list(set(sheetexcel.range(rangea).value))
@@ -43,3 +44,34 @@ def removevalueinlistpair(lista,
         listpair = [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
 
     return listpair
+
+
+def lnumbercolumnbyrangstr (rstr = None):
+    """ return range number by rstr by excel column """
+    lstr = returnliststr_from_str(strint=rstr)
+    if len(lstr) == 2:
+        a,b = lstr
+        return [inte for inte in range(_col2num(a),_col2num(b) +1)]
+    elif len(lstr) == 1:
+        return [_col2num(lstr[0])]
+
+def lacolumnbyrangstr (rstr = []):
+    """ return range string by rstr by excel column """
+    lint = lnumbercolumnbyrangstr(rstr=rstr)
+    return list(map(_colnum_string,lint))
+
+def _col2num(col):
+    """Return number corresponding to excel-style column."""
+    num = 0
+    for c in col:
+        if c in string.ascii_letters:
+            num = num * 26 + (ord(c.upper()) - ord('A')) + 1
+    return num
+
+def _colnum_string(n):
+    """conver colum number become string"""
+    string = ""
+    while n > 0:
+        n, remainder = divmod(n - 1, 26)
+        string = chr(65 + remainder) + string
+    return string

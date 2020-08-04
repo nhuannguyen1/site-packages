@@ -62,6 +62,10 @@ def col2num(col):
         if c in string.ascii_letters:
             num = num * 26 + (ord(c.upper()) - ord('A')) + 1
     return num
+
+
+
+
 def convertrangaphatonunber (rangapha = None ):
     """ convert rang anphab to cell number"""
     a,n,s,a1,n1 =  sepnumberandstrfromstr(sstr=rangapha)
@@ -142,7 +146,14 @@ def lcellindexbyvalue(lvalue,
             ]
 def openexcelbyxl (pathex):
     """ open excel by pathex"""
-    xw.Book(pathex)
+    if (pathex != "" and pathex != None):
+        if not xw.apps:
+            app = xw.App(visible= True,add_book=False)
+        else:
+            app = xw.apps.active
+            
+        wb1  = app.books.open(pathex)
+    #xw.Book(pathex)
 def valuebyindexrowcell(lindexcell = None,
                         col = None,
                         sheet = None):
@@ -252,11 +263,11 @@ def check_open_wb (path):
     except:
         return False
 
-def sheet_by_namesheet (path, namesheet):
+def sheet_by_namesheet (path, namesheet,**kw):
     """ return sheet name of wb"""
     if (path != "" and path != None):
         if not xw.apps:
-            app = xw.App(visible= True,add_book=False)
+            app = xw.App(add_book=False,**kw)
         else:
             app = xw.apps.active
         wb1  = app.books.open(path)
