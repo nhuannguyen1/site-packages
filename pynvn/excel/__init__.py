@@ -158,7 +158,7 @@ def valuebyindexrowcell(lindexcell = None,
                         col = None,
                         sheet = None):
     """ return list value with indexcell """
-    return [sheet.range("{0}{1}".format(col,indexcell)).value for indexcell in lindexcell]
+    return [sheet.range("{0}{1}".format(col,indexcell)).formula for indexcell in lindexcell]
 def closeallfileexcel (namek_ofpname):
     """ close all file excel by list if it is openning filter by namek_ofpname """
     listwb = xw.books

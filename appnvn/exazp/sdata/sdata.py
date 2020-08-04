@@ -35,7 +35,6 @@ class covertcsvexcel:
         self.redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
         # get all key redic incule len != 0 
         self.redic_all =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt,removeemtyvalue= False)
-        
 
         self.valueredicttocsv()
         self.valuelisttocsv()

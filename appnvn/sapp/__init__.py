@@ -4,7 +4,7 @@ from pynvn.excel import (sheet_by_namesheet,
 import xlwings as xw
 from tkinter import messagebox
 from pynvn.list.flist import filterlistbylstr
-from pynvn.excel.write import removespacefromlistrange
+from pynvn.excel.write import hvalues_in_cell
 class sapp:
     """ fill the formulas into excel file """
     def __init__(self, retr_path = None,
@@ -33,7 +33,15 @@ class sapp:
             for lfun in lfuns:
                 # remove  space 
                 if lfun == "removespace":
-                    rmspace = self.dictconf["removespace"]
+                    cyesornot = self.dictconf["removespace"]
                     rmrange = self.dictconf["sub_removespace_range"]
                     rmtyle = self.dictconf["sub_removespace_style"]
-                    removespacefromlistrange(rmrange=rmrange,option=rmtyle[0],ws=self.__ws_retr) if rmspace[0] =="yes" else False
+                    hvalues_in_cell(rmrange=rmrange,
+                                    option=rmtyle[0],
+                                    ws=self.__ws_retr,option_fun="removespace") if cyesornot[0] =="yes" else False
+                elif lfun == "capfs":
+                    cyesornot = self.dictconf["removespace"]
+                    rmrange = self.dictconf["sub_capfs_range"]
+                    hvalues_in_cell(rmrange=rmrange,
+                                    ws=self.__ws_retr,
+                                    option_fun="capfs") if cyesornot[0] =="yes" else False

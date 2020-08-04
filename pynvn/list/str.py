@@ -37,3 +37,7 @@ def converlistinstrtolist(path = None):
     """ convert list in string to dict """
     reader = csv.reader(open(path, 'r'))
     return {k:ast.literal_eval(v)  for k,v in reader}
+
+def Concatenatelistofstring(instr = []):
+    """ Concatenate a list of strings into one string """
+    return ''.join(instr)
