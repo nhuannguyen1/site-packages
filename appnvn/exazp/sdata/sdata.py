@@ -4,7 +4,7 @@ from pynvn.path.ppath import parentdirectory,refullpath
 from pynvn.excel.path import returnactivewbpath
 from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.list.tocsv import listocsvver
-from pynvn.excel import col2num
+from pynvn.excel import col2num,activeworkbook_fullname
 class covertcsvexcel:
     """ convert data to csv and to excel """
     def __init__ (self,pathconf = None):
@@ -19,11 +19,15 @@ class covertcsvexcel:
         self.__dictvalue =dicrowconf["dictvalue"]
         self.__mvta = (dicrowconf["khns_mavatu"])
         self.__mvt  = col2num(self.__mvta)
-        self.__fpath = returnactivewbpath(namefile=self.__khns_namfile)
+        
+        #self.__fpath = returnactivewbpath(namefile=self.__khns_namfile)
+        self.__fpath = activeworkbook_fullname()
+
         self.__rel = credict(pathfull=self.__fpath,
                     namesheet=self.__sheetnametor,
                     engine="xlwings",
-                    rangea=self.__khns_rangenumbermct_ptvt)
+                    rangea=self.__khns_rangenumbermct_ptvt
+                    )
         # csv for dict 
         self.pathtovalue = refullpath(dirparhconf,self.__dictvalue)
         # csv for value 
@@ -32,9 +36,15 @@ class covertcsvexcel:
         # csv for all value 
         self.pathvalueall = refullpath(dirparhconf,self.__valueall)
 
-        self.redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
+        
         # get all key redic incule len != 0 
-        self.redic_all =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt,removeemtyvalue= False)
+        self.redic_all =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt,
+                                                            removeemtyvalue= False)
+
+
+        #self.redic =self.__rel.redictvaluesandvaluecol(columnumber=self.__mvt)
+        
+        self.redic = {key:val for key, val in self.redic_all.items() if len(val) != 0} 
 
         self.valueredicttocsv()
         self.valuelisttocsv()
