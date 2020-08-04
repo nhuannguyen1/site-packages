@@ -4,7 +4,7 @@ from tkinter import messagebox,Label
 from pynvn.excel.hdata import hexcel_sep
 from pynvn.path.ppath import getdirpath,refullpath
 from pynvn.csv.rcsv import returndictrowforcsv
-from pynvn.excel import col2num
+from pynvn.excel import col2num,book_by_path
 
 class hexcel_child:
     """copy excel to excel"""
@@ -22,12 +22,18 @@ class hexcel_child:
         self.__namefile=self.dicrowconf["khns_namfile"]
         self.__Getlistsheet()
     def __Getlistsheet(self):
-        self.__app = xw.App(visible=False)
-        self.__wb1  = xw.Book(self.pathtocopy)
+        self.__app = xw.App(visible=True,
+                            add_book= False)
+        self.__wb1  = self.__app.books.open(self.pathtocopy,
+                                            update_links=False)
+        #self.__wb1  = xw.Book(self.pathtocopy)
+        #self.__wb1  = book_by_path(path=self.pathtocopy, visible = False)
         self.names = self.__wb1.sheets
         self.lsheetname = [sheet.name for sheet in self.names]
         self.__ws1 = self.__wb1.sheets[self.names[0]] 
         self.__wsname = self.__ws1.name
+        # set active sheet
+        
         #max row ws1
         self.rows = self.__ws1.api.UsedRange.Rows.count
         #max colum ws1
@@ -44,9 +50,18 @@ class hexcel_child:
 
         self.__fpath = refullpath(dirpath=self.__dirpath,
                                         filename=self.__namefile)
-        try:
-            self.__wbthns  = xw.Book(self.__fpath)
-        except:
+
+        #self.__wbthns  = book_by_path(path=self.__fpath, visible = False)
+        #self.__wbthns  = xw.Book(self.__fpath)
+        self.__wbthns  = self.__app.books.open(self.__fpath,
+                                            read_only=True,
+                                            ignore_read_only_recommended=True,
+                                            update_links=False
+                                            )
+
+        self.__wb1.sheets[self.__wsname].activate()
+
+        if self.__wbthns == None:
             messagebox.showerror ("Error directory", "Directory {0} not exists, \
                                 recheck Directory again Note: extension of excel maybe xls or xlsx,\
                                      check file config {1} have parameter 'khns_namfile'".format(self.__fpath,self.pathconf))
@@ -77,6 +92,5 @@ class hexcel_child:
             messagebox.showerror("error",
                                     "Check path for Pfile {}".format(self.pathtocopy))
         
-        self.__wbthns.close()
-        self.__wb1.close()
-        self.__app.quit()
+        #self.__wbthns.app.quit()
+        self.__wb1.app.quit()

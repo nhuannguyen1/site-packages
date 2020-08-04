@@ -273,3 +273,9 @@ def sheet_by_namesheet (path, namesheet,**kw):
         wb1  = app.books.open(path)
         
         return wb1.sheets[namesheet]
+def book_by_path (path,**kw):
+    """ return sheet name of wb"""
+    if (path != "" and path != None):
+        app = xw.App(add_book=False,**kw)
+        wb1  = app.books.open(path)
+        return wb1

@@ -18,9 +18,23 @@ class cexcel:
         # return list sheet excel to handling 
         self.__pathdes = pathdes
         self.__pathtocopy = pathtocopy
-        self.__app = xw.App(visible=False)
-        self.__desxw = xw.Book(pathdes)
-        self.__copyxw = xw.Book(pathtocopy)
+        self.__app = xw.App(visible=True,
+                            add_book=False
+                            )
+        self.__desxw = self.__app.books.open(fullname=self.__pathdes,update_links=False)
+        self.__copyxw = self.__app.books.open(fullname=self.__pathtocopy,
+                                                        update_links=False,                       
+                                                        read_only=False,
+                                                        ignore_read_only_recommended=False)
+        """
+        self.__desxw = xw.Book(pathdes,
+                                update_links=False)
+        self.__copyxw = xw.Book(pathtocopy,
+                                update_links=False,
+                                read_only=False,
+                                ignore_read_only_recommended=False
+                                )
+        """                                
         self.wsnames = self.__copyxw.sheets
         for namesheet in self.wsnames:
             if "AZB" in namesheet.name:
@@ -35,6 +49,8 @@ class cexcel:
         listsheetex = str_returnliststr(self.dictconf["listsheetnamechild"].replace(":", ","))
         # name sheet 
         self.__namesheet = self.ws1.name
+        # set active sheet name 
+        self.__desxw.sheets[self.__namesheet].activate()
         print("sheet name" ,self.__namesheet)
         # check name sheet name 
         if self.__namesheet not in listsheetex:

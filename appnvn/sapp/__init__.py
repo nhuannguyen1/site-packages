@@ -42,6 +42,7 @@ class sapp:
                 elif lfun == "capfs":
                     cyesornot = self.dictconf["removespace"]
                     rmrange = self.dictconf["sub_capfs_range"]
+                    
                     hvalues_in_cell(rmrange=rmrange,
                                     ws=self.__ws_retr,
                                     option_fun="capfs") if cyesornot[0] =="yes" else False
