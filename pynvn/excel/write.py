@@ -1,4 +1,4 @@
-from pynvn.string import removespace
+from pynvn.string import removespaces
 from pynvn.excel import colnum_string
 from pynvn.excel.list import lnumbercolumnbyrangstr
 from pynvn.string.slist import returnseplistintbbystr
@@ -7,34 +7,27 @@ from pynvn.string.list import capitalizefs
 def __vcell(ws = None,
             cols= [], 
             rows = [1,100],
-            option = "left",
+            option = [],
             option_fun = "removespace"
             ):
     """ remove space in excel by ws col and row """
-    if len(rows) == 2:
-        a,b = rows
-    elif len(rows) == 1:
-        a,b = rows[0],rows[0] + 1
-    elif len(rows) == 0:
-        lr = ws.range(colnum_string(cols[0]) + str(ws.cells.last_cell.row)).end('up').row
-        a,b = 1,lr + 1
-    else:
-        messagebox.showerror("Error", "Not find for this case rows: {0}".format(rows))
+    a,b = _startrow_endrow(ws=ws,
+                            rows=rows,
+                            cols=cols)
     for col in cols:
         for i in range(a,b + 1):
             valuee = ws.range(i,col).value
             if (valuee == None or valuee == ""):
                 continue
-            if option_fun == "removespace":
-                nvalue = removespace(instr=valuee,
-                                        option=option
-                                        )
-            elif option_fun == "capfs":
-                nvalue = capitalizefs(instr=valuee)
+            myDictfun = {
+                        "removespace": (lambda : removespaces(instr=valuee,options=option)),
+                        "capfs": (lambda : capitalizefs(instr=valuee)),
+                        }
+            nvalue = myDictfun[option_fun]()
             ws.range(i,col).value = nvalue
 
 def hvalues_in_cell(rmrange = [], 
-                    option = "both",
+                    option = [],
                     ws = None,
                     option_fun = "removespace"
                     ):
@@ -49,3 +42,18 @@ def hvalues_in_cell(rmrange = [],
                 option= option,
                 option_fun= option_fun
                 )
+
+def _startrow_endrow(ws = None, 
+                    rows = [],
+                    cols = []
+                    ):
+
+    if len(rows) == 2:
+        return rows
+    elif len(rows) == 1:
+        return [rows[0],rows[0] + 1]
+    elif len(rows) == 0:
+        lr = ws.range(colnum_string(cols[0]) + str(ws.cells.last_cell.row)).end('up').row
+        return [1,lr + 1]
+    else:
+        messagebox.showerror("Error", "Not find for this case rows: {0}".format(rows))

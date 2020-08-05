@@ -45,14 +45,34 @@ def converlistinstrtolist(listinstr = '["A","B" ,"C" ," D"]', path = None):
     return {k:ast.literal_eval(v)  for k,v in reader}
 def removespace (instr = None, option = "both"):
     """remove space from string"""
-    if option == "both":
-        return instr.strip()
-    if option == "left":
-        return instr.lstrip()
-    if option == "right":
-        return instr.rstrip()
-    else:
-        messagebox.showerror("Error","No case for this")
+    rspace_fun = {
+                  "both": lambda: instr.strip(),
+                  "left": lambda: instr.lstrip(),
+                  "right": lambda: instr.rstrip(),
+                  "tspacetoospace": lambda: twospace_to_onespace(instr=instr)
+                }
+    return rspace_fun[option]()
+
+def removespaces(instr = "", 
+                options = []):
+    """remove space from string with list option"""
+    ninstr = ""
+    for option in options:
+        ninstr = instr + ninstr
+        nstr = removespace(instr=ninstr,
+                            option=option)
+        ninstr = nstr
+    return ninstr
+    
+
+def twospace_to_onespace(instr = None):
+    """
+    remove multiple spaces in a string to one space 
+    ex: "The     quick brown    fox" to 'The quick brown fox'
+    """
+    return re.sub(' +', ' ', instr)
+
+
 def cformat_str(instr = None):
     """ check format of str """
     instr =  instr.replace(" ", "")

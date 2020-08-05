@@ -30,7 +30,6 @@ class sapp:
                                             upper = False
                                             ) 
         if self.__fuction == "Config":
-            print ("lfuns",lfuns)
             for lfun in lfuns:
                 # remove  space 
                 if lfun == "removespace":
@@ -38,12 +37,16 @@ class sapp:
                     rmrange = self.dictconf["sub_removespace_range"]
                     rmtyle = self.dictconf["sub_removespace_style"]
                     hvalues_in_cell(rmrange=rmrange,
-                                    option=rmtyle[0],
+                                    option=rmtyle,
                                     ws=self.__ws_retr,
                                     option_fun="removespace") if cyesornot[0] =="yes" else False
                 elif lfun == "capfs":
-                    cyesornot = self.dictconf["removespace"]
+                    cyesornot = self.dictconf["capfs"]
                     rmrange = self.dictconf["sub_capfs_range"]
-                    hvalues_in_cell(rmrange=rmrange,
+                    print (cyesornot)
+                    if cyesornot[0] =="yes":
+                        print (cyesornot[0])
+                        hvalues_in_cell(rmrange=rmrange,
                                     ws=self.__ws_retr,
-                                    option_fun="capfs") if cyesornot[0] =="yes" else False
+                                    option_fun="capfs")
+                    
