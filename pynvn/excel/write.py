@@ -3,7 +3,7 @@ from pynvn.excel import colnum_string
 from pynvn.excel.list import lnumbercolumnbyrangstr
 from pynvn.string.slist import returnseplistintbbystr
 from tkinter import messagebox
-from pynvn.string.list import capitalizefs
+from pynvn.string.list import capitalizes
 def __vcell(ws = None,
             cols= [], 
             rows = [1,100],
@@ -20,8 +20,10 @@ def __vcell(ws = None,
             if (valuee == None or valuee == ""):
                 continue
             myDictfun = {
-                        "removespace": (lambda : removespaces(instr=valuee,options=option)),
-                        "capfs": (lambda : capitalizefs(instr=valuee)),
+                        "removespace": (lambda : removespaces(instr=valuee,
+                                                                options=option)),
+                        "capfs": (lambda : capitalizes(instr=valuee,
+                                                        options=option)),
                         }
             nvalue = myDictfun[option_fun]()
             ws.range(i,col).value = nvalue
@@ -47,13 +49,14 @@ def _startrow_endrow(ws = None,
                     rows = [],
                     cols = []
                     ):
-
     if len(rows) == 2:
         return rows
     elif len(rows) == 1:
         return [rows[0],rows[0] + 1]
     elif len(rows) == 0:
-        lr = ws.range(colnum_string(cols[0]) + str(ws.cells.last_cell.row)).end('up').row
+        lr = ws.range(colnum_string(cols[0]) +\
+            str(ws.cells.last_cell.row)).end('up').row
         return [1,lr + 1]
     else:
-        messagebox.showerror("Error", "Not find for this case rows: {0}".format(rows))
+        messagebox.showerror("Error",
+                             "Not find for this case rows: {0}".format(rows))

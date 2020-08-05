@@ -104,3 +104,21 @@ def capitalizefs (instr = "",pattern='\s'):
                             pattern=pattern)
     ladded = addvaluexk(listf=lcap)
     return Concatenatelistofstring(ladded)
+
+def capitalize(instr = "",option = []):
+    """capitalize for string """
+    upper_all_fun = {
+                  "fs": lambda: capitalizefs(instr=instr),
+                  "upper_all": lambda: instr.upper(),
+                  "lower_all": lambda: instr.lower(),
+                }
+    return upper_all_fun[option]()
+
+def capitalizes(instr = "",options = []):
+    """capitalizes for string """
+    ninstr = ""
+    for option in options:
+        ninstr = instr + ninstr
+        nstr = capitalize(instr=ninstr,option=option)
+        ninstr = nstr
+    return nsninstrtr
