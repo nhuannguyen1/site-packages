@@ -19,7 +19,7 @@ def __vcell(ws = None,
         lr = ws.range(colnum_string(cols[0]) + str(ws.cells.last_cell.row)).end('up').row
         a,b = 1,lr + 1
     else:
-        messagebox.showerror("Error", "not find for this case rows: {0}".format(rows))
+        messagebox.showerror("Error", "Not find for this case rows: {0}".format(rows))
     for col in cols:
         for i in range(a,b + 1):
             valuee = ws.range(i,col).value
@@ -30,7 +30,7 @@ def __vcell(ws = None,
                                         option=option
                                         )
             elif option_fun == "capfs":
-                nvalue = capitalizefs(instr=nvalue)
+                nvalue = capitalizefs(instr=valuee)
             ws.range(i,col).value = nvalue
 
 def hvalues_in_cell(rmrange = [], 
@@ -46,5 +46,6 @@ def hvalues_in_cell(rmrange = [],
         __vcell(ws=ws,
                 cols=lnumbercolumnbyrangstr(rstr=rangea),
                 rows=returnseplistintbbystr(strint=rangea),
-                option=option
+                option= option,
+                option_fun= option_fun
                 )

@@ -124,7 +124,11 @@ class hexcel:
         self.sht1 = wb.sheets.active
         #self.sheetnameactive = wb.sheets.active.name
         # get set thvt 
-        self.thvt = wb.sheets[self.__sheetnametor]
+        try:
+            self.thvt = wb.sheets[self.__sheetnametor]
+        except:
+            messagebox.showerror("Error workbook","file is openning or active workbook not right, \
+                                 wokbook's name is {0}, or this workbook has not sheet name {1}".format(self.__namefile,self.__sheetnametor))
 
         self.row_ptvt = self.thvt.api.UsedRange.Rows.count
 

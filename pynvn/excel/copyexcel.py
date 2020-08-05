@@ -26,15 +26,6 @@ class cexcel:
                                                         update_links=False,                       
                                                         read_only=False,
                                                         ignore_read_only_recommended=False)
-        """
-        self.__desxw = xw.Book(pathdes,
-                                update_links=False)
-        self.__copyxw = xw.Book(pathtocopy,
-                                update_links=False,
-                                read_only=False,
-                                ignore_read_only_recommended=False
-                                )
-        """                                
         self.wsnames = self.__copyxw.sheets
         for namesheet in self.wsnames:
             if "AZB" in namesheet.name:

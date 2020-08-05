@@ -93,4 +93,6 @@ class hexcel_child:
                                     "Check path for Pfile {}".format(self.pathtocopy))
         
         #self.__wbthns.app.quit()
-        self.__wb1.app.quit()
+        self.__wbthns.close()
+        self.__wb1.close()
+        self.__app.quit()
