@@ -124,10 +124,6 @@ def cellcoordbyvalue(max_row = 20,
                                                                                                                                         min_col,
                                                                                                                                         max_col))
         raise ValueError("can not find name value")
-        #xw.App(visible=False).quit()
-        #raise closebookactive()
-
-    #lrowcol = [row for row in range(min_row, max_row + 1) for col in range(min_col, max_col + 1) if sheet.range((row,col)).value == valuetofile]
     return lrowcol
 def lcellindexbyvalue(lvalue, 
                         max_row = 20, 

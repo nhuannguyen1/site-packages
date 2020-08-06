@@ -86,7 +86,6 @@ def cformat_str(instr = None):
         return "anan"
     else:
         messagebox.showerror ("Error", "check format {0}".format(instr))
-
-    
-        
-    
+def remove_all_space (instr = None):
+    """ remove all space """
+    instr.replace(" ", "")

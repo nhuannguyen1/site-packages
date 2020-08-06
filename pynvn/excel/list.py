@@ -33,7 +33,8 @@ def pairslistfromexcel (startrow= 1,
 
 def removevalueinlistpair(lista,
                         deleteifvalue = [None,""],
-                        lower_index_0 = True):
+                        lower_index_0 = True,
+                        remove_all_space = True):
     """
     remove value in list pair by list deleteifvalue 
     """
