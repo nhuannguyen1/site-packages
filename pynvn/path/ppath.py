@@ -134,14 +134,10 @@ def PathFromFileNameAndDirpath (dir_path = None,
 
 def getpathfromtk(outputpath = None,Warning_path_existing = True):
     """ get content entry from output for tk widget"""
-    pathin = outputpath.get()
-    if os.path.exists(pathin) == False:
-        if Warning_path_existing:
-            messagebox.showinfo("directory", "directory not found for option")
-        else:
-            pass
+    if os.path.exists(outputpath.get()):
+        return outputpath.get()
     else: 
-        return pathin
+        messagebox.showinfo("Directory", "Directory not found for option") if  Warning_path_existing else False
 
 def retabspath():
     """ return dir path folder """
@@ -300,10 +296,4 @@ def ask_open(outputtk,
                 open_file = True):
         """ open directory file or folder"""
         outputtk.delete(0, 'end')
-        """
-        if open_file:
-            file_open(outputtk)
-        else:
-            ask_directory(outputtk)
-        """
         file_open(outputtk) if open_file else ask_directory(outputtk)
