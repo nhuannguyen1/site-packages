@@ -132,9 +132,7 @@ def PathFromFileNameAndDirpath (dir_path = None,
     full_path = PathS.refpath()
     return full_path
 
-def getpathfromtk(outputpath = None,
-                Warning_path_existing = True, 
-                ):
+def getpathfromtk(outputpath = None,Warning_path_existing = True):
     """ get content entry from output for tk widget"""
     pathin = outputpath.get()
     if os.path.exists(pathin) == False:
@@ -234,15 +232,24 @@ def listfileinfolder(path):
     except:
         messagebox.showerror ("Error","check for folder path {}".format(path))
 
-def mfileopen(outputtk):
+def mfileopen(outputtk, 
+                file_open = True):
         """ open file parent"""
         outputtk.delete(0, 'end')
-        # ask directory
-        files = filedialog.askopenfilename(title = "Directory of parent file",
+        if file_open:
+            # ask directory file
+            files = filedialog.askopenfilename(title = "Directory of parent file",
+                                                initialdir=outputtk.get())
+
+            outputtk.insert(tk.END,files)
+
+        else:
+            # ask directory folder
+            files = filedialog.askdirectory(title = "Directory of folder",
                                             initialdir=outputtk.get())
 
-        outputtk.insert(tk.END,
-                            files)
+            outputtk.insert(tk.END,files)
+
 
 def p_pyinstall_and_dev(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -271,3 +278,32 @@ def dirfolder (dirNamec, subforder,alertexists = True):
             pass
     return os.path.join(dirNamec, 
                         subforder)
+
+def file_open(outputtk):
+    """ ask directory file """
+    outputtk.delete(0, 'end')    
+    files = filedialog.askopenfilename(title = "Directory of parent file",
+                                        initialdir=outputtk.get())
+
+    outputtk.insert(tk.END,files)
+
+def ask_directory(outputtk):
+    """ ask directory """
+    outputtk.delete(0, 'end')    
+    folder = filedialog.askdirectory(title = "Directory of folder",
+                                            initialdir=outputtk.get())
+                                            
+    outputtk.insert(tk.END,folder)
+
+
+def ask_open(outputtk, 
+                open_file = True):
+        """ open directory file or folder"""
+        outputtk.delete(0, 'end')
+        """
+        if open_file:
+            file_open(outputtk)
+        else:
+            ask_directory(outputtk)
+        """
+        file_open(outputtk) if open_file else ask_directory(outputtk)
