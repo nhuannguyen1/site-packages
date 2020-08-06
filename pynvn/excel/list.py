@@ -34,16 +34,22 @@ def pairslistfromexcel (startrow= 1,
 def removevalueinlistpair(lista,
                         deleteifvalue = [None,""],
                         lower_index_0 = True,
-                        remove_all_space = True):
+                        remove_all_space_index_1 = True
+                        ):
     """
-    remove value in list pair by list deleteifvalue 
+    remove value in list pair by list deleteifvalue
     """
 
-    if lower_index_0:
+    if (lower_index_0 == True and remove_all_space_index_1 == True):
+
+        listpair = [[pairarr[0].lower(),pairarr[1].replace(" ", "")] for pairarr in lista if pairarr[0] not in deleteifvalue]
+
+    elif (lower_index_0 == True and remove_all_space_index_1 == False) :
+
         listpair = [[pairarr[0].lower(),pairarr[1]] for pairarr in lista if pairarr[0] not in deleteifvalue]
     else:
-        listpair = [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
 
+        listpair = [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
     return listpair
 
 
