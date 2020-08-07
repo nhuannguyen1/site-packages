@@ -105,10 +105,10 @@ def au_cre_name(tktk=None,
                 au_Programmer_rely = 0.8
                 ):
     """ create author and create name """
-    print (au_creator,au_Programmer)
     au_creator = tk.Label(tktk,
                             text = au_creator,
-                            font="Times 13 italic"
+                            font="Times 13 italic",
+                            bg =  "#5b9bd5"
                             )
     au_creator.place(relx = au_creator_relx, 
                     rely = au_creator_rely, 
@@ -116,7 +116,8 @@ def au_cre_name(tktk=None,
 
     creater = tk.Label(tktk,
                             text = au_Programmer,
-                            font="Times 13 italic"
+                            font="Times 13 italic",
+                            bg =  "#5b9bd5"
                             )
     creater.place(relx = au_Programmer_relx, 
                     rely = au_Programmer_rely, 

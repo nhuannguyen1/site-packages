@@ -19,7 +19,8 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
                    rsa_pub_key=rsa_pub_key,\
                    product_id=product_id, \
                    key=key,\
-                   machine_code=Helpers.GetMachineCode())
+                   machine_code=Helpers.GetMachineCode()
+                   )
     if (result[0] == None or not Helpers.IsOnRightMachine(result[0])) and using_permanent_key ==  False:
         # an error occurred or the key is invalid or it cannot be activated
         # (eg. the limit of activated devices was achieved)
