@@ -1,6 +1,7 @@
 from licensing.models import *
 from licensing.methods import Key, Helpers
 from pynvn.crypt import write_key,load_key,encrypt,decrypt
+from pynvn.mc_id import mcwd_id
 import tkinter as tk
 def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFoK2JEQ0ciXQ==",
             product_id = None,
@@ -8,7 +9,10 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
             key = None,
             pathtokey = None,
             pathtovaluecsv_key = None,
-            using_permanent_key = False
+            using_permanent_key = False,
+            valueser_key = "",
+            path_mc_id = "",
+            ser_key = ""
             ):
     """ auth key """
     result = Key.activate(token=auth,\
@@ -16,13 +20,15 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
                    product_id=product_id, \
                    key=key,\
                    machine_code=Helpers.GetMachineCode())
-    if result[0] == None or not Helpers.IsOnRightMachine(result[0]):
+    if (result[0] == None or not Helpers.IsOnRightMachine(result[0])) and using_permanent_key ==  False:
         # an error occurred or the key is invalid or it cannot be activated
         # (eg. the limit of activated devices was achieved)
-        if "11001" in  result[1]:
-            return checkactiveornotactive(pathtokey =pathtokey,
+        # in this case not connect server 
+        if "11001" in  result[1] :
+            return _active_or_not(pathtokey =pathtokey,
                                             pathtovaluecsv_key = pathtovaluecsv_key 
                                             )
+        # case for not actived 
         else:
             write_key(path=pathtokey)
             key = load_key(pathtokey)
@@ -30,6 +36,15 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
                     key = key,
                     nametow=b"Not actived")
             return [False]
+
+    elif using_permanent_key:
+        return  __check_permanent_key(path_mc_id = path_mc_id,
+                                        valueser_key=valueser_key,
+                                        pathtokey=pathtokey,
+                                        ker_ser=key,
+                                        ser_key = ser_key
+                                        )
+            
     else:
         # everything went fine if we are here!
         write_key(path=pathtokey)
@@ -39,11 +54,36 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
                 nametow=b"actived")
         license_key = result[0]
         return [True,str(license_key.expires)]
-def checkactiveornotactive(pathtokey,pathtovaluecsv_key):
+def _active_or_not(pathtokey,pathtovaluecsv_key):
     """ check if it can not connect to server """
     key = load_key(pathtokey)
-    k = decrypt(filename=pathtovaluecsv_key,key = key)
+    k = decrypt(filename=pathtovaluecsv_key,
+                key = key
+                )
     if k == "actived":
         return [True]
+    else:
+        return [False]
+def __check_permanent_key(path_mc_id,
+                            valueser_key,
+                            pathtokey,
+                            ker_ser,
+                            ser_key
+                            ):
+    key = load_key(ser_key)
+    try:
+        key_value_de =  decrypt(filename=valueser_key,
+                                key = key
+                                )
+    except:
+        key_value_de = ""
+    try:
+        idmc = decrypt(filename=path_mc_id,
+                        key = key
+                        )
+    except:
+        idmc = ""
+    if mcwd_id() == idmc  and key_value_de == ker_ser:
+        return [True,"The key is used indefinitely"]
     else:
         return [False]

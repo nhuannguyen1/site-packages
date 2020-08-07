@@ -10,10 +10,11 @@ class gui(tk.Frame):
                         widthx = None ,
                         widthy = None,
                         condv = 3,
-                        title = "ATAD STEEL STRUCTURE CORPORATION",
-                        resizable =[0,0]):
-
-        #self.tktk = tktk
+                        title = "",
+                        resizable =[0,0],
+                        add_au_cre = False,
+                        **kw
+                        ):
         tk.Frame.__init__ (self,tktk)
         self.tktk = tktk
         self.pathico = pathico
@@ -24,13 +25,12 @@ class gui(tk.Frame):
         self.resizable = resizable
         self.condv = condv
         self.title = title
-    
+        if add_au_cre:
+            au_cre_name(**kw)
     def setcfbs (self):
-        
         fkv = self.findkeyvalue()
         self.setsw(fkv)
         self.call(fkv,5)
-        
         self.tktk.resizable(self.resizable [0], 
                             self.resizable [1])
                             
@@ -94,5 +94,30 @@ class gui(tk.Frame):
         else: return "*"
     
     def call(self,keyvaluee, x):
-        
         return self.functions[keyvaluee](x)
+
+def au_cre_name(tktk=None,
+                au_creator=None,
+                au_Programmer=None,                        
+                au_creator_relx = 0.5,
+                au_Programmer_relx = 0.5,
+                au_creator_rely = 0.9,
+                au_Programmer_rely = 0.8
+                ):
+    """ create author and create name """
+    print (au_creator,au_Programmer)
+    au_creator = tk.Label(tktk,
+                            text = au_creator,
+                            font="Times 13 italic"
+                            )
+    au_creator.place(relx = au_creator_relx, 
+                    rely = au_creator_rely, 
+                    anchor = tk.CENTER)
+
+    creater = tk.Label(tktk,
+                            text = au_Programmer,
+                            font="Times 13 italic"
+                            )
+    creater.place(relx = au_Programmer_relx, 
+                    rely = au_Programmer_rely, 
+                    anchor = tk.CENTER)
