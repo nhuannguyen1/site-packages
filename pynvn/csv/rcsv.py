@@ -57,3 +57,5 @@ def returndictrowforcsv (path):
     with open(path, 'r') as readFile:
         listk = {lcsv[0]:lcsv[1] for lcsv in list(csv.reader(readFile, delimiter=','))}
     return listk
+
+

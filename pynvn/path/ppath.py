@@ -4,6 +4,15 @@ import sys
 from tkinter import messagebox,filedialog
 import tkinter as tk
 import openpyxl as xl
+
+
+def check_pfile(cpath,title = "Error directory"):
+    """ check directory of path """
+    if cpath:
+        pass
+    else:
+        messagebox.showerror("Error directory","Check {0} again".format(cpath))
+
 class PathSteel:
     def  __init__(self, path_Full = None,
                         dir_path = None,

@@ -7,7 +7,8 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
             rsa_pub_key = "<RSAKeyValue><Modulus>n5Q5BtZIlprf+d74p2YmQT1ZnRrCFGqt9JtAzO29/eNbzaM9rFZ5IaD8iIqbc0gVrE2ZFA0tfCtzeAVdV6MlaDaaqexNIZARMBK4dk9AEZb9kAOzdUXZNLv6O3+HyZg6bV75Gj6xFY17YUCefDol5Fyn0Z072lFXUV1DArgb+i2r/YDBI/QTS0crHMUS7iXdlWRk1DdGABvrvtoR78P6+uci5njxjlkniByBODyRMAoml1zk9YBRrCEXi6HLxlurd2Y29QizHRTCACCZP3WsNSiyKZqgKOOjUnZyi+hMX8+W06tcofsjjbKa7D+csFQi0MeL5juiNM3om0vtSD6zjQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>",
             key = None,
             pathtokey = None,
-            pathtovaluecsv_key = None
+            pathtovaluecsv_key = None,
+            using_permanent_key = False
             ):
     """ auth key """
     result = Key.activate(token=auth,\
@@ -37,7 +38,6 @@ def authkey(auth = "WyI0MzQ5NyIsIm8rRGJXcjBJNUo3aWYwUk5URUJNaXdZZWdHSlZZbmwxMHFo
                 key = key,
                 nametow=b"actived")
         license_key = result[0]
-
         return [True,str(license_key.expires)]
 def checkactiveornotactive(pathtokey,pathtovaluecsv_key):
     """ check if it can not connect to server """

@@ -12,6 +12,7 @@ def key_license (tktk = None,
                     ser_key = None,
                     valueser_key = None,
                     product_id = 7018,
+                    using_permanent_key = False,
                     **kw
                     ):
     """ 
@@ -30,7 +31,8 @@ def key_license (tktk = None,
                     product_id=product_id,
                     key=valueser_key_de,
                     pathtokey = pathtokey,
-                    pathtovaluecsv_key = pathtovaluecsv_key
+                    pathtovaluecsv_key = pathtovaluecsv_key,
+                    using_permanent_key = using_permanent_key
                     )
     if aucre[0] == False:
         guiforser(tktk=tktk,
