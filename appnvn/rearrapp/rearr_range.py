@@ -28,15 +28,31 @@ class rearr_range:
                 for lfun in self.lfuns:
                     if lfun == "move_range":
                         mrange = self.__dictconf["move_range"]
-                        Value_Conf_Loc = self.__dictconf["sub_move_range_value_conf_loc"]
                         sheet_name = self.__dictconf["sub_move_range_sheetname"]
                         range_copy = self.__dictconf["sub_move_range_range_copy"]
                         range_des = self.__dictconf["sub_move_range_range_des"]
-                        hsheet_range(sheet_name=sheet_name,wb=wb) if mrange == "yes" else False
+                        hsheet_range(sheet_name=sheet_name,
+                                    wb=wb,
+                                    range_copy=range_copy,
+                                    range_paste=range_des,
+                                    clear_rcopy_after_copy=True
+                                    ) if mrange == "yes" else False
+
                     elif lfun == "mrange_by_cell":
+                        mrange = self.__dictconf["mrange_by_cell"]
                         sheet_name= self.__dictconf["sub_mrange_by_cell_sheetname"]
                         range_copy = self.__dictconf["sub_mrange_by_cell_loc_range_copy"]
-                        range_des = self.__dictconf["sub_move_range_range_des"]
-                        
+                        range_des = self.__dictconf["sub_mrange_by_cell_loc_range_des"]
+
+                        hsheet_range(sheet_name=sheet_name,
+                                    wb=wb,
+                                    range_copy=range_copy,
+                                    range_paste=range_des,
+                                    clear_rcopy_after_copy=True,
+                                    usinglocinexcel=True
+                                    ) if mrange == "yes" else False
+                    
+
+
                 wb.save()
                 wb.app.quit()       
