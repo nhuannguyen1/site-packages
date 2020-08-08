@@ -148,7 +148,6 @@ def openexcelbyxl (pathex):
             app = xw.App(visible= True,add_book=False)
         else:
             app = xw.apps.active
-            
         wb1  = app.books.open(pathex)
     #xw.Book(pathex)
 def valuebyindexrowcell(lindexcell = None,
@@ -236,6 +235,10 @@ def activeworkbook_fullname(**kw):
     """ return active workbook full name """
     return activeworkbook(**kw).fullname
 
+def listsheet_by_wb(wb):
+    """ return all sheet name of wb, input wb"""
+    return [sheet.name for sheet in wb.sheets ]
+
 
 def listsheetofwb (path):
     """ return all sheet name of wb"""
@@ -245,8 +248,8 @@ def listsheetofwb (path):
         else:
             app = xw.apps.active
         wb1  = app.books.open(path)
-        lsheetnames = [sheet.name for sheet in wb1.sheets ]
-        return lsheetnames
+        return listsheet_by_wb(wb1)
+
 def check_open_wb (path):
     """ check workbook open or not  """
     try:
@@ -276,3 +279,11 @@ def book_by_path (path,**kw):
         app = xw.App(add_book=False,**kw)
         wb1  = app.books.open(path)
         return wb1
+def open_wb_byxl (pathex):
+    """ open excel by pathex"""
+    if (pathex != "" and pathex != None):
+        if not xw.apps:
+            app = xw.App(visible= True,add_book=False)
+        else:
+            app = xw.apps.active
+        return app.books.open(pathex)

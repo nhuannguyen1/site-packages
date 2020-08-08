@@ -8,7 +8,6 @@ from pynvn.crypt import (write_key,
 from pynvn.mc_id import mcwd_id
 import tkinter as tk  
 
-
 class key_license:
     """ 
     license key of app

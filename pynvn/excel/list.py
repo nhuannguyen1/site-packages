@@ -31,25 +31,46 @@ def pairslistfromexcel (startrow= 1,
     return listpairfrom2list(list_a=listfloc,
                             list_b=listsloc)
 
+def remove2side_pair(lpair):
+    """ 
+        remove 2 side space list pair ele
+        ex: ["  abc",1] ---> ["abc",1]
+    """
+
+    return [remove2side(lpair[0]),remove2side(lpair[1])]
+
+def remove2side(in_para):
+    """ 
+    remove 2 side keep int, remove str 
+    ex: "  kkk"----> "kkk"
+            12 ---> 12
+    """
+
+    if (type(in_para) == int or type(in_para) == float):
+        return in_para
+    else:
+        return str(in_para).strip()
+    
+def remove_2side_space_byindex_plist(l_instr = [],side = "both"):
+    """ remove 2 side space by index pair list """
+    if side == "both":
+        return list(map(remove2side_pair, l_instr))
+
 def removevalueinlistpair(lista,
                         deleteifvalue = [None,""],
                         lower_index_0 = True,
-                        remove_all_space_index_1 = True
+                        remove_2side_space_index_0_1 = True
                         ):
     """
     remove value in list pair by list deleteifvalue
     """
-
     if lower_index_0:
-
         listpair = [[pairarr[0].lower(),pairarr[1]] for pairarr in lista if pairarr[0] not in deleteifvalue]
-        
+    if remove_2side_space_index_0_1:
+        listpair = remove_2side_space_byindex_plist(l_instr=listpair)
     else:
-
         listpair = [pairarr for pairarr in lista if pairarr[0] not in deleteifvalue]
-
     return listpair
-
 
 def lnumbercolumnbyrangstr (rstr = None):
     """ return range number by rstr by excel column """
