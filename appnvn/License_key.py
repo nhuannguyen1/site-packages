@@ -43,7 +43,6 @@ class key_license:
                     ser_key = ser_key
                     )
         if aucre[0] == False:
-            
             guiforinser(tktk=tktk,
                 pathtokey =pathtokey,
                 pathtovaluecsv_key= pathtovaluecsv_key,
