@@ -24,6 +24,7 @@ def hsheet_range(sheet_name,
 
         else:
             if check_list_value(valuetocheck=[range_copy,range_paste]):
+                print (range_copy,range_paste)
                 ws = wb.sheets.active
                 co_paste_move_range(sheet_copy= ws,
                                     sheet_des= ws,

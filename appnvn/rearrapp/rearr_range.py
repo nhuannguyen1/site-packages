@@ -12,7 +12,7 @@ class rearr_range:
                 fuction = None
                 ):
         self.__lpath_excel = lpath_excel
-        self.__fuction = fuction
+        self.__fuction = fuction.lower()
         self.__pathconf = pathconf
         self.__dictconf = dict_from_csv2col(pathconf)
         self.lfuns = filterlistbylstr(liststr=list(self.__dictconf.keys()),
@@ -20,19 +20,20 @@ class rearr_range:
                                             criteria=["sub_"],
                                             upper = False
                                             )
-                                            
+
     def mrange(self):
-        if self.__fuction == "config":
-            for lexel in self.__lpath_excel:
-                self.wb = open_wb_byxl(lexel)
-                for lfun in self.lfuns:
-                    if lfun == "move_range":
-                        self.__move_range()
-                    elif lfun == "mrange_by_cell":
-                        self.__mrange_by_cell()
-            
-        self.wb.save()
-        self.wb.app.quit()       
+        mydictfun = {"move_range":(lambda: self.__move_range()),
+                    "mrange_by_cell":(lambda: self.__mrange_by_cell())
+                    }
+        for lexel in self.__lpath_excel:
+            self.wb = open_wb_byxl(lexel)
+            if self.__fuction == "config":
+                    for lfun in self.lfuns:
+                        mydictfun[lfun]()
+            else:
+                mydictfun[self.__fuction]()
+            self.wb.save()
+            self.wb.app.quit()       
 
     def __move_range(self):
         mrange = self.__dictconf["move_range"]
