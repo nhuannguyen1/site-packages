@@ -7,7 +7,6 @@ import xlwings as xw
 from xlwings.constants import DeleteShiftDirection
 from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
 
-#from pynvn.excel.exception import closebookactive
 def returnsheet (path, namesheet = "TONG HOP HM"):
     """ return sheet name by index and path excel """
     wb1 = xl.load_workbook(filename=path)
@@ -63,9 +62,6 @@ def col2num(col):
         if c in string.ascii_letters:
             num = num * 26 + (ord(c.upper()) - ord('A')) + 1
     return num
-
-
-
 
 def convertrangaphatonunber (rangapha = None ):
     """ convert rang anphab to cell number"""
