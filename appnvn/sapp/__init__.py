@@ -29,22 +29,31 @@ class sapp:
                                             criteria=["sub_"],
                                             upper = False
                                             ) 
+        
+        mydictfun = {
+                    "removespace":(lambda: self.__removespace()),
+                    "capfs":(lambda: self.__capfs())
+                    }        
+        
         if self.__fuction == "Config":
             for lfun in lfuns:
                 # remove  space 
-                if lfun == "removespace":
-                    cyesornot = self.dictconf["removespace"]
-                    rmrange = self.dictconf["sub_removespace_range"]
-                    rmtyle = self.dictconf["sub_removespace_style"]
-                    hvalues_in_cell(rmrange=rmrange,
-                                    option=rmtyle,
-                                    ws=self.__ws_retr,
-                                    option_fun="removespace") if cyesornot[0] =="yes" else False
-                elif lfun == "capfs":
-                    cyesornot = self.dictconf["capfs"]
-                    rmrange = self.dictconf["sub_capfs_range"]
-                    if cyesornot[0] =="yes":
-                        hvalues_in_cell(rmrange=rmrange,
-                                    ws=self.__ws_retr,
-                                    option_fun="capfs")
-                    
+                mydictfun[lfun]()
+        else:
+             mydictfun[self.__fuction]()
+    def __removespace(self):
+        cyesornot = self.dictconf["removespace"]
+        rmrange = self.dictconf["sub_removespace_range"]
+        rmtyle = self.dictconf["sub_removespace_style"]
+        hvalues_in_cell(rmrange=rmrange,
+                                option=rmtyle,
+                                ws=self.__ws_retr,
+                                option_fun="removespace") if cyesornot[0] =="yes" else False        
+
+    def __capfs(self):
+        cyesornot = self.dictconf["capfs"]
+        rmrange = self.dictconf["sub_capfs_range"]
+        if cyesornot[0] =="yes":
+            hvalues_in_cell(rmrange=rmrange,
+                            ws=self.__ws_retr,
+                            option_fun="capfs")
