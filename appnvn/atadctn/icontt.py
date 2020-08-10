@@ -91,9 +91,11 @@ class gui(tk.Frame):
         elif self.widthx == "center" and self.widthy == "center" and self.width ==None and  self.height ==None:return "ccoo"
 
         elif self.widthx == "center" and self.widthy == "center" and self.width !=None and  self.height !=None:return "ccnn"
+
         else: return "*"
     
     def call(self,keyvaluee, x):
+        
         return self.functions[keyvaluee](x)
 
 def au_cre_name(tktk=None,

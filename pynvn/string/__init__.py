@@ -56,15 +56,17 @@ def removespace (instr = None, option = "both"):
 def removespaces(instr = "", 
                 options = []):
     """remove space from string with list option"""
-    ninstr = ""
-    for option in options:
-        ninstr = instr + ninstr
-        nstr = removespace(instr=ninstr,
+    if (instr == "" or instr ==None):
+        return instr
+    else:
+        ninstr = ""
+        for option in options:
+            ninstr = instr + ninstr
+            nstr = removespace(instr=ninstr,
                             option=option)
-        ninstr = nstr
-    return ninstr
-    
-
+            ninstr = nstr
+        return ninstr
+        
 def twospace_to_onespace(instr = None):
     """
     remove multiple spaces in a string to one space 

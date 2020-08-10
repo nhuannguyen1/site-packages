@@ -116,9 +116,12 @@ def capitalize(instr = "",option = []):
 
 def capitalizes(instr = "",options = []):
     """capitalizes for string """
-    ninstr = ""
-    for option in options:
-        ninstr = instr + ninstr
-        nstr = capitalize(instr=ninstr,option=option)
-        ninstr = nstr
-    return nsninstrtr
+    if (instr == "" or instr ==None):
+        return instr
+    else:
+        ninstr = ""
+        for option in options:
+            ninstr = instr + ninstr
+            nstr = capitalize(instr=ninstr,option=option)
+            ninstr = nstr
+        return ninstr
