@@ -4,10 +4,13 @@ from pynvn.csv.rcsv import returndictrowforcsv
 from pynvn.string.slist import returnseplistintbbystr
 from pynvn.excel import activesheet,activeworkbook
 from pynvn.csv.tolist import convertcsvto1list
-from pynvn.path.ppath import refullpath,getdirpath
+from pynvn.path.ppath import (refullpath,
+                            getdirpath
+                            )
 class crangeactive:
     """ copy sheet and change value cell """
-    def __init__(self,pathconf = None,
+    def __init__(self,
+                pathconf = None,
                 pathconfigexcelcopy = None):
         # call dict 
         self.pathconfigexcelcopy = pathconfigexcelcopy
@@ -27,7 +30,6 @@ class crangeactive:
 
     def copyrangfromconf(self): 
         # return csv have list sheet name 
-        
         try:                        
             self.lsheetname = convertcsvto1list(path=self.pathlsn)
         except:
@@ -45,7 +47,6 @@ class crangeactive:
             self.__copyrangfromconfk()
 
     def copyrangfromconf_bt(self,acsheet = None):
-        #self.__sheetdesactive = activesheet()        
         cprange(pathtocopy=self.pathconfigexcelcopy,
                 pathtodes=acsheet,
                 rangetocopy=self.__hm_startcopyrangebt,

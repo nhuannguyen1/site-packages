@@ -6,6 +6,7 @@ from pynvn.excel.copy_move_paste import co_paste_move_range
 from pynvn.excel import activesheet,open_wb_byxl,listsheet_by_wb
 from pynvn import dict_from_csv2col
 from appnvn.rearrapp.mrange import hsheet_range
+
 class rearr_range:
     def __init__(self,lpath_excel =[],
                 pathconf = None,
@@ -51,6 +52,19 @@ class rearr_range:
         sheet_name= self.__dictconf["sub_mrange_by_cell_sheetname"]
         range_copy = self.__dictconf["sub_mrange_by_cell_loc_range_copy"]
         range_des = self.__dictconf["sub_mrange_by_cell_loc_range_des"]
+        hsheet_range(sheet_name=sheet_name,
+                    wb=self.wb,
+                    range_copy=range_copy,
+                    range_paste=range_des,
+                    clear_rcopy_after_copy=True,
+                    usinglocinexcel=True
+                    ) if mrange == "yes" else False
+    
+    def __copy_from_tem(self):
+        mrange = self.__dictconf["copy_from_tem"]
+        sheet_name= self.__dictconf["sub_move_range_sheetname"]
+        range_copy = self.__dictconf["sub_copyfromtem_startcopyrange"]
+        range_des = self.__dictconf["sub_copyfromtem_startpasterange"]
         hsheet_range(sheet_name=sheet_name,
                     wb=self.wb,
                     range_copy=range_copy,

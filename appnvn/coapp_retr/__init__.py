@@ -30,7 +30,7 @@ class rapp:
                                             ) 
         
         mydictfun = {
-                    "delete_row":(lambda: self.__delete_row()),
+                    "copyfromtem":(lambda: self.__copyfromtem()),
                     }        
         
         if self.__fuction == "config":
@@ -38,19 +38,17 @@ class rapp:
             for lfun in lfuns:
 
                 mydictfun[lfun]()
-        
         else:
              mydictfun[self.__fuction]()
 
-    def __delete_row(self):
-        cyesornot = self.dictconf["delete_row"]
-        rmrange = self.dictconf["sub_delete_row_range"]
-        valuetodel = self.dictconf["sub_delete_row_valuetodelete"]
-        valuetodel = list(map(noneinlist_str,valuetodel))
+    def __copyfromtem(self):
+        cyesornot = self.dictconf["copyfromtem"]
+        startcopyrange = self.dictconf["sub_copyfromtem_startcopyrange"]
+        startpasterange = self.dictconf["sub_copyfromtem_startpasterange"]
         hrangesheet(rmrange=rmrange,
                     ws=self.__ws_retr,
-                    option_fun="delete_row",
-                    feature_fun="delete_row",
+                    option_fun="copyfromtem",
+                    feature_fun="copyfromtem",
                     value_to_end=None,
                     valuetodelete=valuetodel,
                     using_value_to_end=False
