@@ -97,7 +97,10 @@ class hrangesheet:
                                 option_fun = self.option_fun
                             )
             else:
-                delrowbyrange(incolumndel=col,ws=self.ws,startrow=a,endrow=b,**kw)
+                delrowbyrange(incolumndel=col,
+                                ws=self.ws,
+                                startrow=a,
+                                endrow=b,**kw)
         
 def hstr_in_range(st_row, 
                     end_row,

@@ -267,8 +267,12 @@ def sheet_by_namesheet (path, namesheet,**kw):
         else:
             app = xw.apps.active
         wb1  = app.books.open(path)
-        
-        return wb1.sheets[namesheet]
+        ws = wb1.sheets[namesheet]
+        if ws == None:
+            messagebox.showerror("Error", "Check sheet name input:  {0}".format(str(namesheet).upper()))
+        return ws
+    else:
+        messagebox.showerror("Error", "No workbook is opened or Check sheet name input:  {0}".format(str(namesheet).upper()))
 def book_by_path (path,**kw):
     """ return sheet name of wb"""
     if (path != "" and path != None):

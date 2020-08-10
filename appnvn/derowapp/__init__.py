@@ -22,9 +22,8 @@ class rapp:
         else:
             self.__ws_retr = sheet_by_namesheet(path=retr_path,
                                                 namesheet=retr_sheetname)
-        
+        print ("self.__ws_retr" ,self.__ws_retr )
     def ft_tool(self):
-
         lfuns = filterlistbylstr(liststr=list(self.dictconf.keys()),
                                             criteria_is_not=True,
                                             criteria=["sub_"],
@@ -47,15 +46,15 @@ class rapp:
     def __delete_row(self):
         cyesornot = self.dictconf["delete_row"]
         rmrange = self.dictconf["sub_delete_row_range"]
-        valuetoend = self.dictconf["sub_delete_row_valuetoend"]
         valuetodel = self.dictconf["sub_delete_row_valuetodelete"]
         valuetodel = list(map(noneinlist_str,valuetodel))
         hrangesheet(rmrange=rmrange,
                     ws=self.__ws_retr,
                     option_fun="delete_row",
                     feature_fun="delete_row",
-                    value_to_end=valuetoend,
-                    valuetodelete=valuetodel
+                    value_to_end=None,
+                    valuetodelete=valuetodel,
+                    using_value_to_end=False
                     ) if cyesornot[0] =="yes" else False  
 
 def noneinlist_str(n):
