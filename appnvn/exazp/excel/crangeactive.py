@@ -5,8 +5,8 @@ from pynvn.string.slist import returnseplistintbbystr
 from pynvn.excel import activesheet,activeworkbook
 from pynvn.csv.tolist import convertcsvto1list
 from pynvn.path.ppath import (refullpath,
-                            getdirpath
-                            )
+                                getdirpath
+                                )
 class crangeactive:
     """ copy sheet and change value cell """
     def __init__(self,
@@ -38,7 +38,6 @@ class crangeactive:
             self.wb = activeworkbook(namefile=self.fname,
                                     checknamefile= True)
             for sheet in self.lsheetname:
-                print (sheet)
                 self.wb.sheets[sheet].activate()
                 self.__sheetdesactive = activesheet()
                 self.__copyrangfromconfk()

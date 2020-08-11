@@ -19,11 +19,11 @@ class rapp:
         self.__path_exell_tem = path_exell_tem
         self.__retr_sheetname = retr_sheetname
         self.__fuction = str(fuction).lower()
-        if retr_sheetname == "Active Sheet":
-            self.__ws_retr = activesheet()
-        else:
-            self.__ws_retr = sheet_by_namesheet(path=retr_path,
-                                                namesheet=retr_sheetname)
+        if retr_sheetname != "Active Sheet":
+            sheet_by_namesheet(path=retr_path,
+                                namesheet=retr_sheetname).activate()
+        self.__ws_retr = activesheet()
+
     def ft_tool(self):
         lfuns = filterlistbylstr(liststr=list(self.__dictconf.keys()),
                                             criteria_is_not=True,
