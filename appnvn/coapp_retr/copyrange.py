@@ -52,43 +52,28 @@ def hsheet_range(sheet_name,
                                         clear_rcopy_after_copy=clear_rcopy_after_copy
                                         )
 
-class hsheet_range_2wb:
+class cpfromtem:
     """ copy move paste range """
     def __init__(self,
-                sheet_name = None, 
-                wb_des = None,
-                wb_tem = None,
+                ws_des = None,
+                ws_tem = None,
                 range_copy = "",
                 range_paste = "",
                 clear_rcopy_after_copy = True, 
                 usinglocinexcel = False,
-                namesheet_tem = None,
                 ):
-        self.sheet_name = sheet_name
-        self.namesheet_tem = namesheet_tem
-        self.wb_des = wb_des
-        self.wb_tem = wb_tem
+        self.ws_des = ws_des
+        self.ws_tem = ws_tem
         self.range_copy = range_copy
         self.range_paste = range_paste
         self.clear_rcopy_after_copy = clear_rcopy_after_copy
         self.usinglocinexcel = usinglocinexcel
-        self.hfun()
-    def hfun(self):
-        ws_tem = self.wb_tem.sheets[self.namesheet_tem]
-        if sheet_name == "active":
-            ws = self.wb.sheets.active
-            self.__cp_using_loc(sheet_copy=ws_tem,
-                                sheet_des=ws) if self.usinglocinexcel else self.__not_cp_using_loc(sheet_copy=ws_tem,
-                                                                                                    sheet_des=ws)
-        else:
-            for sheetname in listsheet_by_wb(self.wb):
-                if sheet_name in sheetname:
-                    self.wb.sheets[sheetname].activate()
-                    ws = self.wb.sheets.active
-                    self.__cp_using_loc(sheet_copy=ws_tem,
-                                        sheet_des=ws) if self.usinglocinexcel else self.__not_cp_using_loc(sheet_copy=ws_tem,
-                                                                                                            sheet_des=ws)
+        self.__hfun()
 
+    def __hfun(self):
+        self.__cp_using_loc(sheet_copy=self.ws_tem,
+                                sheet_des=self.ws_des) if self.usinglocinexcel else self.__not_cp_using_loc(sheet_copy=ws_tem,
+                                                                                                    sheet_des=self.ws_des)
     def __cp_using_loc(self,
                         sheet_copy,
                         sheet_des
