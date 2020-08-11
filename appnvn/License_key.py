@@ -118,11 +118,13 @@ class guiforinser:
         """ check valid key """
         x1 = self.can_en.get()
         key = load_key(self.ser_key)
-        if decrypt(filename = self.valueser_key,key=key) == x1:
-            encrypt(filename=self.path_mc_id,
-                key = key,
-                nametow=mcwd_id().encode('utf_8'))
-
+        try:
+            if decrypt(filename = self.valueser_key,key=key) == x1:
+                encrypt(filename=self.path_mc_id,
+                    key = key,
+                    nametow=mcwd_id().encode('utf_8'))
+        except:
+            pass
         aucre  = authkey(
                     product_id=self.product_id,
                     key=str(x1),

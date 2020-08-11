@@ -1,4 +1,4 @@
-from pynvn.excel.copy_move_paste import co_paste_move_range
+from pynvn.excel.copy_move_paste import cprange_2wb
 from pynvn.excel import listsheet_by_wb
 from pynvn.check.list import check_list_value
 def hsheet_range(sheet_name, 
@@ -55,45 +55,39 @@ def hsheet_range(sheet_name,
 class cpfromtem:
     """ copy move paste range """
     def __init__(self,
-                ws_des = None,
-                ws_tem = None,
-                range_copy = "",
-                range_paste = "",
-                clear_rcopy_after_copy = True, 
-                usinglocinexcel = False,
+                    clear_rcopy_after_copy = True, 
+                    usinglocinexcel = False,
+                    **kw
                 ):
-        self.ws_des = ws_des
-        self.ws_tem = ws_tem
-        self.range_copy = range_copy
-        self.range_paste = range_paste
         self.clear_rcopy_after_copy = clear_rcopy_after_copy
         self.usinglocinexcel = usinglocinexcel
-        self.__hfun()
+        self.hfun(**kw)
 
-    def __hfun(self):
-        self.__cp_using_loc(sheet_copy=self.ws_tem,
-                                sheet_des=self.ws_des) if self.usinglocinexcel else self.__not_cp_using_loc(sheet_copy=ws_tem,
-                                                                                                    sheet_des=self.ws_des)
+    def hfun(self,**kw):
+        """ hfunction in copyrange """
+        self.__cp_using_loc(**kw) if self.usinglocinexcel else self.__not_cp_using_loc(**kw)
     def __cp_using_loc(self,
-                        sheet_copy,
-                        sheet_des
+                        pa,
+                        sheet_des,      
+                        range_copy,
+                        range_paste
                         ):
-        co_paste_move_range(sheet_copy= sheet_copy,
+        cprange_2wb(sheet_copy= sheet_copy,
                             sheet_des= sheet_des,
                             range_copy=range_copy,
                             range_paste=range_paste,
                             clear_rcopy_after_copy=self.clear_rcopy_after_copy,
-                            usinglocinexcel=True
                             )
             
     def __not_cp_using_loc(self,
                             sheet_copy,
-                            sheet_des
+                            sheet_des,
+                            range_copy,
+                            range_paste
                             ):
-        co_paste_move_range(sheet_copy= sheet_copy,
+        cprange_2wb(sheet_copy= sheet_copy,
                             sheet_des= sheet_des,
                             range_copy=range_copy,
                             range_paste=range_paste,
-                            clear_rcopy_after_copy=clear_rcopy_after_copy,
-                            usinglocinexcel=False
+                            clear_rcopy_after_copy=self.clear_rcopy_after_copy,
                             )

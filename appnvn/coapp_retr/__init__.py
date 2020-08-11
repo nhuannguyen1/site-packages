@@ -5,8 +5,8 @@ import xlwings as xw
 from tkinter import messagebox
 from pynvn.list.flist import filterlistbylstr
 from pynvn.excel.write import hvalues_in_cell,hrangesheet
-from pynvn.excel import col2num,book_by_path
-from appnvn.coapp_retr.copyrange import cpfromtem
+from pynvn.excel import col2num,ws_by_namesheet,open_wb_by_xl
+from pynvn.excel.copy_move_paste import cprange_2wb
 class rapp:
     """ fill the formulas into excel file """
     def __init__(self, retr_path = None,
@@ -19,10 +19,8 @@ class rapp:
         self.__path_exell_tem = path_exell_tem
         self.__retr_sheetname = retr_sheetname
         self.__fuction = str(fuction).lower()
-
         if retr_sheetname == "Active Sheet":
             self.__ws_retr = activesheet()
-            print (self.__ws_retr)
         else:
             self.__ws_retr = sheet_by_namesheet(path=retr_path,
                                                 namesheet=retr_sheetname)
@@ -36,28 +34,22 @@ class rapp:
         mydictfun = {
                     "copy_from_tem":(lambda: self.__copy_from_tem()),
                     }        
-        
         if self.__fuction == "config":
-
             for lfun in lfuns:
-
                 mydictfun[lfun]()
         else:
              mydictfun[self.__fuction]()
 
     def __copy_from_tem(self):
-        mrange = self.__dictconf["copy_from_tem"]
+        yerorno = self.__dictconf["copy_from_tem"]
         startcopyrange = self.__dictconf["sub_copy_from_tem_startcopyrange"]
         startpasterange = self.__dictconf["sub_copy_from_tem_startpasterange"]
         namesheet_tem = self.__dictconf["sub_copy_from_tem_namesheet_tem"]
-        print (startcopyrange,startpasterange,namesheet_tem)
-        self.wb_tem =book_by_path(path=self.__path_exell_tem,
-                                        namesheet=namesheet_tem,visible = False)
-        
-        cpfromtem(range_copy=range_copy,
-                    range_paste=range_des,
+
+        cprange_2wb(pathtocopy=self.__path_exell_tem,
+                    range_copy=startcopyrange[0],
+                    sheet_des=self.__ws_retr,
+                    range_paste=startpasterange[0],
                     clear_rcopy_after_copy=False,
-                    ws_des=self.__ws_retr,
-                    ws_tem=self.wb_tem,
-                    usinglocinexcel=False,
-                    ) if mrange == "yes" else False
+                    sheetname_tem=namesheet_tem[0]
+                    )

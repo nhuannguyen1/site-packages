@@ -1,5 +1,5 @@
 import xlwings as xw
-from pynvn.excel import activesheet
+from pynvn.excel import activesheet,ws_by_namesheet
 from pynvn.check.list import check_list_value
 from pynvn.error import mssage_error
 def cprange(pathtocopy = None,
@@ -65,3 +65,34 @@ def co_paste_move_range(sheet_copy = None,
             sheet_copy.range(range_copy).clear()
     else:
         mssage_error(cont1=range_copy,cont2=range_paste)            
+
+def cprange_2wb(pathtocopy = None,
+            range_copy='D:D',
+            sheet_des = None,
+            range_paste="A1", 
+            clear_rcopy_after_copy = True,
+            sheetname_tem = ""
+            ):
+    """ 
+    copy and paste range excel to sheet_des
+    ex: copy range [A1:C3] of sheet_copy to 
+    C5:E20 of sheet_des
+    copy to active sheet
+    """
+
+    if check_list_value(valuetocheck=[range_copy,range_paste]):
+        sheet_des.range(range_paste).api.select
+        wbtocopy = xw.Book(pathtocopy,
+                            update_links=False,
+                            ignore_read_only_recommended=True,
+                            read_only=True)
+        sheet_copy = wbtocopy.sheets[sheetname_tem]
+        sheet_copy.range(range_copy).api.copy
+        sheet_des.api.paste
+        # clear or not clear after copy
+        if clear_rcopy_after_copy:
+            sheet_copy.range(range_copy).clear()
+    else:
+        mssage_error(cont1=range_copy,cont2=range_paste)   
+    wbtocopy.close()
+    

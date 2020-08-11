@@ -279,6 +279,13 @@ def book_by_path (path,**kw):
         app = xw.App(add_book=False,**kw)
         wb1  = app.books.open(path)
         return wb1
+def ws_by_namesheet (path = None, namesheet = "Can not find sheet",cre_new_app = True,**kw):
+    """ return sheet name of ws"""
+    wb1 = open_wb_by_xl(pathex=path,**kw)
+    ws = wb1.sheets[namesheet]
+    if ws == None:
+        messagebox.showerror("Error", "Check sheet name input:  {0}".format(str(namesheet).upper()))
+    return ws
 def open_wb_byxl (pathex):
     """ open excel by pathex"""
     if (pathex != "" and pathex != None):
@@ -287,3 +294,14 @@ def open_wb_byxl (pathex):
         else:
             app = xw.apps.active
         return app.books.open(pathex)
+
+def open_wb_by_xl (pathex,cre_new_app = True,**kw):
+    """ open excel by pathex"""
+    if (pathex != "" and pathex != None):
+        if cre_new_app:
+            app = xw.App(**kw)
+        else:
+            xw.App(**kw) if not xw.apps else  xw.apps.active
+        return app.books.open(pathex)
+    else:
+        messagebox.showerror("Error", "Check directory path input")
