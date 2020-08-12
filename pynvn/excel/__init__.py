@@ -301,7 +301,7 @@ def open_wb_by_xl (pathex,cre_new_app = True,**kw):
         if cre_new_app:
             app = xw.App(**kw)
         else:
-            xw.App(**kw) if not xw.apps else  xw.apps.active
+            app = xw.App(**kw) if not xw.apps else  xw.apps.active
         return app.books.open(pathex)
     else:
         messagebox.showerror("Error", "Check directory path input")
