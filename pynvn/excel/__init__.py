@@ -149,7 +149,11 @@ def openexcelbyxl (pathex):
 def valuebyindexrowcell(lindexcell = None,
                         col = None,
                         sheet = None):
-    """ return list value with indexcell """
+    """ return list value with indexcell 
+    for indexcell in lindexcell:
+        print (indexcell,sheet,"{0}{1}".format(col,indexcell))
+        print (sheet.range("{0}{1}".format(col,indexcell)).formula,indexcell)
+    """
     return [sheet.range("{0}{1}".format(col,indexcell)).formula for indexcell in lindexcell]
 def closeallfileexcel (namek_ofpname):
     """ close all file excel by list if it is openning filter by namek_ofpname """

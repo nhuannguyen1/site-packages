@@ -50,8 +50,8 @@ class hchildsheet:
         for abccol in self.__lcolumnformulas:
             if len (self.__valueim) != 0: 
                 lvaluebyindecell_im = valuebyindexrowcell(lindexcell=self.lindexrow_im,
-                                                    col=abccol,
-                                                    sheet=self.__sheet_des)
+                                                        	col=abccol,
+                                                            sheet=self.__sheet_des)
             indexcol = col2num(abccol) -  col2num(self.__col_key_msa)  + 1
             fomularex = "=IFERROR(VLOOKUP({1}{0},{2}!${1}${0}:${4}${6},{7},FALSE),{8})".format(self.__startrow,
                                                                                         self.__col_key_msa,

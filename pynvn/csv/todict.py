@@ -24,7 +24,19 @@ def dict_str_fromlist(path = None):
 
 
 def dict_from_csv2col (path):
-    """ count number of row in csv """
+    """ retriver dict from two column in csv """
     with open(path, 'r') as readFile:
         listk = {lcsv[0]:lcsv[1] for lcsv in list(csv.reader(readFile, delimiter=','))}
+    return listk
+
+def evallist(n):
+    try:
+        return eval(n)
+    except:
+        return n
+
+def dictfromcsv2col_evallist(path):
+    """ retriver dict from two column in csv """
+    with open(path, 'r') as readFile:
+        listk = {lcsv[0]:evallist(lcsv[1]) for lcsv in list(csv.reader(readFile, delimiter=','))}
     return listk

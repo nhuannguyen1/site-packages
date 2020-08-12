@@ -25,7 +25,8 @@ def cprangesamesheet(sheet = None,
                     rangetopaste="BB5"
                     ):
 
-    """ copy and paste range excel to same sheet in file
+    """ 
+    copy and paste range excel to same sheet in file
     """
 
     sheet_des.range("{0}{1}".format(abccol,

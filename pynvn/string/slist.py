@@ -22,7 +22,8 @@ def returnlist_from_listinstr (strint):
         return list str convert int list 
         ex: '[1,2,3]' ---> [1, 2, 3]
     """
-    return ast.literal_eval(strint)    
+    return ast.literal_eval(strint)
+
 def returnliststr_from_str (strint):
     """ 
         return list str from str (only str without int)
