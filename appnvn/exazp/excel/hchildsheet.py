@@ -6,22 +6,22 @@ from pynvn.excel import (cellcoordbyvalue,
                         repathlinkexcel
                         )
 from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
+
+
 class hchildsheet:
-    """ h data at sheet child of azb """
+    """ h data at sheet child__
+        sheet_des must avtive
+     """
+
     def __init__(self,
                 startrow = 1,
                 col_key_msa = None,
-                pfile = None, 
-                columnlra = None,
-                max_row = 100, 
-                max_col = 20, 
                 lcolumnformulas = None, 
                 valueim = None,
                 sheet_des = None,
                 sheet_copy = None, 
                 col_dup = None,
-                lvaluehavechild = None,
-                max_row_allsheet= 1000,
+                lvaluehavechild = [],
                 formulasfor_col_dup = None):
         self.__startrow = startrow
         self.__col_key_msa = col_key_msa
