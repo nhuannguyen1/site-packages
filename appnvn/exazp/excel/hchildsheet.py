@@ -9,10 +9,13 @@ from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
 
 
 class hchildsheet:
-    """ h data at sheet child__
-        sheet_des must avtive
-     """
-
+    """ 
+    retreve data at from sheet child using vlookup.
+    note: sheet_des must active.
+    startrow: row start in sheet_copy.
+    col_key_msa: The value to look for in the first column of a table.
+    lcolumnformulas: column_index to using vlookup.
+    """
     def __init__(self,
                 startrow = 1,
                 col_key_msa = None,
@@ -22,21 +25,23 @@ class hchildsheet:
                 sheet_copy = None, 
                 col_dup = None,
                 lvaluehavechild = [],
-                formulasfor_col_dup = None):
+                formulasfor_col_dup = None
+                ):
         self.__startrow = startrow
         self.__col_key_msa = col_key_msa
         # retrive full name of sheet_coy
         psheet_copy = sheet_copy.book.fullname
         # retrive dir path of sheet _copy
         dirp_sheet_copy = getdirpath(psheet_copy)
+        # retrive file name of des copy 
+        filename_sheet_copy  = ExtractFileNameFromPath(path=psheet_copy)
         # # retrive path link using for formulas 
         self.__pfile = repathlinkexcel(dpath=dirp_sheet_copy,
-                                        namefile=dirp_sheet_copy,
+                                        namefile=filename_sheet_copy,
                                         namesheet=sheet_copy.name
                                         )
         self.__columnlra = [colnum_string(1),colnum_string(sheet_copy.api.UsedRange.Columns.count)]
         self.__max_row = sheet_des.range(col_key_msa + str(sheet_des.cells.last_cell.row)).end('up').row
-        self.__max_col = max_col
         self.__lcolumnformulas = lcolumnformulas
         self.__valueim = valueim
         self.__sheet_des = sheet_des
@@ -78,6 +83,8 @@ class hchildsheet:
                                                     self.__startrow)).value = fomularex
             vtformulas = self.__sheet_des.range("{0}{1}".format(abccol,
                                                     self.__startrow)).formula
+
+
             self.__sheet_des.range("{0}{1}:{0}{2}".format(abccol,
                                                         self.__startrow,
                                                         self.__max_row)).formula = vtformulas
