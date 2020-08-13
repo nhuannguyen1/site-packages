@@ -31,10 +31,10 @@ class rapp:
         self.__desxw = self.__app.books.open(fullname=path_des,
                                             update_links=False)
         # list sheet of des workbook
-        lsheet_des = listsheet_by_wb(self.__desxw)
-        # retrive list sheet name  excel tranfer
+        self.lsheet_des = listsheet_by_wb(self.__desxw)
+ 
+    def retrive_excell(self):
         lsheet =  self.__dictconf["listsheetname"]
-        self.ws_copy  = None
         for eleexcell in lsheet_ex:
             self.__path_copy = refullpath(dirpath=path_copy_dir,
                                             filename = eleexcell
@@ -46,7 +46,7 @@ class rapp:
                                                     )
             self.wsnames = self.__copyxw.sheets
             for namesheet in self.wsnames:
-                if (namesheet.name in lsheet and namesheet.name in lsheet_des) :
+                if (namesheet.name in lsheet and namesheet.name in self.lsheet_des) :
                     self.ws_copy = namesheet
                     #max row ws1
                     self.rows = self.ws_copy.api.UsedRange.Rows.count
@@ -56,15 +56,13 @@ class rapp:
                     break
             self.ft_tool() if self.ws_copy else  messagebox.showerror ("Error name sheet", 
                                                                         "None of Sheet are compatible,\
-                                                                             recheck sheet name of wb {0}".format(self.__path_copy))
-
+                                                                        recheck sheet name of wb {0}".format(self.__path_copy)
+                                                                        )
         self.__desxw.save()
         self.__desxw.close()
         self.__app.quit()
 
-
     def ft_tool(self):
-
         lfuns = filterlistbylstr(liststr=list(self.__dictconf.keys()),
                                 criteria_is_not=True,
                                 criteria=["sub_"],
@@ -72,12 +70,15 @@ class rapp:
                                 )
         mydictfun = {
                     "transfertoparent":(lambda: self.__transfertoparent()),
+                    "transfertoparents":(lambda: self.__transfertoparents())
+
                     }        
         if self.__fuction == "config":
             for lfun in lfuns:
                 mydictfun[lfun]()
         else:
              mydictfun[self.__fuction]()
+
 
     def __transfertoparent(self):
         # retrive sheet des
@@ -128,7 +129,6 @@ class rapp:
                                 namefile=namefile,
                                 namesheet=self.ws_copy.name
                                 )
-
         # max row sheet des
         m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
         hchildsheet(startrow=recor_l_lint,
@@ -146,3 +146,4 @@ class rapp:
                     formulasfor_col_dup = forbydup
                     ) if yerorno == "yes" else False
         self.__copyxw.close()
+
