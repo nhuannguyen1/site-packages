@@ -2,17 +2,14 @@ from pynvn.csv.todict import dict_str_fromlist,dictfromcsv2col_evallist
 from pynvn.excel import sheet_by_namesheet,activesheet,listsheet_by_wb
 from pynvn.list.flist import filterlistbylstr
 from pynvn.excel.write import hvalues_in_cell,hrangesheet
-from pynvn.excel import col2num,ws_by_namesheet,open_wb_by_xl
-from pynvn.excel.copy_move_paste import cprange_2wb
+from pynvn.excel import ws_by_namesheet,open_wb_by_xl,col2num,colnum_string, repathlinkexcel,cprange_2wb
 from pynvn.path.ppath import (refullpath,
                             listfileinfolder
                             )
-
 from pynvn.checklb.checkb import ChecklistBox
 from pynvn.excel.copyexcel import cexcel
 from tkinter import messagebox
 from appnvn.exazp.excel.hchildsheet import hchildsheet
-from pynvn.excel import col2num,colnum_string, repathlinkexcel
 from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
 import xlwings as xw
 class rapp:
@@ -23,6 +20,9 @@ class rapp:
                     pathconf = None,
                     lsheet_ex = []
                     ):
+
+        self.__path_copy_dir = path_copy_dir
+        self.__lsheet_ex = lsheet_ex
         self.__dictconf = dictfromcsv2col_evallist(path=pathconf)
         self.__fuction = str(fuction).lower()         
         self.__app = xw.App(visible=True,
@@ -30,37 +30,6 @@ class rapp:
                             )
         self.__desxw = self.__app.books.open(fullname=path_des,
                                             update_links=False)
-        # list sheet of des workbook
-        self.lsheet_des = listsheet_by_wb(self.__desxw)
- 
-    def retrive_excell(self):
-        lsheet =  self.__dictconf["listsheetname"]
-        for eleexcell in lsheet_ex:
-            self.__path_copy = refullpath(dirpath=path_copy_dir,
-                                            filename = eleexcell
-                                            )
-            self.__copyxw = self.__app.books.open(fullname=self.__path_copy ,
-                                                    update_links=False,                       
-                                                    read_only=False,
-                                                    ignore_read_only_recommended=False
-                                                    )
-            self.wsnames = self.__copyxw.sheets
-            for namesheet in self.wsnames:
-                if (namesheet.name in lsheet and namesheet.name in self.lsheet_des) :
-                    self.ws_copy = namesheet
-                    #max row ws1
-                    self.rows = self.ws_copy.api.UsedRange.Rows.count
-                    #max colum ws1
-                    self.cols = self.ws_copy.api.UsedRange.Columns.count
-                    self.colunsande = [colnum_string(1),colnum_string(self.cols)]
-                    break
-            self.ft_tool() if self.ws_copy else  messagebox.showerror ("Error name sheet", 
-                                                                        "None of Sheet are compatible,\
-                                                                        recheck sheet name of wb {0}".format(self.__path_copy)
-                                                                        )
-        self.__desxw.save()
-        self.__desxw.close()
-        self.__app.quit()
 
     def ft_tool(self):
         lfuns = filterlistbylstr(liststr=list(self.__dictconf.keys()),
@@ -81,69 +50,107 @@ class rapp:
 
 
     def __transfertoparent(self):
-        # retrive sheet des
-        self.__desxw.sheets[self.ws_copy.name].activate()
-        sheet_des = activesheet()
-        # retrive dir path or path to copy
-        dirpath = getdirpath(self.__path_copy)
-        # get extract file name from path 
-        namefile = ExtractFileNameFromPath(self.__path_copy)
-        pfile = repathlinkexcel(dpath=dirpath,
-                                namefile=namefile,
-                                namesheet=self.ws_copy.name)
-        yerorno = self.__dictconf["transfertoparent"]
-        recor_l_lint = int(self.__dictconf["sub_transfertoparent_recor_l1"])
-        valueim = self.__dictconf["sub_transfertoparent_valueim"]
-        valuehavechild = self.__dictconf["sub_transfertoparent_valuehavechild"]
-        msstr =self.__dictconf["sub_transfertoparent_ms"]
-        forbydup = self.__dictconf["sub_transfertoparent_forbydup"]
-        locuseformulas = self.__dictconf["sub_transfertoparent_locuseformulas"]
-        col_dup = self.__dictconf["sub_transfertoparent_dup"]
-        # max row sheet des
-        m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
-        hchildsheet(startrow=recor_l_lint,
-                    col_key_msa=msstr,
-                    pfile=pfile,
-                    columnlra=self.colunsande,
-                    max_row=m_row,
-                    lcolumnformulas = locuseformulas,
-                    valueim=valueim,
-                    sheet_des =sheet_des,
-                    sheet_copy=self.ws_copy,
-                    col_dup=col_dup,
-                    max_row_allsheet=self.rows,
-                    lvaluehavechild=valuehavechild,
-                    formulasfor_col_dup = forbydup
-                    ) if yerorno == "yes" else False
-        self.__copyxw.close()
+        lsheet =  self.__dictconf["listsheetname"]
+        for name_ele_ex in self.__lsheet_ex:
+            path_copy = refullpath(dirpath=self.__path_copy_dir,
+                                            filename = name_ele_ex
+                                            )
+            copyxw = self.__app.books.open(fullname=path_copy ,
+                                            update_links=False,                       
+                                            read_only=False,
+                                            ignore_read_only_recommended=False
+                                            )
+            ws_copy = retrive_sname_sheet(copyxw=copyxw,
+                                        desxw=self.__desxw,
+                                        lsheet=lsheet
+                                        )
+            continue if ws_copy ==None
+            yerorno = self.__dictconf["transfertoparent"]
+            recor_l_lint = int(self.__dictconf["sub_transfertoparent_recor_l1"])
+            valueim = self.__dictconf["sub_transfertoparent_valueim"]
+            valuehavechild = self.__dictconf["sub_transfertoparent_valuehavechild"]
+            msstr =self.__dictconf["sub_transfertoparent_ms"]
+            forbydup = self.__dictconf["sub_transfertoparent_forbydup"]
+            locuseformulas = self.__dictconf["sub_transfertoparent_locuseformulas"]
+            col_dup = self.__dictconf["sub_transfertoparent_dup"]
+            # retrive sheet des and active
+            self.__desxw.sheets[ws_copy.name].activate()
+            hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        max_row=m_row,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =activesheet(),
+                        sheet_copy=ws_copy,
+                        col_dup=col_dup,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup
+                        ) if yerorno == "yes" else False
+            copyxw.close()
+            
+        self.__desxw.save()
+        self.__desxw.close()
+        self.__app.quit()            
 
     def __transfertoparents(self):
-        # retrive sheet des
-        self.__desxw.sheets[self.ws_copy.name].activate()
-        sheet_des = activesheet()
-        # retrive dir path or path to copy
-        dirpath = getdirpath(self.__path_copy)
-        # retrive extract file name from path 
-        namefile = ExtractFileNameFromPath(self.__path_copy)
-        pfile = repathlinkexcel(dpath=dirpath,
-                                namefile=namefile,
-                                namesheet=self.ws_copy.name
-                                )
-        # max row sheet des
-        m_row = sheet_des.range(msstr + str(sheet_des.cells.last_cell.row)).end('up').row
-        hchildsheet(startrow=recor_l_lint,
-                    col_key_msa=msstr,
-                    pfile=pfile,
-                    columnlra=self.colunsande,
-                    max_row=m_row,
-                    lcolumnformulas = locuseformulas,
-                    valueim=valueim,
-                    sheet_des =sheet_des,
-                    sheet_copy=self.ws_copy,
-                    col_dup=col_dup,
-                    max_row_allsheet=self.rows,
-                    lvaluehavechild=valuehavechild,
-                    formulasfor_col_dup = forbydup
-                    ) if yerorno == "yes" else False
-        self.__copyxw.close()
+        for name_ele_ex in self.__lsheet_ex:
+            path_copy = refullpath(dirpath=self.__path_copy_dir,
+                                    filename = name_ele_ex
+                                    )
 
+            copyxw = self.__app.books.open(fullname=path_copy ,
+                                            update_links=False,                       
+                                            read_only=False,
+                                            ignore_read_only_recommended=False
+                                            )
+
+            ws_copy = retrive_sname_sheet(copyxw=copyxw,
+                                        desxw=self.__desxw,
+                                        lsheet=lsheet
+                                        )
+
+            continue if ws_copy ==None
+            # column start and column end 
+            col_start_end = [colnum_string(1),
+                            colnum_string(ws_copy.api.UsedRange.Columns.count)]
+
+            # retrive path link using for formulas 
+            pfile = repathlinkexcel(dpath=self.__path_copy_dir,
+                                    namefile=name_ele_ex,
+                                    namesheet=ws_copy.name
+                                    )
+
+            yerorno = self.__dictconf["transfertoparent"]
+            recor_l_lint = int(self.__dictconf["sub_transfertoparent_recor_l1"])
+            valueim = self.__dictconf["sub_transfertoparent_valueim"]
+            valuehavechild = self.__dictconf["sub_transfertoparent_valuehavechild"]
+            msstr =self.__dictconf["sub_transfertoparent_ms"]
+            forbydup = self.__dictconf["sub_transfertoparent_forbydup"]
+            locuseformulas = self.__dictconf["sub_transfertoparent_locuseformulas"]
+            col_dup = self.__dictconf["sub_transfertoparent_dup"]
+            # retrive sheet des and active
+
+            self.__desxw.sheets[ws_copy.name].activate()
+            hchildsheet(startrow=recor_l_lint,
+                        col_key_msa=msstr,
+                        pfile=pfile,
+                        columnlra=col_start_end,
+                        lcolumnformulas = locuseformulas,
+                        valueim=valueim,
+                        sheet_des =activesheet(),
+                        sheet_copy=ws_copy,
+                        col_dup=col_dup,
+                        lvaluehavechild=valuehavechild,
+                        formulasfor_col_dup = forbydup
+                        ) if yerorno == "yes" else False
+            copyxw.close()
+        self.__desxw.save()
+        self.__desxw.close()
+        self.__app.quit()
+
+def retrive_sname_sheet(copyxw,desxw,lsheet):
+    """ retrive sheet copy from sheet copy and sheet des"""
+    for sheet in copyxw.sheets:
+        if (sheet.name in lsheet and sheet.name in listsheet_by_wb(desxw)) :
+            return sheet
+            break

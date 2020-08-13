@@ -1,8 +1,11 @@
 from pynvn.excel import (cellcoordbyvalue,
                         lcellindexbyvalue,
                         col2num,
-                        valuebyindexrowcell
+                        valuebyindexrowcell,
+                        colnum_string,
+                        repathlinkexcel
                         )
+from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
 class hchildsheet:
     """ h data at sheet child of azb """
     def __init__(self,
@@ -22,16 +25,24 @@ class hchildsheet:
                 formulasfor_col_dup = None):
         self.__startrow = startrow
         self.__col_key_msa = col_key_msa
-        self.__pfile = pfile
-        self.__columnlra = columnlra
-        self.__max_row = max_row
+        # retrive full name of sheet_coy
+        psheet_copy = sheet_copy.book.fullname
+        # retrive dir path of sheet _copy
+        dirp_sheet_copy = getdirpath(psheet_copy)
+        # # retrive path link using for formulas 
+        self.__pfile = repathlinkexcel(dpath=dirp_sheet_copy,
+                                        namefile=dirp_sheet_copy,
+                                        namesheet=sheet_copy.name
+                                        )
+        self.__columnlra = [colnum_string(1),colnum_string(sheet_copy.api.UsedRange.Columns.count)]
+        self.__max_row = sheet_des.range(col_key_msa + str(sheet_des.cells.last_cell.row)).end('up').row
         self.__max_col = max_col
         self.__lcolumnformulas = lcolumnformulas
         self.__valueim = valueim
         self.__sheet_des = sheet_des
         self.__sheet_copy = sheet_copy
         self.__lvaluehavechild = lvaluehavechild
-        self.__max_row_allsheet = max_row_allsheet
+        self.__max_row_allsheet = sheet_copy.api.UsedRange.Rows.count
         self.__formulasfor_col_dup = formulasfor_col_dup
         self.__col_dup = col_dup
         if len (self.__valueim) != 0:
