@@ -7,9 +7,9 @@ from pynvn.path.ppath import (
                             check_pfile,
                             refullpath,
                             getpathfromtk,
-                            ask_open
+                            ask_open,
+                            mfileopen
                             )
 from pynvn.path.pcsv import (ReturnDataAllRowByIndexpath,
                             returndatalistrowbyindex,
                             )
-

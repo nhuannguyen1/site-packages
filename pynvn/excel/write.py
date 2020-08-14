@@ -34,7 +34,13 @@ def hvalues_in_cell(rmrange = [],
                     ):
 
     """
-    rmrange: Range to remove space from csv
+    rmrange: Range to handling string: \n
+    ex: A1, A1:B3
+    ws: worksheet corresponds to the rmrange \n
+    option: style to  handling:\n
+    ex: tspacetoospace, fs,upper_all,,both, left, right \n
+    option_fun: For case function "REMOVESPACE" user select from interface \n
+    ex: removespace,capfs
     """
     for rangea in rmrange:
         __vcell(ws=ws,
@@ -63,7 +69,16 @@ def _startrow_endrow(ws = None,
                              "Not find for this case rows: {0}".format(rows))
 
 class hrangesheet:
-    """ handling range for sheet  """
+    """ 
+    handling range for sheet\n
+    rmrange: Range to handling string: \n
+    ex: A1, A1:B3
+    ws: worksheet corresponds to the rmrange \n
+    option: style to  handling:\n
+    ex: tspacetoospace, fs,upper_all,,both, left, right \n
+    option_fun: For case function "REMOVESPACE or CAPFS" user select from interface \n
+    ex: REMOVESPACE,CAPFS
+    """
     def __init__(self,
                 rmrange = [], 
                 option = [],

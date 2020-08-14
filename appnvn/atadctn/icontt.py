@@ -2,7 +2,10 @@ from tkinter import messagebox
 import tkinter as tk
 
 class gui(tk.Frame):
-    """set logo and size window of widget """
+    """
+    set logo and size window of widget
+    
+    """
     def __init__(self,tktk = None, 
                         pathico = None,
                         width = None, 

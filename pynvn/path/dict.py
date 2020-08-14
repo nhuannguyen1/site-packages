@@ -47,3 +47,27 @@ def rdict_fleinfolder(dirpath = None,
         rda.update(rd)
 
     return rda
+
+
+def rdict_file_in_folder(dirpath = None, 
+                    folderchild = ["config","img"],
+                    keepextension = False
+                    ):
+    """ 
+    return dict of paths 
+    get file in folder
+
+    """
+    rda = {}    
+    for dch in  folderchild:
+        dfer = dirfolder(dirNamec=dirpath,
+                        subforder = dch,
+                        alertexists=False
+                        )
+        lfname = file_in_folder(dfer)
+        rd = rdict_path(dirpath=dirpath,
+                    folderchild=dch,
+                    namefiles=lfname,keepextension=keepextension)
+        rda.update(rd)
+
+    return rda

@@ -1,3 +1,4 @@
+from pynvn.list.flist import filterlistbylstr
 def plus2list(list1, list2):
     """ plus 2 list and sort it """
     return sorted(list1 + list2 )

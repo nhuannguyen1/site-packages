@@ -36,7 +36,22 @@ def evallist(n):
         return n
 
 def dictfromcsv2col_evallist(path):
-    """ retriver dict from two column in csv """
+    """ retrieve dict from two column in csv """
     with open(path, 'r') as readFile:
         listk = {lcsv[0]:evallist(lcsv[1]) for lcsv in list(csv.reader(readFile, delimiter=','))}
     return listk
+
+def dictFcsv_2col_eval_list(path):
+    """ retrieve dict from two column in csv """
+    with open(path, 'r') as readFile:
+        listk = {lcsv[0]:evallist(lcsv[1]) for lcsv in list(csv.reader(readFile, delimiter=','))}
+    return listk
+
+def dict_str_from_lcsv(path = None):
+    """ 
+    convert list in string to dict 
+    ex: csv content: "r,A1,A2,A3" ---> dict: {r: ["A1","A2","A3"}
+    
+    """
+    reader = csv.reader(open(path, 'r'))
+    return {k:re.split("[,]", v)  for k,v in reader}
