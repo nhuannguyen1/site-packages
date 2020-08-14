@@ -128,6 +128,12 @@ def hstr_in_range(st_row,
                 ):
     """
     handling string in range 
+    st_row: start row  sheet 
+    end_row: end row  sheet 
+    ws: worksheet input 
+    option: style to  handling:\n
+    ex: tspacetoospace, fs,upper_all,both, left, right,lower_all,all \n  
+    option_fun: For case function "REMOVESPACE or CAPFS" user select from interface \n
     """
     for i in range(st_row,end_row + 1): 
         valuee = ws.range(i,index_col).value
