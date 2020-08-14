@@ -108,9 +108,10 @@ def capitalizefs (instr = "",pattern='\s'):
 def capitalize(instr = "",option = []):
     """capitalize for string """
     upper_all_fun = {
-                  "fs": lambda: capitalizefs(instr=instr),
-                  "upper_all": lambda: instr.upper(),
-                  "lower_all": lambda: instr.lower(),
+                "fl":lambda: instr.capitalize(),
+                "fs": lambda: capitalizefs(instr=instr),
+                "upper_all": lambda: instr.upper(),
+                "lower_all": lambda: instr.lower(),
                 }
     return upper_all_fun[option]()
 
@@ -119,9 +120,6 @@ def capitalizes(instr = "",options = []):
     if (instr == "" or instr ==None):
         return instr
     else:
-        ninstr = ""
         for option in options:
-            ninstr = instr + ninstr
-            nstr = capitalize(instr=ninstr,option=option)
-            ninstr = nstr
-        return ninstr
+            instr = capitalize(instr=instr,option=option)
+        return instr

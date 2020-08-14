@@ -49,23 +49,26 @@ def removespace (instr = None, option = "both"):
                   "both": lambda: instr.strip(),
                   "left": lambda: instr.lstrip(),
                   "right": lambda: instr.rstrip(),
-                  "tspacetoospace": lambda: twospace_to_onespace(instr=instr)
+                  "tspacetoospace": lambda: twospace_to_onespace(instr=instr),
+                  "all": lambda: instr.replace(" ", "")
                 }
     return rspace_fun[option]()
 
 def removespaces(instr = "", 
                 options = []):
-    """remove space from string with list option"""
+    """
+    Remove space from string with list option \n
+    instr: input string to function \n
+    options: features for user input
+    
+    """
     if (instr == "" or instr ==None):
         return instr
     else:
-        ninstr = ""
         for option in options:
-            ninstr = instr + ninstr
-            nstr = removespace(instr=ninstr,
+            instr = removespace(instr=instr,
                             option=option)
-            ninstr = nstr
-        return ninstr
+        return instr
         
 def twospace_to_onespace(instr = None):
     """

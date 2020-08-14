@@ -3,7 +3,8 @@ from pynvn.excel import (sheet_by_namesheet,
                         activesheet
                         )
 from pynvn import filter_lstr
-from pynvn.excel.write import hvalues_in_cell
+from tkinter import messagebox
+from pynvn.excel.write import hrangesheet
 class rapp:
     """ 
     Generic class for this template with variables\n
@@ -15,25 +16,24 @@ class rapp:
     def __init__(self,
                 retr_path = None,
                 retr_sheetname =None, 
-                fuction = None,
+                fuction = "",
                 pathconf = None,
                 ):
         self.__retr_sheetname = retr_sheetname
-        self.__fuction = fuction
+        self.__fuction = fuction.lower()
         # Create a dict have parameter from csv 
         self.__dictconf = dict_str_from_lcsv(path=pathconf)
         # Option from user input (Active Sheet or not)
-        if retr_sheetname == "Active Sheet":
-            self.__ws_retr = activesheet()
-        else:
-            self.__ws_retr = sheet_by_namesheet(path=retr_path,
-                                                namesheet=retr_sheetname
-                                                )
+        self.__ws_retr =  activesheet() if retr_sheetname == "Active Sheet" else sheet_by_namesheet(path=retr_path,namesheet=retr_sheetname)
+        # Check file excel execute is conf_ex.xlsx or not 
+        if self.__ws_retr.name == "hrdata_modified":
+            messagebox.showerror("Error Name Excel",
+                                "Can not using file excel: conf_ex.xlsx to execute. \
+                                Check again {}".format("hrdata_modified"))
     
     def ft_tool(self):
         """
         execute func of sortware \n
-
         ex: removespace, capfs
 
         """
@@ -56,13 +56,14 @@ class rapp:
              mydictfun[self.__fuction]()
 
     def __removespace(self):
+
         """ 
         For case function "REMOVESPACE" user select from interface 
         """
         cyesornot = self.__dictconf["removespace"]
         rmrange = self.__dictconf["sub_removespace_range"]
         rmtyle = self.__dictconf["sub_removespace_style"]
-        hvalues_in_cell(rmrange=rmrange,
+        hrangesheet(rmrange=rmrange,
                         option=rmtyle,
                         ws=self.__ws_retr,
                         option_fun="removespace"
@@ -70,12 +71,14 @@ class rapp:
 
     def __capfs(self):
         """ 
+        
         For case function "CAPFS" user select from interface 
+
         """
         cyesornot = self.__dictconf["capfs"]
         rmrange = self.__dictconf["sub_capfs_range"]
         rmstype = self.__dictconf["sub_capfs_style"]
-        hvalues_in_cell(rmrange=rmrange,
+        hrangesheet(rmrange=rmrange,
                         option= rmstype,
                         ws=self.__ws_retr,
                         option_fun="capfs"
