@@ -24,12 +24,16 @@ class rapp:
         # Create a dict have parameter from csv 
         self.__dictconf = dict_str_from_lcsv(path=pathconf)
         # Option from user input (Active Sheet or not)
-        self.__ws_retr =  activesheet() if retr_sheetname == "Active Sheet" else sheet_by_namesheet(path=retr_path,namesheet=retr_sheetname)
+        self.__ws_retr =  activesheet() if retr_sheetname == "Active Sheet"\
+                                        else sheet_by_namesheet(path=retr_path,
+                                                                namesheet=retr_sheetname
+                                                                )
         # Check file excel execute is conf_ex.xlsx or not 
         if self.__ws_retr.name == "hrdata_modified":
             messagebox.showerror("Error Name Excel",
                                 "Can not using file excel: conf_ex.xlsx to execute. \
-                                Check again {}".format("hrdata_modified"))
+                                Check again {}".format("hrdata_modified")
+                                )
     
     def ft_tool(self):
         """
@@ -59,6 +63,7 @@ class rapp:
 
         """ 
         For case function "REMOVESPACE" user select from interface 
+
         """
         cyesornot = self.__dictconf["removespace"]
         rmrange = self.__dictconf["sub_removespace_range"]
@@ -71,9 +76,7 @@ class rapp:
 
     def __capfs(self):
         """ 
-        
         For case function "CAPFS" user select from interface 
-
         """
         cyesornot = self.__dictconf["capfs"]
         rmrange = self.__dictconf["sub_capfs_range"]
