@@ -11,7 +11,6 @@ class rapp:
     retr_sheetname: name of sheet name of retr_path excel\n
     fuction: choose the feature  want to use \n
     pathconf: Directory of path conf (.csv), this path have conf parameter 
-
     """
     def __init__(self,
                 retr_path = None,
@@ -28,7 +27,9 @@ class rapp:
             self.__ws_retr = activesheet()
         else:
             self.__ws_retr = sheet_by_namesheet(path=retr_path,
-                                                namesheet=retr_sheetname)
+                                                namesheet=retr_sheetname
+                                                )
+    
     def ft_tool(self):
         """
         execute func of sortware \n
@@ -58,14 +59,14 @@ class rapp:
         """ 
         For case function "REMOVESPACE" user select from interface 
         """
-
         cyesornot = self.__dictconf["removespace"]
         rmrange = self.__dictconf["sub_removespace_range"]
         rmtyle = self.__dictconf["sub_removespace_style"]
         hvalues_in_cell(rmrange=rmrange,
                         option=rmtyle,
                         ws=self.__ws_retr,
-                        option_fun="removespace") if cyesornot[0] =="yes" else False        
+                        option_fun="removespace"
+                        ) if cyesornot[0] =="yes" else False        
 
     def __capfs(self):
         """ 
@@ -77,4 +78,5 @@ class rapp:
         hvalues_in_cell(rmrange=rmrange,
                         option= rmstype,
                         ws=self.__ws_retr,
-                        option_fun="capfs")  if cyesornot[0] =="yes" else False
+                        option_fun="capfs"
+                        ) if cyesornot[0] =="yes" else False
