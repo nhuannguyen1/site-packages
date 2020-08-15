@@ -5,24 +5,7 @@ from pynvn.string.slist import returnseplistintbbystr
 from tkinter import messagebox
 from pynvn.string.list import capitalizes
 from pynvn.excel.del_row import delrowbyrange
-
-def _startrow_endrow(ws = None, 
-                    rows = [],
-                    cols = []
-                    ):
-    """ return start row and end row """
-
-    if len(rows) == 2:
-        return rows
-    elif len(rows) == 1:
-        return [rows[0],rows[0] + 1]
-    elif len(rows) == 0:
-        lr = ws.range(colnum_string(cols[0]) +\
-            str(ws.cells.last_cell.row)).end('up').row
-        return [1,lr + 1]
-    else:
-        messagebox.showerror("Error",
-                             "Not find for this case rows: {0}".format(rows))
+from pynvn.excel.rows import startrow_endrow
 
 class hrangesheet:
     """ 
@@ -34,6 +17,7 @@ class hrangesheet:
     ex: tspacetoospace, fs,upper_all,both, left, right,lower_all,all \n
     option_fun: For case function "REMOVESPACE or CAPFS" user select from interface \n
     ex: REMOVESPACE,CAPFS
+
     """
     def __init__(self,
                 rmrange = [], 
@@ -42,7 +26,7 @@ class hrangesheet:
                 option_fun = "removespace",
                 feature_fun = "hstr",
                 **kw
-                    ):
+                ):
         self.__option = option
         self.__ws = ws
         self.__option_fun = option_fun
@@ -56,7 +40,7 @@ class hrangesheet:
         """ 
         remove space in excel by ws col and row 
         """
-        a,b = _startrow_endrow(ws=self.__ws,
+        a,b = startrow_endrow(ws=self.__ws,
                                 rows=self.__rows,
                                 cols=self.__cols
                                 )
@@ -83,10 +67,10 @@ def hstr_in_range(st_row,
                     option_fun = None
                 ):
     """
-    handling string in range 
-    st_row: start row  sheet 
-    end_row: end row  sheet 
-    ws: worksheet input 
+    handling string in range \n
+    st_row: start row  sheet \n
+    end_row: end row  sheet \n
+    ws: worksheet input \n
     option: style to  handling:\n
     ex: tspacetoospace, fs,upper_all,both, left, right,lower_all,all \n  
     option_fun: For case function "REMOVESPACE or CAPFS" user select from interface \n

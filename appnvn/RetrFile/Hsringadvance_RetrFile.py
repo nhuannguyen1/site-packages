@@ -7,7 +7,21 @@ from tkinter import messagebox
 from appnvn.RetrFile.hstr import hstr_ex
 from pynvn.string import twospace_to_onespace
 
-@hstr_ex             
+@hstr_ex 
+def capitalize(instr = None,
+                option = []):
+    """
+    capitalize for string 
+    """
+    upper_all_fun = {
+                "fl":lambda: instr.capitalize(),
+                "fs": lambda: capitalizefs(instr=instr),
+                "upper_all": lambda: instr.upper(),
+                "lower_all": lambda: instr.lower(),
+                }
+    return upper_all_fun[option]()
+
+@hstr_ex   
 def removespace (
                 instr = None, 
                 option = "both"
@@ -25,7 +39,6 @@ def removespace (
                 "all": lambda: instr.replace(" ", "")
                 }
     return rspace_fun[option]()
-
 
 class rapp:
     """ 
@@ -85,9 +98,22 @@ class rapp:
 
         """ 
         For case function "REMOVESPACE" user select from interface 
-
         """
         cyesornot = self.__dictconf["removespace"]
         rmrange = self.__dictconf["sub_removespace_range"]
-        rmtyle = self.__dictconf["sub_removespace_style"]
-        removespace(ws =self.__ws_retr, rmrange=rmrange, option=rmtyle) if cyesornot[0] =="yes" else False  
+        rmstype = self.__dictconf["sub_removespace_style"]
+        removespace(ws =self.__ws_retr,
+                    rmrange=rmrange, 
+                    option=rmstype
+                    ) if cyesornot[0] =="yes" else False  
+    def __capfs(self):
+        """ 
+        For case function "CAPFS" user select from interface 
+        """
+        cyesornot = self.__dictconf["capfs"]
+        rmrange = self.__dictconf["sub_capfs_range"]
+        rmstype = self.__dictconf["sub_capfs_style"]
+        capitalize(rmrange=rmrange,
+                        option= rmstype,
+                        ws=self.__ws_retr,
+                        ) if cyesornot[0] =="yes" else False

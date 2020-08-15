@@ -4,7 +4,7 @@ from pynvn.excel import (sheet_by_namesheet,
 import xlwings as xw
 from tkinter import messagebox
 from pynvn.list.flist import filterlistbylstr
-from pynvn.excel.write import hvalues_in_cell,hrangesheet
+from pynvn.excel.write import hrangesheet
 from pynvn.excel import col2num
 class rapp:
     """ fill the formulas into excel file """

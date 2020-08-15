@@ -1,28 +1,9 @@
-from pynvn.string import removespaces
-from pynvn.excel import colnum_string
 from pynvn.excel.list import lnumbercolumnbyrangstr
 from pynvn.string.slist import returnseplistintbbystr
-from tkinter import messagebox
+from pynvn.excel.del_row import delrowbyrange
+from pynvn.excel.rows import startrow_endrow
 
-def _startrow_endrow(ws = None, 
-                    rows = [],
-                    cols = []
-                    ):
-    """ return start row and end row """
-
-    if len(rows) == 2:
-        return rows
-    elif len(rows) == 1:
-        return [rows[0],rows[0] + 1]
-    elif len(rows) == 0:
-        lr = ws.range(colnum_string(cols[0]) +\
-            str(ws.cells.last_cell.row)).end('up').row
-        return [1,lr + 1]
-    else:
-        messagebox.showerror("Error",
-                             "Not find for this case rows: {0}".format(rows))
-
-class hstr_ex(object):
+class hrow(object):
     """ 
     handling range for sheet\n
     rmrange: Range to handling string: \n
@@ -42,10 +23,10 @@ class hstr_ex(object):
         for rangea in rmrange:
             cols=lnumbercolumnbyrangstr(rstr=rangea)
             rows=returnseplistintbbystr(strint=rangea)
-            a,b = _startrow_endrow(ws=ws,
+            a,b = startrow_endrow(ws=ws,
                                     rows=rows,
                                     cols=cols
-                                    )
+                                )
             for col in cols:
                 for i in range(a,b + 1):
                     instr = ws.range(i,col).value
