@@ -4,7 +4,29 @@ from pynvn.excel import (sheet_by_namesheet,
                         )
 from pynvn import filter_lstr
 from tkinter import messagebox
-from pynvn.excel.write import hrangesheet
+from appnvn.RetrFile.hstr import hstr_ex
+from pynvn.string import twospace_to_onespace
+
+@hstr_ex             
+def removespace (
+                instr = None, 
+                option = "both"
+                ):
+    """
+    remove space from string \n
+    instr: input your string \n
+    option: stype handling string \n
+    """
+    rspace_fun = {
+                "both": lambda: instr.strip(),
+                "left": lambda: instr.lstrip(),
+                "right": lambda: instr.rstrip(),
+                "tspacetoospace": lambda: twospace_to_onespace(instr=instr),
+                "all": lambda: instr.replace(" ", "")
+                }
+    return rspace_fun[option]()
+
+
 class rapp:
     """ 
     Generic class for this template with variables\n
@@ -34,7 +56,7 @@ class rapp:
                                 "Can not using file excel: conf_ex.xlsx to execute. \
                                 Check again {}".format("hrdata_modified")
                                 )
-    
+
     def ft_tool(self):
         """
         execute func of sortware \n
@@ -57,8 +79,8 @@ class rapp:
             for lfun in lfuns:
                 mydictfun[lfun]()
         else:
-             mydictfun[self.__fuction]()
-
+            mydictfun[self.__fuction]()
+    
     def __removespace(self):
 
         """ 
@@ -68,21 +90,4 @@ class rapp:
         cyesornot = self.__dictconf["removespace"]
         rmrange = self.__dictconf["sub_removespace_range"]
         rmtyle = self.__dictconf["sub_removespace_style"]
-        hrangesheet(rmrange=rmrange,
-                    option=rmtyle,
-                    ws=self.__ws_retr,
-                    option_fun="removespace"
-                    ) if cyesornot[0] =="yes" else False        
-                    
-    def __capfs(self):
-        """ 
-        For case function "CAPFS" user select from interface 
-        """
-        cyesornot = self.__dictconf["capfs"]
-        rmrange = self.__dictconf["sub_capfs_range"]
-        rmstype = self.__dictconf["sub_capfs_style"]
-        hrangesheet(rmrange=rmrange,
-                        option= rmstype,
-                        ws=self.__ws_retr,
-                        option_fun="capfs"
-                        ) if cyesornot[0] =="yes" else False
+        removespace(ws =self.__ws_retr, rmrange=rmrange, option=rmtyle) if cyesornot[0] =="yes" else False  

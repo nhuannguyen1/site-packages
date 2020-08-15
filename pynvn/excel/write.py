@@ -5,50 +5,6 @@ from pynvn.string.slist import returnseplistintbbystr
 from tkinter import messagebox
 from pynvn.string.list import capitalizes
 from pynvn.excel.del_row import delrowbyrange
-def __vcell(ws = None,
-            cols= [], 
-            rows = [1,100],
-            option = [],
-            option_fun = "removespace"
-            ):
-    """ remove space in excel by ws col and row """
-    a,b = _startrow_endrow(ws=ws,
-                            rows=rows,
-                            cols=cols)
-    for col in cols:
-        for i in range(a,b + 1):
-            valuee = ws.range(i,col).value
-            myDictfun = {
-                        "removespace": (lambda : removespaces(instr=valuee,
-                                                                options=option)),
-                        "capfs": (lambda : capitalizes(instr=valuee,
-                                                        options=option)),                              
-                        }
-            nvalue = myDictfun[option_fun]()
-            ws.range(i,col).value = nvalue
-
-def hvalues_in_cell(rmrange = [], 
-                    option = [],
-                    ws = None,
-                    option_fun = "removespace"
-                    ):
-
-    """
-    rmrange: Range to handling string: \n
-    ex: A1, A1:B3
-    ws: worksheet corresponds to the rmrange \n
-    option: style to  handling:\n
-    ex: tspacetoospace, fs,upper_all,,both, left, right \n
-    option_fun: For case function "REMOVESPACE" user select from interface \n
-    ex: removespace,capfs
-    """
-    for rangea in rmrange:
-        __vcell(ws=ws,
-                cols=lnumbercolumnbyrangstr(rstr=rangea),
-                rows=returnseplistintbbystr(strint=rangea),
-                option= option,
-                option_fun= option_fun
-                )
 
 def _startrow_endrow(ws = None, 
                     rows = [],
@@ -139,9 +95,13 @@ def hstr_in_range(st_row,
         valuee = ws.range(i,index_col).value
         myDictfun = {
                     "removespace": (lambda : removespaces(instr=valuee,
-                                                        options=option)),
+                                                        options=option
+                                                        )
+                                    ),
                     "capfs": (lambda : capitalizes(instr=valuee,
-                                                    options=option)),                              
+                                                    options=option
+                                                    )
+                            ),                              
                     }
         nvalue = myDictfun[option_fun]()
         ws.range(i,index_col).value = nvalue

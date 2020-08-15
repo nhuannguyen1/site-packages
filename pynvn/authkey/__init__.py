@@ -78,6 +78,7 @@ def __check_permanent_key(path_mc_id,
                                 )
     except:
         key_value_de = ""
+
     try:
         idmc = decrypt(filename=path_mc_id,
                         key = key

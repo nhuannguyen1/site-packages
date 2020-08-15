@@ -43,7 +43,9 @@ def converlistinstrtolist(listinstr = '["A","B" ,"C" ," D"]', path = None):
     """ convert list in string to list """
     reader = csv.reader(open(path, 'r'))
     return {k:ast.literal_eval(v)  for k,v in reader}
-def removespace (instr = None, option = "both"):
+def removespace (instr = None, 
+                option = "both"
+                ):
     """remove space from string"""
     rspace_fun = {
                   "both": lambda: instr.strip(),
@@ -56,6 +58,7 @@ def removespace (instr = None, option = "both"):
 
 def removespaces(instr = "", 
                 options = []):
+
     """
     Remove space from string with list option \n
     instr: input string to function \n
