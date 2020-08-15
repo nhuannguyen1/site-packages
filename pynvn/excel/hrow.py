@@ -1,6 +1,6 @@
 from pynvn.excel.list import lnumbercolumnbyrangstr
 from pynvn.string.slist import returnseplistintbbystr
-from pynvn.excel.del_row import delrowbyrange
+from pynvn.excel.del_row import del_row_by_valueinrange
 from pynvn.excel.rows import startrow_endrow
 
 class hrow(object):
@@ -24,17 +24,13 @@ class hrow(object):
             cols=lnumbercolumnbyrangstr(rstr=rangea)
             rows=returnseplistintbbystr(strint=rangea)
             a,b = startrow_endrow(ws=ws,
-                                    rows=rows,
-                                    cols=cols
+                                rows=rows,
+                                cols=cols
                                 )
             for col in cols:
-                for i in range(a,b + 1):
-                    instr = ws.range(i,col).value
-                    if (instr == "" or instr ==None):
-                        pass
-                    else:
-                        for option in options:
-                            instr = self.f(instr=instr,
-                                        option=option
+                del_row_by_valueinrange(incolumndel=col,
+                                        ws=ws,
+                                        startrow=a,
+                                        endrow=b,
+                                        **kw
                                         )
-                        ws.range(i,col).value = instr

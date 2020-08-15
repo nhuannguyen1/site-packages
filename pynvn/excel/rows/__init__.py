@@ -9,7 +9,6 @@ def startrow_endrow(ws = None,
     rows: can be [1], [10,200], []  \n
     if rows = [], return first and last row \n
     """
-
     if len(rows) == 2:
         return rows
     elif len(rows) == 1:
