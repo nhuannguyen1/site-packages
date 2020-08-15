@@ -13,7 +13,7 @@ class hstr_ex(object):
     option: style to  handling:\n
     ex: tspacetoospace, fs,upper_all,both, left, right,lower_all,all \n
     option_fun: For case function "REMOVESPACE or CAPFS" user select from interface \n
-    ex: REMOVESPACE,CAPFS
+    ex: REMOVESPACE,CAPFS \n
     """
     def __init__(self,f):
         self.f = f

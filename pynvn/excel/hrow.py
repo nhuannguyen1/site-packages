@@ -1,8 +1,7 @@
 from pynvn.excel.list import lnumbercolumnbyrangstr
 from pynvn.string.slist import returnseplistintbbystr
-from pynvn.excel.del_row import del_row_by_valueinrange
 from pynvn.excel.rows import startrow_endrow
-
+from pynvn.excel.del_row import del_row_by_valueinrange
 class hrow(object):
     """ 
     handling range for sheet\n
@@ -19,7 +18,10 @@ class hrow(object):
     def __call__(self,*args, **kwargs):
         ws = kwargs["ws"]
         rmrange = kwargs["rmrange"]
-        options = kwargs["option"]
+        using_value_to_end = kwargs.get("using_value_to_end",True)
+        value_to_end = kwargs.get("value_to_end","End")
+        valuetodelete = kwargs.get("valuetodelete",["",None])
+    
         for rangea in rmrange:
             cols=lnumbercolumnbyrangstr(rstr=rangea)
             rows=returnseplistintbbystr(strint=rangea)
@@ -28,9 +30,12 @@ class hrow(object):
                                 cols=cols
                                 )
             for col in cols:
-                del_row_by_valueinrange(incolumndel=col,
-                                        ws=ws,
-                                        startrow=a,
-                                        endrow=b,
-                                        **kw
-                                        )
+                self.f(index_col=col,
+                        ws=ws,
+                        startrow=a,
+                        endrow=b,
+                        using_value_to_end= True,
+                        valuetodelete=["",None],
+                        value_to_end="VTC"
+                        )
+                        

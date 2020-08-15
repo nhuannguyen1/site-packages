@@ -1,27 +1,6 @@
 from pynvn.check.list import check_list_value
 from xlwings.constants import DeleteShiftDirection
 from pynvn.excel import colnum_string
-def delrowbyindexcell (incolumndel = "C", 
-                        valueofindexcoldel = None, 
-                        wb = None,
-                        namesheet = None,
-                        startrow =1,
-                        endrow = 1000,
-                        valuetoendrow = "VTC"
-                        ):
-    """ delete row by value of cell """
-    for i in range (startrow,
-                        endrow):
-        valuecompare =wb.sheets[namesheet].range(i,
-                                                incolumndel ).value 
-        k = i
-        if (valuecompare == None or valuecompare == ""):
-            while True:
-                wb.sheets[namesheet].range('{0}:{0}'.format(k)).api.Delete(DeleteShiftDirection.xlShiftUp)
-                if (wb.sheets[namesheet].range(k,incolumndel).value != None and (wb.sheets[namesheet].range(k,incolumndel).value != "")) :
-                    break
-        if wb.sheets[namesheet].range(k,incolumndel).value == valuetoendrow :
-            break
 def delrowbyrange (incolumndel = 5, 
                         ws = None,
                         startrow =1,
@@ -66,7 +45,7 @@ def del_row_by_valueinrange (index_col = 5,
                             valuetodelete = ["",None],
                             using_value_to_end = True
                         ):
-    """ 
+    """
     Delete row by value of cell \n
     index_col: index of column to delete \n
     ws: worksheet execute \n
@@ -75,7 +54,6 @@ def del_row_by_valueinrange (index_col = 5,
     value_to_end: value to End for loop \n
     valuetodelete: delete row if valule in this \n
     using_value_to_end: option from progamer \n
-
     """
     for i in range (startrow,endrow):
         valuecompare =ws.range(i,index_col ).value 

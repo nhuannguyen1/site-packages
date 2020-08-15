@@ -5,7 +5,8 @@ import xlwings as xw
 from tkinter import messagebox
 from pynvn.list.flist import filterlistbylstr
 from pynvn.excel.write import hrangesheet
-from pynvn.excel import col2num
+from pynvn.excel.del_row import del_row_by_valueinrange
+
 class rapp:
     """ fill the formulas into excel file """
     def __init__(self, retr_path = None,
@@ -28,11 +29,9 @@ class rapp:
                                             criteria=["sub_"],
                                             upper = False
                                             ) 
-        
         mydictfun = {
                     "delete_row":(lambda: self.__delete_row()),
                     }        
-        
         if self.__fuction == "config":
 
             for lfun in lfuns:
