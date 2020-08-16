@@ -1,4 +1,5 @@
 from tkinter import messagebox
+from pynvn.excel import colnum_string
 def startrow_endrow(ws = None, 
                     rows = [],
                     cols = []

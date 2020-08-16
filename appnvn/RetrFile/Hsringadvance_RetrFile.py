@@ -7,21 +7,30 @@ from tkinter import messagebox
 from appnvn.RetrFile.hstr import hstr_ex
 from pynvn.string import twospace_to_onespace
 
-@hstr_ex 
-def capitalize(instr = None,
-                option = []):
-    """
-    capitalize for string 
-    """
-    upper_all_fun = {
-                "fl":lambda: instr.capitalize(),
-                "fs": lambda: capitalizefs(instr=instr),
-                "upper_all": lambda: instr.upper(),
-                "lower_all": lambda: instr.lower(),
-                }
-    return upper_all_fun[option]()
-
 @hstr_ex   
+def removespace (
+                instr = None, 
+                option = "both"
+                ):
+    """
+    remove space from string \n
+    instr: input your string \n
+    option: stype handling string \n
+    """
+    rspace_fun = {
+                "both": lambda:  instr.strip(),
+                "all": lambda:  instr.replace(" ", ""),
+                }
+    return rspace_fun[option]()
+
+
+
+
+
+
+
+
+
 def removespace (
                 instr = None, 
                 option = "both"
@@ -39,6 +48,13 @@ def removespace (
                 "all": lambda: instr.replace(" ", "")
                 }
     return rspace_fun[option]()
+
+
+
+
+
+
+
 
 class rapp:
     """ 

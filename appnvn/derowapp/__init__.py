@@ -5,7 +5,6 @@ import xlwings as xw
 from tkinter import messagebox
 from pynvn.list.flist import filterlistbylstr
 from pynvn.excel.write import hrangesheet
-from pynvn.excel.del_row import del_row_by_valueinrange
 
 class rapp:
     """ fill the formulas into excel file """
@@ -53,7 +52,8 @@ class rapp:
                     value_to_end=None,
                     valuetodelete=valuetodel,
                     using_value_to_end=False
-                    ) if cyesornot[0] =="yes" else False  
+                    ) if cyesornot[0] =="yes" else False
+         
 
 def noneinlist_str(n):
     """ Evel str "None" None """

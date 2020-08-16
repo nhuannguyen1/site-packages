@@ -81,6 +81,14 @@ def twospace_to_onespace(instr = None):
     return re.sub(' +', ' ', instr)
 
 
+def twospace_to_onespace(instr = None):
+    """
+    remove multiple spaces in a string to one space 
+    ex: "The     quick brown    fox" to 'The quick brown fox'
+    """
+    return re.sub(' +', ' ', instr)
+
+
 def cformat_str(instr = None):
     """ check format of str """
     instr =  instr.replace(" ", "")
