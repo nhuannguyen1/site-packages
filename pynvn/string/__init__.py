@@ -73,7 +73,7 @@ def removespaces(instr = "",
                             option=option)
         return instr
         
-def twospace_to_onespace(instr = None):
+def allspaces_to_onespace(instr = None):
     """
     remove multiple spaces in a string to one space 
     ex: "The     quick brown    fox" to 'The quick brown fox'
@@ -81,7 +81,7 @@ def twospace_to_onespace(instr = None):
     return re.sub(' +', ' ', instr)
 
 
-def twospace_to_onespace(instr = None):
+def allspaces_to_onespace(instr = None):
     """
     remove multiple spaces in a string to one space 
     ex: "The     quick brown    fox" to 'The quick brown fox'

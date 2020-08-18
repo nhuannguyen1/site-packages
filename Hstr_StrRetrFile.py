@@ -6,7 +6,7 @@ from pynvn import filter_lstr
 from tkinter import messagebox
 from appnvn.RetrFile.hstr import hstr_ex
 from pynvn.string import twospace_to_onespace
-@hstr_ex  
+@hstr_ex
 def removespace (
                 instr = None, 
                 option = "both"
@@ -17,11 +17,8 @@ def removespace (
     option: stype handling string \n
     """
     rspace_fun = {
-                "both": lambda: instr.strip(),
-                "left": lambda: instr.lstrip(),
-                "right": lambda: instr.rstrip(),
-                "tspacetoospace": lambda: twospace_to_onespace(instr=instr),
-                "all": lambda: instr.replace(" ", "")
+                "---> name STYLE from config <---": lambda:  "-------------> Input your function <---------------",
+                "---> name STYLE from config <--- ": lambda:  "-------------> Input your function <---------------",
                 }
     return rspace_fun[option]()
 
