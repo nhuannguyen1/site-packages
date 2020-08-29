@@ -1,0 +1,15 @@
+LICENSE
+MANIFEST.in
+README.md
+README.txt
+setup.py
+appnvn/Hstr_StrRetrFile.py
+appnvn/License_key.py
+appnvn/__init__.py
+appnvn/conf.py
+appnvn/exazb.py
+appnvn.egg-info/PKG-INFO
+appnvn.egg-info/SOURCES.txt
+appnvn.egg-info/dependency_links.txt
+appnvn.egg-info/requires.txt
+appnvn.egg-info/top_level.txt
