@@ -1,1 +1,2 @@
-include README.md LICENSE
+$ cat MANIFEST.in
+recursive-include appnvn/ *.py
