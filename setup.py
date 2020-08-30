@@ -8,7 +8,7 @@ def readme():
 setup(
     name="pyappnvn",
     packages=find_packages(),
-    version="0.0.1",
+    version="0.0.2",
     description="A Python package for excel and create app.",
     long_description=readme(),
     long_description_content_type="text/markdown",
