@@ -31,8 +31,9 @@ def pairlistinlisttocsv(listvalue = None, pathcsv = None):
         writer.writerows(listvalue)
     csvFile.close()
 def listtocsvbyarow(listvalue = None, pathcsv = None):
-    """ write row list to csv (pair list)
-        ex : [1,2,3,4,5,6] ---> csv file
+    """ 
+    write row list to csv (pair list)
+    ex : [1,2,3,4,5,6] ---> csv file
     """
     with open(pathcsv, 'w') as csvFile:
         writer = csv.writer(csvFile,delimiter =',',lineterminator='\n')

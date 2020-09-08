@@ -40,6 +40,7 @@ class hchildsheet:
                                         namefile=filename_sheet_copy,
                                         namesheet=sheet_copy.name
                                         )
+        
         self.__columnlra = [colnum_string(1),colnum_string(sheet_copy.api.UsedRange.Columns.count)]
         self.__max_row = sheet_des.range(col_key_msa + str(sheet_des.cells.last_cell.row)).end('up').row
         self.__lcolumnformulas = lcolumnformulas
@@ -50,6 +51,7 @@ class hchildsheet:
         self.__max_row_allsheet = sheet_copy.api.UsedRange.Rows.count
         self.__formulasfor_col_dup = formulasfor_col_dup
         self.__col_dup = col_dup
+
         if len (self.__valueim) != 0:
             self.lindexrow_im = lcellindexbyvalue(max_row=self.__max_row_allsheet,
                                                 min_row=self.__startrow,
@@ -59,10 +61,14 @@ class hchildsheet:
                                                 lvalue=self.__valueim
                                                 )
         self.tranderdatasheettosheet()
+
         if len(self.__col_dup) !=0:
             self.hdataatdupcolumn()
+
     def tranderdatasheettosheet(self):
-        """ transfer data formulas to another sheet """
+        """ 
+        transfer data formulas to another sheet 
+        """
         for abccol in self.__lcolumnformulas:
             if len (self.__valueim) != 0: 
                 lvaluebyindecell_im = valuebyindexrowcell(lindexcell=self.lindexrow_im,
@@ -89,14 +95,21 @@ class hchildsheet:
                                                         self.__startrow,
                                                         self.__max_row)).formula = vtformulas
             if len (self.__valueim) != 0: 
-                self.returnvaluekeyim(cola=abccol,listvalue_im =lvaluebyindecell_im)
+                self.returnvaluekeyim(cola=abccol,
+                                      listvalue_im =lvaluebyindecell_im
+                                      )
+
     def returnvaluekeyim (self,cola,listvalue_im):
-        """ return value at key value from sheet copy to sheet des """
+        """ 
+        return value at key value from sheet copy to sheet des 
+        """
         for count,numberint in enumerate(self.lindexrow_im,0):
             self.__sheet_des.range("{0}{1}".format(cola,
                                                     numberint)).value = listvalue_im[count]
     def hdataatdupcolumn(self):
-        """ h data at column index """
+        """ 
+        h data at column index 
+        """
         for count,eles in enumerate(self.__col_dup,0):
             if len(self.__lvaluehavechild) != 0:
                 lindexrow = lcellindexbyvalue(max_row=self.__max_row_allsheet,
