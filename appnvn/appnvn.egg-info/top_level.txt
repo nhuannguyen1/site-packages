@@ -1,10 +1,1 @@
-RetrFile
-RetrFile_RetrFolder
-atadctn
-balstock
-coapp_retr
-derowapp
-exazp
-eximexcsv
-rearrapp
-sapp
+appnvn
