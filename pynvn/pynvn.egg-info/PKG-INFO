@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
-Name: pyappnvn
-Version: 0.0.3
-Summary: A Python package for excel and create app.
-Home-page: https://github.com/nhuannguyen1/site-packages
+Name: pynvn
+Version: 0.0.0
+Summary: A Python package for excel.
+Home-page: https://github.com/nhuannguyen1/site-packages/tree/master/pynvn
 Author: Nhuan Nguyen
 Author-email: nguyenvannhuan90123@gmail.com
 License: MIT

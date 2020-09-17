@@ -53,6 +53,8 @@ appnvn/exazp/excel/crangeactive.py
 appnvn/exazp/excel/hchildsheet.py
 appnvn/exazp/excel/hhm.py
 appnvn/exazp/excel/itemhm.py
+appnvn/exazp/sdata/__init__.py
+appnvn/exazp/sdata/sdata.py
 appnvn/eximexcsv/__init__.py
 appnvn/eximexcsv/extocsv.py
 appnvn/eximexcsv/extoex.py

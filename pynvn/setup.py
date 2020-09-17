@@ -6,13 +6,13 @@ def readme():
     return README
 
 setup(
-    name="pyappnvn",
+    name="pynvn",
     packages=find_packages(),
-    version="0.0.3",
-    description="A Python package for excel and create app.",
+    version="0.0.0",
+    description="A Python package for excel.",
     long_description=readme(),
     long_description_content_type="text/markdown",
-    url="https://github.com/nhuannguyen1/site-packages",
+    url="https://github.com/nhuannguyen1/site-packages/tree/master/pynvn",
     author="Nhuan Nguyen",
     author_email="nguyenvannhuan90123@gmail.com",
     license="MIT",
