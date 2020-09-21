@@ -1,7 +1,7 @@
-from pynvn.string import removespaces
+from pynvn.stringnvn import removespaces
 from pynvn.excel import colnum_string
 from pynvn.excel.list import lnumbercolumnbyrangstr
-from pynvn.string.slist import returnseplistintbbystr
+from pynvn.stringnvn.slist import returnseplistintbbystr
 from pynvn.excel.rows import startrow_endrow
 
 class hstr_ex(object):

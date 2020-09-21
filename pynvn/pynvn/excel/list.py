@@ -1,5 +1,5 @@
 from pynvn.list import listpairfrom2list,convertoint_ifisfloat
-from pynvn.string.slist import returnliststr_from_str
+from pynvn.stringnvn.slist import returnliststr_from_str
 import string
 def listbyrangeremoveduplicate(sheetexcel,rangea):
     """ return list excel remove duplicate"""

@@ -1,9 +1,9 @@
-from pynvn.string import removespaces
+from pynvn.stringnvn import removespaces
 from pynvn.excel import colnum_string
 from pynvn.excel.list import lnumbercolumnbyrangstr
-from pynvn.string.slist import returnseplistintbbystr
+from pynvn.stringnvn.slist import returnseplistintbbystr
 from tkinter import messagebox
-from pynvn.string.list import capitalizes
+from pynvn.stringnvn.list import capitalizes
 from pynvn.excel.del_row import delrowbyrange
 from pynvn.excel.rows import startrow_endrow
 

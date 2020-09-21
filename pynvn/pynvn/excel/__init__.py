@@ -2,7 +2,7 @@ from pynvn.excel.toexcel import toexcel
 from tkinter import messagebox
 import openpyxl as xl
 import string
-from pynvn.string  import sepnumberandstrfromstr,returnrangewolastrow
+from pynvn.stringnvn  import sepnumberandstrfromstr,returnrangewolastrow
 import xlwings as xw
 from xlwings.constants import DeleteShiftDirection
 from pynvn.path.ppath import getdirpath,ExtractFileNameFromPath
