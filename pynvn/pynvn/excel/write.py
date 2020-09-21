@@ -16,12 +16,13 @@ class del_row(object):
     """
     def __init__(self,f):
         self.f = f
-    def __call__(self, **kwargs):
+    def __call__(self,*args,**kwargs):
         self.__ws = kwargs["ws"]
         rmrange = kwargs["rmrange"]
         self.valuetodelete = kwargs["valuetodelete"]
         self.using_value_to_end = kwargs.get("using_value_to_end",False)
         self.value_to_end = kwargs.get("value_to_end","")
+
         for rangea in rmrange:
             self.__cols=lnumbercolumnbyrangstr(rstr=rangea)
             self.__rows=returnseplistintbbystr(strint=rangea)
