@@ -36,6 +36,6 @@ class hstr_ex(object):
                     else:
                         for option in options:
                             instr = self.f(instr=instr,
-                                        option=option
-                                        )
+                                           option=option
+                                           )
                         ws.range(i,col).value = instr
