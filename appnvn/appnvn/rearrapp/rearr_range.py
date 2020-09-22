@@ -9,20 +9,20 @@ from appnvn.rearrapp.mrange import hsheet_range,hsheet_range_2wb
 
 class rearr_range:
     def __init__(self,lpath_excel =[],
-                pathconf = None,
-                fuction = None,
-                path_exell_tem = None
-                ):
+                 pathconf = None,
+                 fuction = None,
+                 path_exell_tem = None
+                 ):
         self.__path_exell_tem = path_exell_tem
         self.__lpath_excel = lpath_excel
         self.__fuction = fuction.lower()
         self.__pathconf = pathconf
         self.__dictconf = dict_from_csv2col(pathconf)
         self.lfuns = filterlistbylstr(liststr=list(self.__dictconf.keys()),
-                                            criteria_is_not=True,
-                                            criteria=["sub_"],
-                                            upper = False
-                                            )
+                                      criteria_is_not=True,
+                                      criteria=["sub_"],
+                                      upper = False
+                                      )
 
     def mrange(self):
         mydictfun = {"move_range":(lambda: self.__move_range()),
@@ -56,12 +56,12 @@ class rearr_range:
         range_copy = self.__dictconf["sub_mrange_by_cell_loc_range_copy"]
         range_des = self.__dictconf["sub_mrange_by_cell_loc_range_des"]
         hsheet_range(sheet_name=sheet_name,
-                    wb=self.wb,
-                    range_copy=range_copy,
-                    range_paste=range_des,
-                    clear_rcopy_after_copy=True,
-                    usinglocinexcel=True
-                    ) if mrange == "yes" else False
+                     wb=self.wb,
+                     range_copy=range_copy,
+                     range_paste=range_des,
+                     clear_rcopy_after_copy=True,
+                     usinglocinexcel=True
+                     ) if mrange == "yes" else False
     
     def __copy_from_tem(self):
         mrange = self.__dictconf["copy_from_tem"]
@@ -71,11 +71,11 @@ class rearr_range:
         namesheet_tem = self.__dictconf["sub_copy_from_tem_namesheet_tem"]
         self.wb_tem = open_wb_byxl(self.__path_exell_tem)
         hsheet_range_2wb(sheet_name=sheet_name,
-                    range_copy=range_copy,
-                    range_paste=range_des,
-                    clear_rcopy_after_copy=False,
-                    wb_des=self.wb,
-                    wb_tem=self.wb_tem,
-                    usinglocinexcel=False,
-                    namesheet_tem=namesheet_tem
-                    ) if mrange == "yes" else False
+                         range_copy=range_copy,
+                         range_paste=range_des,
+                         clear_rcopy_after_copy=False,
+                         wb_des=self.wb,
+                         wb_tem=self.wb_tem,
+                         usinglocinexcel=False,
+                         namesheet_tem=namesheet_tem
+                         ) if mrange == "yes" else False

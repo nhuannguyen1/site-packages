@@ -43,7 +43,6 @@ class vlookup:
 
 class sumif:
     """using function sumif"""
-
     def __init__(self,sirange = None,
                     sicriteria = None, 
                     sisum_range = None, 
