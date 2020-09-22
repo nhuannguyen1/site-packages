@@ -1,4 +1,4 @@
-from pynvn.string.slist import str_seplistint_strbystr,returnliststr_from_str,add_sb_to_str
+from pynvn.stringnvn.slist import str_seplistint_strbystr,returnliststr_from_str,add_sb_to_str
 from pynvn.excel import col2num,colnum_string
 class vlookup:
     """using function vlookup"""
@@ -36,7 +36,7 @@ class vlookup:
                                                                     '"' + "" + '"'
                                                                     )
         return fomularex
-    def forexelldes(self):
+    def for_excel_des(self):
         self.__ws_des.range(self.__cell_start_locvalue).value = self.valueformulas()
         vtformulas = self.__ws_des.range(self.__cell_start_locvalue).formula
         self.__ws_des.range(self.__Sub_VLOOKUP_Locc_result_value).formula = vtformulas
@@ -69,7 +69,7 @@ class sumif:
         fomularex = "=SUMIF({0}!{1},{2},{0}!{3})".format(self.__plexcel, self.__sirange,self.__sicriteria,self.__sisum_range)
 
         return fomularex
-    def forexelldes(self):
+    def for_excel_des(self):
         self.__ws_des.range(self.__cell_start_locvalue).value = self.valueformulas()
         vtformulas = self.__ws_des.range(self.__cell_start_locvalue).formula
         self.__ws_des.range(self.__silrvalue).formula = vtformulas
@@ -89,7 +89,7 @@ class anyfun:
         self.__plexcel = plexcel
         self.__cell_start_locvalue = str_seplistint_strbystr(self.__function_loc)[0]
 
-    def forexelldes(self):
+    def for_excel_des(self):
         self.__ws_des.range(self.__cell_start_locvalue).value = self.__function_range
         vtformulas = self.__ws_des.range(self.__cell_start_locvalue).formula
         self.__ws_des.range(self.__function_loc).formula = vtformulas

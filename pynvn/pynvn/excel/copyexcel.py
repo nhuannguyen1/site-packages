@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import xlwings as xw 
 from pynvn.csv.rcsv import returndictrowforcsv
-from pynvn.string.slist import list_from_listinstr
+from pynvn.stringnvn.slist import list_from_listinstr
 from appnvn.exazp.excel.hchildsheet import hchildsheet
 
 class cexcel:

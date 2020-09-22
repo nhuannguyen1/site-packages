@@ -1,7 +1,6 @@
 from pynvn.csv.todict import dict_str_fromlist
 from pynvn.excel import sheet_by_namesheet,activesheet,listsheet_by_wb
 from pynvn.list.flist import filterlistbylstr
-from pynvn.excel.write import hvalues_in_cell,hrangesheet
 from pynvn.excel import col2num,ws_by_namesheet,open_wb_by_xl
 from pynvn.excel.copy_move_paste import cprange_2wb
 

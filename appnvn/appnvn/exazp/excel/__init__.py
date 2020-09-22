@@ -1,7 +1,7 @@
 from tkinter import messagebox
 from pynvn.excel.crelistadict import credict
 import xlwings as xw 
-from pynvn.string  import sepnumberandstrfromstr
+from pynvn.stringnvn  import sepnumberandstrfromstr
 from pynvn.excel import (convertrangaphatonunber,
                         returnrangelastcolumn,
                         colnum_string,
@@ -9,12 +9,12 @@ from pynvn.excel import (convertrangaphatonunber,
                         mrowandmcolum,col2num
                         )
 from pynvn.csv.rcsv import returndictrowforcsv
-from pynvn.string import no_accent_vietnamese
+from pynvn.stringnvn import no_accent_vietnamese
 from pynvn.excel.path import returnactivewbpath
 from pynvn.list.str import converlistinstrtolist
 from pynvn.csv.tolist import convertcsvtolist 
 from pynvn.path.ppath import refullpath,parentdirectory
-from pynvn.string.slist import returnseplistintbbystr,returnliststr_from_str
+from pynvn.stringnvn.slist import returnseplistintbbystr,returnliststr_from_str
 from pynvn.excel.list import listbyrangeremoveduplicate
 from appnvn.exazp.excel.crangeactive import crangeactive
 from pynvn.csv.tolist import convertcsvto1list

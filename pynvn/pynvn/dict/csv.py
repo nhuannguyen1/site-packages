@@ -1,6 +1,6 @@
 
 import csv
-from pynvn.string import no_accent_vietnamese
+from pynvn.stringnvn import no_accent_vietnamese
 def dicttocsv (dictl = None, path = None):
     """ dict to csv """
     a_file = open(path, "w")

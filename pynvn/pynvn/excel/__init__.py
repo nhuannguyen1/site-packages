@@ -28,7 +28,7 @@ def  repathlinkexcel (dpath = None ,
     return pfile
 
 def colnum_string(n):
-    """conver colum number become string"""
+    """convert colum number become string"""
     string = ""
     while n > 0:
         n, remainder = divmod(n - 1, 26)

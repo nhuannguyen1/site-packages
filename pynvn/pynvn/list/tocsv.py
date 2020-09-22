@@ -1,5 +1,5 @@
 import csv
-from pynvn.string import no_accent_vietnamese
+from pynvn.stringnvn import no_accent_vietnamese
 def listocsvhor(pathtow = None,listv = None):
     """ convert list to csv horizontal """
     with open(pathtow, 'w') as csvFile:

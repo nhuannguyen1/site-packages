@@ -1,6 +1,6 @@
 from pynvn.path.ppath import refullpath,getdirpath
-from pynvn.string import sepnumberandstrfromstr
-from pynvn.string.slist import returnseplistintbbystr,returnlist_from_listinstr
+from pynvn.stringnvn import sepnumberandstrfromstr
+from pynvn.stringnvn.slist import returnseplistintbbystr,returnlist_from_listinstr
 from pynvn.excel import (cellcoordbyvalue,
                         lcellindexbyvalue,
                         col2num,
