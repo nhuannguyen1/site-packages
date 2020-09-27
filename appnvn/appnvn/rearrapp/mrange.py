@@ -1,34 +1,94 @@
 from pynvn.excel.copy_move_paste import co_paste_move_range
 from pynvn.excel import listsheet_by_wb
 from pynvn.check.list import check_list_value
-def hsheet_range(sheet_name, 
+
+def cmrange(func):
+    def wrapper(*args):
+        wb,sheet_name,range_copy,range_paste,clear_rcopy_after_copy,usinglocinexcel = args
+        # this case for active 
+        if sheet_name == "active":
+            ws = wb.sheets.active
+            if usinglocinexcel:
+                range_copy = ws.range(range_copy).value
+                range_paste = ws.range(range_paste).value
+            func(sheet_copy=ws,
+                 range_copy=range_copy,
+                 sheet_des=ws,
+                 range_paste=range_paste,
+                 clear_rcopy_after_copy=clear_rcopy_after_copy)
+        else:
+            for sheetname in listsheet_by_wb(wb):
+                if sheet_name in sheetname:
+                    wb.sheets[sheetname].activate()
+                    ws = wb.sheets.active
+                    if usinglocinexcel: 
+                        range_copy = ws.range(range_copy).value
+                        range_paste = ws.range(range_paste).value
+                    func(sheet_copy=ws,
+                         range_copy=range_copy,
+                         sheet_des=ws,
+                         range_paste=range_paste,
+                         clear_rcopy_after_copy=clear_rcopy_after_copy)
+    return wrapper
+
+
+def cmrange2wb(func):
+    def wrapper(*args):
+        wb_des,wb_tem,sheetname_des,namesheet_tem,range_des,range_tem,clear_rcopy_after_copy,usinglocinexcel = args
+
+        ws_tem = wb_tem.sheets[namesheet_tem]
+        if sheetname_des == "active":
+            wb_des.activate()
+            ws = wb_des.sheets.active
+            func(sheet_copy=ws_tem,
+                 sheet_des=ws,
+                 range_copy=range_tem,
+                 range_paste=range_des,
+                 clear_rcopy_after_copy=clear_rcopy_after_copy,
+                 usinglocinexcel=usinglocinexcel
+                 )
+
+        else:
+            for sheetname in listsheet_by_wb(wb_des):
+                if sheetname_des in sheetname:
+                    wb_des.sheets[sheetname].activate()
+                    ws = wb_des.sheets.active
+                    func(sheet_copy=ws_tem,
+                         sheet_des=ws,
+                         range_copy=range_tem,
+                         range_paste=range_des,
+                         clear_rcopy_after_copy=clear_rcopy_after_copy,
+                         usinglocinexcel=usinglocinexcel
+                        )
+
+    return wrapper
+
+
+
+def hsheet_range(
                 wb,
+                sheet_name, 
                 range_copy,
                 range_paste,
                 clear_rcopy_after_copy = True, 
                 usinglocinexcel = False
                 ):
-    """ copy move paste range """
+    """ 
+    copy move paste range
+    """
     # this case for active 
     if sheet_name == "active":
         ws = wb.sheets.active
         if usinglocinexcel:
             range_copy = ws.range(range_copy).value
             range_paste = ws.range(range_paste).value
-            co_paste_move_range(sheet_copy= ws,
-                                    sheet_des= ws,
-                                    range_copy=range_copy,
-                                    range_paste=range_paste,
-                                    clear_rcopy_after_copy=clear_rcopy_after_copy
-                                    ) 
-
-        else:
-            co_paste_move_range(sheet_copy= ws,
-                                    sheet_des= ws,
-                                    range_copy=range_copy,
-                                    range_paste=range_paste,
-                                    clear_rcopy_after_copy=clear_rcopy_after_copy
-                                    )
+        
+        co_paste_move_range(sheet_copy= ws,
+                            sheet_des= ws,
+                            range_copy=range_copy,
+                            range_paste=range_paste,
+                            clear_rcopy_after_copy=clear_rcopy_after_copy
+                            )
 
     else:
         for sheetname in listsheet_by_wb(wb):
@@ -38,22 +98,20 @@ def hsheet_range(sheet_name,
                 if usinglocinexcel: 
                     range_copy = ws.range(range_copy).value
                     range_paste = ws.range(range_paste).value
-                    co_paste_move_range(sheet_copy=ws,
-                                        range_copy=range_copy,
-                                        sheet_des=ws,
-                                        range_paste=range_paste,
-                                        clear_rcopy_after_copy=clear_rcopy_after_copy
-                                        )
-                else:
-                    co_paste_move_range(sheet_copy=ws,
-                                        range_copy=range_copy,
-                                        sheet_des=ws,
-                                        range_paste=range_paste,
-                                        clear_rcopy_after_copy=clear_rcopy_after_copy
-                                        )
+
+                co_paste_move_range(sheet_copy=ws,
+                                    range_copy=range_copy,
+                                    sheet_des=ws,
+                                    range_paste=range_paste,
+                                    clear_rcopy_after_copy=clear_rcopy_after_copy
+                                    )
+
+
 
 class hsheet_range_2wb:
-    """ copy move paste range """
+    """ 
+    copy move paste range 
+    """
     def __init__(self,
                 sheet_name = None, 
                 wb_des = None,

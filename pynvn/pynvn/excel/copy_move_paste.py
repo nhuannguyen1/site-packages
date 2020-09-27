@@ -2,6 +2,7 @@ import xlwings as xw
 from pynvn.excel import activesheet,ws_by_namesheet
 from pynvn.check.list import check_list_value
 from pynvn.error import mssage_error
+
 def cprange(pathtocopy = None,
             rangetocopy='BB5:CF100',
             pathtodes = None,
@@ -14,7 +15,6 @@ def cprange(pathtocopy = None,
     C5:E20 of pathtodes
     copy to active sheet
     """
-       
     pathtodes.range(rangetopaste).api.select
     wbtocopy = xw.Book(pathtocopy)
     sheet_copy = wbtocopy.sheets[namesheettocopy]

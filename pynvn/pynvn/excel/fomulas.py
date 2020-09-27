@@ -1,16 +1,52 @@
 from pynvn.stringnvn.slist import str_seplistint_strbystr,returnliststr_from_str,add_sb_to_str
 from pynvn.excel import col2num,colnum_string
+
+
+def formula_ex(name_function = "vlookup"):
+    def wrap(f):
+        def wrapped_f(*args):
+            if name_function == "vlookup":
+                ws_des,loopkup_value_range,table_array,\
+                rang_lookup, plexcel,colum_to_get_value,\
+                Locc_result_value,lockrange = args
+                if lockrange:
+                    table_array = add_sb_to_str(table_array)
+                cellstart = str_seplistint_strbystr(loopkup_value_range)[0]
+                re_value = returnliststr_from_str(table_array)[0]
+                cell_start_locvalue = str_seplistint_strbystr(Locc_result_value)[0]
+                # index column number
+                col_index_num = col2num(colum_to_get_value) -  col2num(re_value)  + 1
+
+                fomularex = "=IFERROR(VLOOKUP({2},{1}!{0},{3},{4}),{5})".format(table_array,
+                                                                                plexcel,
+                                                                                cellstart,
+                                                                                col_index_num,
+                                                                                rang_lookup,
+                                                                                '"' + "" + '"'
+                                                                                )               
+
+            if name_function == "sumif":
+
+            
+            f(ws_des,cell_start_locvalue,fomularex,Locc_result_value)
+        return wrapped_f
+    return wrap
+
+
+
 class vlookup:
     """using function vlookup"""
-    def __init__(self,loopkup_value_range = None,
-                    table_array = None, 
-                    rang_lookup = False, 
-                    plexcel = None,
-                    colum_to_get_value = None,
-                    ws_des = None,
-                    Sub_VLOOKUP_Locc_result_value = None,
-                    lockrange = True
-                    ):
+    def __init__(self,
+                 ws_des = None,
+                 loopkup_value_range = None,
+                 table_array = None, 
+                 rang_lookup = False, 
+                 plexcel = None,
+                 colum_to_get_value = None,
+                 Sub_VLOOKUP_Locc_result_value = None,
+                 lockrange = True
+                 ):
+
         self.__ws_des = ws_des
         self.__table_array = table_array
         if lockrange:
@@ -36,6 +72,7 @@ class vlookup:
                                                                     '"' + "" + '"'
                                                                     )
         return fomularex
+
     def for_excel_des(self):
         self.__ws_des.range(self.__cell_start_locvalue).value = self.valueformulas()
         vtformulas = self.__ws_des.range(self.__cell_start_locvalue).formula
